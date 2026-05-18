@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -46,15 +47,18 @@ export function Header() {
     >
       <Container>
         <div className="flex h-16 items-center justify-between md:h-20">
-          <Link href="/" className="flex items-center gap-2" aria-label={brand.name}>
-            <span
+          <Link href="/" className="flex items-center" aria-label={brand.name}>
+            <Image
+              src="/images/logo.png"
+              alt={brand.name}
+              width={2043}
+              height={424}
+              priority
               className={cn(
-                'text-2xl font-bold tracking-tightest transition-colors',
-                isSolid ? 'text-text-primary' : 'text-white',
+                'h-7 w-auto transition-[filter] duration-300 md:h-8',
+                isSolid ? '' : 'brightness-0 invert',
               )}
-            >
-              {brand.name}
-            </span>
+            />
           </Link>
 
           <nav className="hidden items-center gap-8 lg:flex" aria-label="Main">
@@ -100,8 +104,14 @@ export function Header() {
         <div className="fixed inset-0 z-50 bg-dark text-white lg:hidden" role="dialog" aria-modal="true">
           <Container>
             <div className="flex h-16 items-center justify-between md:h-20">
-              <Link href="/" className="text-2xl font-bold tracking-tightest">
-                {brand.name}
+              <Link href="/" className="flex items-center" aria-label={brand.name}>
+                <Image
+                  src="/images/logo.png"
+                  alt={brand.name}
+                  width={2043}
+                  height={424}
+                  className="h-7 w-auto brightness-0 invert md:h-8"
+                />
               </Link>
               <button
                 type="button"

@@ -9,7 +9,7 @@ export function Process() {
     <Section variant="darker" spacing="default">
       <Container>
         <div className="text-center">
-          <SectionEyebrow variant="dark">WEBSLAB PROCESS</SectionEyebrow>
+          <SectionEyebrow variant="dark">websLAB PROCESS</SectionEyebrow>
           <Heading as="h2" size="h1" className="mt-4">
             제작 프로세스
           </Heading>

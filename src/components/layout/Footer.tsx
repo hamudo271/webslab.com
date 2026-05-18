@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { brand } from '@/config/brand';
 import { footerNav } from '@/data/footerLinks';
@@ -28,8 +29,14 @@ export function Footer() {
 
         <div className="grid gap-10 border-t border-white/10 py-16 lg:grid-cols-[1.5fr_2fr]">
           <div>
-            <Link href="/" className="text-3xl font-bold tracking-tightest">
-              {brand.name}
+            <Link href="/" className="inline-flex items-center" aria-label={brand.name}>
+              <Image
+                src="/images/logo.png"
+                alt={brand.name}
+                width={2043}
+                height={424}
+                className="h-9 w-auto brightness-0 invert"
+              />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/70">
               {brand.description}

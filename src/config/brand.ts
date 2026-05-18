@@ -1,5 +1,5 @@
 export const brand = {
-  name: 'WEBSLAB',
+  name: 'websLAB',
   nameKo: '웹슬랩',
   tagline: '전문성으로 완성하는 비즈니스 웹사이트',
   description: '기업 홈페이지 신규 제작·리뉴얼 전문 에이전시. 기획부터 운영까지 한 팀에서.',
