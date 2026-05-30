@@ -36,7 +36,7 @@ export default function ColumnPage() {
           <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
             {columnPosts.map((post) => (
               <article key={post.slug} className="group">
-                <Link href={`/column`} className="block">
+                <Link href={`/column/${post.slug}`} className="block">
                   <div className="relative aspect-[3/2] overflow-hidden bg-surface-light">
                     <Image
                       src={post.cover}
