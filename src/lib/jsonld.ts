@@ -1,5 +1,6 @@
 import { brand } from '@/config/brand';
 import { absoluteUrl } from '@/config/site';
+import type { Author } from '@/data/authors';
 
 export function organizationJsonLd() {
   return {
@@ -51,5 +52,22 @@ export function breadcrumbJsonLd(crumbs: Crumb[]) {
       name: c.name,
       item: absoluteUrl(c.path),
     })),
+  };
+}
+
+export function personJsonLd(author: Author) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: author.name,
+    alternateName: author.nameKo,
+    jobTitle: author.role,
+    description: author.bio,
+    url: author.profileUrl,
+    sameAs: author.sameAs,
+    worksFor: {
+      '@type': 'Organization',
+      name: 'websLAB',
+    },
   };
 }
