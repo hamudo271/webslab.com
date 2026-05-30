@@ -71,3 +71,92 @@ export function personJsonLd(author: Author) {
     },
   };
 }
+
+type ArticleInput = {
+  headline: string;
+  description: string;
+  slug: string;
+  datePublished: string; // ISO date
+  dateModified?: string;
+  image: string; // absolute URL
+  author: Author;
+};
+
+export function articleJsonLd(a: ArticleInput) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: a.headline,
+    description: a.description,
+    image: a.image,
+    datePublished: a.datePublished,
+    dateModified: a.dateModified ?? a.datePublished,
+    author: {
+      '@type': 'Person',
+      name: a.author.name,
+      url: a.author.profileUrl,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: brand.name,
+      logo: { '@type': 'ImageObject', url: absoluteUrl('/images/logo.png') },
+    },
+    mainEntityOfPage: absoluteUrl(`/column/${a.slug}`),
+    inLanguage: 'ko',
+  };
+}
+
+type Faq = { question: string; answer: string };
+
+export function faqPageJsonLd(faqs: Faq[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
+  };
+}
+
+type HowToStep = { name: string; text: string };
+type HowToInput = { name: string; description: string; steps: HowToStep[] };
+
+export function howToJsonLd(h: HowToInput) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: h.name,
+    description: h.description,
+    step: h.steps.map((s, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      name: s.name,
+      text: s.text,
+    })),
+  };
+}
+
+type ServiceInput = {
+  name: string;
+  description: string;
+  serviceType: string;
+  areaServed: string;
+};
+
+export function serviceJsonLd(s: ServiceInput) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: s.name,
+    description: s.description,
+    serviceType: s.serviceType,
+    areaServed: s.areaServed,
+    provider: {
+      '@type': 'Organization',
+      name: brand.name,
+      url: brand.url,
+    },
+  };
+}

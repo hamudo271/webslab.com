@@ -6,6 +6,7 @@ import { Badge } from '@/components/common/Badge';
 import { PageHero } from '@/components/common/PageHero';
 import { Process } from '@/components/home/Process';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
+import { ServiceJsonLd } from '@/components/seo/ServiceJsonLd';
 
 export const metadata = buildMetadata({
   title: '서비스',
@@ -62,6 +63,12 @@ export default function ServicePage() {
   return (
     <>
       <BreadcrumbJsonLd crumbs={[{ name: '홈', path: '/' }, { name: '서비스', path: '/service' }]} />
+      <ServiceJsonLd
+        name="기업 홈페이지 리뉴얼"
+        description="5년 이상 노후 사이트의 디자인·기술 리뉴얼을 전담합니다. Next.js + Headless CMS 기반."
+        serviceType="웹사이트 리뉴얼"
+        areaServed="KR"
+      />
       <PageHero
         eyebrow="SERVICE"
         title="기업 홈페이지를 위한 완성형 서비스"
