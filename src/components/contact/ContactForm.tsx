@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/cn';
+import { trackContactFormSubmit } from '@/lib/analytics-events';
 import {
   contactSchema,
   CATEGORY_LABELS,
@@ -46,6 +47,7 @@ export function ContactForm() {
         setStatus('error');
         return;
       }
+      trackContactFormSubmit({ category: values.category });
       reset();
       setStatus('success');
     } catch (e) {
