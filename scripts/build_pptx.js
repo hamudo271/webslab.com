@@ -548,10 +548,10 @@ function eyebrow(s, txt, x, y, color = C.brand) {
 // ============ Slides 8-13 — Top 6 portfolio highlights ============
 const TOP_PORTFOLIO = [
   {
-    co: 'OECD 조세정책본부', kind: '홈페이지 리뉴얼', industry: '공공', tag: 'PUBLIC',
-    period: '2023.06 – 2023.10', services: ['UI/UX 리뉴얼', 'DB 마이그레이션', '다국어'],
-    summary: '10년치 정책 보고서 DB를 무중단 마이그레이션. 한·영 다국어 사이트 구조 재설계.',
-    results: [['평균 체류시간', '+62%'], ['검색 인덱싱', '1.7K건'], ['모바일 트래픽', '+85%']],
+    co: '코스모스악기 · Roland Korea', kind: '브랜드 사이트 신규 제작', industry: '브랜드 · 음악', tag: 'BRAND / MUSIC',
+    period: '2024.06 – 2024.12', services: ['UI/UX 신규', '브랜드 사이트', 'CMS 구축', '미디어 큐레이션'],
+    summary: 'Roland 글로벌 브랜드의 한국 공식 사이트. 제품 카탈로그·영상·뉴스를 마케팅 팀이 직접 운영하도록 CMS 기반으로 신규 구축.',
+    results: [['제품 카테고리', '9개'], ['콘텐츠 모듈', '3개'], ['운영', '자체 CMS']],
   },
   {
     co: '주식회사 바이렉스', kind: '홈페이지 리뉴얼', industry: '제조', tag: 'MANUFACTURING',
