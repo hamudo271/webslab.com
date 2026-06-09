@@ -6,7 +6,7 @@ export const brand = {
   domain: 'webslab.co.kr',
   url: 'https://webslab.co.kr',
   email: 'contact@webslab.co.kr',
-  phone: '02-0000-0000', // TODO: 실 전화번호 입력
+  phone: '010-9891-2787',
   address: {
     streetAddress: '서울특별시 강남구 역삼로3길 19 10층 1007호', // TODO: 실제 주소
     addressLocality: '서울',
@@ -21,8 +21,8 @@ export const brand = {
     blog: '',
   },
   legal: {
-    businessNumber: '000-00-00000', // TODO: 사업자등록번호
-    representativeName: '대표자명', // TODO
+    businessNumber: '173-58-00764',
+    representativeName: '조현도',
     onlineSalesNumber: '', // 통신판매업 신고번호 (선택)
   },
   hours: {

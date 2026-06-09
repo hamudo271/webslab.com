@@ -21,7 +21,14 @@ export function Footer() {
               프로젝트 의뢰
               <ArrowRight size={18} />
             </ButtonLink>
-            <ButtonLink href="/about" variant="ghost" size="md" className="text-white hover:bg-white/10">
+            <ButtonLink
+              href="/files/websLAB-brochure.pdf"
+              external
+              variant="ghost"
+              size="md"
+              className="text-white hover:bg-white/10"
+              download="websLAB-회사소개서.pdf"
+            >
               회사소개서 다운로드
             </ButtonLink>
           </div>
