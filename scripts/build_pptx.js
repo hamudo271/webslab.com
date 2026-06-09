@@ -31,6 +31,7 @@ const W = 13.333;
 const H = 7.5;
 const M = 0.6; // margin
 const LOGO = '/Users/dooya8787/Desktop/webslab.co.kr/.claude/worktrees/gallant-nightingale-ceeee6/public/images/logo.png';
+const LOGO_WHITE = '/Users/dooya8787/Desktop/webslab.co.kr/.claude/worktrees/gallant-nightingale-ceeee6/public/images/logo-white.png';
 
 // ============ Helpers ============
 function darkBg(s) {
@@ -83,8 +84,8 @@ function eyebrow(s, txt, x, y, color = C.brand) {
   s.addText('Company Brochure 2026', {
     x: W - M - 3, y: 0.32, w: 3, h: 0.3, fontFace: FONT, fontSize: 10, color: C.subtleSoft, align: 'right',
   });
-  // Big-logo upper-left
-  s.addImage({ path: LOGO, x: M, y: 0.28, w: 1.8, h: 0.36 });
+  // Big-logo upper-left (white variant for dark cover)
+  s.addImage({ path: LOGO_WHITE, x: M, y: 0.28, w: 1.8, h: 0.36 });
 
   // Decorative dotted lines (visual motif)
   s.addShape('line', {
@@ -819,8 +820,8 @@ TOP_PORTFOLIO.forEach((p, idx) => {
   const s = pres.addSlide();
   darkBg(s);
 
-  // Large logo center-left
-  s.addImage({ path: LOGO, x: M, y: 0.3, w: 1.8, h: 0.36 });
+  // Large logo center-left (white variant for dark back-cover)
+  s.addImage({ path: LOGO_WHITE, x: M, y: 0.3, w: 1.8, h: 0.36 });
 
   // Big headline
   s.addText([
