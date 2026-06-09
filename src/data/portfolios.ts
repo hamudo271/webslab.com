@@ -1,5 +1,5 @@
 export type Duration = '1~3개월' | '3~6개월' | '6~12개월' | '12개월 이상';
-export type Industry = 'MANUFACTURING' | 'LOGISTICS' | 'IT_SOLUTION' | 'PUBLIC' | 'HEALTHCARE' | 'EDUCATION';
+export type Industry = 'MANUFACTURING' | 'LOGISTICS' | 'IT_SOLUTION' | 'PUBLIC' | 'HEALTHCARE' | 'EDUCATION' | 'BRAND';
 
 export type Portfolio = {
   slug: string;
@@ -62,19 +62,24 @@ export const portfolios: Portfolio[] = [
     ],
   },
   {
-    slug: 'oecd-tax',
-    title: 'OECD 조세정책본부 홈페이지 리뉴얼',
-    client: 'OECD Korea',
-    category: '리뉴얼',
-    industry: 'PUBLIC',
-    duration: '3~6개월',
-    services: ['UI/UX', 'DB 마이그레이션', '다국어'],
+    slug: 'roland-korea',
+    title: '코스모스악기 · Roland Korea 브랜드 사이트',
+    client: '코스모스악기',
+    category: '신규 제작',
+    industry: 'BRAND',
+    duration: '6~12개월',
+    services: ['UI/UX', '브랜드 사이트', 'CMS 구축', '미디어 큐레이션'],
     year: 2024,
-    summary: 'UI/UX 리뉴얼 및 DB 마이그레이션',
+    summary: 'Roland 글로벌 브랜드의 한국 공식 사이트',
     description:
-      'OECD 조세정책 자료를 한국어·영어로 동시 제공하는 다국어 사이트 구조 설계. 10년치 정책 보고서 DB 마이그레이션을 무중단으로 진행했습니다.',
-    cover: cover('oecd'),
-    gallery: gallery('oecd'),
+      'Roland 글로벌 브랜드의 한국 공식 사이트. 제품 카탈로그·영상·뉴스를 마케팅 팀이 직접 운영하도록 CMS 기반으로 신규 구축했습니다.',
+    cover: cover('roland'),
+    gallery: gallery('roland'),
+    url: 'https://rolandkorea.com',
+    results: [
+      { label: '제품 카테고리', value: '9개' },
+      { label: '콘텐츠 모듈', value: '3개' },
+    ],
   },
   {
     slug: 'smc-korea',

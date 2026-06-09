@@ -9,7 +9,7 @@ const logo = (name: string) =>
 
 export const clientLogos: ClientLogo[] = [
   { name: 'SMC', src: logo('SMC'), alt: 'SMC' },
-  { name: 'OECD Korea', src: logo('OECD'), alt: 'OECD Korea' },
+  { name: 'Roland Korea', src: logo('Roland'), alt: 'Roland Korea' },
   { name: '한일원자력', src: logo('HANIL+NUC'), alt: '한일원자력' },
   { name: 'Galux', src: logo('Galux'), alt: 'Galux' },
   { name: 'FASTFIVE C&D', src: logo('FASTFIVE'), alt: 'FASTFIVE C&D' },

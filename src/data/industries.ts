@@ -7,6 +7,7 @@ export const INDUSTRY_LABELS: Record<Industry, string> = {
   PUBLIC: '공공·정부',
   HEALTHCARE: '바이오·의료',
   EDUCATION: '교육·연구',
+  BRAND: '브랜드',
 };
 
 export const industryFilters: { key: Industry | 'ALL'; label: string }[] = [
@@ -14,6 +15,7 @@ export const industryFilters: { key: Industry | 'ALL'; label: string }[] = [
   { key: 'MANUFACTURING', label: '제조' },
   { key: 'LOGISTICS', label: '물류' },
   { key: 'IT_SOLUTION', label: 'IT 솔루션' },
+  { key: 'BRAND', label: '브랜드' },
   { key: 'HEALTHCARE', label: '바이오·의료' },
   { key: 'PUBLIC', label: '공공' },
 ];

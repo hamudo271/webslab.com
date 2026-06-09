@@ -15,10 +15,10 @@ export const heroSlides: HeroSlide[] = [
     id: 'h1',
     kind: 'project',
     eyebrow: 'PROJECT 01',
-    title: 'OECD 조세정책본부 홈페이지 리뉴얼',
-    description: 'UI/UX 리뉴얼 및 DB 마이그레이션 — 10년치 정책 자료를 무중단으로.',
+    title: '코스모스악기 · Roland Korea 브랜드 사이트',
+    description: '글로벌 브랜드 한국 공식 사이트 — 제품·영상·뉴스를 한 CMS에서.',
     image: bg('hero-1'),
-    cta: { label: '케이스 보기', href: '/portfolio/oecd-tax' },
+    cta: { label: '케이스 보기', href: '/portfolio/roland-korea' },
   },
   {
     id: 'h2',
