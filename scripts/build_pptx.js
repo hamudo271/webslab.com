@@ -176,11 +176,11 @@ function eyebrow(s, txt, x, y, color = C.brand) {
 
   // Body description (left column)
   s.addText([
-    { text: '결혼정보회사 C사 ', options: { bold: true, color: C.brand } },
-    { text: '·  3번의 리뉴얼  ·  1년 2개월간 360페이지의 UI/UX 디자인 작업.\n\n', options: { color: C.textMute } },
-    { text: 'websLAB 개발팀은 어떤 상황에서도 맡은 프로젝트를 끝까지 책임지고 마무리합니다. ', options: { color: C.text } },
-    { text: '20인 이하 기업에서, ', options: { color: C.text } },
-    { text: '사내 개발팀이 없어도 걱정 없이.', options: { bold: true, color: C.text } },
+    { text: '바이렉스 ', options: { bold: true, color: C.brand } },
+    { text: '·  6개월  ·  1,700개 상품 카탈로그 SEO 리뉴얼.  검색 인덱싱 1,712건, 자연 유입 +214%.\n\n', options: { color: C.textMute } },
+    { text: '5년간 운영해온 산업용 부품 사이트의 카테고리 구조부터 다시 짰습니다. 마케팅 팀이 신상품을 직접 등록할 수 있도록 ', options: { color: C.text } },
+    { text: '관리자 페이지까지 함께 만들었고, ', options: { color: C.text } },
+    { text: '검색 노출과 운영성을 동시에 챙겼습니다.', options: { bold: true, color: C.text } },
   ], {
     x: M, y: 3.4, w: 7.6, h: 2.5,
     fontFace: FONT, fontSize: 14, paraSpaceAfter: 6,
