@@ -1,22 +1,22 @@
 export type CrawlerRule = {
   userAgent: string;
-  allow: string;
+  allow?: string;
   disallow: string[];
 };
 
-const AI_BOTS = [
-  'GPTBot',
-  'ChatGPT-User',
-  'OAI-SearchBot',
-  'Claude-Web',
-  'ClaudeBot',
-  'PerplexityBot',
-  'Google-Extended',
-];
+// AI search / answer engines — ALLOWED so our content can surface and be cited
+// in AI search results (ChatGPT search, Perplexity, Claude, etc.).
+const AI_SEARCH_BOTS = ['OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'Claude-Web'];
+
+// AI model-training crawlers — BLOCKED (content not used for model training).
+// Mirrors Cloudflare's managed AI-bot block so the two robots.txt sources agree
+// instead of contradicting each other (allow vs. disallow for the same agent).
+const AI_TRAINING_BOTS = ['GPTBot', 'ClaudeBot', 'Google-Extended', 'CCBot', 'Bytespider'];
 
 export const crawlerRules: CrawlerRule[] = [
   { userAgent: '*', allow: '/', disallow: ['/api/'] },
-  ...AI_BOTS.map((userAgent) => ({ userAgent, allow: '/', disallow: ['/api/'] })),
+  ...AI_SEARCH_BOTS.map((userAgent) => ({ userAgent, allow: '/', disallow: ['/api/'] })),
+  ...AI_TRAINING_BOTS.map((userAgent) => ({ userAgent, disallow: ['/'] })),
 ];
 
 export const COMMERCIAL_METADATA = {
