@@ -12,11 +12,11 @@ export function FaqAccordion({ faqs }: { faqs: Faq[] }) {
   return (
     <section className="my-12 border-t border-line pt-12">
       <h2 className="mb-6 text-2xl font-bold tracking-tightest">자주 묻는 질문</h2>
-      <ul className="divide-y divide-line">
+      <ul className="list-none divide-y divide-line pl-0">
         {faqs.map((f, i) => {
           const isOpen = openIndex === i;
           return (
-            <li key={i}>
+            <li key={i} className="list-none">
               <button
                 type="button"
                 aria-expanded={isOpen}

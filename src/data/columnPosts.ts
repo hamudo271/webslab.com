@@ -25,7 +25,7 @@ export type ColumnPost = {
   ctaDescription: string;
 };
 
-const cover = (seed: string) => `https://picsum.photos/seed/col-${seed}/1200/700`;
+const cover = (slug: string) => `/images/og/column/${slug}.png`;
 const publishedAt = '2026-06-22';
 
 export const columnPosts: ColumnPost[] = [

@@ -24,6 +24,41 @@ export function organizationJsonLd() {
   };
 }
 
+export function localBusinessJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${brand.url}/#localbusiness`,
+    name: brand.name,
+    alternateName: brand.nameKo,
+    description: brand.description,
+    url: brand.url,
+    image: absoluteUrl('/og/default.png'),
+    logo: absoluteUrl('/images/logo.png'),
+    email: brand.email,
+    telephone: brand.phone,
+    priceRange: '₩₩',
+    areaServed: { '@type': 'Country', name: 'South Korea' },
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: brand.address.streetAddress,
+      addressLocality: brand.address.addressLocality,
+      addressRegion: brand.address.addressRegion,
+      postalCode: brand.address.postalCode,
+      addressCountry: brand.address.addressCountry,
+    },
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '10:00',
+        closes: '18:00',
+      },
+    ],
+    sameAs: Object.values(brand.social).filter(Boolean),
+  };
+}
+
 export function websiteJsonLd() {
   return {
     '@context': 'https://schema.org',

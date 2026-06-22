@@ -10,7 +10,8 @@ import { columnPosts } from '@/data/columnPosts';
 
 export const metadata = buildMetadata({
   title: '전문 칼럼',
-  description: '기업 홈페이지 제작·운영에 대한 전문가의 인사이트.',
+  description:
+    '기업 홈페이지 제작 비용, 업체 선정 기준, 제작 기간, 리뉴얼, SEO 유지까지 — 실무에서 정리한 12편의 가이드 칼럼으로 의사결정에 필요한 기준을 확인하세요.',
   path: '/column',
 });
 
@@ -37,7 +38,7 @@ export default function ColumnPage() {
             {columnPosts.map((post) => (
               <article key={post.slug} className="group">
                 <Link href={`/column/${post.slug}`} className="block">
-                  <div className="relative aspect-[3/2] overflow-hidden bg-surface-light">
+                  <div className="relative aspect-[120/63] overflow-hidden rounded-lg bg-dark">
                     <Image
                       src={post.cover}
                       alt={post.title}
