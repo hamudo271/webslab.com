@@ -8,9 +8,7 @@ export function GET() {
   const xml = urlsetXml(
     columnPosts.map((p) => ({
       loc: `${base}/column/${p.slug}`,
-      lastmod: p.publishedAt,
-      changefreq: 'monthly',
-      priority: 0.7,
+      lastmod: p.modifiedAt,
     })),
   );
   return new NextResponse(xml, {

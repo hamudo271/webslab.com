@@ -7,12 +7,11 @@ import { PageHero } from '@/components/common/PageHero';
 import { Process } from '@/components/home/Process';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 import { ServiceJsonLd } from '@/components/seo/ServiceJsonLd';
+import { COMMERCIAL_METADATA } from '@/lib/seo-policy';
+import { CORE_GUIDE_LINKS } from '@/lib/seo-policy';
+import { GuideLinks } from '@/components/content/GuideLinks';
 
-export const metadata = buildMetadata({
-  title: '서비스',
-  description: '신규 홈페이지 제작·리뉴얼·유지보수까지, 웹슬랩이 제공하는 모든 서비스.',
-  path: '/service',
-});
+export const metadata = buildMetadata(COMMERCIAL_METADATA['/service']);
 
 const services = [
   {
@@ -74,6 +73,7 @@ export default function ServicePage() {
         title="기업 홈페이지를 위한 완성형 서비스"
         description="단계별 단발성 외주가 아니라, 기획부터 운영까지 책임지는 풀 사이클 서비스."
       />
+      <GuideLinks title="제작·리뉴얼 의사결정 가이드" links={CORE_GUIDE_LINKS['/service']} />
 
       <Section variant="light" spacing="default">
         <Container>

@@ -8,12 +8,11 @@ import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 import { portfolios, type Industry } from '@/data/portfolios';
 import { industryFilters } from '@/data/industries';
 import { cn } from '@/lib/cn';
+import { COMMERCIAL_METADATA } from '@/lib/seo-policy';
+import { CORE_GUIDE_LINKS } from '@/lib/seo-policy';
+import { GuideLinks } from '@/components/content/GuideLinks';
 
-export const metadata = buildMetadata({
-  title: '포트폴리오',
-  description: '제조·물류·IT·바이오 등 다양한 산업의 100여 건 제작 사례를 둘러보세요.',
-  path: '/portfolio',
-});
+export const metadata = buildMetadata(COMMERCIAL_METADATA['/portfolio']);
 
 type SearchParams = { industry?: string };
 
@@ -35,6 +34,7 @@ export default function PortfolioPage({ searchParams }: { searchParams: SearchPa
         title="실제 비즈니스 성과로 이어진 사례"
         description="기업 홈페이지가 성장 자산이 되는 방법, 사례로 확인하세요."
       />
+      <GuideLinks title="B2B·업종별 홈페이지 가이드" links={CORE_GUIDE_LINKS['/portfolio']} />
 
       <Section variant="light" spacing="compact">
         <Container>

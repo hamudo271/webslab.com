@@ -5,11 +5,13 @@ import { RelatedPosts } from './RelatedPosts';
 describe('RelatedPosts', () => {
   it('renders a card per slug with title and link', () => {
     // columnPosts must contain at least these slugs for the test to pass.
-    render(<RelatedPosts slugs={['renewal-vs-rebuild', 'seo-checklist-for-b2b']} />);
+    render(
+      <RelatedPosts slugs={['renewal-vs-rebuild', 'corporate-website-seo-checklist']} />,
+    );
     const links = screen.getAllByRole('link');
     expect(links).toHaveLength(2);
     expect(links[0]).toHaveAttribute('href', '/column/renewal-vs-rebuild');
-    expect(links[1]).toHaveAttribute('href', '/column/seo-checklist-for-b2b');
+    expect(links[1]).toHaveAttribute('href', '/column/corporate-website-seo-checklist');
   });
 
   it('silently skips unknown slugs', () => {

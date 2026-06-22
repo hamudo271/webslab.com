@@ -63,9 +63,9 @@ export function HeroSlider() {
                   <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary-light">
                     {slide.eyebrow}
                   </p>
-                  <h1 className="mt-6 text-4xl font-bold leading-[1.15] tracking-tightest md:text-6xl lg:text-7xl">
+                  <h2 className="mt-6 text-4xl font-bold leading-[1.15] tracking-tightest md:text-6xl lg:text-7xl">
                     {slide.title}
-                  </h1>
+                  </h2>
                   <p className="mt-6 max-w-xl text-base leading-relaxed text-white/85 md:text-lg">
                     {slide.description}
                   </p>

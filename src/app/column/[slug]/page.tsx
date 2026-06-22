@@ -17,6 +17,7 @@ import { DirectAnswer } from '@/components/content/DirectAnswer';
 import { AuthorByline } from '@/components/content/AuthorByline';
 import { FaqAccordion } from '@/components/content/FaqAccordion';
 import { RelatedPosts } from '@/components/content/RelatedPosts';
+import { ColumnCta } from '@/components/content/ColumnCta';
 
 export function generateStaticParams() {
   return columnPosts.map((p) => ({ slug: p.slug }));
@@ -54,6 +55,7 @@ export default function ColumnDetailPage({ params }: { params: { slug: string } 
         description={post.excerpt}
         slug={post.slug}
         datePublished={post.publishedAt}
+        dateModified={post.modifiedAt}
         image={articleImage}
         author={author}
       />
@@ -80,16 +82,26 @@ export default function ColumnDetailPage({ params }: { params: { slug: string } 
               <Badge variant="outline" size="sm">{post.category}</Badge>
               <span>{post.readMinutes}분 읽기</span>
             </div>
-            <h1 className="sr-only">{post.title}</h1>
             <Tldr>{post.tldr}</Tldr>
             <DirectAnswer>{post.directAnswer}</DirectAnswer>
             <div
               className="prose prose-neutral mt-8 max-w-none"
               dangerouslySetInnerHTML={{ __html: post.body }}
             />
-            <AuthorByline author={author} publishedAt={post.publishedAt} />
+            <AuthorByline
+              author={author}
+              publishedAt={post.publishedAt}
+              modifiedAt={post.modifiedAt}
+            />
             {post.faqs && <FaqAccordion faqs={post.faqs} />}
-            {post.relatedSlugs && <RelatedPosts slugs={post.relatedSlugs} />}
+            <RelatedPosts slugs={post.relatedSlugs} />
+            <ColumnCta
+              title={post.ctaTitle}
+              description={post.ctaDescription}
+              serviceHref={post.serviceHref}
+              serviceLabel={post.serviceLabel}
+              fromPath={`/column/${post.slug}`}
+            />
           </article>
         </Container>
       </Section>

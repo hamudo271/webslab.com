@@ -2,16 +2,14 @@ import { NextResponse } from 'next/server';
 import { siteConfig } from '@/config/site';
 import { portfolios } from '@/data/portfolios';
 import { urlsetXml } from '@/lib/xml';
+import { buildCaseSitemapEntries } from '@/lib/seo-policy';
 
 export function GET() {
   const base = siteConfig.baseUrl.replace(/\/$/, '');
-  const today = new Date().toISOString().slice(0, 10);
   const xml = urlsetXml(
-    portfolios.map((p) => ({
-      loc: `${base}/portfolio/${p.slug}`,
-      lastmod: today,
-      changefreq: 'monthly',
-      priority: 0.7,
+    buildCaseSitemapEntries(portfolios).map((item) => ({
+      loc: `${base}${item.path}`,
+      lastmod: item.lastmod,
     })),
   );
   return new NextResponse(xml, {

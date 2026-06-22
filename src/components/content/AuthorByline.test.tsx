@@ -11,7 +11,14 @@ describe('AuthorByline', () => {
   });
 
   it('renders formatted Korean date', () => {
-    render(<AuthorByline author={representative} publishedAt="2026-06-01" />);
+    render(
+      <AuthorByline
+        author={representative}
+        publishedAt="2026-06-01"
+        modifiedAt="2026-06-22"
+      />,
+    );
     expect(screen.getByText(/2026\.06\.01/)).toBeInTheDocument();
+    expect(screen.getByText(/2026\.06\.22/)).toBeInTheDocument();
   });
 });

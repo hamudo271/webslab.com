@@ -14,6 +14,11 @@ const sample: Author = {
 };
 
 describe('personJsonLd', () => {
+  it('uses the verified representative identity', () => {
+    expect(representative.name).toBe('조현도');
+    expect(representative.role).toBe('websLAB 대표');
+  });
+
   it('returns a valid Person schema', () => {
     const ld = personJsonLd(sample);
     expect(ld['@context']).toBe('https://schema.org');
@@ -38,7 +43,7 @@ describe('articleJsonLd', () => {
     });
     expect(ld['@type']).toBe('Article');
     expect(ld.headline).toBe('리뉴얼 시기 판단 7가지 신호');
-    expect(ld.author).toMatchObject({ '@type': 'Person', name: '대표자' });
+    expect(ld.author).toMatchObject({ '@type': 'Person', name: '조현도' });
     expect(ld.publisher).toMatchObject({ '@type': 'Organization', name: 'websLAB' });
     expect(ld.mainEntityOfPage).toBe('https://webslab.co.kr/column/renewal-timing-signals');
   });
