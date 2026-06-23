@@ -67,10 +67,16 @@ describe('published SEO column registry', () => {
     ['logistics-multilingual-website', '물류 회사 홈페이지 제작'],
     ['corporate-website-cms', '기업 홈페이지 CMS'],
     ['corporate-website-seo-checklist', '기업 홈페이지 SEO'],
+    ['responsive-website', '반응형 홈페이지 제작'],
+    ['website-maintenance', '홈페이지 유지보수'],
+    ['hospital-website', '병원 홈페이지 제작'],
+    ['wordpress-vs-custom', '워드프레스 홈페이지 제작'],
+    ['website-renewal-timing', '홈페이지 리뉴얼 시기'],
+    ['government-website-accessibility', '공공기관 홈페이지 제작'],
   ]);
 
-  it('publishes exactly the 12 approved keyword articles', () => {
-    expect(columnPosts).toHaveLength(12);
+  it('publishes exactly the 18 approved keyword articles', () => {
+    expect(columnPosts).toHaveLength(18);
     expect(new Map(columnPosts.map((post) => [post.slug, post.primaryKeyword]))).toEqual(
       approvedKeywords,
     );
