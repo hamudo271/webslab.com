@@ -11,9 +11,7 @@ import { buildMetadata } from '@/lib/metadata';
 import { COMMERCIAL_METADATA } from '@/lib/seo-policy';
 import { CORE_GUIDE_LINKS } from '@/lib/seo-policy';
 import { GuideLinks } from '@/components/content/GuideLinks';
-import { Section } from '@/components/common/Section';
-import { Container } from '@/components/common/Container';
-import { FaqAccordion } from '@/components/content/FaqAccordion';
+import { HomeFaq } from '@/components/home/HomeFaq';
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd';
 import { LocalBusinessJsonLd } from '@/components/seo/LocalBusinessJsonLd';
 
@@ -62,13 +60,7 @@ export default function HomePage() {
       <WhatWeDo />
       <Process />
       <BizCards />
-      <Section variant="light" spacing="default">
-        <Container>
-          <div className="mx-auto max-w-3xl">
-            <FaqAccordion faqs={homeFaqs} />
-          </div>
-        </Container>
-      </Section>
+      <HomeFaq faqs={homeFaqs} />
       <CtaBanner />
     </>
   );
