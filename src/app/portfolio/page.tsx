@@ -21,6 +21,12 @@ export default function PortfolioPage({ searchParams }: { searchParams: SearchPa
   const filtered =
     active === 'ALL' ? portfolios : portfolios.filter((p) => p.industry === active);
 
+  // Only show industry filters that actually have cases (self-heals as portfolios change)
+  const presentIndustries = new Set(portfolios.map((p) => p.industry));
+  const visibleFilters = industryFilters.filter(
+    (f) => f.key === 'ALL' || presentIndustries.has(f.key as Industry),
+  );
+
   return (
     <>
       <BreadcrumbJsonLd
@@ -39,7 +45,7 @@ export default function PortfolioPage({ searchParams }: { searchParams: SearchPa
       <Section variant="light" spacing="compact">
         <Container>
           <div className="flex flex-wrap gap-2 border-b border-line pb-6">
-            {industryFilters.map((f) => (
+            {visibleFilters.map((f) => (
               <Link
                 key={f.key}
                 href={f.key === 'ALL' ? '/portfolio' : `/portfolio?industry=${f.key}`}
