@@ -15,7 +15,22 @@ const proof = [
 export function Philosophy() {
   return (
     <Section variant="dark" spacing="default">
-      <Container>
+      {/* Decorative background — blueprint grid + soft brand glow (CSS only) */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px)',
+            backgroundSize: '56px 56px',
+            maskImage: 'radial-gradient(ellipse 75% 70% at 22% 12%, #000 35%, transparent 100%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 75% 70% at 22% 12%, #000 35%, transparent 100%)',
+          }}
+        />
+        <div className="absolute -right-32 -top-40 h-[540px] w-[540px] rounded-full bg-primary/20 blur-[130px]" />
+        <div className="absolute -bottom-48 left-1/4 h-[420px] w-[420px] rounded-full bg-primary/10 blur-[130px]" />
+      </div>
+      <Container className="relative z-10">
         <div className="max-w-3xl">
           <SectionEyebrow variant="dark">OUR PHILOSOPHY</SectionEyebrow>
           <Heading as="h2" size="h1" className="mt-5">
