@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CheckCircle2, AlertCircle } from 'lucide-react';
+import { CheckCircle2, AlertCircle, ArrowRight, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { trackContactFormSubmit } from '@/lib/analytics-events';
 import {
@@ -31,6 +31,9 @@ export function ContactForm() {
       privacyConsent: false as unknown as true,
     },
   });
+
+  // Capture the phone field registration so we can auto-format while keeping RHF in sync.
+  const phoneField = register('phone');
 
   async function onSubmit(values: ContactInput) {
     setStatus('submitting');
@@ -114,7 +117,20 @@ export function ContactForm() {
         <Field label="연락처" error={errors.phone?.message}>
           <input
             type="tel"
-            {...register('phone')}
+            inputMode="numeric"
+            {...phoneField}
+            onChange={(e) => {
+              // Auto-hyphenate as the user types: 01012345678 -> 010-1234-5678
+              const digits = e.target.value.replace(/\D/g, '').slice(0, 11);
+              let formatted = digits;
+              if (digits.length > 7) {
+                formatted = `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+              } else if (digits.length > 3) {
+                formatted = `${digits.slice(0, 3)}-${digits.slice(3)}`;
+              }
+              e.target.value = formatted;
+              phoneField.onChange(e);
+            }}
             className={inputStyles(!!errors.phone)}
             placeholder="010-0000-0000"
           />
@@ -177,9 +193,19 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="inline-flex items-center justify-center bg-primary px-8 py-4 text-base font-medium text-white transition-colors hover:bg-primary/90 disabled:opacity-60"
+        className="group flex items-center gap-5 text-2xl font-bold tracking-tightest text-text-primary transition-colors hover:text-primary disabled:cursor-not-allowed disabled:opacity-50 md:text-3xl"
       >
-        {status === 'submitting' ? '전송 중...' : '문의 보내기'}
+        {status === 'submitting' ? '전송 중...' : '무료 상담 신청'}
+        <span className="flex h-14 w-14 items-center justify-center rounded-full border border-line transition-all duration-300 group-hover:border-primary group-hover:bg-primary md:h-16 md:w-16">
+          {status === 'submitting' ? (
+            <Loader2 size={22} className="animate-spin text-text-primary" />
+          ) : (
+            <ArrowRight
+              size={22}
+              className="text-text-primary transition-all duration-300 group-hover:-rotate-45 group-hover:text-white"
+            />
+          )}
+        </span>
       </button>
     </form>
   );
