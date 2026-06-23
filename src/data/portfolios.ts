@@ -19,11 +19,25 @@ export type Portfolio = {
   results?: { label: string; value: string }[];
 };
 
-const cover = (seed: string) => `https://picsum.photos/seed/${seed}/1200/900`;
-const gallery = (seed: string, count = 4) =>
-  Array.from({ length: count }, (_, i) => `https://picsum.photos/seed/${seed}-g${i}/1600/1000`);
+const cover = (slug: string) => `/images/portfolio/${slug}.png`;
 
 export const portfolios: Portfolio[] = [
+  {
+    slug: 'posco-steeleon',
+    title: '포스코스틸리온 브랜드 사이트',
+    client: '포스코스틸리온',
+    category: '브랜드 사이트',
+    industry: 'MANUFACTURING',
+    duration: '3~6개월',
+    services: ['UI/UX', '브랜드 사이트', '반응형 웹', 'CMS 구축'],
+    year: 2024,
+    modifiedAt: '2026-06-24',
+    summary: '철강·소재 기업의 브랜드 사이트',
+    description:
+      '철강·소재 기업의 전문성과 신뢰를 담아낸 브랜드 사이트. 제품과 기술, 지속가능경영 콘텐츠를 한 곳에서 일관되게 전달하도록 정보 구조를 설계했습니다.',
+    cover: cover('posco-steeleon'),
+    gallery: [],
+  },
   {
     slug: 'roland-korea',
     title: '코스모스악기 · Roland Korea 브랜드 사이트',
@@ -37,12 +51,28 @@ export const portfolios: Portfolio[] = [
     summary: 'Roland 글로벌 브랜드의 한국 공식 사이트',
     description:
       'Roland 글로벌 브랜드의 한국 공식 사이트. 제품 카탈로그·영상·뉴스를 마케팅 팀이 직접 운영하도록 CMS 기반으로 신규 구축했습니다.',
-    cover: cover('roland'),
-    gallery: gallery('roland'),
+    cover: cover('roland-korea'),
+    gallery: [],
     url: 'https://rolandkorea.com',
     results: [
       { label: '제품 카테고리', value: '9개' },
       { label: '콘텐츠 모듈', value: '3개' },
     ],
+  },
+  {
+    slug: 'byeolha-studycafe',
+    title: '별하 스터디카페 브랜드 사이트',
+    client: '별하 스터디카페',
+    category: '브랜드 사이트',
+    industry: 'BRAND',
+    duration: '1~3개월',
+    services: ['UI/UX', '브랜드 사이트', '반응형 웹'],
+    year: 2024,
+    modifiedAt: '2026-06-24',
+    summary: '프리미엄 스터디카페 브랜드 사이트',
+    description:
+      '학습 공간의 분위기와 이용 정보를 직관적으로 전달하는 브랜드 사이트. 지점·요금·예약 안내를 깔끔하게 정리해 방문 전 궁금증을 바로 해결하도록 구성했습니다.',
+    cover: cover('byeolha-studycafe'),
+    gallery: [],
   },
 ];

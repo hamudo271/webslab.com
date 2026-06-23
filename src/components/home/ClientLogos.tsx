@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { clientLogos } from '@/data/clientLogos';
 import { Section } from '@/components/common/Section';
@@ -21,28 +20,21 @@ export function ClientLogos() {
         <div className="-mt-[10vw] text-center md:-mt-[8vw] lg:-mt-32">
           <SectionEyebrow>OUR CLIENTS</SectionEyebrow>
           <Heading as="h2" size="h2" className="mt-4">
-            함께 한 100여 곳의 기업
+            신뢰로 함께한 브랜드
           </Heading>
         </div>
-        <div className="mt-14 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
-          {clientLogos.map((c, i) => (
-            <motion.div
-              key={c.name}
+        <div className="mt-14 flex flex-wrap items-center justify-center gap-x-12 gap-y-8 md:mt-20 md:gap-x-20">
+          {clientLogos.map((name, i) => (
+            <motion.span
+              key={name}
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-10%' }}
-              transition={{ duration: 0.5, delay: i * 0.04, ease: 'easeOut' }}
-              className="flex h-20 items-center justify-center rounded-md bg-white"
+              transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
+              className="text-xl font-bold tracking-tightest text-text-primary/70 transition-colors hover:text-text-primary md:text-3xl"
             >
-              <Image
-                src={c.src}
-                alt={c.alt}
-                width={140}
-                height={48}
-                className="opacity-60 transition-opacity duration-300 hover:opacity-100"
-                style={{ filter: 'grayscale(1)' }}
-              />
-            </motion.div>
+              {name}
+            </motion.span>
           ))}
         </div>
       </Container>
