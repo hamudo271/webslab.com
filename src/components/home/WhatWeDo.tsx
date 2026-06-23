@@ -25,7 +25,7 @@ export function WhatWeDo() {
             href="/service"
             className="group relative flex flex-col justify-between gap-12 border border-white/10 bg-white/[0.02] p-8 transition-colors hover:border-primary-light/40 hover:bg-white/[0.04] md:p-12 md:min-h-[360px]"
           >
-            <Badge variant="dark" size="md">NEW BUILD</Badge>
+            <Badge variant="dark" size="md" className="self-start">NEW BUILD</Badge>
             <div>
               <p className="text-sm font-medium text-primary-light">한 팀이 처음부터 끝까지</p>
               <Heading as="h3" size="h2" className="mt-3">홈페이지 신규 제작</Heading>
@@ -43,7 +43,7 @@ export function WhatWeDo() {
             href="/service"
             className="group relative flex flex-col justify-between gap-12 border border-white/10 bg-white/[0.02] p-8 transition-colors hover:border-primary-light/40 hover:bg-white/[0.04] md:p-12 md:min-h-[360px]"
           >
-            <Badge variant="dark" size="md">RENEWAL</Badge>
+            <Badge variant="dark" size="md" className="self-start">RENEWAL</Badge>
             <div>
               <p className="text-sm font-medium text-primary-light">쌓아온 브랜드, 그대로 살려서</p>
               <Heading as="h3" size="h2" className="mt-3">홈페이지 리뉴얼</Heading>
