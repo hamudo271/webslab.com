@@ -1,6 +1,7 @@
 import { HeroSlider } from '@/components/home/HeroSlider';
 import { PortfolioSection } from '@/components/home/Portfolio';
 import { PortfolioParallax } from '@/components/home/PortfolioParallax';
+import { Philosophy } from '@/components/home/Philosophy';
 import { ClientLogos } from '@/components/home/ClientLogos';
 import { WhatWeDo } from '@/components/home/WhatWeDo';
 import { Process } from '@/components/home/Process';
@@ -54,6 +55,7 @@ export default function HomePage() {
       <FaqJsonLd faqs={homeFaqs} />
       <HeroSlider />
       <GuideLinks title="홈페이지 제작을 준비할 때 읽어보세요" links={CORE_GUIDE_LINKS['/']} />
+      <Philosophy />
       <PortfolioSection />
       <PortfolioParallax />
       <ClientLogos />
