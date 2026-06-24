@@ -58,19 +58,16 @@ def build(p):
     glow2 = glow2.filter(ImageFilter.GaussianBlur(180))
     base = Image.alpha_composite(base, glow2)
 
-    # large faint monogram (identity, won't fight the hero's bottom overlay)
+    # faint monogram bleeding off the right edge → atmospheric texture, not a
+    # dominant glyph that competes with the hero's overlaid title.
     tl = Image.new('RGBA', (W, H), (0, 0, 0, 0))
     td = ImageDraw.Draw(tl)
-    mono_font = font('NanumGothic-ExtraBold.ttf', 620)
+    mono_font = font('NanumGothic-ExtraBold.ttf', 720)
     bbox = td.textbbox((0, 0), p['mono'], font=mono_font)
     mw, mh = bbox[2] - bbox[0], bbox[3] - bbox[1]
-    td.text((W * 0.66 - mw / 2 - bbox[0], H * 0.40 - mh / 2 - bbox[1]),
-            p['mono'], font=mono_font, fill=(255, 255, 255, 16))
+    td.text((W * 0.92 - mw / 2 - bbox[0], H * 0.50 - mh / 2 - bbox[1]),
+            p['mono'], font=mono_font, fill=(255, 255, 255, 10))
     base = Image.alpha_composite(base, tl)
-
-    # thin accent rule, top-left (a small designed detail)
-    d = ImageDraw.Draw(base)
-    d.line([(96, 150), (200, 150)], fill=p['accent'] + (235,), width=4)
 
     os.makedirs(OUT_DIR, exist_ok=True)
     out = os.path.join(OUT_DIR, p['slug'] + '.png')
