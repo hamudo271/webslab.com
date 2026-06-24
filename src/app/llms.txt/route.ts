@@ -19,9 +19,9 @@ export function GET() {
   lines.push(`- [홈](${base}/): 회사 소개와 주요 서비스`);
   lines.push(`- [회사소개](${base}/about): 팀과 철학`);
   lines.push(`- [서비스](${base}/service): 기업 홈페이지 신규 제작·리뉴얼 서비스`);
+  lines.push(`- [프로그램 개발](${base}/program): 업무 자동화·맞춤 프로그램 개발`);
   lines.push(`- [포트폴리오](${base}/portfolio): 진행 사례`);
   lines.push(`- [전문 칼럼](${base}/column): 기업 홈페이지 인사이트`);
-  lines.push(`- [개발 백서](${base}/whitepaper): 다운로드 가능한 가이드 자료`);
   lines.push(`- [문의](${base}/contact): 프로젝트 문의 폼`);
   lines.push('');
   lines.push('## Column posts');

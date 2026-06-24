@@ -80,7 +80,7 @@ export const STATIC_PAGE_DATES: Record<string, string> = {
   '/service': '2026-06-22',
   '/portfolio': '2026-06-22',
   '/column': '2026-06-22',
-  '/whitepaper': '2026-05-30',
+  '/program': '2026-06-24',
   '/contact': '2026-05-30',
   '/privacy-policy': '2026-05-30',
   '/terms': '2026-05-30',

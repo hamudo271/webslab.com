@@ -15,7 +15,7 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
       { label: '회사소개', href: '/about' },
       { label: '포트폴리오', href: '/portfolio' },
       { label: '전문 칼럼', href: '/column' },
-      { label: '개발 백서', href: '/whitepaper' },
+      { label: '프로그램 개발', href: '/program' },
     ],
   },
   {
