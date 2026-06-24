@@ -28,7 +28,7 @@ export function HeroSlider() {
   }
 
   return (
-    <section className="relative h-screen min-h-[640px] w-full overflow-hidden bg-dark">
+    <section className="relative h-[88vh] min-h-[600px] max-h-[900px] w-full overflow-hidden bg-dark">
       <Swiper
         modules={[EffectFade, Autoplay, Navigation]}
         effect="fade"
@@ -57,8 +57,8 @@ export function HeroSlider() {
                 sizes="100vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-dark/40 via-dark/20 to-dark/80" />
-              <Container className="absolute inset-0 z-10 flex items-end pb-44 md:pb-40">
+              <div className="absolute inset-0 bg-gradient-to-r from-dark/80 via-dark/30 to-transparent" />
+              <Container className="absolute inset-0 z-10 flex items-center pb-12 md:pb-16">
                 <div className="max-w-3xl text-white">
                   <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary-light">
                     {slide.eyebrow}

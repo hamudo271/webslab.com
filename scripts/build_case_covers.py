@@ -62,11 +62,11 @@ def build(p):
     # dominant glyph that competes with the hero's overlaid title.
     tl = Image.new('RGBA', (W, H), (0, 0, 0, 0))
     td = ImageDraw.Draw(tl)
-    mono_font = font('NanumGothic-ExtraBold.ttf', 720)
+    mono_font = font('NanumGothic-ExtraBold.ttf', 660)
     bbox = td.textbbox((0, 0), p['mono'], font=mono_font)
     mw, mh = bbox[2] - bbox[0], bbox[3] - bbox[1]
-    td.text((W * 0.92 - mw / 2 - bbox[0], H * 0.50 - mh / 2 - bbox[1]),
-            p['mono'], font=mono_font, fill=(255, 255, 255, 10))
+    td.text((W * 0.74 - mw / 2 - bbox[0], H * 0.50 - mh / 2 - bbox[1]),
+            p['mono'], font=mono_font, fill=(255, 255, 255, 14))
     base = Image.alpha_composite(base, tl)
 
     os.makedirs(OUT_DIR, exist_ok=True)
