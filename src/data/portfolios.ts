@@ -23,22 +23,6 @@ const cover = (slug: string) => `/images/portfolio/${slug}.png`;
 
 export const portfolios: Portfolio[] = [
   {
-    slug: 'posco-steeleon',
-    title: '포스코스틸리온 브랜드 사이트',
-    client: '포스코스틸리온',
-    category: '브랜드 사이트',
-    industry: 'MANUFACTURING',
-    duration: '3~6개월',
-    services: ['UI/UX', '브랜드 사이트', '반응형 웹', 'CMS 구축'],
-    year: 2024,
-    modifiedAt: '2026-06-24',
-    summary: '철강·소재 기업의 브랜드 사이트',
-    description:
-      '철강·소재 기업의 전문성과 신뢰를 담아낸 브랜드 사이트. 제품과 기술, 지속가능경영 콘텐츠를 한 곳에서 일관되게 전달하도록 정보 구조를 설계했습니다.',
-    cover: cover('posco-steeleon'),
-    gallery: [],
-  },
-  {
     slug: 'roland-korea',
     title: '코스모스악기 · Roland Korea 브랜드 사이트',
     client: '코스모스악기',

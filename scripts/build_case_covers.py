@@ -20,7 +20,6 @@ W, H = 1600, 1000
 
 PROJECTS = [
     dict(slug='roland-korea', mono='R', accent=(29, 116, 255)),
-    dict(slug='posco-steeleon', mono='P', accent=(0, 196, 255)),
     dict(slug='byeolha-studycafe', mono='별', accent=(139, 124, 246)),
 ]
 
