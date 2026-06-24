@@ -198,29 +198,6 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      {/* CTA — strong dark band */}
-      <Section variant="darker" spacing="default">
-        <GridGlow />
-        <Container className="relative z-10">
-          <div className="flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
-            <div className="max-w-2xl">
-              <Heading as="h2" size="h2" className="text-white">
-                무엇부터 줄일 수 있을지, 무료로 진단해 드립니다
-              </Heading>
-              <p className="mt-4 text-white/70 md:text-lg">
-                반복하시는 업무를 알려주시면 자동화 가능 여부와 효과를 먼저 정리해 드립니다.
-              </p>
-            </div>
-            <Link
-              href="/contact"
-              className="group inline-flex shrink-0 items-center gap-2 bg-white px-8 py-4 text-base font-semibold text-text-primary transition-colors hover:bg-primary-light"
-            >
-              자동화 상담 신청
-              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-            </Link>
-          </div>
-        </Container>
-      </Section>
     </>
   );
 }
