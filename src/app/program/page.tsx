@@ -7,13 +7,17 @@ import {
   LayoutDashboard,
   ScanLine,
   ArrowRight,
+  ArrowUpRight,
+  Clock,
+  ShieldCheck,
+  TrendingDown,
 } from 'lucide-react';
 import { buildMetadata } from '@/lib/metadata';
 import { Section } from '@/components/common/Section';
 import { Container } from '@/components/common/Container';
 import { Heading } from '@/components/common/Heading';
 import { SectionEyebrow } from '@/components/common/SectionEyebrow';
-import { PageHero } from '@/components/common/PageHero';
+import { GridGlow } from '@/components/common/GridGlow';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 
 export const metadata = buildMetadata({
@@ -56,6 +60,12 @@ const fields = [
   },
 ];
 
+const benefits = [
+  { icon: Clock, title: '시간 절감', desc: '하루 몇 시간씩 걸리던 반복 작업을 분 단위로 줄입니다.' },
+  { icon: ShieldCheck, title: '휴먼 에러 제거', desc: '사람이 실수하던 단순 반복을 프로그램이 정확하게 처리합니다.' },
+  { icon: TrendingDown, title: '비용 절감', desc: '반복 업무에 쓰던 인건비와 시간을 더 중요한 일에 씁니다.' },
+];
+
 const steps = [
   { no: '01', title: '업무 진단', desc: '반복 업무를 함께 분석해 자동화할 범위와 효과를 먼저 정리합니다.' },
   { no: '02', title: '개발·검증', desc: '업무에 맞는 프로그램을 개발하고 실제 데이터로 정확도를 검증합니다.' },
@@ -71,32 +81,68 @@ export default function ProgramPage() {
           { name: '프로그램 개발', path: '/program' },
         ]}
       />
-      <PageHero
-        eyebrow="PROGRAM"
-        title="반복 업무를 줄이는 프로그램·자동화 개발"
-        description="사람이 반복하던 엑셀·웹·메신저·문서 업무를 프로그램이 대신합니다. 업무에 꼭 맞는 자동화 도구를 직접 개발합니다."
-      />
 
-      {/* 개발 분야 */}
+      {/* Hero — dark with grid + glow */}
+      <Section
+        variant="dark"
+        spacing="none"
+        className="flex min-h-[58vh] items-center pb-20 pt-32 md:min-h-[66vh] md:pt-40"
+      >
+        <GridGlow />
+        <Container className="relative z-10">
+          <div className="max-w-3xl">
+            <SectionEyebrow variant="dark">PROGRAM · AUTOMATION</SectionEyebrow>
+            <Heading as="h1" size="display" className="mt-6 text-white">
+              반복 업무는 프로그램에 맡기세요
+            </Heading>
+            <p className="mt-7 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
+              엑셀·웹·메신저·문서 업무를 자동화하는 맞춤 프로그램을 직접 개발합니다. 사람이
+              반복하던 일을 프로그램이 대신합니다.
+            </p>
+            <Link
+              href="/contact"
+              className="group mt-9 inline-flex items-center gap-2 bg-white px-7 py-3.5 text-sm font-semibold text-text-primary transition-colors hover:bg-primary-light"
+            >
+              자동화 상담 신청
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Capabilities — giant watermark + hover cards */}
       <Section variant="light" spacing="default">
         <Container>
-          <SectionEyebrow>WHAT WE BUILD</SectionEyebrow>
-          <Heading as="h2" size="h1" className="mt-4 max-w-2xl">
-            이런 프로그램을 개발합니다
-          </Heading>
+          <h2
+            aria-hidden="true"
+            className="pointer-events-none mb-2 select-none text-[14vw] font-bold leading-[0.85] tracking-tightest text-text-primary/[0.05] md:text-[12vw] lg:text-[170px]"
+          >
+            AUTOMATION
+          </h2>
+          <div className="-mt-[10vw] md:-mt-[8vw] lg:-mt-28">
+            <SectionEyebrow>WHAT WE BUILD</SectionEyebrow>
+            <Heading as="h2" size="h1" className="mt-4 max-w-2xl">
+              이런 프로그램을 개발합니다
+            </Heading>
+          </div>
+
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {fields.map((f) => (
               <div
                 key={f.title}
-                className="border border-line bg-white p-8 transition-colors hover:border-primary/40"
+                className="group relative border border-line bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_24px_48px_-28px_rgba(29,116,255,0.45)]"
               >
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
                   <f.icon size={24} strokeWidth={1.75} />
                 </span>
-                <h3 className="mt-6 text-lg font-bold tracking-tightest text-text-primary">
+                <h3 className="mt-6 text-lg font-bold tracking-tightest text-text-primary md:text-xl">
                   {f.title}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-text-secondary">{f.desc}</p>
+                <ArrowUpRight
+                  size={20}
+                  className="absolute right-6 top-6 text-text-muted/30 transition-all group-hover:right-5 group-hover:top-5 group-hover:text-primary"
+                />
               </div>
             ))}
           </div>
@@ -106,42 +152,68 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      {/* 진행 방식 */}
+      {/* Why automation — dark with grid + glow */}
       <Section variant="dark" spacing="default">
-        <Container>
-          <div className="text-center">
-            <SectionEyebrow variant="dark">HOW IT WORKS</SectionEyebrow>
-            <Heading as="h2" size="h1" className="mt-4">
-              진행 방식
+        <GridGlow />
+        <Container className="relative z-10">
+          <div className="max-w-3xl">
+            <SectionEyebrow variant="dark">WHY AUTOMATION</SectionEyebrow>
+            <Heading as="h2" size="h1" className="mt-4 text-white">
+              사람은 더 중요한 일에,
+              <br className="hidden md:block" /> 반복은 프로그램에
             </Heading>
           </div>
-          <div className="mt-14 grid gap-6 md:grid-cols-3">
-            {steps.map((s) => (
-              <div key={s.no} className="border border-white/10 bg-white/[0.02] p-8 md:p-10">
-                <p className="font-mono text-sm font-bold text-primary-light">{s.no}</p>
-                <h3 className="mt-5 text-xl font-bold tracking-tightest text-white">{s.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/70">{s.desc}</p>
+          <div className="mt-14 grid gap-10 border-t border-white/10 pt-12 md:grid-cols-3">
+            {benefits.map((b) => (
+              <div key={b.title}>
+                <b.icon size={28} strokeWidth={1.5} className="text-primary-light" />
+                <h3 className="mt-5 text-xl font-bold tracking-tightest text-white">{b.title}</h3>
+                <p className="mt-3 leading-relaxed text-white/70">{b.desc}</p>
               </div>
             ))}
           </div>
         </Container>
       </Section>
 
-      {/* CTA */}
+      {/* Process — numbered cards */}
       <Section variant="surface" spacing="default">
         <Container>
-          <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
-            <div>
-              <Heading as="h2" size="h2">
+          <SectionEyebrow>HOW IT WORKS</SectionEyebrow>
+          <Heading as="h2" size="h1" className="mt-4">
+            진행 방식
+          </Heading>
+          <div className="mt-14 grid gap-6 md:grid-cols-3">
+            {steps.map((s) => (
+              <div key={s.no} className="border border-line bg-white p-8 md:p-10">
+                <p className="text-5xl font-bold leading-none tracking-tightest text-primary/15 md:text-6xl">
+                  {s.no}
+                </p>
+                <h3 className="mt-5 text-xl font-bold tracking-tightest text-text-primary">
+                  {s.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-text-secondary">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* CTA — strong dark band */}
+      <Section variant="darker" spacing="default">
+        <GridGlow />
+        <Container className="relative z-10">
+          <div className="flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
+            <div className="max-w-2xl">
+              <Heading as="h2" size="h2" className="text-white">
                 무엇부터 줄일 수 있을지, 무료로 진단해 드립니다
               </Heading>
-              <p className="mt-4 text-text-secondary md:text-lg">
+              <p className="mt-4 text-white/70 md:text-lg">
                 반복하시는 업무를 알려주시면 자동화 가능 여부와 효과를 먼저 정리해 드립니다.
               </p>
             </div>
             <Link
               href="/contact"
-              className="group inline-flex shrink-0 items-center gap-2 bg-primary px-8 py-4 text-base font-semibold text-white transition-colors hover:bg-primary/90"
+              className="group inline-flex shrink-0 items-center gap-2 bg-white px-8 py-4 text-base font-semibold text-text-primary transition-colors hover:bg-primary-light"
             >
               자동화 상담 신청
               <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
