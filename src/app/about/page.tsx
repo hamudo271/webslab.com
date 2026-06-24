@@ -1,9 +1,10 @@
+import { Quote, Handshake, Award, Users, ShieldCheck } from 'lucide-react';
 import { buildMetadata } from '@/lib/metadata';
 import { Section } from '@/components/common/Section';
 import { Container } from '@/components/common/Container';
 import { Heading } from '@/components/common/Heading';
 import { SectionEyebrow } from '@/components/common/SectionEyebrow';
-import { PageHero } from '@/components/common/PageHero';
+import { GridGlow } from '@/components/common/GridGlow';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 import { COMMERCIAL_METADATA } from '@/lib/seo-policy';
 import { CORE_GUIDE_LINKS } from '@/lib/seo-policy';
@@ -27,21 +28,54 @@ const stats = [
 ];
 
 const principles = [
-  { title: '신뢰', desc: '계약 전 시안부터 오픈 후 케어까지, 매 단계마다 솔직한 진행 상황을 공유합니다.' },
-  { title: '전문성', desc: '제조·물류·IT·바이오 등 다양한 산업에서 검증된 110건 이상의 제작 사례.' },
-  { title: '협업', desc: '기획·디자인·개발이 한 팀에서 진행되어, 의사결정 속도가 빠릅니다.' },
-  { title: '책임', desc: '오픈 후 1년간 무상 유지보수로, 사이트가 비즈니스에 안착할 때까지 함께합니다.' },
+  {
+    icon: Handshake,
+    title: '신뢰',
+    desc: '계약 전 시안부터 오픈 후 케어까지, 매 단계마다 솔직한 진행 상황을 공유합니다.',
+  },
+  {
+    icon: Award,
+    title: '전문성',
+    desc: '제조·물류·IT·바이오 등 다양한 산업에서 검증된 110건 이상의 제작 사례.',
+  },
+  {
+    icon: Users,
+    title: '협업',
+    desc: '기획·디자인·개발이 한 팀에서 진행되어, 의사결정 속도가 빠릅니다.',
+  },
+  {
+    icon: ShieldCheck,
+    title: '책임',
+    desc: '오픈 후 1년간 무상 유지보수로, 사이트가 비즈니스에 안착할 때까지 함께합니다.',
+  },
 ];
 
 export default function AboutPage() {
   return (
     <>
       <BreadcrumbJsonLd crumbs={[{ name: '홈', path: '/' }, { name: '회사소개', path: '/about' }]} />
-      <PageHero
-        eyebrow="ABOUT"
-        title="비즈니스의 성장을 위한 디지털 파트너"
-        description="웹슬랩은 단순한 외주 업체가 아닌, 비즈니스 목표를 함께 고민하는 파트너입니다. 기획부터 운영까지 한 팀에서 책임지고 마무리합니다."
-      />
+
+      {/* Hero — dark with grid + glow */}
+      <Section
+        variant="dark"
+        spacing="none"
+        className="flex min-h-[50vh] items-center pb-20 pt-32 md:min-h-[58vh] md:pt-40"
+      >
+        <GridGlow />
+        <Container className="relative z-10">
+          <div className="max-w-3xl">
+            <SectionEyebrow variant="dark">ABOUT</SectionEyebrow>
+            <Heading as="h1" size="display" className="mt-6 text-white">
+              비즈니스의 성장을 위한 디지털 파트너
+            </Heading>
+            <p className="mt-7 max-w-2xl text-base leading-relaxed text-white/75 md:text-lg">
+              웹슬랩은 단순한 외주 업체가 아닌, 비즈니스 목표를 함께 고민하는 파트너입니다. 기획부터
+              운영까지 한 팀에서 책임지고 마무리합니다.
+            </p>
+          </div>
+        </Container>
+      </Section>
+
       <GuideLinks title="업체 선정과 제작 일정 가이드" links={CORE_GUIDE_LINKS['/about']} />
 
       {/* 대표 인사말 */}
@@ -53,6 +87,7 @@ export default function AboutPage() {
               <Heading as="h2" size="h2" className="mt-4">
                 대표 인사말
               </Heading>
+              <Quote size={64} strokeWidth={1.25} className="mt-8 text-primary/20" />
             </div>
             <div className="max-w-2xl space-y-6 text-base leading-relaxed text-text-secondary md:text-lg">
               <p>websLAB을 찾아주셔서 감사합니다.</p>
@@ -69,9 +104,14 @@ export default function AboutPage() {
                 했습니다.
               </p>
               <p>귀사의 비즈니스가 성장하는 그 과정에, websLAB이 끝까지 함께하겠습니다.</p>
-              <div className="pt-4">
-                <p className="text-sm text-text-muted">websLAB 대표</p>
-                <p className="mt-1 text-xl font-bold tracking-tightest text-text-primary">조현도</p>
+              <div className="mt-8 flex items-center gap-4 border-t border-line pt-6">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-lg font-bold text-primary">
+                  조
+                </span>
+                <div>
+                  <p className="text-sm text-text-muted">websLAB 대표</p>
+                  <p className="text-lg font-bold tracking-tightest text-text-primary">조현도</p>
+                </div>
               </div>
             </div>
           </div>
@@ -81,9 +121,15 @@ export default function AboutPage() {
       {/* 우리의 시작 (브랜드 스토리) */}
       <Section variant="surface" spacing="default">
         <Container>
-          <div className="max-w-3xl">
+          <h2
+            aria-hidden="true"
+            className="pointer-events-none mb-2 select-none text-[16vw] font-bold leading-[0.85] tracking-tightest text-text-primary/[0.04] md:text-[13vw] lg:text-[190px]"
+          >
+            STORY
+          </h2>
+          <div className="-mt-[11vw] md:-mt-[9vw] lg:-mt-32">
             <SectionEyebrow>OUR STORY</SectionEyebrow>
-            <Heading as="h2" size="h1" className="mt-4">
+            <Heading as="h2" size="h1" className="mt-4 max-w-3xl">
               끝까지 마무리하는 것, 거기서 시작했습니다
             </Heading>
           </div>
@@ -121,16 +167,18 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      {/* 숫자 */}
-      <Section variant="light" spacing="default">
-        <Container>
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+      {/* 숫자 — dark glow band */}
+      <Section variant="dark" spacing="default">
+        <GridGlow />
+        <Container className="relative z-10">
+          <SectionEyebrow variant="dark">BY THE NUMBERS</SectionEyebrow>
+          <div className="mt-10 grid grid-cols-2 gap-8 md:grid-cols-4">
             {stats.map((s) => (
               <div key={s.label}>
-                <p className="text-4xl font-bold tracking-tightest text-primary md:text-5xl">
+                <p className="text-4xl font-bold tracking-tightest text-white md:text-6xl">
                   {s.value}
                 </p>
-                <p className="mt-3 text-sm text-text-secondary">{s.label}</p>
+                <p className="mt-3 text-sm text-white/60">{s.label}</p>
               </div>
             ))}
           </div>
@@ -138,23 +186,34 @@ export default function AboutPage() {
       </Section>
 
       {/* 우리가 지키는 원칙 */}
-      <Section variant="surface" spacing="default">
+      <Section variant="light" spacing="default">
         <Container>
-          <SectionEyebrow>PRINCIPLES</SectionEyebrow>
-          <Heading as="h2" size="h1" className="mt-4 max-w-2xl">
-            우리가 지키는 원칙
-          </Heading>
+          <h2
+            aria-hidden="true"
+            className="pointer-events-none mb-2 select-none text-[14vw] font-bold leading-[0.85] tracking-tightest text-text-primary/[0.05] md:text-[12vw] lg:text-[160px]"
+          >
+            PRINCIPLES
+          </h2>
+          <div className="-mt-[10vw] md:-mt-[8vw] lg:-mt-28">
+            <SectionEyebrow>PRINCIPLES</SectionEyebrow>
+            <Heading as="h2" size="h1" className="mt-4 max-w-2xl">
+              우리가 지키는 원칙
+            </Heading>
+          </div>
 
-          <div className="mt-16 grid gap-6 md:grid-cols-2">
-            {principles.map((v) => (
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {principles.map((p) => (
               <div
-                key={v.title}
-                className="flex flex-col gap-6 border border-line bg-white p-8 md:p-10"
+                key={p.title}
+                className="group border border-line bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_24px_48px_-28px_rgba(29,116,255,0.45)]"
               >
-                <Heading as="h3" size="h3">
-                  {v.title}
-                </Heading>
-                <p className="leading-relaxed text-text-secondary">{v.desc}</p>
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+                  <p.icon size={24} strokeWidth={1.75} />
+                </span>
+                <h3 className="mt-6 text-lg font-bold tracking-tightest text-text-primary">
+                  {p.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-text-secondary">{p.desc}</p>
               </div>
             ))}
           </div>
