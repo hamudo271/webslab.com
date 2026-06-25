@@ -10,7 +10,7 @@ import { brand } from '@/config/brand';
 
 export const metadata = buildMetadata({
   title: '이용약관',
-  description: '웹슬랩 서비스 이용에 관한 약관.',
+  description: '웹스랩 서비스 이용에 관한 약관.',
   path: '/terms',
 });
 

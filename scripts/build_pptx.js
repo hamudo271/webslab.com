@@ -866,7 +866,7 @@ TOP_PORTFOLIO.forEach((p, idx) => {
   });
 
   // Bottom strip — moved up to respect margin
-  s.addText('웹슬랩  ·  대표 조현도  ·  서울특별시 강남구 역삼로3길 19 10층 1007호  ·  173-58-00764', {
+  s.addText('웹스랩  ·  대표 조현도  ·  서울특별시 강남구 역삼로3길 19 10층 1007호  ·  173-58-00764', {
     x: M, y: H - 0.55, w: W - 2 * M, h: 0.3,
     fontFace: FONT, fontSize: 9, color: C.subtle, align: 'center',
   });

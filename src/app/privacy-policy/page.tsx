@@ -10,7 +10,7 @@ import { brand } from '@/config/brand';
 
 export const metadata = buildMetadata({
   title: '개인정보 처리방침',
-  description: '웹슬랩의 개인정보 수집·이용·보관 정책.',
+  description: '웹스랩의 개인정보 수집·이용·보관 정책.',
   path: '/privacy-policy',
 });
 

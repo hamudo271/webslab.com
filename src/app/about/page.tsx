@@ -69,7 +69,7 @@ export default function AboutPage() {
               비즈니스의 성장을 위한 디지털 파트너
             </Heading>
             <p className="mt-7 max-w-2xl text-base leading-relaxed text-white/75 md:text-lg">
-              웹슬랩은 단순한 외주 업체가 아닌, 비즈니스 목표를 함께 고민하는 파트너입니다. 기획부터
+              웹스랩은 단순한 외주 업체가 아닌, 비즈니스 목표를 함께 고민하는 파트너입니다. 기획부터
               운영까지 한 팀에서 책임지고 마무리합니다.
             </p>
           </div>

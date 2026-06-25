@@ -26,7 +26,7 @@ export function BizCards() {
               기업 홈페이지를 위한 모든 것
             </Heading>
             <p className="mt-6 text-text-secondary md:text-lg">
-              기획부터 오픈 후 운영까지, 웹슬랩이 제공하는 혜택을 확인하세요.
+              기획부터 오픈 후 운영까지, 웹스랩이 제공하는 혜택을 확인하세요.
             </p>
           </div>
           <div className="flex items-center gap-2">
