@@ -42,7 +42,11 @@ export const analytics = {
     enabled: isReal(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN),
   },
   verification: {
-    naver: process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION ?? '',
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? '',
+    naver:
+      process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION ??
+      'f0d0c06df7f3c48789a39547b8fab344848e1de9',
+    google:
+      process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ??
+      '_ugyViTZzexJlVfe73g-ZrkAepJBh0X_1QPIJiuH95c',
   },
 } as const;
