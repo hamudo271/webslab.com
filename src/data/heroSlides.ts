@@ -29,4 +29,13 @@ export const heroSlides: HeroSlide[] = [
     image: cover('byeolha-studycafe'),
     cta: { label: '케이스 보기', href: '/portfolio/byeolha-studycafe' },
   },
+  {
+    id: 'h3',
+    kind: 'project',
+    eyebrow: 'PROJECT 03',
+    title: '유니버랩 미디어 브랜드 사이트',
+    description: '유튜브·숏폼 기획부터 촬영·편집·채널 운영까지 — 올인원 영상 마케팅 브랜드 사이트.',
+    image: cover('univerlab-media'),
+    cta: { label: '케이스 보기', href: '/portfolio/univerlab-media' },
+  },
 ];

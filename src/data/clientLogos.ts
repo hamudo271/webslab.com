@@ -16,4 +16,9 @@ export const clientLogos: ClientLogo[] = [
     tag: '브랜드 사이트',
     href: '/portfolio/byeolha-studycafe',
   },
+  {
+    name: '유니버랩 미디어',
+    tag: '영상 마케팅 · 브랜드 사이트',
+    href: '/portfolio/univerlab-media',
+  },
 ];

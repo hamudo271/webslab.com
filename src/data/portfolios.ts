@@ -59,4 +59,25 @@ export const portfolios: Portfolio[] = [
     cover: cover('byeolha-studycafe'),
     gallery: [],
   },
+  {
+    slug: 'univerlab-media',
+    title: '유니버랩 미디어 브랜드 사이트',
+    client: '유니버랩 미디어',
+    category: '브랜드 사이트',
+    industry: 'BRAND',
+    duration: '1~3개월',
+    services: ['UI/UX', '브랜드 사이트', '반응형 웹', '콘텐츠 큐레이션'],
+    year: 2025,
+    modifiedAt: '2026-06-26',
+    summary: '유튜브·숏폼 영상 마케팅 전문 브랜드 사이트',
+    description:
+      '유튜브·숏폼 영상의 기획·촬영·편집부터 채널 운영까지 올인원으로 제공하는 영상 마케팅 회사의 공식 브랜드 사이트. 실제 제작 사례를 전면에 배치해 전문성과 성과를 한눈에 전달하도록 구성했습니다.',
+    cover: cover('univerlab-media'),
+    gallery: [],
+    url: 'https://univerlabmedia.co.kr',
+    results: [
+      { label: '서비스 범위', value: '기획·촬영·편집·운영' },
+      { label: '콘텐츠 포맷', value: '유튜브·숏폼' },
+    ],
+  },
 ];
