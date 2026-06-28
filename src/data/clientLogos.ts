@@ -21,4 +21,9 @@ export const clientLogos: ClientLogo[] = [
     tag: '영상 마케팅 · 브랜드 사이트',
     href: '/portfolio/univerlab-media',
   },
+  {
+    name: '대한잠수협회',
+    tag: '협회 공식 사이트',
+    href: '/portfolio/blue-ocean-guardians',
+  },
 ];

@@ -38,4 +38,13 @@ export const heroSlides: HeroSlide[] = [
     image: cover('univerlab-media'),
     cta: { label: '케이스 보기', href: '/portfolio/univerlab-media' },
   },
+  {
+    id: 'h4',
+    kind: 'project',
+    eyebrow: 'PROJECT 04',
+    title: '대한잠수협회 공식 사이트',
+    description: '바다를 지키는 다이버들 — 수중 몰입감을 살린 협회 공식 브랜드 사이트.',
+    image: cover('blue-ocean-guardians'),
+    cta: { label: '케이스 보기', href: '/portfolio/blue-ocean-guardians' },
+  },
 ];

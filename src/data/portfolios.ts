@@ -80,4 +80,25 @@ export const portfolios: Portfolio[] = [
       { label: '콘텐츠 포맷', value: '유튜브·숏폼' },
     ],
   },
+  {
+    slug: 'blue-ocean-guardians',
+    title: '대한잠수협회 공식 사이트',
+    client: '대한잠수협회 (Blue Ocean Guardians)',
+    category: '협회 공식 사이트',
+    industry: 'BRAND',
+    duration: '1~3개월',
+    services: ['UI/UX', '브랜드 사이트', '반응형 웹'],
+    year: 2025,
+    modifiedAt: '2026-06-28',
+    summary: '바다를 지키는 다이버들의 공식 협회 사이트',
+    description:
+      '대한잠수협회(Blue Ocean Guardians)의 공식 브랜드 사이트. 수중 활동의 몰입감을 살린 풀스크린 비주얼과 함께 협회 소개·활동·아카이브를 담아, 다이빙 커뮤니티와 후원자가 한눈에 협회를 이해하도록 구성했습니다.',
+    cover: cover('blue-ocean-guardians'),
+    gallery: [],
+    url: 'https://blueoceanguardians.org',
+    results: [
+      { label: '구성', value: 'About · Services · Archive' },
+      { label: '비주얼', value: '풀스크린 수중 히어로' },
+    ],
+  },
 ];
