@@ -5,6 +5,16 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
+/.pnpm-store/
+
+# claude code
+/.claude/worktrees/
+
+# agentmemory (agent tooling artifacts — not site code)
+/.agents/
+/.claude/skills/
+/data/
+/skills-lock.json
 
 # testing
 /coverage
