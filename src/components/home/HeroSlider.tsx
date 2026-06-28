@@ -55,7 +55,7 @@ export function HeroSlider() {
                 fill
                 priority={idx === 0}
                 sizes="100vw"
-                className="object-cover"
+                className="object-cover object-[80%_50%] md:object-center"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-dark/80 via-dark/30 to-transparent" />
               <Container className="absolute inset-0 z-10 flex items-center pb-12 md:pb-16">

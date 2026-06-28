@@ -92,7 +92,7 @@ export default function PortfolioDetailPage({ params }: { params: { slug: string
             fill
             priority
             sizes="100vw"
-            className="object-cover"
+            className="object-cover object-[80%_50%] md:object-center"
           />
         </div>
       </section>
