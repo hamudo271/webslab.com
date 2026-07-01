@@ -9,9 +9,6 @@
 @import 'swiper/css/navigation';
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
   body {
     word-break: keep-all;
     overflow-wrap: break-word;

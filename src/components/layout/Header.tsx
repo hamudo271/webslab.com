@@ -35,10 +35,23 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, [pathname]);
 
+  // Lock background scroll while the mobile menu is open.
+  // The document scroller is <html>, so lock overflow there (not <body>).
+  useEffect(() => {
+    if (!open) return;
+    const root = document.documentElement;
+    const prev = root.style.overflow;
+    root.style.overflow = 'hidden';
+    return () => {
+      root.style.overflow = prev;
+    };
+  }, [open]);
+
   // Inner pages start solid; home starts transparent
   const isSolid = !isHome || scrolled;
 
   return (
+    <>
     <header
       className={cn(
         'fixed inset-x-0 top-0 z-50 transition-all duration-300',
@@ -99,10 +112,12 @@ export function Header() {
           </div>
         </div>
       </Container>
+    </header>
 
       {open && (
-        <div className="fixed inset-0 z-50 bg-dark text-white lg:hidden" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 z-[60] overflow-y-auto bg-dark text-white lg:hidden" role="dialog" aria-modal="true">
           <Container>
+            <div className="flex min-h-[100dvh] flex-col pb-16">
             <div className="flex h-16 items-center justify-between md:h-20">
               <Link href="/" className="flex items-center" aria-label={brand.name}>
                 <Image
@@ -137,9 +152,10 @@ export function Header() {
                 전문 설문지 접수
               </ButtonLink>
             </nav>
+            </div>
           </Container>
         </div>
       )}
-    </header>
+    </>
   );
 }
