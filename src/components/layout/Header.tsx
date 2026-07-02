@@ -3,52 +3,37 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { cn } from '@/lib/cn';
 import { brand } from '@/config/brand';
 import { mainNav } from '@/data/navItems';
+import { useScrolled } from '@/hooks/useScrolled';
+import { useScrollLock } from '@/hooks/useScrollLock';
 import { Container } from '@/components/common/Container';
 import { ButtonLink } from '@/components/common/Button';
 
 export function Header() {
   const pathname = usePathname();
   const isHome = pathname === '/';
-  const [scrolled, setScrolled] = useState(false);
+  const scrolled = useScrolled();
   const [open, setOpen] = useState(false);
-  const lastScrollState = useRef(false);
 
+  // Close the menu on route change.
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
-  useEffect(() => {
-    function onScroll() {
-      const next = window.scrollY > 8;
-      if (next !== lastScrollState.current) {
-        lastScrollState.current = next;
-        setScrolled(next);
-      }
-    }
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [pathname]);
+  // Lock background scroll while the fullscreen menu is open.
+  useScrollLock(open);
 
-  // Lock background scroll while the menu is open.
-  // The document scroller is <html>, so lock overflow there (not <body>).
+  // Close the menu on Escape while it is open.
   useEffect(() => {
     if (!open) return;
-    const root = document.documentElement;
-    const prev = root.style.overflow;
-    root.style.overflow = 'hidden';
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setOpen(false);
     };
     window.addEventListener('keydown', onKey);
-    return () => {
-      root.style.overflow = prev;
-      window.removeEventListener('keydown', onKey);
-    };
+    return () => window.removeEventListener('keydown', onKey);
   }, [open]);
 
   // Inner pages start solid; home starts transparent.
