@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { brand } from '@/config/brand';
 import { mainNav } from '@/data/navItems';
@@ -35,20 +34,27 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, [pathname]);
 
-  // Lock background scroll while the mobile menu is open.
+  // Lock background scroll while the menu is open.
   // The document scroller is <html>, so lock overflow there (not <body>).
   useEffect(() => {
     if (!open) return;
     const root = document.documentElement;
     const prev = root.style.overflow;
     root.style.overflow = 'hidden';
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
     return () => {
       root.style.overflow = prev;
+      window.removeEventListener('keydown', onKey);
     };
   }, [open]);
 
-  // Inner pages start solid; home starts transparent
-  const isSolid = !isHome || scrolled;
+  // Inner pages start solid; home starts transparent.
+  // While the fullscreen menu is open the header floats over the dark
+  // overlay, so it goes transparent with white items regardless of scroll.
+  const isSolid = (!isHome || scrolled) && !open;
 
   return (
     <>
@@ -100,62 +106,86 @@ export function Header() {
             </ButtonLink>
             <button
               type="button"
-              aria-label="메뉴 열기"
+              aria-label={open ? '메뉴 닫기' : '메뉴 열기'}
+              aria-expanded={open}
               className={cn(
-                'flex h-10 w-10 items-center justify-center lg:hidden',
+                'flex h-10 w-10 items-center justify-center',
                 isSolid ? 'text-text-primary' : 'text-white',
               )}
-              onClick={() => setOpen(true)}
+              onClick={() => setOpen((v) => !v)}
             >
-              <Menu size={24} />
+              <span className="relative block h-4 w-6" aria-hidden="true">
+                <span
+                  className={cn(
+                    'absolute left-0 top-0 h-0.5 w-6 bg-current transition-all duration-300',
+                    open && 'top-1/2 -translate-y-1/2 rotate-45',
+                  )}
+                />
+                <span
+                  className={cn(
+                    'absolute left-0 top-1/2 h-0.5 w-4 -translate-y-1/2 bg-current transition-all duration-300',
+                    open && 'w-6 opacity-0',
+                  )}
+                />
+                <span
+                  className={cn(
+                    'absolute bottom-0 left-0 h-0.5 w-6 bg-current transition-all duration-300',
+                    open && 'bottom-[calc(50%-1px)] -rotate-45',
+                  )}
+                />
+              </span>
             </button>
           </div>
         </div>
       </Container>
     </header>
 
-      {open && (
-        <div className="fixed inset-0 z-[60] overflow-y-auto bg-dark text-white lg:hidden" role="dialog" aria-modal="true">
-          <Container>
-            <div className="flex min-h-[100dvh] flex-col pb-16">
-            <div className="flex h-16 items-center justify-between md:h-20">
-              <Link href="/" className="flex items-center" aria-label={brand.name}>
-                <Image
-                  src="/images/logo.png"
-                  alt={brand.name}
-                  width={2043}
-                  height={424}
-                  className="h-7 w-auto brightness-0 invert md:h-8"
-                />
-              </Link>
-              <button
-                type="button"
-                aria-label="메뉴 닫기"
-                className="flex h-10 w-10 items-center justify-center"
-                onClick={() => setOpen(false)}
-              >
-                <X size={24} />
-              </button>
-            </div>
-            <nav className="mt-12 flex flex-col gap-6" aria-label="Mobile">
-              {mainNav.map((item) => (
+      {/* Fullscreen menu overlay — always mounted so open/close both animate.
+          Sits below the header (z-50) so the morphing hamburger stays visible. */}
+      <div
+        className={cn(
+          'fixed inset-0 z-[45] overflow-y-auto bg-dark text-white transition-opacity duration-300',
+          open ? 'visible opacity-100' : 'invisible opacity-0',
+        )}
+        role="dialog"
+        aria-modal="true"
+        aria-hidden={!open}
+      >
+        <Container>
+          <div className="flex min-h-[100dvh] flex-col pb-16 pt-28 md:pt-32">
+            <nav className="flex flex-col gap-6" aria-label="Mobile">
+              {mainNav.map((item, i) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="text-3xl font-bold tracking-tightest hover:text-primary-light"
+                  tabIndex={open ? 0 : -1}
+                  className={cn(
+                    'text-3xl font-bold tracking-tightest transition-all duration-300 hover:text-primary-light',
+                    open ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
+                  )}
+                  style={{ transitionDelay: open ? `${100 + i * 50}ms` : '0ms' }}
                   onClick={() => setOpen(false)}
                 >
                   {item.label}
                 </Link>
               ))}
-              <ButtonLink href="/contact" variant="primary" size="lg" className="mt-8 w-full">
+              <ButtonLink
+                href="/contact"
+                variant="primary"
+                size="lg"
+                tabIndex={open ? 0 : -1}
+                className={cn(
+                  'mt-8 w-full transition-all duration-300 md:w-auto md:self-start md:px-16',
+                  open ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
+                )}
+                style={{ transitionDelay: open ? `${100 + mainNav.length * 50}ms` : '0ms' }}
+              >
                 전문 설문지 접수
               </ButtonLink>
             </nav>
-            </div>
-          </Container>
-        </div>
-      )}
+          </div>
+        </Container>
+      </div>
     </>
   );
 }
