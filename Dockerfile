@@ -35,6 +35,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# next/image 최적화(AVIF/WebP)용 sharp — standalone 트레이싱 누락 대비 런타임에 명시 설치.
+# alpine(musl) 환경이라 @img/sharp-linuxmusl-x64 바이너리가 설치됨.
+RUN npm install --no-save sharp@0.33.5
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000

@@ -36,6 +36,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.75.0",
     "resend": "^4.8.0",
+    "sharp": "^0.33.5",
     "swiper": "^11.2.10",
     "tailwind-merge": "^3.6.0",
     "zod": "^4.4.3"
