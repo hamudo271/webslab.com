@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import localFont from 'next/font/local';
 import '@/styles/globals.css';
 
 import { buildMetadata } from '@/lib/metadata';
@@ -10,14 +9,6 @@ import { HideOnAdmin } from '@/components/layout/HideOnAdmin';
 import { AnalyticsProvider } from '@/components/analytics/AnalyticsProvider';
 import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';
 import { WebSiteJsonLd } from '@/components/seo/WebSiteJsonLd';
-
-const pretendard = localFont({
-  src: '../../public/fonts/PretendardVariable.woff2',
-  variable: '--font-pretendard',
-  display: 'swap',
-  weight: '45 920',
-  preload: true,
-});
 
 export const metadata: Metadata = buildMetadata();
 
@@ -30,7 +21,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko" className={pretendard.variable}>
+    <html lang="ko">
       <body className="bg-white font-pretendard text-text-primary antialiased">
         <OrganizationJsonLd />
         <WebSiteJsonLd />

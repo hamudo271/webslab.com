@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Pretendard 동적 서브셋(자가 호스팅) — unicode-range로 쪼개 실제 쓰는 글자 범위만 로드.
+   기존 2MB 풀셋 프리로드 대신 페이지에 쓰인 청크만 내려받아 초기 폰트 전송을 대폭 절감. */
+@import './pretendard.css';
+
 /* Swiper CSS — global import for SSR safety */
 @import 'swiper/css';
 @import 'swiper/css/effect-fade';
@@ -9,6 +13,10 @@
 @import 'swiper/css/navigation';
 
 @layer base {
+  :root {
+    /* Tailwind의 font-pretendard(var(--font-pretendard))가 참조. 동적 서브셋 font-family와 일치. */
+    --font-pretendard: 'Pretendard Variable';
+  }
   body {
     word-break: keep-all;
     overflow-wrap: break-word;
