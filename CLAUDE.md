@@ -33,7 +33,7 @@ public/        images, fonts(Pretendard), og
 - **`src/components/common/Button.tsx`** — `variants`/`sizes` 맵 기반. `ButtonLink`(a) / `Button`(button) 두 형태. 새 버튼 스타일은 맵에 추가.
 - **`src/components/layout/Header.tsx`** — 스크롤/오버레이 메뉴. 로직은 `hooks/`로 분리됨(아래 6번 주의).
 - **`src/app/api/contact/route.ts`** — 문의 폼 수신 → Resend 메일 발송.
-- **칼럼 CMS(`/admin`)** — Railway Postgres + Prisma(`lib/db.ts` 싱글턴). 정적 12편(`data/columnPosts.ts`)은 그대로, **DB는 신규 글 전용** — `lib/column-feed.ts`가 병합(최신순, DB 장애 시 정적 폴백). 한글 제목 → 로마자 slug 자동(`lib/slug.ts`, 정적 슬러그 예약 + 충돌 시 `-2`). 인증: bcryptjs(로그인 라우트) + jose JWT(미들웨어 Edge 검증), `middleware.ts`가 `/admin/*`·`/api/admin/*` 보호. 에디터: Tiptap(`components/admin/Editor.tsx`) + Cloudinary 업로드(`/api/admin/upload`).
+- **칼럼 CMS(`/admin`)** — Railway Postgres + Prisma(`lib/db.ts` 싱글턴). 정적 12편(`data/columnPosts.ts`)은 그대로, **DB는 신규 글 전용** — `lib/column-feed.ts`가 병합(최신순, DB 장애 시 정적 폴백). 한글 제목 → 로마자 slug 자동(`lib/slug.ts`, 정적 슬러그 예약 + 충돌 시 `-2`). 인증: `ADMIN_PASSWORD` 평문 비교(timingSafeEqual, 로그인 라우트) + jose JWT(미들웨어 Edge 검증), `middleware.ts`가 `/admin/*`·`/api/admin/*` 보호. 에디터: Tiptap(`components/admin/Editor.tsx`) + Cloudinary 업로드(`/api/admin/upload`).
 
 ## 5. 코딩 컨벤션
 - **className 병합은 항상 `cn()`** (`@/lib/cn`, clsx + tailwind-merge). 조건부 클래스도 `cn(base, cond && '...')`.
@@ -51,7 +51,7 @@ public/        images, fonts(Pretendard), og
 - **`seo-policy.ts` 크롤러 목록 변경 시** — Cloudflare 관리형 AI봇 차단 규칙과 **모순되지 않게** 맞출 것(레포엔 안 보이는 Cloudflare robots.txt가 별도로 존재).
 - **`Header.tsx` 관련** — 오버레이는 `<header>`의 **형제**로 둬야 함. header에 `backdrop-blur`(backdrop-filter)가 있어 fixed 자식의 containing block이 되면 오버레이가 뷰포트가 아닌 header 높이로 붕괴됨. 스크롤 락은 `<html>`(documentElement) 대상 — body는 스크롤러가 아니라 안 먹힘. 이 로직은 `hooks/useScrollLock.ts`·`useScrolled.ts`에 있음.
 - **`globals.css`에 `scroll-behavior: smooth` 넣지 말 것** — App Router의 라우트 변경 시 즉시 top 이동을 깨뜨림(과거 버그).
-- **환경변수(하드코딩 금지)**: `RESEND_API_KEY`(문의 메일), `CONTACT_FROM_EMAIL`·`CONTACT_TO_EMAIL`, `CONTACT_DRY_RUN=true`(메일 안 보내고 로그만), `NEXT_PUBLIC_SITE_URL`, analytics 키들 + CMS용 `DATABASE_URL`(Railway Postgres 자동 주입)·`ADMIN_PASSWORD_HASH`(`pnpm admin:hash`로 생성)·`ADMIN_JWT_SECRET`·`CLOUDINARY_URL`. Railway 대시보드에서 관리. ⚠️ 로컬 `.env`의 bcrypt 해시는 `$`를 `\$`로 이스케이프(Next가 $변수 확장함).
+- **환경변수(하드코딩 금지)**: `RESEND_API_KEY`(문의 메일), `CONTACT_FROM_EMAIL`·`CONTACT_TO_EMAIL`, `CONTACT_DRY_RUN=true`(메일 안 보내고 로그만), `NEXT_PUBLIC_SITE_URL`, analytics 키들 + CMS용 `DATABASE_URL`(Railway Postgres 자동 주입)·`ADMIN_PASSWORD`(평문)·`ADMIN_JWT_SECRET`·`CLOUDINARY_URL`. Railway 대시보드에서 관리. ⚠️ 로컬 `.env`에서 값에 `$`가 있으면 `\$`로 이스케이프(Next가 $변수 확장함).
 - **Prisma 스키마 변경 시** — 마이그레이션 SQL을 레포에 커밋(`prisma migrate diff` 또는 로컬 `migrate dev`). 배포 시 `railway.json` startCommand의 `prisma migrate deploy`가 적용. Prisma는 **v6 고정**(v7은 설정 체계가 다름). Docker(alpine)용 `binaryTargets` 유지.
 - **검증**: 변경 후 `npx tsc --noEmit` + `CI=true npx vitest run`. 프리뷰는 헤드리스 `innerHeight:0`이라 스크롤 기반 상태 검증이 불안정 — 내부 페이지(`/about`)의 solid 헤더로 대체 확인.
 - **정직성 원칙**: 포트폴리오/사례는 실제 데이터만. 브로슈어/PPTX 생성기와 일부 칼럼 본문에 남아있는 가공 사례는 실제 값으로 교체 대상(런칭 전 정리 항목).

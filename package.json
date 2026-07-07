@@ -16,8 +16,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate deploy",
-    "admin:hash": "node scripts/hash-admin-password.mjs"
+    "db:migrate": "prisma migrate deploy"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -27,7 +26,6 @@
     "@tiptap/pm": "^3.27.2",
     "@tiptap/react": "^3.27.2",
     "@tiptap/starter-kit": "^3.27.2",
-    "bcryptjs": "^3.0.3",
     "cloudinary": "^2.10.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.18.2",
