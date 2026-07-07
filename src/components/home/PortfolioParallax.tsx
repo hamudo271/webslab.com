@@ -1,39 +1,18 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { portfolios } from '@/data/portfolios';
 
-// Reuse the 18 branded column OG cards as on-brand grid tiles (no extra assets).
-const COLUMN_SLUGS = [
-  'corporate-website-cost',
-  'website-agency-selection',
-  'website-production-timeline',
-  'website-quote-comparison',
-  'renewal-vs-rebuild',
-  'website-renewal-cost',
-  'website-renewal-seo',
-  'b2b-website-structure',
-  'manufacturing-website-pages',
-  'logistics-multilingual-website',
-  'corporate-website-cms',
-  'corporate-website-seo-checklist',
-  'responsive-website',
-  'website-maintenance',
-  'hospital-website',
-  'wordpress-vs-custom',
-  'website-renewal-timing',
-  'government-website-accessibility',
-];
+// 실제 포트폴리오 스크린샷을 타일로 사용. 자산이 4장이라 행마다 시작 위치를 돌려
+// 7칸을 순환 채워 벽처럼 보이게 한다(장식 배경 — 화면엔 반복이 자연스럽게 섞임).
+const TILES = portfolios.map((p) => ({ src: p.cover, alt: p.title }));
 
-const tile = (slug: string) => `/images/og/column/${slug}.png`;
-
-// 5 rows, each a rotated 7-card window so rows look varied while reusing the same files.
-const ROWS = Array.from({ length: 5 }, (_, r) => {
-  const start = (r * 4) % COLUMN_SLUGS.length;
-  const rotated = [...COLUMN_SLUGS.slice(start), ...COLUMN_SLUGS.slice(0, start)];
-  return rotated.slice(0, 7);
-});
+const ROWS = Array.from({ length: 5 }, (_, r) =>
+  Array.from({ length: 7 }, (_, i) => TILES[(i + r * 2) % TILES.length]),
+);
 
 // Per-row parallax magnitude: outer rows move most, center row least (symmetric).
 const ROW_SHIFT_X = [340, 320, 300, 320, 340];
@@ -131,16 +110,19 @@ export function PortfolioParallax() {
                 animationDirection: i % 2 === 0 ? 'normal' : 'reverse',
               }}
             >
-              {[...row, ...row].map((slug, j) => (
+              {[...row, ...row].map((t, j) => (
                 <div
-                  key={`${slug}-${j}`}
-                  className="h-[150px] w-[286px] shrink-0 overflow-hidden rounded-lg bg-dark md:h-[170px] md:w-[324px]"
-                  style={{
-                    backgroundImage: `url(${tile(slug)})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                  }}
-                />
+                  key={`${t.src}-${j}`}
+                  className="relative h-[150px] w-[286px] shrink-0 overflow-hidden rounded-lg bg-dark md:h-[170px] md:w-[324px]"
+                >
+                  <Image
+                    src={t.src}
+                    alt=""
+                    fill
+                    sizes="324px"
+                    className="object-cover"
+                  />
+                </div>
               ))}
             </div>
           </div>
