@@ -35,9 +35,16 @@ COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-# next/image 최적화(AVIF/WebP)용 sharp — standalone 트레이싱 누락 대비 런타임에 명시 설치.
-# alpine(musl) 환경이라 @img/sharp-linuxmusl-x64 바이너리가 설치됨.
-RUN npm install --no-save sharp@0.33.5
+# next/image 최적화(AVIF/WebP)용 sharp.
+# standalone 트레이싱이 sharp의 JS는 포함하지만 네이티브 @img/* 바이너리는 누락함.
+# in-place `npm install`은 standalone의 pnpm node_modules(심볼릭 구조)와 충돌해 빌드 실패 →
+# 격리 디렉터리에서 fresh 설치한 뒤, 완성된 sharp+@img(musl)+런타임 deps를 node_modules로 복사.
+RUN mkdir -p /opt/sharp && cd /opt/sharp \
+ && npm init -y >/dev/null 2>&1 \
+ && npm install sharp@0.33.5 --no-audit --no-fund \
+ && rm -rf /app/node_modules/sharp /app/node_modules/@img \
+ && cp -R /opt/sharp/node_modules/. /app/node_modules/ \
+ && rm -rf /opt/sharp
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
