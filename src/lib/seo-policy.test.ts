@@ -8,10 +8,10 @@ import {
 } from './seo-policy';
 
 describe('crawlerRules', () => {
-  it('allows Next.js rendering assets and blocks only API routes for general crawlers', () => {
+  it('allows Next.js rendering assets and blocks API/admin routes for general crawlers', () => {
     const general = crawlerRules.find((rule) => rule.userAgent === '*');
 
-    expect(general).toEqual({ userAgent: '*', allow: '/', disallow: ['/api/'] });
+    expect(general).toEqual({ userAgent: '*', allow: '/', disallow: ['/api/', '/admin/'] });
   });
 
   it('defines contextual column links for every core commercial page', () => {

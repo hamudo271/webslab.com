@@ -14,8 +14,8 @@ const AI_SEARCH_BOTS = ['OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'Claud
 const AI_TRAINING_BOTS = ['GPTBot', 'ClaudeBot', 'Google-Extended', 'CCBot', 'Bytespider'];
 
 export const crawlerRules: CrawlerRule[] = [
-  { userAgent: '*', allow: '/', disallow: ['/api/'] },
-  ...AI_SEARCH_BOTS.map((userAgent) => ({ userAgent, allow: '/', disallow: ['/api/'] })),
+  { userAgent: '*', allow: '/', disallow: ['/api/', '/admin/'] },
+  ...AI_SEARCH_BOTS.map((userAgent) => ({ userAgent, allow: '/', disallow: ['/api/', '/admin/'] })),
   ...AI_TRAINING_BOTS.map((userAgent) => ({ userAgent, disallow: ['/'] })),
 ];
 

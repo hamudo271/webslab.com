@@ -1,4 +1,5 @@
 import { HeroSlider } from '@/components/home/HeroSlider';
+import { LatestColumns } from '@/components/home/LatestColumns';
 import { PortfolioSection } from '@/components/home/Portfolio';
 import { PortfolioParallax } from '@/components/home/PortfolioParallax';
 import { Philosophy } from '@/components/home/Philosophy';
@@ -16,6 +17,9 @@ import { FaqJsonLd } from '@/components/seo/FaqJsonLd';
 import { LocalBusinessJsonLd } from '@/components/seo/LocalBusinessJsonLd';
 
 export const metadata = buildMetadata(COMMERCIAL_METADATA['/']);
+
+// 최신 칼럼(DB) 반영 주기 — 5분 ISR (빌드 시 DB 미연결이어도 정적 글로 폴백)
+export const revalidate = 300;
 
 const homeFaqs = [
   {
@@ -60,6 +64,7 @@ export default function HomePage() {
       <WhatWeDo />
       <Process />
       <BizCards />
+      <LatestColumns />
       <HomeFaq faqs={homeFaqs} />
       <CtaBanner />
     </>

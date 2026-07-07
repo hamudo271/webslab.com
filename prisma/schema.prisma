@@ -1,0 +1,36 @@
+// websLAB — 칼럼(블로그) 데이터 모델
+// Railway PostgreSQL + Prisma. 관리자 CRUD / 공개 페이지 / 동적 SEO 공용.
+// 기존 12편(src/data/columnPosts.ts)은 정적으로 유지 — DB는 신규 글 전용.
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"] // 로컬(mac) + Docker(alpine)
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Post {
+  id           Int        @id @default(autoincrement())
+  title        String
+  slug         String     @unique // 한글 제목 → 로마자 슬러그(자동, 중복 시 -2, -3…)
+  content      String // 본문 HTML (Tiptap 출력)
+  excerpt      String? // 목록/메타 설명. 미입력 시 본문에서 자동 추출
+  thumbnailUrl String? // Cloudinary URL
+  category     String
+  status       PostStatus @default(DRAFT)
+  publishedAt  DateTime? // 최초 발행 시각. 공개 목록 정렬 기준
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  viewCount    Int        @default(0)
+
+  @@index([status, publishedAt]) // 공개 목록: 발행글 최신순
+  @@index([category])
+}

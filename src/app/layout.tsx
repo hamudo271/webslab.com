@@ -6,6 +6,7 @@ import { buildMetadata } from '@/lib/metadata';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingBar } from '@/components/layout/FloatingBar';
+import { HideOnAdmin } from '@/components/layout/HideOnAdmin';
 import { AnalyticsProvider } from '@/components/analytics/AnalyticsProvider';
 import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';
 import { WebSiteJsonLd } from '@/components/seo/WebSiteJsonLd';
@@ -33,10 +34,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-white font-pretendard text-text-primary antialiased">
         <OrganizationJsonLd />
         <WebSiteJsonLd />
-        <Header />
+        <HideOnAdmin>
+          <Header />
+        </HideOnAdmin>
         <main>{children}</main>
-        <Footer />
-        <FloatingBar />
+        <HideOnAdmin>
+          <Footer />
+          <FloatingBar />
+        </HideOnAdmin>
         <AnalyticsProvider />
       </body>
     </html>
