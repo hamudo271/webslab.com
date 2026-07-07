@@ -1,6 +1,9 @@
 FROM node:22-alpine AS base
 RUN apk add --no-cache libc6-compat openssl
 RUN corepack enable
+# Prisma CLI의 postinstall/명령 후 체크포인트(업데이트 확인) 네트워크 콜 비활성화
+# — 컨테이너에서 이 호출이 멈추면 `prisma generate`/`migrate deploy` 뒤 프로세스가 종료되지 않음
+ENV CHECKPOINT_DISABLE=1
 
 FROM base AS deps
 WORKDIR /app
@@ -20,6 +23,7 @@ FROM node:22-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV CHECKPOINT_DISABLE=1
 # openssl: Prisma 엔진(linux-musl-openssl-3.0.x) 런타임 의존성
 RUN apk add --no-cache openssl
 # prisma CLI: 배포 시작 시 migrate deploy 실행용 (railway.json startCommand 참조)
