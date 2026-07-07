@@ -32,10 +32,12 @@ RUN addgroup --system --gid 1001 nodejs \
  && adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-CMD ["node", "server.js"]
+# 마이그레이션 적용 후 서버 시작 (start.sh가 실패/hang에도 서버 부팅 보장)
+CMD ["sh", "scripts/start.sh"]
