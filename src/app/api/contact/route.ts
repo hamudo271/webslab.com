@@ -91,7 +91,13 @@ export async function POST(req: Request) {
 
     if (error) {
       console.error('[resend]', error);
-      return NextResponse.json({ error: '메일 전송에 실패했습니다.' }, { status: 502 });
+      // 502는 Cloudflare가 자체 페이지로 마스킹하므로 500 사용(우리 JSON이 클라이언트까지 전달됨).
+      // detail: Resend가 반환한 실제 사유(예: 도메인 미인증) — 원인 파악용.
+      const e = error as { message?: string; name?: string; statusCode?: number };
+      return NextResponse.json(
+        { error: '메일 전송에 실패했습니다.', detail: e?.message, name: e?.name, code: e?.statusCode },
+        { status: 500 },
+      );
     }
 
     return NextResponse.json({ ok: true });
