@@ -12,8 +12,9 @@ import { Container } from '@/components/common/Container';
 
 export function HeroSlider() {
   const swiperRef = useRef<SwiperType | null>(null);
+  // 진행 바는 매 프레임 갱신되므로 React 상태 대신 ref로 직접 조작(리렌더·트랜지션 경합 방지).
+  const progressRef = useRef<HTMLDivElement | null>(null);
   const [active, setActive] = useState(1);
-  const [progress, setProgress] = useState(0);
   const [paused, setPaused] = useState(false);
 
   function togglePause() {
@@ -42,7 +43,9 @@ export function HeroSlider() {
         }}
         onSlideChange={(s) => setActive(s.realIndex + 1)}
         onAutoplayTimeLeft={(_s, _ms, percentage) => {
-          setProgress(1 - percentage);
+          if (progressRef.current) {
+            progressRef.current.style.transform = `scaleX(${1 - percentage})`;
+          }
         }}
         className="h-full w-full"
       >
@@ -54,6 +57,8 @@ export function HeroSlider() {
                 alt={slide.title}
                 fill
                 priority={idx === 0}
+                // 뒷 슬라이드도 즉시 받아둬야 전환 시 배경이 늦게 뜨지 않음
+                loading={idx === 0 ? undefined : 'eager'}
                 sizes="100vw"
                 className="object-cover object-[80%_50%] md:object-center"
               />
@@ -119,8 +124,9 @@ export function HeroSlider() {
         </div>
         <div className="mt-4 h-0.5 w-full bg-white/15">
           <div
-            className="h-full bg-primary transition-[width] duration-100 ease-linear"
-            style={{ width: `${progress * 100}%` }}
+            ref={progressRef}
+            className="h-full w-full origin-left bg-primary will-change-transform"
+            style={{ transform: 'scaleX(0)' }}
           />
         </div>
       </Container>
