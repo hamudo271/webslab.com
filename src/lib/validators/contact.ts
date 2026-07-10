@@ -14,9 +14,9 @@ export type ContactBudgetType = z.infer<typeof ContactBudget>;
 
 export const contactSchema = z.object({
   name: z
-    .string({ message: '이름을 입력해 주세요' })
-    .min(1, '이름을 입력해 주세요')
-    .max(50, '이름은 50자 이내로 입력해 주세요'),
+    .string({ message: '담당자 성함을 입력해 주세요' })
+    .min(1, '담당자 성함을 입력해 주세요')
+    .max(50, '성함은 50자 이내로 입력해 주세요'),
   company: z.string().max(100, '회사명은 100자 이내로 입력해 주세요').optional().or(z.literal('')),
   email: z.email({ message: '올바른 이메일 형식이 아닙니다' }),
   phone: z
