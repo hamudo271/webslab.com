@@ -41,6 +41,14 @@ export const analytics = {
     token: process.env.NEXT_PUBLIC_MIXPANEL_TOKEN ?? '',
     enabled: isReal(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN),
   },
+  metaPixel: {
+    id: process.env.NEXT_PUBLIC_META_PIXEL_ID ?? '',
+    enabled: isReal(process.env.NEXT_PUBLIC_META_PIXEL_ID),
+  },
+  kakaoPixel: {
+    id: process.env.NEXT_PUBLIC_KAKAO_PIXEL_ID ?? '',
+    enabled: isReal(process.env.NEXT_PUBLIC_KAKAO_PIXEL_ID),
+  },
   verification: {
     naver:
       process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION ??

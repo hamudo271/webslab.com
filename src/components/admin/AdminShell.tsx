@@ -19,6 +19,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const navItems = [
     { href: '/admin/posts', label: '글 목록' },
     { href: '/admin/posts/new', label: '새 글 쓰기' },
+    { href: '/admin/stats', label: '통계' },
   ];
 
   return (
