@@ -125,8 +125,8 @@ export async function getGa4Stats(): Promise<Ga4Stats | { error: string }> {
           { startDate: '7daysAgo', endDate: 'today', name: 'd7' },
           { startDate: '30daysAgo', endDate: 'today', name: 'd30' },
         ],
+        // dateRange 차원은 다중 날짜범위 시 응답에 자동 포함 — dimensions에 명시하면 오류
         metrics: [{ name: 'activeUsers' }, { name: 'screenPageViews' }],
-        dimensions: [{ name: 'dateRange' }],
       }),
       runReport(token, propertyId, {
         dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
