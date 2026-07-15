@@ -20,8 +20,8 @@ export const analytics = {
   ga4: {
     // 측정 ID는 페이지 소스에 노출되는 공개값 — verification과 동일하게 기본값 폴백
     // (NEXT_PUBLIC_*는 빌드타임 주입이라 env 누락 시 조용히 꺼지는 사고 방지)
-    id: process.env.NEXT_PUBLIC_GA4_ID ?? 'G-6KN8F2TGYJ',
-    enabled: isReal(process.env.NEXT_PUBLIC_GA4_ID ?? 'G-6KN8F2TGYJ'),
+    id: process.env.NEXT_PUBLIC_GA4_ID ?? 'G-3F8G2GDF23',
+    enabled: isReal(process.env.NEXT_PUBLIC_GA4_ID ?? 'G-3F8G2GDF23'),
   },
   naver: {
     id: process.env.NEXT_PUBLIC_NAVER_ANALYTICS_ID ?? '',
