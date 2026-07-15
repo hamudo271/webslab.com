@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Eye, FileText, CheckCircle2, PenLine, ExternalLink, Radio, Users } from 'lucide-react';
+import { Eye, FileText, CheckCircle2, PenLine, ExternalLink, Radio, RefreshCw, Users } from 'lucide-react';
 import { prisma } from '@/lib/db';
 import { analytics } from '@/config/analytics';
 import { getGa4Stats, getRealtimeUsers, ga4Configured } from '@/lib/ga4';
@@ -47,10 +47,16 @@ const TRACKERS: { name: string; enabled: boolean; note: string; href: string }[]
   },
 ];
 
-export default async function AdminStatsPage() {
-  // GA4 방문 현황 (서버 캐시 1시간 — 무료 할당량의 1% 미만 사용)
+export default async function AdminStatsPage({
+  searchParams,
+}: {
+  searchParams?: { refresh?: string };
+}) {
+  // GA4 방문 현황 (서버 캐시 1시간 — 무료 할당량의 1% 미만 사용).
+  // ?refresh=1 이면 캐시를 건너뛰고 즉시 재조회 (관리자 수동 새로고침).
+  const force = searchParams?.refresh === '1';
   const [ga4Stats, realtimeUsers] = ga4Configured()
-    ? await Promise.all([getGa4Stats(), getRealtimeUsers()])
+    ? await Promise.all([getGa4Stats({ force }), getRealtimeUsers({ force })])
     : [null, null];
 
   let error: string | null = null;
@@ -129,6 +135,14 @@ export default async function AdminStatsPage() {
         <Users size={15} className="text-primary" />
         방문 현황
         <span className="font-normal text-text-muted">· Google Analytics</span>
+        <Link
+          href="/admin/stats?refresh=1"
+          prefetch={false}
+          className="ml-auto inline-flex items-center gap-1 rounded-md border border-border bg-white px-2.5 py-1 text-xs font-medium text-text-secondary transition-colors hover:border-primary hover:text-primary"
+        >
+          <RefreshCw size={12} />
+          새로고침
+        </Link>
       </h2>
       {!ga4Configured() ? (
         <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
@@ -227,6 +241,7 @@ export default async function AdminStatsPage() {
               hour: '2-digit',
               minute: '2-digit',
             })}
+            {' · '}방문 수치는 GA 집계 특성상 몇 시간 늦게 반영됩니다
           </p>
         </>
       ) : null}

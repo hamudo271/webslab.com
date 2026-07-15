@@ -109,8 +109,8 @@ const num = (row: ReportRow | undefined, i: number) => Number(row?.metricValues?
 // ---- 방문 통계 번들 (1시간 캐시) ----
 let statsCache: { data: Ga4Stats; expires: number } | null = null;
 
-export async function getGa4Stats(): Promise<Ga4Stats | { error: string }> {
-  if (statsCache && Date.now() < statsCache.expires) return statsCache.data;
+export async function getGa4Stats(opts?: { force?: boolean }): Promise<Ga4Stats | { error: string }> {
+  if (!opts?.force && statsCache && Date.now() < statsCache.expires) return statsCache.data;
   const key = loadKey();
   if (!key) return { error: 'GA4_SERVICE_ACCOUNT_KEY_B64 환경변수가 설정되지 않았습니다.' };
   try {
@@ -184,8 +184,8 @@ export async function getGa4Stats(): Promise<Ga4Stats | { error: string }> {
 // ---- 실시간 활성 사용자 (60초 캐시) ----
 let realtimeCache: { users: number; expires: number } | null = null;
 
-export async function getRealtimeUsers(): Promise<number | null> {
-  if (realtimeCache && Date.now() < realtimeCache.expires) return realtimeCache.users;
+export async function getRealtimeUsers(opts?: { force?: boolean }): Promise<number | null> {
+  if (!opts?.force && realtimeCache && Date.now() < realtimeCache.expires) return realtimeCache.users;
   const key = loadKey();
   if (!key) return null;
   try {
