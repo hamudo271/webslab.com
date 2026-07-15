@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { Eye, FileText, CheckCircle2, PenLine, ExternalLink } from 'lucide-react';
+import { Eye, FileText, CheckCircle2, PenLine, ExternalLink, Radio, Users } from 'lucide-react';
 import { prisma } from '@/lib/db';
 import { analytics } from '@/config/analytics';
+import { getGa4Stats, getRealtimeUsers, ga4Configured } from '@/lib/ga4';
 import { cn } from '@/lib/cn';
 import { AdminShell } from '@/components/admin/AdminShell';
 
@@ -47,6 +48,11 @@ const TRACKERS: { name: string; enabled: boolean; note: string; href: string }[]
 ];
 
 export default async function AdminStatsPage() {
+  // GA4 방문 현황 (서버 캐시 1시간 — 무료 할당량의 1% 미만 사용)
+  const [ga4Stats, realtimeUsers] = ga4Configured()
+    ? await Promise.all([getGa4Stats(), getRealtimeUsers()])
+    : [null, null];
+
   let error: string | null = null;
   let totals = { all: 0, published: 0, draft: 0, views: 0 };
   let topPosts: {
@@ -117,6 +123,116 @@ export default async function AdminStatsPage() {
           조회수는 CMS로 발행한 글 기준(정적 12편은 집계 대상 아님)
         </p>
       </div>
+
+      {/* ===== 방문 현황 (GA4) ===== */}
+      <h2 className="mt-6 flex items-center gap-2 text-sm font-bold text-text-primary">
+        <Users size={15} className="text-primary" />
+        방문 현황
+        <span className="font-normal text-text-muted">· Google Analytics</span>
+      </h2>
+      {!ga4Configured() ? (
+        <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+          GA4 연동 대기 중 — Railway에 <code className="font-mono">GA4_SERVICE_ACCOUNT_KEY_B64</code>{' '}
+          환경변수를 설정하면 방문자·유입·전환 통계가 여기에 표시됩니다.
+        </div>
+      ) : ga4Stats && 'error' in ga4Stats ? (
+        <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+          <p className="font-semibold">GA4 데이터를 불러오지 못했습니다.</p>
+          <p className="mt-1">{ga4Stats.error}</p>
+          <p className="mt-2 text-xs text-amber-700">
+            Google Cloud에서 Analytics Data API·Admin API 활성화 여부와, GA 속성에 서비스 계정
+            뷰어 권한이 부여됐는지 확인하세요.
+          </p>
+        </div>
+      ) : ga4Stats ? (
+        <>
+          <div className="mt-3 grid grid-cols-2 gap-3 md:grid-cols-4">
+            <div className="rounded-lg border border-black/10 bg-white p-4">
+              <div className="flex items-center gap-2 text-text-muted">
+                <Radio size={14} className="text-green-600" />
+                <span className="text-xs font-medium">실시간 접속</span>
+              </div>
+              <p className="mt-2 text-2xl font-extrabold tabular-nums tracking-tightest">
+                {realtimeUsers ?? '—'}
+                <span className="ml-1 text-sm font-semibold text-text-muted">명</span>
+              </p>
+            </div>
+            {ga4Stats.summary.map((s) => (
+              <div key={s.label} className="rounded-lg border border-black/10 bg-white p-4">
+                <p className="text-xs font-medium text-text-muted">{s.label}</p>
+                <p className="mt-2 text-2xl font-extrabold tabular-nums tracking-tightest">
+                  {s.users.toLocaleString()}
+                  <span className="ml-1 text-sm font-semibold text-text-muted">명</span>
+                </p>
+                <p className="mt-0.5 text-xs text-text-muted">
+                  페이지뷰 {s.pageViews.toLocaleString()}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 grid gap-3 lg:grid-cols-2">
+            {/* 인기 페이지 */}
+            <div className="rounded-lg border border-black/10 bg-white p-4">
+              <p className="text-xs font-bold text-text-primary">인기 페이지 TOP 10 (30일)</p>
+              {ga4Stats.topPages.length === 0 ? (
+                <p className="mt-3 text-sm text-text-muted">아직 집계된 데이터가 없습니다.</p>
+              ) : (
+                <ul className="mt-2 divide-y divide-black/5">
+                  {ga4Stats.topPages.map((pg) => (
+                    <li key={pg.path} className="flex items-center justify-between gap-3 py-1.5">
+                      <span className="truncate text-sm" title={pg.title}>
+                        {pg.path}
+                      </span>
+                      <span className="shrink-0 text-sm font-semibold tabular-nums">
+                        {pg.views.toLocaleString()}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            {/* 유입 채널 + 전환 */}
+            <div className="space-y-3">
+              <div className="rounded-lg border border-black/10 bg-white p-4">
+                <p className="text-xs font-bold text-text-primary">유입 채널 (30일 세션)</p>
+                {ga4Stats.channels.length === 0 ? (
+                  <p className="mt-3 text-sm text-text-muted">아직 집계된 데이터가 없습니다.</p>
+                ) : (
+                  <ul className="mt-2 divide-y divide-black/5">
+                    {ga4Stats.channels.map((c) => (
+                      <li key={c.channel} className="flex items-center justify-between py-1.5">
+                        <span className="text-sm">{c.channel}</span>
+                        <span className="text-sm font-semibold tabular-nums">
+                          {c.sessions.toLocaleString()}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <div className="rounded-lg border border-primary/25 bg-primary/5 p-4">
+                <p className="text-xs font-bold text-primary">견적 문의 전환 (30일)</p>
+                <p className="mt-1.5 text-2xl font-extrabold tabular-nums tracking-tightest">
+                  {ga4Stats.leads30d.toLocaleString()}
+                  <span className="ml-1 text-sm font-semibold text-text-secondary">건</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <p className="mt-2 text-right text-[11px] text-text-muted">
+            1시간 캐시 · 마지막 갱신{' '}
+            {new Date(ga4Stats.fetchedAt).toLocaleTimeString('ko-KR', {
+              timeZone: 'Asia/Seoul',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+          </p>
+        </>
+      ) : null}
+
+      {/* ===== 칼럼 글 통계 ===== */}
+      <h2 className="mt-10 text-sm font-bold text-text-primary">칼럼 글 통계</h2>
 
       {error ? (
         <div className="mt-6 rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-700">
