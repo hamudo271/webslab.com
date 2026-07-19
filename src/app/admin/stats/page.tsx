@@ -13,6 +13,11 @@ function formatDate(d: Date | null) {
   return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 }
 
+/** GA 일자 문자열(YYYYMMDD) → 'M.D' */
+function formatGaDate(d: string) {
+  return `${Number(d.slice(4, 6))}.${Number(d.slice(6, 8))}`;
+}
+
 /** 외부 분석 도구 — env 연결 상태와 대시보드 바로가기 */
 const TRACKERS: { name: string; enabled: boolean; note: string; href: string }[] = [
   {
@@ -185,6 +190,35 @@ export default async function AdminStatsPage({
             ))}
           </div>
 
+          {/* 일별 방문 추이 */}
+          <div className="mt-3 rounded-lg border border-black/10 bg-white p-4">
+            <div className="flex items-baseline justify-between">
+              <p className="text-xs font-bold text-text-primary">일별 방문 (14일)</p>
+              <p className="text-[11px] text-text-muted">
+                {formatGaDate(ga4Stats.daily[0].date)} ~ {formatGaDate(ga4Stats.daily[13].date)}
+              </p>
+            </div>
+            <div className="mt-3 flex h-20 items-end gap-1">
+              {ga4Stats.daily.map((d) => {
+                const max = Math.max(...ga4Stats.daily.map((x) => x.users), 1);
+                return d.users === 0 ? (
+                  <div
+                    key={d.date}
+                    title={`${formatGaDate(d.date)} · 0명`}
+                    className="h-[3px] flex-1 rounded-sm bg-black/10"
+                  />
+                ) : (
+                  <div
+                    key={d.date}
+                    title={`${formatGaDate(d.date)} · ${d.users.toLocaleString()}명`}
+                    className="flex-1 rounded-t-sm bg-primary/60 transition-colors hover:bg-primary"
+                    style={{ height: `${Math.max((d.users / max) * 100, 6)}%` }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+
           <div className="mt-4 grid gap-3 lg:grid-cols-2">
             {/* 인기 페이지 */}
             <div className="rounded-lg border border-black/10 bg-white p-4">
@@ -193,16 +227,24 @@ export default async function AdminStatsPage({
                 <p className="mt-3 text-sm text-text-muted">아직 집계된 데이터가 없습니다.</p>
               ) : (
                 <ul className="mt-2 divide-y divide-black/5">
-                  {ga4Stats.topPages.map((pg) => (
-                    <li key={pg.path} className="flex items-center justify-between gap-3 py-1.5">
-                      <span className="truncate text-sm" title={pg.title}>
-                        {pg.path}
-                      </span>
-                      <span className="shrink-0 text-sm font-semibold tabular-nums">
-                        {pg.views.toLocaleString()}
-                      </span>
-                    </li>
-                  ))}
+                  {ga4Stats.topPages.map((pg) => {
+                    const max = Math.max(...ga4Stats.topPages.map((p) => p.views), 1);
+                    return (
+                      <li key={pg.path} className="relative flex items-center justify-between gap-3 py-1.5">
+                        <span
+                          aria-hidden
+                          className="absolute inset-y-1 left-0 rounded-sm bg-primary/[0.08]"
+                          style={{ width: `${(pg.views / max) * 100}%` }}
+                        />
+                        <span className="relative truncate text-sm" title={pg.title}>
+                          {pg.path}
+                        </span>
+                        <span className="relative shrink-0 text-sm font-semibold tabular-nums">
+                          {pg.views.toLocaleString()}
+                        </span>
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
             </div>
@@ -214,14 +256,22 @@ export default async function AdminStatsPage({
                   <p className="mt-3 text-sm text-text-muted">아직 집계된 데이터가 없습니다.</p>
                 ) : (
                   <ul className="mt-2 divide-y divide-black/5">
-                    {ga4Stats.channels.map((c) => (
-                      <li key={c.channel} className="flex items-center justify-between py-1.5">
-                        <span className="text-sm">{c.channel}</span>
-                        <span className="text-sm font-semibold tabular-nums">
-                          {c.sessions.toLocaleString()}
-                        </span>
-                      </li>
-                    ))}
+                    {ga4Stats.channels.map((c) => {
+                      const max = Math.max(...ga4Stats.channels.map((ch) => ch.sessions), 1);
+                      return (
+                        <li key={c.channel} className="relative flex items-center justify-between py-1.5">
+                          <span
+                            aria-hidden
+                            className="absolute inset-y-1 left-0 rounded-sm bg-primary/[0.08]"
+                            style={{ width: `${(c.sessions / max) * 100}%` }}
+                          />
+                          <span className="relative text-sm">{c.channel}</span>
+                          <span className="relative text-sm font-semibold tabular-nums">
+                            {c.sessions.toLocaleString()}
+                          </span>
+                        </li>
+                      );
+                    })}
                   </ul>
                 )}
               </div>

@@ -25,6 +25,7 @@ export type Ga4Stats = {
   summary: { label: string; users: number; pageViews: number }[];
   topPages: { path: string; title: string; views: number }[];
   channels: { channel: string; sessions: number }[];
+  daily: { date: string; users: number }[];
   leads30d: number;
 };
 
@@ -117,7 +118,7 @@ export async function getGa4Stats(opts?: { force?: boolean }): Promise<Ga4Stats 
     const token = await getToken(key);
     const propertyId = await getPropertyId(token);
 
-    const [summaryRows, pageRows, channelRows, leadRows] = await Promise.all([
+    const [summaryRows, pageRows, channelRows, dailyRows, leadRows] = await Promise.all([
       // 오늘/7일/30일 — 날짜범위 3개를 한 요청으로
       runReport(token, propertyId, {
         dateRanges: [
@@ -132,6 +133,12 @@ export async function getGa4Stats(opts?: { force?: boolean }): Promise<Ga4Stats 
         dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
         dimensions: [{ name: 'pagePath' }, { name: 'pageTitle' }],
         metrics: [{ name: 'screenPageViews' }],
+        // 관리자 내부 사용은 방문 통계가 아님 — 과거 집계분까지 목록에서 제외
+        dimensionFilter: {
+          notExpression: {
+            filter: { fieldName: 'pagePath', stringFilter: { matchType: 'BEGINS_WITH', value: '/admin' } },
+          },
+        },
         orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
         limit: 10,
       }),
@@ -141,6 +148,13 @@ export async function getGa4Stats(opts?: { force?: boolean }): Promise<Ga4Stats 
         metrics: [{ name: 'sessions' }],
         orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
         limit: 8,
+      }),
+      // 일별 방문 추이 (14일) — 스파크라인용
+      runReport(token, propertyId, {
+        dateRanges: [{ startDate: '13daysAgo', endDate: 'today' }],
+        dimensions: [{ name: 'date' }],
+        metrics: [{ name: 'activeUsers' }],
+        orderBys: [{ dimension: { dimensionName: 'date' } }],
       }),
       runReport(token, propertyId, {
         dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
@@ -154,6 +168,14 @@ export async function getGa4Stats(opts?: { force?: boolean }): Promise<Ga4Stats 
 
     const byRange = (name: string) =>
       summaryRows.find((r) => r.dimensionValues?.[0]?.value === name);
+
+    // GA는 방문 0인 날의 행을 생략함 — 14일치를 빈 날 0으로 채워 연속된 배열로
+    const usersByDate = new Map(dailyRows.map((r) => [r.dimensionValues?.[0]?.value ?? '', num(r, 0)]));
+    const seoulDate = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }); // YYYY-MM-DD
+    const daily = Array.from({ length: 14 }, (_, i) => {
+      const date = seoulDate.format(Date.now() - (13 - i) * 86_400_000).replace(/-/g, '');
+      return { date, users: usersByDate.get(date) ?? 0 };
+    });
     const data: Ga4Stats = {
       propertyId,
       fetchedAt: new Date().toISOString(),
@@ -171,6 +193,7 @@ export async function getGa4Stats(opts?: { force?: boolean }): Promise<Ga4Stats 
         channel: r.dimensionValues?.[0]?.value ?? '',
         sessions: num(r, 0),
       })),
+      daily,
       leads30d: num(leadRows[0], 0),
     };
     statsCache = { data, expires: Date.now() + STATS_TTL_MS };

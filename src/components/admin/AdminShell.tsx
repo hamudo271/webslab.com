@@ -25,17 +25,20 @@ export function AdminShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-10 border-b border-black/10 bg-white">
-        <div className="mx-auto flex h-14 max-w-5xl items-center gap-6 px-4">
-          <Link href="/admin/posts" className="text-sm font-extrabold tracking-tightest">
+        <div className="mx-auto flex h-14 max-w-5xl items-center gap-2 overflow-x-auto px-3 md:gap-6 md:px-4">
+          <Link
+            href="/admin/posts"
+            className="shrink-0 whitespace-nowrap text-sm font-extrabold tracking-tightest"
+          >
             websLAB <span className="text-primary">관리자</span>
           </Link>
-          <nav className="flex items-center gap-1">
+          <nav className="flex shrink-0 items-center gap-1">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'rounded-md px-3 py-1.5 text-sm font-medium transition-colors',
+                  'whitespace-nowrap rounded-md px-2 py-1.5 text-sm font-medium transition-colors md:px-3',
                   pathname === item.href
                     ? 'bg-primary/10 text-primary'
                     : 'text-text-secondary hover:bg-black/5',
@@ -45,18 +48,18 @@ export function AdminShell({ children }: { children: ReactNode }) {
               </Link>
             ))}
           </nav>
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-2">
             <Link
               href="/column"
               target="_blank"
-              className="rounded-md px-3 py-1.5 text-sm text-text-secondary hover:bg-black/5"
+              className="hidden whitespace-nowrap rounded-md px-3 py-1.5 text-sm text-text-secondary hover:bg-black/5 md:block"
             >
               사이트 보기 ↗
             </Link>
             <button
               type="button"
               onClick={logout}
-              className="rounded-md border border-black/15 px-3 py-1.5 text-sm text-text-secondary hover:bg-black/5"
+              className="whitespace-nowrap rounded-md border border-black/15 px-2 py-1.5 text-sm text-text-secondary hover:bg-black/5 md:px-3"
             >
               로그아웃
             </button>
