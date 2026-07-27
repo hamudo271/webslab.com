@@ -6,6 +6,15 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["dev"],
       "port": 3000
+    },
+    {
+      "name": "admin-verify",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "ADMIN_PASSWORD=verify-test-pass ADMIN_JWT_SECRET=verify-test-secret-verify-test-secret pnpm dev -p 3456"
+      ],
+      "port": 3456
     }
   ]
 }

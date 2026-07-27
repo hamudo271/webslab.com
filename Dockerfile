@@ -1,4 +1,4 @@
-FROM node:22-alpine AS base
+FROM node:24-alpine AS base
 RUN apk add --no-cache libc6-compat openssl
 RUN corepack enable
 # Prisma CLI의 postinstall/명령 후 체크포인트(업데이트 확인) 네트워크 콜 비활성화
@@ -19,7 +19,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # prisma generate 후 next build (package.json build 스크립트)
 RUN pnpm build
 
-FROM node:22-alpine AS runner
+FROM node:24-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
