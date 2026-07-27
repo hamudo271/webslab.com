@@ -2,22 +2,30 @@ import { Mail, Phone, Download } from 'lucide-react';
 import { buildMetadata } from '@/lib/metadata';
 import { Container } from '@/components/common/Container';
 import { ContactForm } from '@/components/contact/ContactForm';
+import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 import { brand } from '@/config/brand';
 import { contactStats, contactSteps } from '@/data/contact';
 
-export const metadata = buildMetadata({
+const pageMeta = {
   title: '프로젝트 견적 문의',
   description:
     '홈페이지 제작·리뉴얼·유지보수 견적을 문의하세요. 1영업일 내에 맞춤 제안과 견적서를 회신드립니다.',
   path: '/contact',
-});
+};
+
+export const metadata = buildMetadata(pageMeta);
 
 export default function ContactPage() {
   return (
     <>
       <BreadcrumbJsonLd
         crumbs={[{ name: '홈', path: '/' }, { name: '문의', path: '/contact' }]}
+      />
+      <WebPageJsonLd
+        path={pageMeta.path}
+        name={pageMeta.title}
+        description={pageMeta.description}
       />
 
       {/* 히어로 — 센터 정렬 */}

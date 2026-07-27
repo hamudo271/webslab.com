@@ -86,6 +86,20 @@ export const STATIC_PAGE_DATES: Record<string, string> = {
   '/terms': '2026-05-30',
 };
 
+// 각 페이지가 처음 공개된 날(git 최초 커밋 기준). WebPage JSON-LD의 datePublished 소스로,
+// 위 STATIC_PAGE_DATES(의미 있는 갱신일 = dateModified)와 짝을 이룬다.
+export const STATIC_PAGE_PUBLISHED: Record<string, string> = {
+  '/': '2026-05-16',
+  '/about': '2026-05-16',
+  '/service': '2026-05-16',
+  '/portfolio': '2026-05-16',
+  '/column': '2026-05-16',
+  '/program': '2026-06-24',
+  '/contact': '2026-05-16',
+  '/privacy-policy': '2026-05-16',
+  '/terms': '2026-05-16',
+};
+
 export function buildCaseSitemapEntries(cases: Array<{ slug: string; modifiedAt: string }>) {
   return cases.map((item) => ({
     path: `/portfolio/${item.slug}`,

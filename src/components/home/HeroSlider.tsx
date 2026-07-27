@@ -57,8 +57,11 @@ export function HeroSlider() {
                 alt={slide.title}
                 fill
                 priority={idx === 0}
-                // 뒷 슬라이드도 즉시 받아둬야 전환 시 배경이 늦게 뜨지 않음
-                loading={idx === 0 ? undefined : 'eager'}
+                // 첫 슬라이드만 preload. 나머지를 eager로 두면 4장이 동시에 <link preload>되어
+                // LCP 이미지와 대역폭·이미지 최적화 CPU를 다툼(측정 LCP 7s의 주원인).
+                // fade 슬라이드는 모두 뷰포트 안이라 lazy여도 곧바로 받되, 우선순위만 뒤로 밀린다.
+                loading={idx === 0 ? undefined : 'lazy'}
+                fetchPriority={idx === 0 ? 'high' : 'low'}
                 sizes="100vw"
                 className="object-cover object-[80%_50%] md:object-center"
               />

@@ -18,14 +18,17 @@ import { Container } from '@/components/common/Container';
 import { Heading } from '@/components/common/Heading';
 import { SectionEyebrow } from '@/components/common/SectionEyebrow';
 import { GridGlow } from '@/components/common/GridGlow';
+import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 
-export const metadata = buildMetadata({
+const pageMeta = {
   title: '프로그램 개발 · 업무 자동화',
   description:
     '엑셀·웹·메신저·문서 업무를 자동화하는 맞춤 프로그램을 개발합니다. 사람이 반복하던 일을 프로그램이 대신해 시간과 비용을 줄입니다.',
   path: '/program',
-});
+};
+
+export const metadata = buildMetadata(pageMeta);
 
 const fields = [
   {
@@ -80,6 +83,11 @@ export default function ProgramPage() {
           { name: '홈', path: '/' },
           { name: '프로그램 개발', path: '/program' },
         ]}
+      />
+      <WebPageJsonLd
+        path={pageMeta.path}
+        name={pageMeta.title}
+        description={pageMeta.description}
       />
 
       {/* Hero — dark with grid + glow */}

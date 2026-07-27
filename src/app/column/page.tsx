@@ -8,17 +8,20 @@ import { Section } from '@/components/common/Section';
 import { Container } from '@/components/common/Container';
 import { PageHero } from '@/components/common/PageHero';
 import { Badge } from '@/components/common/Badge';
+import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 
 // DB 발행글을 실시간 반영
 export const dynamic = 'force-dynamic';
 
-export const metadata = buildMetadata({
+const pageMeta = {
   title: '전문 칼럼',
   description:
     '기업 홈페이지 제작 비용, 업체 선정 기준, 제작 기간, 리뉴얼, SEO 유지까지 — 실무에서 정리한 가이드 칼럼으로 의사결정에 필요한 기준을 확인하세요.',
   path: '/column',
-});
+};
+
+export const metadata = buildMetadata(pageMeta);
 
 function formatDate(iso: string) {
   const d = new Date(iso);
@@ -89,6 +92,11 @@ export default async function ColumnPage({ searchParams }: { searchParams: Searc
     <>
       <BreadcrumbJsonLd
         crumbs={[{ name: '홈', path: '/' }, { name: '전문 칼럼', path: '/column' }]}
+      />
+      <WebPageJsonLd
+        path={pageMeta.path}
+        name={pageMeta.title}
+        description={pageMeta.description}
       />
       <PageHero
         eyebrow="COLUMN"

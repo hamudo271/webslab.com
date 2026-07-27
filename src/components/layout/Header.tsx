@@ -58,6 +58,9 @@ export function Header() {
               width={2043}
               height={424}
               priority
+              // sizes 없으면 Next가 원본 폭 기준 1x/2x(2048·3840w)를 preload — 실제 표시는 ~155px.
+              // LCP 이미지와 경쟁하는 고우선순위 preload라 반드시 실제 표시 폭을 알려준다.
+              sizes="160px"
               className={cn(
                 'h-7 w-auto transition-[filter] duration-300 md:h-8',
                 isSolid ? '' : 'brightness-0 invert',

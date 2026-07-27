@@ -5,6 +5,7 @@ import { Heading } from '@/components/common/Heading';
 import { Badge } from '@/components/common/Badge';
 import { PageHero } from '@/components/common/PageHero';
 import { Process } from '@/components/home/Process';
+import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 import { ServiceJsonLd } from '@/components/seo/ServiceJsonLd';
 import { COMMERCIAL_METADATA } from '@/lib/seo-policy';
@@ -62,6 +63,11 @@ export default function ServicePage() {
   return (
     <>
       <BreadcrumbJsonLd crumbs={[{ name: '홈', path: '/' }, { name: '서비스', path: '/service' }]} />
+      <WebPageJsonLd
+        path="/service"
+        name={COMMERCIAL_METADATA['/service'].title}
+        description={COMMERCIAL_METADATA['/service'].description}
+      />
       <ServiceJsonLd
         name="기업 홈페이지 리뉴얼"
         description="5년 이상 노후 사이트의 디자인·기술 리뉴얼을 전담합니다. Next.js + Headless CMS 기반."

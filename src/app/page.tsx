@@ -15,6 +15,7 @@ import { GuideLinks } from '@/components/content/GuideLinks';
 import { HomeFaq } from '@/components/home/HomeFaq';
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd';
 import { LocalBusinessJsonLd } from '@/components/seo/LocalBusinessJsonLd';
+import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd';
 
 export const metadata = buildMetadata(COMMERCIAL_METADATA['/']);
 
@@ -54,6 +55,11 @@ export default function HomePage() {
     <>
       <h1 className="sr-only">기업 홈페이지 제작과 리뉴얼 전문 업체 websLAB</h1>
       <LocalBusinessJsonLd />
+      <WebPageJsonLd
+        path="/"
+        name={COMMERCIAL_METADATA['/'].title}
+        description={COMMERCIAL_METADATA['/'].description}
+      />
       <FaqJsonLd faqs={homeFaqs} />
       <HeroSlider />
       <GuideLinks title="홈페이지 제작을 준비할 때 읽어보세요" links={CORE_GUIDE_LINKS['/']} />

@@ -5,6 +5,7 @@ import { Container } from '@/components/common/Container';
 import { Heading } from '@/components/common/Heading';
 import { SectionEyebrow } from '@/components/common/SectionEyebrow';
 import { GridGlow } from '@/components/common/GridGlow';
+import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 import { COMMERCIAL_METADATA } from '@/lib/seo-policy';
 import { CORE_GUIDE_LINKS } from '@/lib/seo-policy';
@@ -54,6 +55,11 @@ export default function AboutPage() {
   return (
     <>
       <BreadcrumbJsonLd crumbs={[{ name: '홈', path: '/' }, { name: '회사소개', path: '/about' }]} />
+      <WebPageJsonLd
+        path="/about"
+        name={COMMERCIAL_METADATA['/about'].title}
+        description={COMMERCIAL_METADATA['/about'].description}
+      />
 
       {/* Hero — dark with grid + glow */}
       <Section

@@ -5,20 +5,28 @@ import { buildMetadata } from '@/lib/metadata';
 import { Container } from '@/components/common/Container';
 import { Heading } from '@/components/common/Heading';
 import { LegalDoc, LegalBanner } from '@/components/common/LegalDoc';
+import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 import { brand } from '@/config/brand';
 
-export const metadata = buildMetadata({
+const pageMeta = {
   title: '이용약관',
   description: '웹스랩 서비스 이용에 관한 약관.',
   path: '/terms',
-});
+};
+
+export const metadata = buildMetadata(pageMeta);
 
 export default function TermsPage() {
   return (
     <>
       <BreadcrumbJsonLd
         crumbs={[{ name: '홈', path: '/' }, { name: '이용약관', path: '/terms' }]}
+      />
+      <WebPageJsonLd
+        path={pageMeta.path}
+        name={pageMeta.title}
+        description={pageMeta.description}
       />
       <section className="pt-32 pb-16 md:pt-44 md:pb-24">
         <Container size="narrow">

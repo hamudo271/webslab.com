@@ -5,20 +5,28 @@ import { buildMetadata } from '@/lib/metadata';
 import { Container } from '@/components/common/Container';
 import { Heading } from '@/components/common/Heading';
 import { LegalDoc, LegalBanner } from '@/components/common/LegalDoc';
+import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 import { brand } from '@/config/brand';
 
-export const metadata = buildMetadata({
+const pageMeta = {
   title: '개인정보 처리방침',
   description: '웹스랩의 개인정보 수집·이용·보관 정책.',
   path: '/privacy-policy',
-});
+};
+
+export const metadata = buildMetadata(pageMeta);
 
 export default function PrivacyPolicyPage() {
   return (
     <>
       <BreadcrumbJsonLd
         crumbs={[{ name: '홈', path: '/' }, { name: '개인정보 처리방침', path: '/privacy-policy' }]}
+      />
+      <WebPageJsonLd
+        path={pageMeta.path}
+        name={pageMeta.title}
+        description={pageMeta.description}
       />
       <section className="pt-32 pb-16 md:pt-44 md:pb-24">
         <Container size="narrow">

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { brand } from '@/config/brand';
-import { footerNav } from '@/data/footerLinks';
+import { footerNav, channelLinks } from '@/data/footerLinks';
 import { Container } from '@/components/common/Container';
 import { Heading } from '@/components/common/Heading';
 import { ButtonLink } from '@/components/common/Button';
@@ -42,6 +42,7 @@ export function Footer() {
                 alt={brand.name}
                 width={2043}
                 height={424}
+                sizes="180px"
                 className="h-9 w-auto brightness-0 invert"
               />
             </Link>
@@ -62,6 +63,22 @@ export function Footer() {
               </p>
               <p className="text-white/40">{brand.hours.weekdays} · {brand.hours.note}</p>
             </div>
+
+            {channelLinks.length > 0 && (
+              <div className="mt-6 flex flex-wrap gap-2">
+                {channelLinks.map((ch) => (
+                  <a
+                    key={ch.label}
+                    href={ch.href}
+                    target="_blank"
+                    rel="noopener"
+                    className="rounded-full border border-white/20 px-3 py-1.5 text-xs text-white/70 transition-colors hover:border-white/40 hover:text-white"
+                  >
+                    {ch.label}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-8 md:grid-cols-3">

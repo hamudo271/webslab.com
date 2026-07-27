@@ -12,6 +12,7 @@ import { Heading } from '@/components/common/Heading';
 import { Badge } from '@/components/common/Badge';
 import { ButtonLink } from '@/components/common/Button';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
+import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd';
 
 export async function generateStaticParams() {
   return portfolios.map((p) => ({ slug: p.slug }));
@@ -43,6 +44,12 @@ export default function PortfolioDetailPage({ params }: { params: { slug: string
           { name: '포트폴리오', path: '/portfolio' },
           { name: item.title, path: `/portfolio/${item.slug}` },
         ]}
+      />
+      <WebPageJsonLd
+        path={`/portfolio/${item.slug}`}
+        name={item.title}
+        description={item.summary}
+        dateModified={item.modifiedAt}
       />
 
       <section className="pt-32 pb-12 md:pt-44 md:pb-16">

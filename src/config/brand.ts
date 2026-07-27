@@ -14,12 +14,17 @@ export const brand = {
     postalCode: '06236', // TODO: 실 우편번호
     addressCountry: 'KR',
   },
+  // 외부 채널 — 값을 채우면 푸터 채널 링크와 JSON-LD sameAs에 자동 반영된다.
+  // 검색엔진(특히 네이버)이 사업자 실재성을 판단하는 연결 신호라 실제 운영 채널만 기입할 것.
   social: {
+    naverBlog: '', // TODO: https://blog.naver.com/{아이디}
     instagram: '', // TODO
-    linkedin: '',
     youtube: '',
-    blog: '',
+    kakaoChannel: '', // TODO: https://pf.kakao.com/{채널ID}
+    linkedin: '',
   },
+  /** 네이버 지도/플레이스 업체 페이지 — 지역성(로컬) 신호. 예: https://map.naver.com/p/entry/place/{ID} */
+  naverPlaceUrl: '', // TODO
   legal: {
     businessNumber: '173-58-00764',
     representativeName: '조현도',
@@ -32,3 +37,9 @@ export const brand = {
 } as const;
 
 export type Brand = typeof brand;
+
+/** JSON-LD sameAs용 외부 채널 URL 목록 — 값이 채워진 것만. */
+export const brandSameAs: string[] = [
+  ...Object.values(brand.social),
+  brand.naverPlaceUrl,
+].filter(Boolean);

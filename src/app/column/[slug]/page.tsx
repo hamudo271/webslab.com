@@ -33,6 +33,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       description: post.excerpt,
       path: `/column/${post.slug}`,
       ogImage: post.cover,
+      publishedTime: post.publishedAt,
+      modifiedTime: post.modifiedAt,
     });
   }
 
@@ -43,6 +45,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     description: makeExcerpt(dbPost.excerpt, dbPost.content),
     path: `/column/${dbPost.slug}`,
     ...(dbPost.thumbnailUrl ? { ogImage: dbPost.thumbnailUrl } : {}),
+    publishedTime: formatDateIso(dbPost.publishedAt ?? dbPost.createdAt),
+    modifiedTime: formatDateIso(dbPost.updatedAt),
   });
 }
 

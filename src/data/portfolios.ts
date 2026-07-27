@@ -19,7 +19,7 @@ export type Portfolio = {
   results?: { label: string; value: string }[];
 };
 
-const cover = (slug: string) => `/images/portfolio/${slug}.png`;
+const cover = (slug: string) => `/images/portfolio/${slug}.webp`;
 
 export const portfolios: Portfolio[] = [
   {

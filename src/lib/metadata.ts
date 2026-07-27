@@ -9,6 +9,10 @@ type BuildMetadataOptions = {
   path?: string;
   ogImage?: string;
   noindex?: boolean;
+  /** 글 발행일(ISO). 지정하면 og:type=article + article:published_time 출력 */
+  publishedTime?: string;
+  /** 글 수정일(ISO). 미지정 시 발행일과 동일하게 본다 */
+  modifiedTime?: string;
 };
 
 export function buildMetadata(opts: BuildMetadataOptions = {}): Metadata {
@@ -18,11 +22,25 @@ export function buildMetadata(opts: BuildMetadataOptions = {}): Metadata {
   const description = opts.description ?? brand.description;
   const ogImage = opts.ogImage ?? absoluteUrl(siteConfig.defaultOgImage);
 
+  // 발행일이 있으면 article로 승격 — 검색엔진이 문서 신선도를 읽는 표준 신호
+  const openGraphType: Metadata['openGraph'] = opts.publishedTime
+    ? {
+        type: 'article',
+        publishedTime: opts.publishedTime,
+        modifiedTime: opts.modifiedTime ?? opts.publishedTime,
+        authors: [brand.name],
+      }
+    : { type: 'website' };
+
   return {
     metadataBase: new URL(siteConfig.baseUrl),
     title,
     description,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      // 피드 리더·네이버 수집 채널이 찾는 표준 자동 발견 경로
+      types: { 'application/rss+xml': [{ url: absoluteUrl('/rss.xml'), title: `${brand.name} 전문 칼럼` }] },
+    },
     robots: opts.noindex
       ? { index: false, follow: false }
       : {
@@ -35,7 +53,7 @@ export function buildMetadata(opts: BuildMetadataOptions = {}): Metadata {
           },
         },
     openGraph: {
-      type: 'website',
+      ...openGraphType,
       url,
       title,
       description,

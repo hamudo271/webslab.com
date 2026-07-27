@@ -1,4 +1,4 @@
-import { brand } from '@/config/brand';
+import { brand, brandSameAs } from '@/config/brand';
 import { absoluteUrl } from '@/config/site';
 import type { Author } from '@/data/authors';
 
@@ -20,7 +20,7 @@ export function organizationJsonLd() {
       postalCode: brand.address.postalCode,
       addressCountry: brand.address.addressCountry,
     },
-    sameAs: Object.values(brand.social).filter(Boolean),
+    sameAs: brandSameAs,
   };
 }
 
@@ -55,7 +55,9 @@ export function localBusinessJsonLd() {
         closes: '18:00',
       },
     ],
-    sameAs: Object.values(brand.social).filter(Boolean),
+    // 네이버 지도/플레이스 업체 페이지 — 지역성(로컬) 신호
+    ...(brand.naverPlaceUrl ? { hasMap: brand.naverPlaceUrl } : {}),
+    sameAs: brandSameAs,
   };
 }
 
@@ -72,6 +74,32 @@ export function websiteJsonLd() {
       '@type': 'Organization',
       name: brand.name,
     },
+  };
+}
+
+type WebPageInput = {
+  path: string;
+  name: string;
+  description: string;
+  /** 최초 공개일이 확인되지 않는 문서는 생략(추정값을 넣지 않는다) */
+  datePublished?: string;
+  dateModified: string;
+};
+
+// 칼럼이 아닌 일반 페이지의 발행일/수정일 신호 (Article은 articleJsonLd 사용)
+export function webPageJsonLd(p: WebPageInput) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${absoluteUrl(p.path)}#webpage`,
+    url: absoluteUrl(p.path),
+    name: p.name,
+    description: p.description,
+    inLanguage: 'ko',
+    ...(p.datePublished ? { datePublished: p.datePublished } : {}),
+    dateModified: p.dateModified,
+    isPartOf: { '@type': 'WebSite', name: brand.name, url: brand.url },
+    publisher: { '@type': 'Organization', name: brand.name, url: brand.url },
   };
 }
 

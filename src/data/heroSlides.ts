@@ -8,7 +8,7 @@ export type HeroSlide = {
   cta?: { label: string; href: string };
 };
 
-const cover = (slug: string) => `/images/portfolio/${slug}.png`;
+const cover = (slug: string) => `/images/portfolio/${slug}.webp`;
 
 export const heroSlides: HeroSlide[] = [
   {

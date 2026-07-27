@@ -1,4 +1,5 @@
 import type { NavItem } from './navItems';
+import { brand } from '@/config/brand';
 
 export const footerNav: { title: string; items: NavItem[] }[] = [
   {
@@ -26,3 +27,16 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
     ],
   },
 ];
+
+// 외부 채널 — brand.social에 값이 채워진 것만 푸터에 노출된다.
+// 검색엔진이 사업자 실재성을 확인하는 연결 신호이므로 실제 운영 채널만 등록할 것.
+export const channelLinks: NavItem[] = (
+  [
+    { label: '네이버 블로그', href: brand.social.naverBlog },
+    { label: '네이버 플레이스', href: brand.naverPlaceUrl },
+    { label: '인스타그램', href: brand.social.instagram },
+    { label: '유튜브', href: brand.social.youtube },
+    { label: '카카오톡 채널', href: brand.social.kakaoChannel },
+    { label: 'LinkedIn', href: brand.social.linkedin },
+  ] as NavItem[]
+).filter((item) => Boolean(item.href));

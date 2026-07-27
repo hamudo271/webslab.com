@@ -4,6 +4,7 @@ import { Section } from '@/components/common/Section';
 import { Container } from '@/components/common/Container';
 import { PageHero } from '@/components/common/PageHero';
 import { PortfolioCard } from '@/components/portfolio/PortfolioCard';
+import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 import { portfolios, type Industry } from '@/data/portfolios';
 import { industryFilters } from '@/data/industries';
@@ -34,6 +35,11 @@ export default function PortfolioPage({ searchParams }: { searchParams: SearchPa
           { name: '홈', path: '/' },
           { name: '포트폴리오', path: '/portfolio' },
         ]}
+      />
+      <WebPageJsonLd
+        path="/portfolio"
+        name={COMMERCIAL_METADATA['/portfolio'].title}
+        description={COMMERCIAL_METADATA['/portfolio'].description}
       />
       <PageHero
         eyebrow="PORTFOLIO"
