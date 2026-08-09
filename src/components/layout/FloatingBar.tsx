@@ -1,41 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { X, ArrowRight, Users } from 'lucide-react';
+import { X, ArrowRight } from 'lucide-react';
+import { ButtonLink } from '@/components/common/Button';
 
 const DISMISS_KEY = 'webslab_floatbar_dismissed';
-const MONTHLY_CAP = 6;
-
-function projectsBooked(): number {
-  // Deterministic synthetic counter that ramps from 1 → MONTHLY_CAP over the month
-  const now = new Date();
-  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-  const dayOfMonth = now.getDate();
-  const booked = Math.ceil((dayOfMonth / daysInMonth) * MONTHLY_CAP);
-  return Math.min(MONTHLY_CAP - 1, Math.max(1, booked));
-}
-
-function viewersNow(): number {
-  // Pseudo-live viewer count: stable for a 5-min window so it doesn't jitter on each render
-  const now = new Date();
-  const bucket = Math.floor(now.getTime() / (5 * 60_000));
-  // Deterministic but varied: 2-9 viewers
-  const seed = (bucket * 2654435761) % 8;
-  return 2 + Math.abs(seed);
-}
 
 export function FloatingBar() {
   const [visible, setVisible] = useState(false);
-  const [booked, setBooked] = useState<number>(2);
-  const [viewers, setViewers] = useState<number>(0);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const dismissed = sessionStorage.getItem(DISMISS_KEY) === 'true';
-    if (!dismissed) setVisible(true);
-    setBooked(projectsBooked());
-    setViewers(viewersNow());
+    if (sessionStorage.getItem(DISMISS_KEY) === 'true') return;
+    setVisible(true);
   }, []);
 
   function dismiss() {
@@ -47,43 +23,36 @@ export function FloatingBar() {
 
   return (
     <>
-      <div className="fixed inset-x-0 bottom-0 z-40 px-3 pb-[max(env(safe-area-inset-bottom),0.75rem)] md:left-auto md:right-6 md:max-w-xl md:pb-6 md:pr-0">
-        <div className="flex items-center gap-2 rounded-2xl bg-primary px-3 py-2.5 text-white shadow-2xl md:gap-4 md:px-6 md:py-4">
-          <div className="flex-1 text-xs leading-tight md:text-sm">
-            <div className="flex items-center gap-2">
-              <span className="font-semibold">
-                <span className="font-bold">{booked}</span>건
-                <span className="hidden opacity-80 sm:inline"> ({booked}/{MONTHLY_CAP}건)</span>
-              </span>
-              <span className="hidden text-white/40 md:inline">·</span>
-              <span className="hidden items-center gap-1 text-white/80 md:inline-flex">
-                <Users size={12} strokeWidth={2} />
-                <span className="tabular-nums">{viewers}</span>명이 함께 보고 있습니다
-              </span>
-            </div>
-            <span className="block text-[10px] text-white/70 sm:hidden">
-              이번 달 {MONTHLY_CAP}건 한정
+      <div className="fixed inset-x-0 bottom-0 z-40 px-3 pb-[max(env(safe-area-inset-bottom),0.75rem)] md:inset-x-auto md:bottom-6 md:right-6 md:px-0 md:pb-0">
+        <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-dark/95 px-4 py-3 text-white shadow-2xl backdrop-blur-sm md:gap-6 md:py-4 md:pl-6 md:pr-4">
+          <p className="flex-1 text-xs leading-snug md:text-sm">
+            <span className="font-semibold">프로젝트를 구상 중이신가요?</span>
+            {/* 좁은 화면에서는 바가 두 줄로 두꺼워져 콘텐츠를 과하게 가린다 */}
+            <span className="mt-0.5 hidden text-white/60 sm:block">
+              기획 방향부터 함께 정리해드립니다.
             </span>
-          </div>
-          <Link
+          </p>
+          <ButtonLink
             href="/contact"
-            className="inline-flex shrink-0 items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-primary hover:bg-white/90 md:px-5 md:py-2 md:text-sm"
+            variant="primary"
+            size="sm"
+            className="shrink-0 rounded-lg whitespace-nowrap"
           >
-            1:1 맞춤 상담 예약
+            상담 예약
             <ArrowRight size={14} />
-          </Link>
+          </ButtonLink>
           <button
             type="button"
             aria-label="닫기"
             onClick={dismiss}
-            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white/70 hover:text-white md:h-8 md:w-8"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white/40 transition-colors hover:bg-white/10 hover:text-white"
           >
             <X size={14} />
           </button>
         </div>
       </div>
-      {/* Spacer so page content can scroll past the bar on mobile */}
-      <div className="h-24 md:hidden" aria-hidden="true" />
+      {/* 모바일에서 바가 페이지 마지막 콘텐츠를 가리지 않도록 확보하는 여백 */}
+      <div className="h-20 md:hidden" aria-hidden="true" />
     </>
   );
 }

@@ -65,7 +65,13 @@ export function HeroSlider() {
                 sizes="100vw"
                 className="object-cover object-[80%_50%] md:object-center"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-dark/80 via-dark/30 to-transparent" />
+              {/* 가로 스크림. 중간 지점(via)까지가 텍스트가 놓이는 영역이라, 밝은 슬라이드에서
+                  본문이 묻히지 않도록 충분히 덮는다. 우측은 투명하게 두어 목업을 살린다. */}
+              <div className="absolute inset-0 bg-gradient-to-r from-dark/85 via-dark/45 to-transparent" />
+              {/* 세로 스크림. 슬라이드마다 목업 합성 이미지의 밝기가 달라 가로 스크림만으로는
+                  밝은 슬라이드에서 헤드라인·하단 컨트롤이 묻힌다.
+                  모바일은 텍스트가 목업 위에 그대로 겹치므로 훨씬 두껍게 덮는다. */}
+              <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/65 to-dark/30 md:from-dark/40 md:via-transparent md:to-transparent" />
               <Container className="absolute inset-0 z-10 flex items-center pb-12 md:pb-16">
                 <div className="max-w-3xl text-white">
                   <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary-light">

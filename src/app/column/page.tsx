@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
 import { buildMetadata } from '@/lib/metadata';
 import { cn } from '@/lib/cn';
 import { getColumnFeed, type ColumnListItem } from '@/lib/column-feed';
@@ -72,6 +73,40 @@ function PostCard({ post }: { post: ColumnListItem }) {
   );
 }
 
+/** 히어로 우측 보조 블록. 홈의 지표 섹션과 같은 가로줄 + 큰 숫자 패턴을 따른다. */
+function FeedSummary({ total, categories }: { total: number; categories: number }) {
+  const rows = [
+    { label: '전체 칼럼', value: total, unit: '편' },
+    { label: '다루는 주제', value: categories, unit: '개' },
+  ];
+
+  return (
+    <div>
+      <dl className="border-t border-line">
+        {rows.map((row) => (
+          <div
+            key={row.label}
+            className="flex items-baseline justify-between border-b border-line py-4"
+          >
+            <dt className="text-sm text-text-muted">{row.label}</dt>
+            <dd className="text-3xl font-bold tracking-tightest tabular-nums text-text-primary">
+              {row.value}
+              <span className="ml-1 text-base font-medium text-text-secondary">{row.unit}</span>
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <a
+        href="/rss.xml"
+        className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-text-secondary transition-colors hover:text-primary"
+      >
+        RSS로 구독하기
+        <ArrowUpRight size={16} />
+      </a>
+    </div>
+  );
+}
+
 type Search = { page?: string; category?: string };
 
 export default async function ColumnPage({ searchParams }: { searchParams: Search }) {
@@ -102,6 +137,7 @@ export default async function ColumnPage({ searchParams }: { searchParams: Searc
         eyebrow="COLUMN"
         title="비즈니스 웹을 위한 인사이트"
         description="실제 프로젝트에서 얻은 지식과 데이터를 글로 정리합니다."
+        aside={<FeedSummary total={all.length} categories={categories.length} />}
       />
 
       <Section variant="light" spacing="default">
