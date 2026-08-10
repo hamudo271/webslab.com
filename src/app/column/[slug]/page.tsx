@@ -92,7 +92,8 @@ async function DbColumnDetail({ slug }: { slug: string }) {
 
       <PageHero eyebrow={post.category} title={post.title} description={excerpt} />
 
-      <Section variant="light" spacing="default">
+      {/* 카테고리·읽기 시간은 기사 헤더의 일부라 제목에서 멀어지면 안 된다. 상단만 좁힌다. */}
+      <Section variant="light" spacing="default" className="pt-8 md:pt-10">
         <Container>
           <article className="mx-auto max-w-3xl">
             <div className="mb-4 flex items-center gap-3 text-xs text-text-muted">
@@ -159,7 +160,8 @@ export default function ColumnDetailPage({ params }: { params: { slug: string } 
         description={post.excerpt}
       />
 
-      <Section variant="light" spacing="default">
+      {/* 카테고리·읽기 시간은 기사 헤더의 일부라 제목에서 멀어지면 안 된다. 상단만 좁힌다. */}
+      <Section variant="light" spacing="default" className="pt-8 md:pt-10">
         <Container>
           <article className="mx-auto max-w-3xl">
             <div className="mb-4 flex items-center gap-3 text-xs text-text-muted">

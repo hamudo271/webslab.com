@@ -140,7 +140,9 @@ export default async function ColumnPage({ searchParams }: { searchParams: Searc
         aside={<FeedSummary total={all.length} categories={categories.length} />}
       />
 
-      <Section variant="light" spacing="default">
+      {/* 카테고리 필터는 목록을 조작하는 컨트롤이라 히어로와 목록 사이에 붕 뜨면 안 된다.
+          상단 패딩만 좁혀 히어로에 붙이고, 하단(페이지네이션 쪽)은 기본 여백을 유지. */}
+      <Section variant="light" spacing="default" className="pt-8 md:pt-10">
         <Container>
           {/* 카테고리 필터 */}
           <div className="mb-12 flex flex-wrap gap-2">

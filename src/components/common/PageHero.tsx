@@ -13,8 +13,10 @@ type PageHeroProps = {
 };
 
 export function PageHero({ eyebrow, title, description, aside }: PageHeroProps) {
+  // 아래 Section이 자체 상단 패딩(py-20 md:py-28)을 갖고 있어, 히어로 하단까지 여유롭게 잡으면
+  // 본문 시작 전에 죽은 공백이 200px 넘게 생긴다. 히어로 쪽 하단은 얕게 둔다.
   return (
-    <section className="pt-32 pb-16 md:pt-44 md:pb-24">
+    <section className="pt-32 pb-10 md:pt-44 md:pb-14">
       <Container>
         <div
           className={cn(
