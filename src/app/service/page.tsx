@@ -5,6 +5,7 @@ import { Heading } from '@/components/common/Heading';
 import { Badge } from '@/components/common/Badge';
 import { PageHero } from '@/components/common/PageHero';
 import { Process } from '@/components/home/Process';
+import { Pricing } from '@/components/home/Pricing';
 import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 import { ServiceJsonLd } from '@/components/seo/ServiceJsonLd';
@@ -106,6 +107,8 @@ export default function ServicePage() {
           </div>
         </Container>
       </Section>
+
+      <Pricing />
 
       <Process />
     </>
