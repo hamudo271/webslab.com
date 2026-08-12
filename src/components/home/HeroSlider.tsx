@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectFade, Autoplay, Navigation } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
 import { ChevronLeft, ChevronRight, Pause, Play, ArrowRight } from 'lucide-react';
-import { heroSlides } from '@/data/heroSlides';
+import { heroSlides, heroMeta } from '@/data/heroSlides';
 import { Container } from '@/components/common/Container';
 
 export function HeroSlider() {
@@ -91,6 +91,21 @@ export function HeroSlider() {
                       {slide.cta.label}
                       <ArrowRight size={16} />
                     </Link>
+                  )}
+
+                  {/* 케이스 메타. 값은 portfolios.ts에서 끌어오므로 별도 관리 지점이 없다.
+                      모바일은 히어로가 이미 빽빽해 숨기고, md 이상에서만 노출. */}
+                  {heroMeta(slide.portfolioSlug).length > 0 && (
+                    <dl className="mt-10 hidden gap-x-10 gap-y-4 border-t border-white/20 pt-6 md:grid md:max-w-lg md:grid-cols-3">
+                      {heroMeta(slide.portfolioSlug).map((row) => (
+                        <div key={row.label}>
+                          <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">
+                            {row.label}
+                          </dt>
+                          <dd className="mt-1.5 text-sm font-medium text-white">{row.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
                   )}
                 </div>
               </Container>
