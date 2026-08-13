@@ -65,7 +65,9 @@ export const portfolios: Portfolio[] = [
     description:
       '학습 공간의 분위기와 이용 정보를 직관적으로 전달하는 브랜드 사이트. 지점·요금·예약 안내를 깔끔하게 정리해 방문 전 궁금증을 바로 해결하도록 구성했습니다.',
     cover: cover('byeolha-studycafe'),
+    fullShot: fullShot('byeolha-studycafe'),
     gallery: [],
+    url: 'https://project12.co.kr',
   },
   {
     slug: 'univerlab-media',
