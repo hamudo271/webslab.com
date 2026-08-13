@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { portfolios } from '@/data/portfolios';
@@ -6,7 +5,7 @@ import { Section } from '@/components/common/Section';
 import { Container } from '@/components/common/Container';
 import { Heading } from '@/components/common/Heading';
 import { SectionEyebrow } from '@/components/common/SectionEyebrow';
-import { Badge } from '@/components/common/Badge';
+import { PortfolioCard } from '@/components/portfolio/PortfolioCard';
 
 export function PortfolioSection() {
   return (
@@ -34,30 +33,11 @@ export function PortfolioSection() {
           </Link>
         </div>
 
-        <div className="mt-12 grid gap-x-6 gap-y-16 md:grid-cols-2">
+        {/* 카드는 /portfolio와 같은 PortfolioCard를 재사용한다(마크업 중복 제거 +
+            hover 훑기 동작 일치). 3:4 세로 카드라 2열은 지나치게 커져 lg에서 4열로 편다. */}
+        <div className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           {portfolios.map((p) => (
-            <Link key={p.slug} href={`/portfolio/${p.slug}`} className="group block">
-              <div className="relative aspect-[4/3] overflow-hidden bg-surface-light">
-                <Image
-                  src={p.cover}
-                  alt={p.title}
-                  fill
-                  sizes="(min-width: 768px) 50vw, 100vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <div className="mt-5 flex items-start justify-between gap-4">
-                <div>
-                  <h3 className="text-lg font-bold tracking-tightest text-text-primary md:text-xl">
-                    {p.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-text-secondary">{p.summary}</p>
-                </div>
-                <Badge variant="outline" size="sm" className="shrink-0">
-                  {p.duration}
-                </Badge>
-              </div>
-            </Link>
+            <PortfolioCard key={p.slug} portfolio={p} />
           ))}
         </div>
       </Container>
