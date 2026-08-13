@@ -14,12 +14,19 @@ export type Portfolio = {
   summary: string;
   description: string;
   cover: string;
+  /**
+   * 사이트 전체를 위에서 아래까지 담은 세로 긴 스크린샷(720px 폭).
+   * 카드에 hover하면 이 이미지가 위로 흘러 페이지 전체를 훑는다.
+   * 실사이트가 없거나 캡처 전인 항목은 비워두면 cover가 정적으로 노출된다.
+   */
+  fullShot?: string;
   gallery: string[];
   url?: string;
   results?: { label: string; value: string }[];
 };
 
 const cover = (slug: string) => `/images/portfolio/${slug}.webp`;
+const fullShot = (slug: string) => `/images/portfolio/${slug}-full.webp`;
 
 export const portfolios: Portfolio[] = [
   {
@@ -36,6 +43,7 @@ export const portfolios: Portfolio[] = [
     description:
       'Roland 글로벌 브랜드의 한국 공식 사이트. 제품 카탈로그·영상·뉴스를 마케팅 팀이 직접 운영하도록 CMS 기반으로 신규 구축했습니다.',
     cover: cover('roland-korea'),
+    fullShot: fullShot('roland-korea'),
     gallery: [],
     url: 'https://rolandkorea.com',
     results: [
@@ -73,6 +81,7 @@ export const portfolios: Portfolio[] = [
     description:
       '유튜브·숏폼 영상의 기획·촬영·편집부터 채널 운영까지 올인원으로 제공하는 영상 마케팅 회사의 공식 브랜드 사이트. 실제 제작 사례를 전면에 배치해 전문성과 성과를 한눈에 전달하도록 구성했습니다.',
     cover: cover('univerlab-media'),
+    fullShot: fullShot('univerlab-media'),
     gallery: [],
     url: 'https://univerlabmedia.co.kr',
     results: [
@@ -94,6 +103,7 @@ export const portfolios: Portfolio[] = [
     description:
       '대한잠수협회(Blue Ocean Guardians)의 공식 브랜드 사이트. 수중 활동의 몰입감을 살린 풀스크린 비주얼과 함께 협회 소개·활동·아카이브를 담아, 다이빙 커뮤니티와 후원자가 한눈에 협회를 이해하도록 구성했습니다.',
     cover: cover('blue-ocean-guardians'),
+    fullShot: fullShot('blue-ocean-guardians'),
     gallery: [],
     url: 'https://blueoceanguardians.org',
     results: [
