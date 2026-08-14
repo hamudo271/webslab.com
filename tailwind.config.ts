@@ -14,15 +14,23 @@ const config: Config = {
           DEFAULT: '#191919',
           section: '#141C30',
         },
+        // 중성색은 순수 회색 대신 브랜드 네이비(#141C30) 쪽으로 미세하게 치우쳐 있다.
+        // 순수 회색은 네이비·블루와 나란히 놓이면 탁하게 겉돌고, 고른 색조는 화면 전체를
+        // 한 벌처럼 묶어준다. muted는 접근성(AA 4.5:1)도 함께 맞춘 값.
         text: {
-          primary: '#191919',
-          secondary: '#5A5757',
-          muted: '#939393',
+          primary: '#151A23',
+          secondary: '#49536A',
+          muted: '#6E7688',
         },
         surface: {
-          light: '#F6F6F6',
+          light: '#F5F7FA',
         },
-        line: '#D9D9D9',
+        line: '#E3E7EF',
+      },
+      boxShadow: {
+        // 그림자도 순수 검정 대신 네이비를 깔아 색이 튀지 않게 한다.
+        card: '0 1px 2px rgba(20,28,48,0.04), 0 10px 28px -14px rgba(20,28,48,0.16)',
+        lift: '0 2px 6px rgba(20,28,48,0.06), 0 24px 48px -20px rgba(20,28,48,0.22)',
       },
       fontFamily: {
         pretendard: ['var(--font-pretendard)', 'system-ui', 'sans-serif'],

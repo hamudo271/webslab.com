@@ -26,8 +26,8 @@ export function Pricing() {
             <div
               key={tier.key}
               className={cn(
-                'flex flex-col border bg-white p-8 transition-colors',
-                tier.featured ? 'border-primary' : 'border-line',
+                'flex flex-col rounded-xl border bg-white p-8 transition-shadow duration-300',
+                tier.featured ? 'border-primary shadow-lift' : 'border-line shadow-card hover:shadow-lift',
               )}
             >
               <div className="flex items-center justify-between">

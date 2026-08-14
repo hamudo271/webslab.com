@@ -13,7 +13,7 @@ export function PortfolioCard({ portfolio }: { portfolio: Portfolio }) {
         translateY 대신 object-position을 top→bottom으로 전환한다. 퍼센트가 '넘치는 만큼'을
         기준으로 계산되므로 캡처 길이가 제각각이어도 정확히 맨 아래에서 멈춘다.
       */}
-      <div className="relative aspect-[3/4] overflow-hidden rounded-[10px] border border-line bg-surface-light">
+      <div className="relative aspect-[3/4] overflow-hidden rounded-[10px] border border-line bg-surface-light shadow-card transition-shadow duration-500 group-hover:shadow-lift">
         {hasFullShot ? (
           <Image
             src={portfolio.fullShot as string}
