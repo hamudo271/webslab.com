@@ -27,9 +27,10 @@ export function FloatingBar() {
         <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-dark/95 px-4 py-3 text-white shadow-2xl backdrop-blur-sm md:gap-6 md:py-4 md:pl-6 md:pr-4">
           <p className="flex-1 text-xs leading-snug md:text-sm">
             <span className="font-semibold">프로젝트를 구상 중이신가요?</span>
-            {/* 좁은 화면에서는 바가 두 줄로 두꺼워져 콘텐츠를 과하게 가린다 */}
+            {/* 리스크 리버설 오퍼. 서비스 피처('단독 메인 시안 계약 전 제공')와 같은 약속만 말한다.
+                좁은 화면에서는 바가 두 줄로 두꺼워져 콘텐츠를 과하게 가리므로 sm 이상에서만. */}
             <span className="mt-0.5 hidden text-white/60 sm:block">
-              기획 방향부터 함께 정리해드립니다.
+              계약 전에 메인 시안을 먼저 보여드립니다.
             </span>
           </p>
           <ButtonLink
@@ -38,7 +39,7 @@ export function FloatingBar() {
             size="sm"
             className="shrink-0 rounded-lg whitespace-nowrap"
           >
-            상담 예약
+            프로젝트 문의
             <ArrowRight size={14} />
           </ButtonLink>
           <button

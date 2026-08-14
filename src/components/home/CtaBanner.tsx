@@ -35,9 +35,15 @@ export function CtaBanner() {
               Contact us
             </p>
             <div className="flex items-end justify-between gap-4">
-              <Heading as="h3" size="h2" className="text-text-primary group-hover:text-primary">
-                문의하기
-              </Heading>
+              <div>
+                <Heading as="h3" size="h2" className="text-text-primary group-hover:text-primary">
+                  문의하기
+                </Heading>
+                {/* 결정 직전 지점의 리스크 리버설 — 프로세스 3단계와 같은 약속 */}
+                <p className="mt-3 text-sm text-text-secondary">
+                  계약 전 메인 시안 제공 · 1영업일 내 회신
+                </p>
+              </div>
               <ArrowRight
                 size={32}
                 className="text-text-muted transition-all group-hover:translate-x-1 group-hover:text-primary"

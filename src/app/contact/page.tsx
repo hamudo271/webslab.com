@@ -6,6 +6,8 @@ import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 import { brand } from '@/config/brand';
 import { contactStats, contactSteps } from '@/data/contact';
+import { homeFaqs } from '@/data/faqs';
+import { HomeFaq } from '@/components/home/HomeFaq';
 
 const pageMeta = {
   title: '프로젝트 견적 문의',
@@ -31,8 +33,9 @@ export default function ContactPage() {
       {/* 히어로 — 센터 정렬 */}
       <section className="pt-32 pb-10 text-center md:pt-44 md:pb-14">
         <Container>
+          {/* 리스크 리버설 오퍼 — 프로세스 3단계(계약 전 시안 제공)와 같은 약속 */}
           <p className="text-sm font-semibold text-primary md:text-base">
-            웹사이트 제작, 복잡하게 고민하지 마세요
+            계약 전, 메인페이지 시안을 먼저 확인하세요
           </p>
           <h1 className="mt-4 text-4xl font-bold tracking-tightest text-text-primary md:text-5xl">
             프로젝트 견적 문의
@@ -132,6 +135,9 @@ export default function ContactPage() {
           </div>
         </Container>
       </section>
+
+      {/* 문의 직전의 대표적인 불안(비용·기간·운영)을 폼 근처에서 해소한다. 홈과 같은 데이터. */}
+      <HomeFaq faqs={homeFaqs} showCta={false} />
     </>
   );
 }

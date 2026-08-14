@@ -18,7 +18,7 @@ export function Footer() {
           </Heading>
           <div className="flex flex-col gap-3 lg:items-end">
             <ButtonLink href="/contact" variant="primary" size="lg">
-              프로젝트 의뢰
+              프로젝트 문의
               <ArrowRight size={18} />
             </ButtonLink>
             <ButtonLink

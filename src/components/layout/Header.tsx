@@ -90,7 +90,7 @@ export function Header() {
               size="sm"
               className="hidden md:inline-flex"
             >
-              전문 설문지 접수
+              프로젝트 문의
             </ButtonLink>
             <button
               type="button"
@@ -168,7 +168,7 @@ export function Header() {
                 )}
                 style={{ transitionDelay: open ? `${100 + mainNav.length * 50}ms` : '0ms' }}
               >
-                전문 설문지 접수
+                프로젝트 문의
               </ButtonLink>
             </nav>
           </div>

@@ -8,10 +8,15 @@ import { Container } from '@/components/common/Container';
 import { Heading } from '@/components/common/Heading';
 import { SectionEyebrow } from '@/components/common/SectionEyebrow';
 import { cn } from '@/lib/cn';
+import type { Faq } from '@/data/faqs';
 
-type Faq = { question: string; answer: string };
+type HomeFaqProps = {
+  faqs: Faq[];
+  /** 문의 페이지처럼 자기 자신(/contact)으로 가는 링크가 무의미한 곳에서는 숨긴다. */
+  showCta?: boolean;
+};
 
-export function HomeFaq({ faqs }: { faqs: Faq[] }) {
+export function HomeFaq({ faqs, showCta = true }: HomeFaqProps) {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
@@ -28,13 +33,15 @@ export function HomeFaq({ faqs }: { faqs: Faq[] }) {
               홈페이지 제작을 준비하며 가장 많이 묻는 질문을 모았습니다. 더 궁금한 점은 편하게
               문의해 주세요.
             </p>
-            <Link
-              href="/contact"
-              className="group mt-8 inline-flex items-center gap-2 border-b border-primary pb-1 text-sm font-semibold text-primary"
-            >
-              1:1 무료 상담 문의하기
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-            </Link>
+            {showCta && (
+              <Link
+                href="/contact"
+                className="group mt-8 inline-flex items-center gap-2 border-b border-primary pb-1 text-sm font-semibold text-primary"
+              >
+                1:1 무료 상담 문의하기
+                <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+              </Link>
+            )}
           </div>
 
           {/* Right — numbered accordion */}
