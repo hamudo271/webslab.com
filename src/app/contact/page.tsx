@@ -1,7 +1,8 @@
-import { Mail, Phone, Download } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import { buildMetadata } from '@/lib/metadata';
 import { Container } from '@/components/common/Container';
 import { ContactForm } from '@/components/contact/ContactForm';
+import { BrochureForm } from '@/components/contact/BrochureForm';
 import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 import { brand } from '@/config/brand';
@@ -113,19 +114,16 @@ export default function ContactPage() {
 
                 <hr className="my-8 border-line" />
 
-                <p className="text-sm leading-relaxed text-text-secondary">
+                <p id="brochure" className="scroll-mt-28 text-sm leading-relaxed text-text-secondary">
                   아직 검토 단계시라면, 회사소개서를
                   <br />
                   먼저 받아보세요.
                 </p>
-                <a
-                  href="/files/websLAB-brochure.pdf"
-                  download="websLAB-회사소개서.pdf"
-                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-dark py-3.5 text-sm font-bold text-white transition-colors hover:bg-dark/85"
-                >
-                  <Download size={16} />
-                  회사소개서 다운로드
-                </a>
+                {/* 그냥 파일을 내주면 방문자가 누구였는지 알 수 없다. 최소 정보만 받아
+                    아직 문의할 준비가 안 된 사람도 리드로 남긴다. */}
+                <div className="mt-4">
+                  <BrochureForm compact />
+                </div>
               </div>
             </aside>
 

@@ -21,15 +21,14 @@ export function Footer() {
               프로젝트 문의
               <ArrowRight size={18} />
             </ButtonLink>
+            {/* 파일을 그냥 내주면 누가 받아갔는지 알 수 없다. 폼이 있는 문의 페이지로 보낸다. */}
             <ButtonLink
-              href="/files/websLAB-brochure.pdf"
-              external
+              href="/contact#brochure"
               variant="ghost"
               size="md"
               className="text-white hover:bg-white/10"
-              download="websLAB-회사소개서.pdf"
             >
-              회사소개서 다운로드
+              회사소개서 받기
             </ButtonLink>
           </div>
         </div>
