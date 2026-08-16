@@ -73,21 +73,28 @@ export function HeroStage() {
         <div className="absolute bottom-[-20%] left-[10%] h-[380px] w-[380px] rounded-full bg-electric/10 blur-[120px]" />
       </div>
 
-      <Container className="relative z-10 pb-24 pt-32 md:pb-28 md:pt-36">
-        <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-10">
-          {/* 선언 */}
-          <motion.div style={reduceMotion ? undefined : { y: copyY }}>
-            <h2 className="text-[40px] font-extrabold leading-[1.08] tracking-[-0.045em] md:text-6xl lg:text-[76px]">
-              기업 홈페이지를
-              <br />
-              <span className="text-electric-bright">기술</span>로 완성합니다
-            </h2>
-            <p className="mt-7 max-w-md text-base leading-relaxed text-white/70 md:text-lg">
+      {/* 큰 모니터에서 콘텐츠가 화면 절반을 못 채워 텅 비어 보이던 문제:
+          ① 헤드라인을 전폭으로 빼서 96px까지 키우고 ② 무대 열을 7/12로 넓히고
+          ③ 남던 하단을 실제 고객사 스트립으로 채워 첫 화면의 밀도를 올린다. */}
+      <Container className="relative z-10 flex min-h-[100svh] flex-col justify-center pb-10 pt-28 md:pt-32">
+        {/* 선언 — 전폭 */}
+        <motion.div style={reduceMotion ? undefined : { y: copyY }}>
+          <h2 className="text-[44px] font-extrabold leading-[1.05] tracking-[-0.045em] md:text-7xl xl:text-[96px]">
+            기업 홈페이지를
+            <br />
+            <span className="text-electric-bright">기술</span>로 완성합니다
+          </h2>
+        </motion.div>
+
+        <div className="mt-10 grid items-start gap-12 md:mt-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14">
+          {/* 서포트 + CTA */}
+          <motion.div style={reduceMotion ? undefined : { y: copyY }} className="lg:pt-2">
+            <p className="max-w-md text-base leading-relaxed text-white/70 md:text-lg">
               기획·디자인·개발·운영까지 한 팀이 직접 — 기업 홈페이지를 만드는 기술 중심 디지털
               스튜디오입니다.
             </p>
 
-            <div className="mt-9 flex flex-wrap items-center gap-3">
+            <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
                 href="/contact"
                 className="inline-flex items-center gap-2 bg-electric px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-electric-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-bright focus-visible:ring-offset-2 focus-visible:ring-offset-dark-stage"
@@ -104,12 +111,13 @@ export function HeroStage() {
             </div>
           </motion.div>
 
-          {/* 무대 — 작업물이 주인공 */}
+          {/* 무대 — 작업물이 주인공. xl에서는 컨테이너 밖으로 살짝 흘려 더 크게 잡는다. */}
           <motion.div
             style={reduceMotion ? undefined : { y: stageY }}
-            className="relative mx-auto w-full max-w-[560px] lg:max-w-none"
+            className="relative mx-auto w-full max-w-[640px] lg:max-w-none xl:-mr-14"
           >
-            <div className="relative aspect-[4/3]" style={{ perspective: '1400px' }}>
+            {/* 16:10 — 4:3보다 낮아 데스크톱 1000px 높이에서도 하단 스트립까지 첫 화면에 들어온다 */}
+            <div className="relative aspect-[16/10]" style={{ perspective: '1400px' }}>
               {portfolios.map((p, i) => {
                 const slot = SLOTS[(i - active + count) % count] ?? SLOTS[SLOTS.length - 1];
                 const isFront = slot === SLOTS[0];
@@ -219,6 +227,20 @@ export function HeroStage() {
               </div>
             </div>
           </motion.div>
+        </div>
+
+        {/* 하단 고객사 스트립 — 남던 여백을 실제 증거로 채운다. 이름은 portfolios의 실데이터. */}
+        <div className="mt-14 flex flex-col gap-4 border-t border-white/10 pt-6 md:mt-16 md:flex-row md:items-center md:justify-between">
+          <p className="shrink-0 text-xs font-semibold uppercase tracking-[0.22em] text-white/40">
+            함께한 브랜드
+          </p>
+          <ul className="flex list-none flex-wrap gap-x-8 gap-y-2 pl-0 md:justify-end">
+            {portfolios.map((p) => (
+              <li key={p.slug} className="text-sm font-medium text-white/60">
+                {p.client}
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
     </section>
