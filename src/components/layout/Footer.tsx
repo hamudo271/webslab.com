@@ -3,37 +3,15 @@ import Link from 'next/link';
 import { brand } from '@/config/brand';
 import { footerNav, channelLinks } from '@/data/footerLinks';
 import { Container } from '@/components/common/Container';
-import { Heading } from '@/components/common/Heading';
-import { ButtonLink } from '@/components/common/Button';
-import { ArrowRight } from 'lucide-react';
 
 export function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer className="bg-dark text-white">
       <Container>
-        <div className="grid gap-12 py-20 md:py-28 lg:grid-cols-[1fr_auto] lg:items-end">
-          <Heading as="h2" size="h1" className="max-w-2xl text-balance">
-            {brand.name}과 함께 여러분의 프로젝트를 진행해보세요
-          </Heading>
-          <div className="flex flex-col gap-3 lg:items-end">
-            <ButtonLink href="/contact" variant="primary" size="lg">
-              프로젝트 문의
-              <ArrowRight size={18} />
-            </ButtonLink>
-            {/* 파일을 그냥 내주면 누가 받아갔는지 알 수 없다. 폼이 있는 문의 페이지로 보낸다. */}
-            <ButtonLink
-              href="/contact#brochure"
-              variant="ghost"
-              size="md"
-              className="text-white hover:bg-white/10"
-            >
-              회사소개서 받기
-            </ButtonLink>
-          </div>
-        </div>
-
-        <div className="grid gap-10 border-t border-white/10 py-16 lg:grid-cols-[1.5fr_2fr]">
+        {/* 대형 CTA 블록은 제거 — 홈 3막(CtaBanner)·케이스 하단 CTA와 역할이 겹쳐
+            같은 다크 지면에 문의 버튼이 연달아 두 번 나왔다. 푸터는 정보만 담는다. */}
+        <div className="grid gap-10 py-16 md:py-20 lg:grid-cols-[1.5fr_2fr]">
           <div>
             <Link href="/" className="inline-flex items-center" aria-label={brand.name}>
               <Image
