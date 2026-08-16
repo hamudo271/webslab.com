@@ -1,12 +1,10 @@
-import { HeroSlider } from '@/components/home/HeroSlider';
+import { HeroStage } from '@/components/home/HeroStage';
 import { LatestColumns } from '@/components/home/LatestColumns';
 import { PortfolioSection } from '@/components/home/Portfolio';
-import { PortfolioParallax } from '@/components/home/PortfolioParallax';
 import { Philosophy } from '@/components/home/Philosophy';
 import { ClientLogos } from '@/components/home/ClientLogos';
-import { WhatWeDo } from '@/components/home/WhatWeDo';
+import { Capabilities } from '@/components/home/Capabilities';
 import { Process } from '@/components/home/Process';
-import { BizCards } from '@/components/home/BizCards';
 import { CtaBanner } from '@/components/home/CtaBanner';
 import { buildMetadata } from '@/lib/metadata';
 import { COMMERCIAL_METADATA } from '@/lib/seo-policy';
@@ -34,15 +32,13 @@ export default function HomePage() {
         description={COMMERCIAL_METADATA['/'].description}
       />
       <FaqJsonLd faqs={homeFaqs} />
-      <HeroSlider />
+      <HeroStage />
       <GuideLinks title="홈페이지 제작을 준비할 때 읽어보세요" links={CORE_GUIDE_LINKS['/']} />
       <Philosophy />
       <PortfolioSection />
-      <PortfolioParallax />
       <ClientLogos />
-      <WhatWeDo />
+      <Capabilities />
       <Process />
-      <BizCards />
       <LatestColumns />
       <HomeFaq faqs={homeFaqs} />
       <CtaBanner />

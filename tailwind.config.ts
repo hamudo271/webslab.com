@@ -10,9 +10,18 @@ const config: Config = {
           DEFAULT: '#1D74FF',
           light: '#AEC1F5',
         },
+        // 전기적 코발트 포인트. primary(브랜드 남색 계열)는 유지하고,
+        // 다크 무대의 조명·강조 한 곳에만 쓰는 고전압 포인트로 분리한다.
+        // bright는 다크 배경 위 대형 텍스트용(대비 3:1 이상 확보).
+        electric: {
+          DEFAULT: '#2945FF',
+          bright: '#5B78FF',
+        },
         dark: {
           DEFAULT: '#191919',
           section: '#141C30',
+          // 히어로 무대 전용 — section보다 한 단계 깊어 조명이 살 공간을 만든다
+          stage: '#0B1322',
         },
         // 중성색은 순수 회색 대신 브랜드 네이비(#141C30) 쪽으로 미세하게 치우쳐 있다.
         // 순수 회색은 네이비·블루와 나란히 놓이면 탁하게 겉돌고, 고른 색조는 화면 전체를
@@ -37,6 +46,10 @@ const config: Config = {
       },
       letterSpacing: {
         tightest: '-0.04em',
+      },
+      transitionTimingFunction: {
+        // 모든 authored 모션의 공용 곡선 — 빠르게 나와서 길게 감속(expo-out)
+        'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
       },
       maxWidth: {
         container: '1280px',

@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import { Section } from '@/components/common/Section';
 import { Container } from '@/components/common/Container';
 import { Heading } from '@/components/common/Heading';
-import { SectionEyebrow } from '@/components/common/SectionEyebrow';
+import { Reveal } from '@/components/common/Reveal';
 
 const proof = [
   { value: '100%', label: '프로젝트 완수율' },
@@ -12,57 +12,63 @@ const proof = [
   { value: '0건', label: '보안 사고' },
 ];
 
+/**
+ * 2막의 문 — 다크 무대(1막)가 끝나고 밝은 지면이 시작되는 자리.
+ * 좌측 열을 비워 편집지처럼 숨을 쉬게 하고, 서사는 우측 9열에 싣는다.
+ */
 export function Philosophy() {
   return (
-    <Section variant="dark" spacing="default">
-      {/* Decorative background — blueprint grid + soft brand glow (CSS only) */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              'linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px)',
-            backgroundSize: '56px 56px',
-            maskImage: 'radial-gradient(ellipse 75% 70% at 22% 12%, #000 35%, transparent 100%)',
-            WebkitMaskImage: 'radial-gradient(ellipse 75% 70% at 22% 12%, #000 35%, transparent 100%)',
-          }}
-        />
-        <div className="absolute -right-32 -top-40 h-[540px] w-[540px] rounded-full bg-primary/20 blur-[130px]" />
-        <div className="absolute -bottom-48 left-1/4 h-[420px] w-[420px] rounded-full bg-primary/10 blur-[130px]" />
-      </div>
-      <Container className="relative z-10">
-        <div className="max-w-3xl">
-          <SectionEyebrow variant="dark">OUR PHILOSOPHY</SectionEyebrow>
-          <Heading as="h2" size="h1" className="mt-5">
-            외주가 아니라,
-            <br />
-            끝까지 책임지는 파트너입니다.
-          </Heading>
-          <p className="mt-7 text-base leading-relaxed text-white/70 md:text-lg">
-            사내 개발팀이 없어도 괜찮습니다. 기획부터 디자인·개발·운영까지, 한 팀이 프로젝트의
-            시작과 마무리를 책임집니다.
-          </p>
-        </div>
-
-        <div className="mt-14 grid grid-cols-2 gap-8 border-t border-white/10 pt-10 md:grid-cols-4">
-          {proof.map((p) => (
-            <div key={p.label}>
-              <p className="text-3xl font-bold tracking-tightest text-white md:text-4xl">
-                {p.value}
-                {p.suffix && <span className="text-lg text-white/40">{p.suffix}</span>}
+    <Section variant="light" spacing="breath">
+      <Container>
+        <div className="grid gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-3">
+            {/* 비워두는 열 — 모바일에서는 상단 러닝 라벨로 접힌다 */}
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-text-muted lg:sticky lg:top-32">
+              websLAB — Digital Studio
+            </p>
+          </div>
+          <div className="lg:col-span-9">
+            <Reveal>
+              <Heading as="h2" size="h1">
+                외주가 아니라,
+                <br />
+                끝까지 책임지는 파트너입니다.
+              </Heading>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <p className="mt-8 max-w-xl text-base leading-relaxed text-text-secondary md:text-lg">
+                사내 개발팀이 없어도 괜찮습니다. 기획부터 디자인·개발·운영까지, 한 팀이
+                프로젝트의 시작과 마무리를 책임집니다.
               </p>
-              <p className="mt-2 text-sm text-white/60">{p.label}</p>
-            </div>
-          ))}
-        </div>
+            </Reveal>
 
-        <Link
-          href="/about"
-          className="group mt-12 inline-flex items-center gap-2 border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:border-primary-light hover:bg-white/5"
-        >
-          회사소개에서 우리의 시작 보기
-          <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-        </Link>
+            <Reveal delay={0.12}>
+              <div className="mt-16 grid grid-cols-2 gap-8 border-t border-line pt-10 md:grid-cols-4">
+                {proof.map((p) => (
+                  <div key={p.label}>
+                    <p className="text-3xl font-bold tracking-tightest text-text-primary md:text-4xl">
+                      {p.value}
+                      {p.suffix && (
+                        <span className="text-lg font-semibold text-text-muted">{p.suffix}</span>
+                      )}
+                    </p>
+                    <p className="mt-2 text-sm text-text-secondary">{p.label}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.16}>
+              <Link
+                href="/about"
+                className="group mt-12 inline-flex items-center gap-2 border-b border-primary pb-1 text-sm font-semibold text-primary"
+              >
+                회사소개에서 우리의 시작 보기
+                <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+              </Link>
+            </Reveal>
+          </div>
+        </div>
       </Container>
     </Section>
   );
