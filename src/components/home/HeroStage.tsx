@@ -54,7 +54,7 @@ export function HeroStage() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-[100svh] items-center overflow-hidden bg-dark-stage text-white"
+      className="relative overflow-hidden bg-dark-stage text-white"
     >
       {/* 무대 조명 — 코발트 글로우 + 희미한 블루프린트 그리드 */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
@@ -76,7 +76,9 @@ export function HeroStage() {
       {/* 큰 모니터에서 콘텐츠가 화면 절반을 못 채워 텅 비어 보이던 문제:
           ① 헤드라인을 전폭으로 빼서 96px까지 키우고 ② 무대 열을 7/12로 넓히고
           ③ 남던 하단을 실제 고객사 스트립으로 채워 첫 화면의 밀도를 올린다. */}
-      <Container className="relative z-10 flex min-h-[100svh] flex-col justify-center pb-10 pt-28 md:pt-32">
+      {/* 높이는 뷰포트가 아니라 콘텐츠 기준으로 고정 — 세로가 긴 모니터에서
+          100svh로 배경만 늘어나던 문제(사용자 피드백). 어떤 화면에서도 같은 높이. */}
+      <Container className="relative z-10 pb-12 pt-28 md:pt-32">
         {/* 선언 — 전폭 */}
         <motion.div style={reduceMotion ? undefined : { y: copyY }}>
           <h2 className="text-[44px] font-extrabold leading-[1.05] tracking-[-0.045em] md:text-7xl xl:text-[96px]">
