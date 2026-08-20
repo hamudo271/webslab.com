@@ -29,7 +29,9 @@ export function FloatingBar() {
 
   return (
     <>
-      <div className="fixed inset-x-3 bottom-0 z-40 pb-[max(env(safe-area-inset-bottom),0.75rem)] md:inset-x-auto md:right-6 md:bottom-6 md:pb-0">
+      {/* 하단 정중앙 독. 센터링 translate는 바깥 래퍼에 둔다 —
+          안쪽 필의 float-in 키프레임이 transform을 덮어써 점프하는 것을 방지. */}
+      <div className="fixed inset-x-3 bottom-0 z-40 pb-[max(env(safe-area-inset-bottom),0.75rem)] md:inset-x-auto md:bottom-6 md:left-1/2 md:-translate-x-1/2 md:pb-0">
         <div className="animate-float-in motion-reduce:animate-none flex items-center gap-3 rounded-full border border-line bg-white/85 py-2 pl-4 pr-2 text-text-primary shadow-lift backdrop-blur-md md:gap-4 md:py-2.5 md:pl-5">
           {/* 라이브 신호 — 전기 펄스 점 */}
           <span aria-hidden="true" className="relative flex h-2.5 w-2.5 shrink-0">
