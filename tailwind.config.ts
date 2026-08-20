@@ -59,6 +59,11 @@ const config: Config = {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
+        // 플로팅 독 등장 — 아래에서 살짝 떠오르며 안착
+        'float-in': {
+          '0%': { opacity: '0', transform: 'translateY(16px) scale(0.97)' },
+          '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+        },
         marquee: {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
@@ -66,6 +71,7 @@ const config: Config = {
       },
       animation: {
         'fade-up': 'fade-up 0.6s ease-out forwards',
+        'float-in': 'float-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both',
         marquee: 'marquee 60s linear infinite',
       },
     },
