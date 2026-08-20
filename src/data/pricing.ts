@@ -46,7 +46,9 @@ export const pricingTiers: PricingTier[] = [
     rows: [
       { label: '구성', value: '메인 + 서브 5페이지~' },
       { label: '반응형', value: 'PC · 태블릿 · 모바일' },
-      { label: 'SEO', value: '네이버 · 구글 최적화' },
+      // '네이버 최적화'를 판매 항목으로 쓰면 포털 검색결과에 영향을 주는 서비스(상위노출
+      // 대행류)로 분류될 수 있어 광고 심사에서 반려 사유가 된다. 기술 작업 그대로 서술.
+      { label: 'SEO', value: '구조 · 속도 · 메타 최적화' },
       { label: 'CMS', value: '관리자 페이지 구축' },
       { label: '제작 기간', value: '1~3개월' },
     ],
@@ -60,7 +62,7 @@ export const pricingTiers: PricingTier[] = [
     name: '대형 · 리뉴얼',
     target: '다국어 · 데이터 이전 · 연동',
     description:
-      '기존 사이트의 데이터와 검색 순위를 지키면서 옮기거나, 외부 시스템 연동이 필요한 프로젝트입니다.',
+      '기존 사이트의 데이터와 검색 자산을 지키면서 옮기거나, 외부 시스템 연동이 필요한 프로젝트입니다.',
     rows: [
       { label: '구성', value: '요건에 따라 설계' },
       { label: '반응형', value: 'PC · 태블릿 · 모바일' },

@@ -61,7 +61,7 @@ export const bizCards: BizCard[] = [
     no: '07',
     icon: TrendingUp,
     title: 'SEO 최적화',
-    description: '검색 노출에 유리한 구조·속도·메타 세팅을 기본 제공합니다.',
+    description: '검색엔진이 읽기 좋은 구조·속도·메타 세팅을 기본 제공합니다.',
   },
   {
     no: '08',
