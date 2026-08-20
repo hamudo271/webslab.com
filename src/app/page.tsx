@@ -1,6 +1,7 @@
 import { HeroStage } from '@/components/home/HeroStage';
 import { LatestColumns } from '@/components/home/LatestColumns';
 import { PortfolioSection } from '@/components/home/Portfolio';
+import { PortfolioParallax } from '@/components/home/PortfolioParallax';
 import { Philosophy } from '@/components/home/Philosophy';
 import { ClientLogos } from '@/components/home/ClientLogos';
 import { Capabilities } from '@/components/home/Capabilities';
@@ -36,6 +37,7 @@ export default function HomePage() {
       <GuideLinks title="홈페이지 제작을 준비할 때 읽어보세요" links={CORE_GUIDE_LINKS['/']} />
       <Philosophy />
       <PortfolioSection />
+      <PortfolioParallax />
       <ClientLogos />
       <Capabilities />
       <Process />
