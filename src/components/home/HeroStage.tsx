@@ -78,17 +78,17 @@ export function HeroStage() {
           ③ 남던 하단을 실제 고객사 스트립으로 채워 첫 화면의 밀도를 올린다. */}
       {/* 높이는 뷰포트가 아니라 콘텐츠 기준으로 고정 — 세로가 긴 모니터에서
           100svh로 배경만 늘어나던 문제(사용자 피드백). 어떤 화면에서도 같은 높이. */}
-      <Container className="relative z-10 pb-12 pt-28 md:pt-32">
+      <Container className="relative z-10 pb-10 pt-24 md:pt-28">
         {/* 선언 — 전폭 */}
         <motion.div style={reduceMotion ? undefined : { y: copyY }}>
-          <h2 className="text-[44px] font-extrabold leading-[1.05] tracking-[-0.045em] md:text-7xl xl:text-[96px]">
+          <h2 className="text-[40px] font-extrabold leading-[1.02] tracking-[-0.045em] md:text-6xl xl:text-[84px]">
             기업 홈페이지를
             <br />
             <span className="text-electric-bright">기술</span>로 완성합니다
           </h2>
         </motion.div>
 
-        <div className="mt-10 grid items-start gap-12 md:mt-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14">
+        <div className="mt-8 grid items-start gap-10 md:mt-9 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14">
           {/* 서포트 + CTA */}
           <motion.div style={reduceMotion ? undefined : { y: copyY }} className="lg:pt-2">
             <p className="max-w-md text-base leading-relaxed text-white/70 md:text-lg">
@@ -118,8 +118,8 @@ export function HeroStage() {
             style={reduceMotion ? undefined : { y: stageY }}
             className="relative mx-auto w-full max-w-[640px] lg:max-w-none xl:-mr-14"
           >
-            {/* 16:10 — 4:3보다 낮아 데스크톱 1000px 높이에서도 하단 스트립까지 첫 화면에 들어온다 */}
-            <div className="relative aspect-[16/10]" style={{ perspective: '1400px' }}>
+            {/* 16:9 — 무대 크기는 유지하면서 히어로 전체 높이를 낮추는 가장 큰 레버 */}
+            <div className="relative aspect-video" style={{ perspective: '1400px' }}>
               {portfolios.map((p, i) => {
                 const slot = SLOTS[(i - active + count) % count] ?? SLOTS[SLOTS.length - 1];
                 const isFront = slot === SLOTS[0];
@@ -170,7 +170,7 @@ export function HeroStage() {
             </div>
 
             {/* 활성 케이스 라벨 */}
-            <div className="mt-6 flex items-center justify-between gap-4">
+            <div className="mt-5 flex items-center justify-between gap-4">
               <Link
                 href={`/portfolio/${current.slug}`}
                 className="group min-w-0"
@@ -232,7 +232,7 @@ export function HeroStage() {
         </div>
 
         {/* 하단 고객사 스트립 — 남던 여백을 실제 증거로 채운다. 이름은 portfolios의 실데이터. */}
-        <div className="mt-14 flex flex-col gap-4 border-t border-white/10 pt-6 md:mt-16 md:flex-row md:items-center md:justify-between">
+        <div className="mt-10 flex flex-col gap-4 border-t border-white/10 pt-5 md:mt-11 md:flex-row md:items-center md:justify-between">
           <p className="shrink-0 text-xs font-semibold uppercase tracking-[0.22em] text-white/40">
             함께한 브랜드
           </p>
