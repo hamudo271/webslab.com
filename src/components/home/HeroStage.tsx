@@ -139,10 +139,12 @@ export function HeroStage() {
                       reduceMotion ? { duration: 0 } : { duration: 0.9, ease: EASE_OUT_EXPO }
                     }
                     style={{ zIndex: slot.z, transformStyle: 'preserve-3d' }}
+                    // 카드는 순수 장식(클릭 대상은 아래 라벨·컨트롤). 뒤쪽 카드가 y:96까지
+                    // 밀려 컨트롤 버튼 위를 덮고 클릭을 삼키던 문제 → 포인터를 통과시킨다.
                     className={
                       isFront
-                        ? 'absolute inset-0'
-                        : 'absolute inset-0 hidden lg:block'
+                        ? 'pointer-events-none absolute inset-0'
+                        : 'pointer-events-none absolute inset-0 hidden lg:block'
                     }
                   >
                     <div className="relative h-full w-full overflow-hidden rounded-xl border border-white/10 bg-dark-section shadow-[0_24px_80px_-24px_rgba(0,0,0,0.7)]">
@@ -170,7 +172,8 @@ export function HeroStage() {
             </div>
 
             {/* 활성 케이스 라벨 */}
-            <div className="mt-5 flex items-center justify-between gap-4">
+            {/* 무대 카드(z 최대 30) 위로 올려 어떤 경우에도 클릭이 가려지지 않게 한다 */}
+            <div className="relative z-40 mt-5 flex items-center justify-between gap-4">
               <Link
                 href={`/portfolio/${current.slug}`}
                 className="group min-w-0"
