@@ -224,8 +224,11 @@ export function ContactForm() {
         className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-4 text-lg font-bold text-white transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === 'submitting' && <Loader2 size={20} className="animate-spin" />}
-        {status === 'submitting' ? '전송 중...' : '문의하기'}
+        {status === 'submitting' ? '전송 중...' : '견적 요청하기'}
       </button>
+      <p className="mt-3 text-center text-xs leading-relaxed text-text-muted">
+        1영업일 안에 담당자가 직접 회신드립니다. 남겨주신 정보는 이 상담에만 사용합니다.
+      </p>
     </form>
   );
 }

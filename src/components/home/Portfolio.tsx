@@ -19,18 +19,23 @@ export function PortfolioSection() {
       <Container>
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <Heading as="h2" size="h1" className="max-w-2xl">
-            실제 비즈니스 성과로
+            만든 사이트를
             <br />
-            이어진 사례
+            그대로 공개합니다
           </Heading>
           <Link
             href="/portfolio"
             className="group inline-flex shrink-0 items-center gap-2 text-sm font-medium text-text-primary hover:text-primary"
           >
-            전체 포트폴리오 보기
+            전체 작업 보기
             <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
+
+        <p className="mt-6 max-w-xl leading-relaxed text-text-secondary">
+          이미지에 마우스를 올리면 첫 화면부터 끝까지 내려갑니다. 잘 나온 한 컷이 아니라 실제
+          페이지 전체입니다.
+        </p>
 
         <div className="mt-16 grid gap-x-10 gap-y-16 md:grid-cols-2">
           {portfolios.map((p, i) => (

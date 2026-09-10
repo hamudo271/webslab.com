@@ -11,10 +11,11 @@ export function Process() {
         <div className="text-center">
           <SectionEyebrow variant="dark">websLAB PROCESS</SectionEyebrow>
           <Heading as="h2" size="h1" className="mt-4">
-            제작 프로세스
+            문의하면 무엇부터 시작되나요
           </Heading>
           <p className="mx-auto mt-6 max-w-2xl text-white/70">
-            문의부터 오픈 후 케어까지, 6단계로 진행합니다.
+            문의부터 오픈 후 케어까지 6단계입니다. 세 번째 단계에서, 계약 전에 메인 시안을 먼저
+            보여드립니다.
           </p>
         </div>
 

@@ -30,15 +30,16 @@ export function Philosophy() {
           <div className="lg:col-span-9">
             <Reveal>
               <Heading as="h2" size="h1">
-                외주가 아니라,
+                기획·디자인·개발이
                 <br />
-                끝까지 책임지는 파트너입니다.
+                서로 미루지 않습니다.
               </Heading>
             </Reveal>
             <Reveal delay={0.08}>
               <p className="mt-8 max-w-xl text-base leading-relaxed text-text-secondary md:text-lg">
-                사내 개발팀이 없어도 괜찮습니다. 기획부터 디자인·개발·운영까지, 한 팀이
-                프로젝트의 시작과 마무리를 책임집니다.
+                외주가 겹치면 “그건 저희 담당이 아닙니다”라는 말이 나옵니다. websLAB은 기획부터
+                운영까지 한 팀이 맡아, 수정 요청 하나가 회사 세 곳을 돌지 않습니다. 사내 개발팀이
+                없어도 진행에는 아무 문제가 없습니다.
               </p>
             </Reveal>
 
@@ -63,7 +64,7 @@ export function Philosophy() {
                 href="/about"
                 className="group mt-12 inline-flex items-center gap-2 border-b border-primary pb-1 text-sm font-semibold text-primary"
               >
-                회사소개에서 우리의 시작 보기
+                어떤 팀이 맡는지 확인하기
                 <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
               </Link>
             </Reveal>

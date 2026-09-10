@@ -17,8 +17,9 @@ export function Pricing() {
           제작 비용 안내
         </Heading>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-text-secondary">
-          범위에 따라 달라지지만, 어디까지 포함되는지는 미리 공개합니다. 아래 구성에 없는
-          요건이라도 상담에서 함께 정리해 드립니다.
+          금액은 범위가 정해져야 나옵니다. 대신 각 구성에 무엇이 들어가고 무엇이 빠지는지는
+          미리 공개합니다. 생각하시는 예산 구간을 알려주시면, 그 안에서 가능한 범위를 맞춰
+          제안드립니다.
         </p>
 
         <div className="mt-14 grid gap-6 lg:grid-cols-3">

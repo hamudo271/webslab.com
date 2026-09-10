@@ -34,7 +34,7 @@ export default function HomePage() {
       />
       <FaqJsonLd faqs={homeFaqs} />
       <HeroStage />
-      <GuideLinks title="홈페이지 제작을 준비할 때 읽어보세요" links={CORE_GUIDE_LINKS['/']} />
+      <GuideLinks title="아직 업체를 고르는 중이라면" links={CORE_GUIDE_LINKS['/']} />
       <Philosophy />
       <PortfolioSection />
       <PortfolioParallax />

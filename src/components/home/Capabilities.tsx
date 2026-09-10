@@ -14,18 +14,24 @@ import { Reveal } from '@/components/common/Reveal';
 
 const services = [
   {
+    when: '사이트가 없거나, 지금 사이트로는 회사를 설명할 수 없을 때',
     title: '홈페이지 신규 제작',
-    description: '기획·디자인·개발까지, 한 팀에서 직접.',
+    description:
+      '회사 소개·서비스·문의까지 처음부터 설계합니다. 원고와 사진이 준비돼 있지 않아도 질문지로 함께 정리합니다.',
     href: '/service',
   },
   {
+    when: '사이트는 있는데 몇 년째 손대지 못했을 때',
     title: '홈페이지 리뉴얼',
-    description: '콘텐츠는 살리고, 구조만 새로 짭니다.',
+    description:
+      '쌓아둔 콘텐츠와 검색 주소는 그대로 옮기고, 구조와 디자인만 새로 짭니다. 옛 URL은 301로 연결합니다.',
     href: '/service',
   },
   {
+    when: '오픈은 했는데 이후 관리가 막막할 때',
     title: '유지보수·운영',
-    description: '정기 점검부터 보안·성능 개선까지, 오픈 이후를 함께 운영합니다.',
+    description:
+      '정기 점검·보안 패치·콘텐츠 수정·성능 개선까지, 오픈 이후를 월 단위로 함께 운영합니다.',
     href: '/service',
   },
 ];
@@ -42,10 +48,13 @@ export function Capabilities() {
           <div className="lg:col-span-4">
             <div className="lg:sticky lg:top-32">
               <Heading as="h2" size="h1">
-                우리가 하는 일
+                지금 어떤
+                <br />
+                상황이신가요
               </Heading>
               <p className="mt-6 max-w-sm leading-relaxed text-text-secondary">
-                기업 홈페이지의 시작부터 운영까지. 필요한 단계만 골라 맡기셔도 됩니다.
+                신규와 리뉴얼 중 무엇이 맞는지부터 정리해 드립니다. 지금 상황에 가까운 쪽을
+                눌러보세요.
               </p>
             </div>
           </div>
@@ -60,7 +69,12 @@ export function Capabilities() {
                     className="group flex items-baseline justify-between gap-6 py-8 md:py-10"
                   >
                     <div>
-                      <Heading as="h3" size="h3" className="transition-colors group-hover:text-primary">
+                      <p className="text-xs font-semibold text-electric md:text-[13px]">{s.when}</p>
+                      <Heading
+                        as="h3"
+                        size="h3"
+                        className="mt-2 transition-colors group-hover:text-primary"
+                      >
                         {s.title}
                       </Heading>
                       <p className="mt-2.5 text-sm leading-relaxed text-text-secondary md:text-base">

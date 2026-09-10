@@ -141,16 +141,17 @@ export function PortfolioParallax() {
           id="portfolio-parallax-title"
           className="text-3xl font-bold tracking-tightest md:text-5xl lg:text-6xl"
         >
-          websLAB이 함께 합니다.
+          우리 회사와 비슷한 사이트, 여기 있습니다.
         </h2>
         <p className="mt-5 max-w-xl text-base text-white/80 md:text-lg">
-          websLAB의 전문성과 창의성을 포트폴리오에서 확인해보세요.
+          업종보다 구조가 닮은 사례부터 보세요. 어떤 페이지를 어떤 순서로 놓았는지까지
+          공개합니다.
         </p>
         <Link
           href="/portfolio"
           className="pointer-events-auto mt-9 inline-flex items-center gap-2 rounded-full border border-white/40 px-9 py-3.5 text-sm font-semibold tracking-wide text-white transition-colors hover:border-white hover:bg-white hover:text-text-primary"
         >
-          VIEW MORE
+          사례 전체 보기
           <ArrowRight size={16} />
         </Link>
       </div>

@@ -82,9 +82,9 @@ export function HeroStage() {
         {/* 선언 — 전폭 */}
         <motion.div style={reduceMotion ? undefined : { y: copyY }}>
           <h2 className="text-[40px] font-extrabold leading-[1.02] tracking-[-0.045em] md:text-6xl xl:text-[84px]">
-            기업 홈페이지를
+            거래처는 회사보다
             <br />
-            <span className="text-electric-bright">기술</span>로 완성합니다
+            <span className="text-electric-bright">홈페이지</span>를 먼저 봅니다
           </h2>
         </motion.div>
 
@@ -92,8 +92,8 @@ export function HeroStage() {
           {/* 서포트 + CTA */}
           <motion.div style={reduceMotion ? undefined : { y: copyY }} className="lg:pt-2">
             <p className="max-w-md text-base leading-relaxed text-white/70 md:text-lg">
-              기획·디자인·개발·운영까지 한 팀이 직접 — 기업 홈페이지를 만드는 기술 중심 디지털
-              스튜디오입니다.
+              5년 넘은 디자인, 모바일에서 깨지는 화면, 한 줄 고치려면 업체에 전화해야 하는 구조.
+              기업 홈페이지 신규 제작과 리뉴얼을 기획·디자인·개발·운영까지 한 팀이 맡습니다.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -101,16 +101,21 @@ export function HeroStage() {
                 href="/contact"
                 className="inline-flex items-center gap-2 bg-electric px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-electric-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-bright focus-visible:ring-offset-2 focus-visible:ring-offset-dark-stage"
               >
-                프로젝트 문의
+                메인 시안 먼저 받기
                 <ArrowRight size={16} />
               </Link>
               <Link
                 href="/portfolio"
                 className="inline-flex items-center gap-2 border border-white/25 px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:border-white/60 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-dark-stage"
               >
-                포트폴리오 보기
+                만든 사이트 보기
               </Link>
             </div>
+
+            {/* CTA 바로 아래 — 누르기 직전의 마지막 불안(비용·회신 지연)을 한 줄로 해소 */}
+            <p className="mt-4 text-xs leading-relaxed text-white/45">
+              계약 전 메인 시안 제공 · 문의는 1영업일 안에 회신
+            </p>
           </motion.div>
 
           {/* 무대 — 작업물이 주인공. xl에서는 컨테이너 밖으로 살짝 흘려 더 크게 잡는다. */}

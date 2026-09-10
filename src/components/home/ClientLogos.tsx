@@ -22,10 +22,10 @@ export function ClientLogos() {
         <div className="-mt-[10vw] text-center md:-mt-[8vw] lg:-mt-32">
           <SectionEyebrow>OUR CLIENTS</SectionEyebrow>
           <Heading as="h2" size="h2" className="mt-4">
-            신뢰로 함께한 브랜드
+            이 회사들의 홈페이지를 만들었습니다
           </Heading>
           <p className="mx-auto mt-5 max-w-md text-sm text-text-secondary md:text-base">
-            websLAB과 함께 사이트를 만든 브랜드입니다. 로고를 누르면 케이스로 이동합니다.
+            로고를 누르면 실제 케이스로 이동합니다. 작업 범위와 화면을 그대로 공개합니다.
           </p>
         </div>
 

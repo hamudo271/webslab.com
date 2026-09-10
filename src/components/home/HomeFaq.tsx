@@ -30,8 +30,8 @@ export function HomeFaq({ faqs, showCta = true }: HomeFaqProps) {
               자주 묻는 질문
             </Heading>
             <p className="mt-6 max-w-md leading-relaxed text-text-secondary">
-              홈페이지 제작을 준비하며 가장 많이 묻는 질문을 모았습니다. 더 궁금한 점은 편하게
-              문의해 주세요.
+              비용·기간·업종·예산까지, 문의 직전에 가장 많이 걸리는 질문을 모았습니다. 여기에
+              없는 상황이라면 그대로 적어 보내주세요.
             </p>
             {showCta && (
               <Link

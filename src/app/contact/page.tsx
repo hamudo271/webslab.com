@@ -41,6 +41,10 @@ export default function ContactPage() {
           <h1 className="mt-4 text-4xl font-bold tracking-tightest text-text-primary md:text-5xl">
             프로젝트 견적 문의
           </h1>
+          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-text-secondary md:text-lg">
+            예산이나 범위가 아직 정해지지 않아도 괜찮습니다. 지금 상황만 적어주시면, 무엇부터
+            정해야 하는지부터 정리해 회신드립니다.
+          </p>
         </Container>
       </section>
 

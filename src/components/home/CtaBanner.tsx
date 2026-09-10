@@ -26,8 +26,8 @@ export function CtaBanner() {
           </Reveal>
           <Reveal delay={0.08}>
             <p className="mx-auto mt-7 max-w-lg text-base leading-relaxed text-white/70 md:text-lg">
-              메인페이지 시안을 먼저 만들어 보여드립니다. 보고 결정하셔도 늦지 않습니다.
-              문의는 1영업일 안에 회신드립니다.
+              메인페이지 시안을 먼저 만들어 보여드립니다. 보고 아니다 싶으면 거기서 멈추셔도
+              됩니다. 문의는 1영업일 안에 회신드립니다.
             </p>
           </Reveal>
           <Reveal delay={0.14}>
@@ -36,14 +36,14 @@ export function CtaBanner() {
                 href="/contact"
                 className="inline-flex items-center gap-2 bg-electric px-8 py-4 text-sm font-semibold text-white transition-colors hover:bg-electric-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-bright focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
               >
-                프로젝트 문의
+                시안 먼저 받기
                 <ArrowRight size={16} />
               </Link>
               <Link
                 href="/portfolio"
                 className="inline-flex items-center gap-2 border border-white/25 px-8 py-4 text-sm font-semibold text-white transition-colors hover:border-white/60 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
               >
-                포트폴리오 더보기
+                먼저 사례부터 보기
               </Link>
             </div>
           </Reveal>
