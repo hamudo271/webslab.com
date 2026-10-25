@@ -1,19 +1,16 @@
 import { NextResponse } from 'next/server';
-import { siteConfig } from '@/config/site';
 import { urlsetXml } from '@/lib/xml';
-import { STATIC_PAGE_DATES } from '@/lib/seo-policy';
+import { getPageEntries } from '@/lib/sitemap-data';
 
-const STATIC_PATHS = Object.keys(STATIC_PAGE_DATES);
+// /column lastmod가 DB 최신 발행글을 따라가야 해서 동적
+export const dynamic = 'force-dynamic';
 
-export function GET() {
-  const base = siteConfig.baseUrl.replace(/\/$/, '');
-  const xml = urlsetXml(
-    STATIC_PATHS.map((path) => ({
-      loc: `${base}${path}`,
-      lastmod: STATIC_PAGE_DATES[path],
-    })),
-  );
+export async function GET() {
+  const xml = urlsetXml(await getPageEntries());
   return new NextResponse(xml, {
-    headers: { 'content-type': 'application/xml; charset=utf-8' },
+    headers: {
+      'content-type': 'application/xml; charset=utf-8',
+      'cache-control': 'public, max-age=3600, s-maxage=3600',
+    },
   });
 }

@@ -1,18 +1,13 @@
 import { NextResponse } from 'next/server';
-import { siteConfig } from '@/config/site';
-import { portfolios } from '@/data/portfolios';
 import { urlsetXml } from '@/lib/xml';
-import { buildCaseSitemapEntries } from '@/lib/seo-policy';
+import { getCaseEntries } from '@/lib/sitemap-data';
 
 export function GET() {
-  const base = siteConfig.baseUrl.replace(/\/$/, '');
-  const xml = urlsetXml(
-    buildCaseSitemapEntries(portfolios).map((item) => ({
-      loc: `${base}${item.path}`,
-      lastmod: item.lastmod,
-    })),
-  );
+  const xml = urlsetXml(getCaseEntries());
   return new NextResponse(xml, {
-    headers: { 'content-type': 'application/xml; charset=utf-8' },
+    headers: {
+      'content-type': 'application/xml; charset=utf-8',
+      'cache-control': 'public, max-age=3600, s-maxage=3600',
+    },
   });
 }

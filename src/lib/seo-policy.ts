@@ -74,16 +74,18 @@ export const CORE_GUIDE_LINKS: Record<string, GuideLink[]> = {
   ],
 };
 
+// 내용이 실제로 바뀐 날만 올린다(메타·스타일 리팩터는 제외). git 기록 기준.
+// /column·/portfolio는 sitemap-data에서 하위 글·케이스 최신일과 비교해 늦은 쪽을 쓴다.
 export const STATIC_PAGE_DATES: Record<string, string> = {
-  '/': '2026-06-22',
-  '/about': '2026-06-22',
-  '/service': '2026-06-22',
-  '/portfolio': '2026-06-22',
+  '/': '2026-09-10', // 카피 전면 재작성
+  '/about': '2026-06-25', // 브랜드명 표기 정정
+  '/service': '2026-09-10', // 카피 재작성 + 가격 안내
+  '/portfolio': '2026-08-15', // 전체 페이지 캡처 카드
   '/column': '2026-06-22',
   '/program': '2026-06-24',
-  '/contact': '2026-05-30',
-  '/privacy-policy': '2026-05-30',
-  '/terms': '2026-05-30',
+  '/contact': '2026-09-10', // 진입 문구·FAQ·회사소개서 폼
+  '/privacy-policy': '2026-06-25',
+  '/terms': '2026-06-25',
 };
 
 // 각 페이지가 처음 공개된 날(git 최초 커밋 기준). WebPage JSON-LD의 datePublished 소스로,
