@@ -1,0 +1,74 @@
+@charset "utf-8";
+
+/**
+ * UW Board Skins (board.css)
+ */
+
+:root {
+  /* -- Colors -- */
+  --board-main-color: #111;
+  --board-text-color: #333;
+  --board-meta-color: #888;
+  --board-border-color: #e5e5e5;
+  --board-line-color: #333;
+
+  /* -- Backgrounds -- */
+  --board-bg-white: #fff;
+  --board-bg-hover: #f9f9f9;
+  /* Subtle hover tint */
+
+  /* -- Dimensions & Spacing -- */
+  --board-gap: 24px;
+  --board-radius: 0px;
+  --board-view-font-size: 15px;
+  --board-list-height: 60px;
+}
+
+/* ==========================================================================
+   Style 01: [공지/회원형] 표준 리스트 (Standard List)
+   - Clean Table Layout
+   - No fancy visuals, just structure
+   ========================================================================== */
+
+/* Pinned (Notice) Styling - Minimal distinction */
+
+/* Columns */
+
+/* Responsive: Style 01 */
+@media (max-width: 768px) {
+
+  /* Mobile: Hide Number */
+
+  /* Mobile: Title First */
+
+  /* Mobile: Meta Data Inline */
+}
+
+
+/* ==========================================================================
+   Style 02: [3열 카드형] 미니멀 카드 (Minimal Card)
+   - Grid Layout
+   - Flat Borders
+   - No Box-Shadow / No Lift
+   ========================================================================== */
+
+/* Hover: Only Border Color Change */
+
+
+/* ==========================================================================
+   Style 03: [썸네일형] 카드 (Thumbnail Card)
+   - Image + Text
+   - Fixed Ratio
+   - Flat Design
+   ========================================================================== */
+
+/* Image Wrapper */
+
+/* No Image Placeholder */
+
+/* Content */
+
+
+/* ==========================================================================
+   Responsive Grid (Common for Style 02 & 03)
+   ========================================================================== */

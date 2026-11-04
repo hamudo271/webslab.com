@@ -25,7 +25,8 @@ export type ColumnPost = {
   ctaDescription: string;
 };
 
-const cover = (slug: string) => `/images/og/column/${slug}.png`;
+// 회사소개서 표지 스타일 썸네일 — scripts/build_column_og.py 로 생성
+const cover = (slug: string) => `/images/column/${slug}.png`;
 const publishedAt = '2026-06-22';
 
 export const columnPosts: ColumnPost[] = [

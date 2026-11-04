@@ -17,6 +17,12 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
+  // 리뉴얼 정적 페이지(src/site/pages/*.html)를 문자열로 번들 — 라우트 핸들러가 변환해 응답한다.
+  // 런타임 파일 읽기가 없어 standalone 출력에서도 경로 추적 걱정이 없다.
+  webpack(config) {
+    config.module.rules.push({ test: /\.html$/, type: 'asset/source' });
+    return config;
+  },
 };
 
 export default nextConfig;

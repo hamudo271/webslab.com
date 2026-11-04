@@ -38,10 +38,12 @@ describe('commercial page metadata', () => {
 describe('sitemap freshness', () => {
   it('uses maintained significant-update dates for static pages', () => {
     expect(STATIC_PAGE_DATES).toMatchObject({
-      '/': '2026-09-10',
-      '/about': '2026-06-25',
-      '/service': '2026-09-10',
-      '/portfolio': '2026-08-15',
+      '/': '2026-11-04',
+      '/about': '2026-11-04',
+      '/service': '2026-11-04',
+      '/portfolio': '2026-11-04',
+      '/faq': '2026-11-04',
+      '/maintenance/pricing': '2026-11-04',
     });
   });
 

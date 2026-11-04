@@ -77,14 +77,18 @@ export const CORE_GUIDE_LINKS: Record<string, GuideLink[]> = {
 // 내용이 실제로 바뀐 날만 올린다(메타·스타일 리팩터는 제외). git 기록 기준.
 // /column·/portfolio는 sitemap-data에서 하위 글·케이스 최신일과 비교해 늦은 쪽을 쓴다.
 export const STATIC_PAGE_DATES: Record<string, string> = {
-  '/': '2026-09-10', // 카피 전면 재작성
-  '/about': '2026-06-25', // 브랜드명 표기 정정
-  '/service': '2026-09-10', // 카피 재작성 + 가격 안내
-  '/portfolio': '2026-08-15', // 전체 페이지 캡처 카드
-  '/column': '2026-06-22',
-  '/program': '2026-06-24',
-  '/contact': '2026-09-10', // 진입 문구·FAQ·회사소개서 폼
-  '/privacy-policy': '2026-06-25',
+  '/': '2026-11-04', // 리뉴얼 디자인 공개
+  '/about': '2026-11-04',
+  '/service': '2026-11-04',
+  '/portfolio': '2026-11-04',
+  '/column': '2026-11-04',
+  '/program': '2026-11-04',
+  '/contact': '2026-11-04',
+  '/faq': '2026-11-04', // 리뉴얼과 함께 신설
+  '/notice': '2026-11-04',
+  '/maintenance': '2026-11-04',
+  '/maintenance/pricing': '2026-11-04',
+  '/privacy-policy': '2026-11-04', // 문의 폼 수집 항목·처리 위탁 반영
   '/terms': '2026-06-25',
 };
 
@@ -100,6 +104,10 @@ export const STATIC_PAGE_PUBLISHED: Record<string, string> = {
   '/contact': '2026-05-16',
   '/privacy-policy': '2026-05-16',
   '/terms': '2026-05-16',
+  '/faq': '2026-11-04',
+  '/notice': '2026-11-04',
+  '/maintenance': '2026-11-04',
+  '/maintenance/pricing': '2026-11-04',
 };
 
 export function buildCaseSitemapEntries(cases: Array<{ slug: string; modifiedAt: string }>) {

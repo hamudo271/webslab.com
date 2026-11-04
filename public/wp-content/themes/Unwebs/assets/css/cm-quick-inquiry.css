@@ -1,0 +1,325 @@
+/**
+ * 언웹스 간편문의 — 메인페이지 우측 슬라이드 위젯 (PC 전용)
+ *
+ * 언웹스 메인 컬러(--cm-primary) 기반. 사이트 버튼 컨벤션(플랫 primary)에 맞춤.
+ * dock(overflow:clip) 구조로 닫힘 상태 패널이 문서 폭을 늘리지 않음(가로스크롤 차단).
+ * 색상 토큰은 위젯 스코프(.uw-qi/.uw-qi-modal)로 격리.
+ */
+
+.uw-qi,
+.uw-qi-modal {
+  --qi-blue:     var(--cm-primary, #3182f6);
+  --qi-blue-d:   #2568d6;                          /* hover·강조용 진한 블루 */
+  --qi-blue-rgb: var(--cm-primary-rgb, 49, 130, 246);
+  --qi-ink:      #15171a;
+  --qi-muted:    #9aa0a6;
+  --qi-line:     #e2e5ea;
+}
+
+/* Dock: 우측 전체높이 고정.
+   overflow:clip → 닫힘 패널이 문서 폭에 기여 안 함 / pointer-events:none → 뒤 페이지 클릭 통과 */
+.uw-qi-dock {
+  position: fixed;
+  inset: 0 0 0 auto;
+  z-index: 9995;
+  display: flex;
+  align-items: center;
+  overflow: clip;
+  overflow-clip-margin: 40px;
+  pointer-events: none;
+}
+
+.uw-qi {
+  --qi-panel-w: 250px;
+  --qi-tab-w:   50px;
+
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+  transform: translateX(var(--qi-panel-w));
+  transition: transform .55s cubic-bezier(.22, .61, .36, 1);
+  font-family: var(--cm-font-main, 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif);
+  will-change: transform;
+}
+.uw-qi.is-open { transform: translateX(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .uw-qi { transition: none; }
+}
+
+/* ---------------- 탭 ---------------- */
+.uw-qi__tab {
+  flex: 0 0 var(--qi-tab-w);
+  align-self: center;
+  min-height: 150px;
+  margin: 0;
+  border: 0;
+  padding: 20px 0;
+  cursor: pointer;
+  color: #fff;
+  background: var(--qi-blue);
+  border-radius: 14px 0 0 14px;
+  box-shadow: -6px 0 22px rgba(var(--qi-blue-rgb), .28);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.uw-qi__tab-text {
+  writing-mode: vertical-rl;
+  letter-spacing: .3em;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+}
+.uw-qi__tab-arrow {          /* 마크업 기본값 ← (닫힘=열라는 왼쪽 화살표) → 열림 시 180° 회전=오른쪽 */
+  display: inline-flex;
+  font-size: 17px;
+  line-height: 1;
+  transition: transform .4s ease;
+}
+.uw-qi.is-open .uw-qi__tab-arrow { transform: rotate(180deg); }
+
+/* ---------------- 패널 ---------------- */
+.uw-qi__panel {
+  flex: 0 0 var(--qi-panel-w);
+  align-self: center;
+  box-sizing: border-box;
+  position: relative;
+  background: #fff;
+  border-radius: 20px 0 0 20px;
+  box-shadow: -14px 0 42px rgba(17, 24, 39, .16);
+  padding: 28px 22px 24px;
+}
+.uw-qi__close {
+  position: absolute;
+  top: 13px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--qi-muted);
+  cursor: pointer;
+}
+.uw-qi__close:hover { color: var(--qi-ink); }
+
+.uw-qi__title {
+  margin: 0 0 18px;
+  font-size: 20px;
+  line-height: 1.35;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  color: var(--qi-ink);
+}
+.uw-qi__title b { color: var(--qi-blue); font-weight: 800; }
+
+/* ---------------- 입력 ---------------- */
+.uw-qi__input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 9px;
+  border: 1.5px solid var(--qi-line);
+  border-radius: 11px;
+  padding: 13px 15px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--qi-ink);
+  background: #fff;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.uw-qi__input::placeholder { color: var(--qi-muted); }
+.uw-qi__input:focus {
+  border-color: var(--qi-blue);
+  box-shadow: 0 0 0 3px rgba(var(--qi-blue-rgb), .12);
+}
+
+.uw-qi__select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%239aa0a6' stroke-width='1.6' d='M1 1.5 6 6.5 11 1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  cursor: pointer;
+}
+
+/* ---------------- 동의 ---------------- */
+.uw-qi__agree {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 7px 0 14px;
+}
+.uw-qi__check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--qi-ink);
+  cursor: pointer;
+  user-select: none;
+}
+.uw-qi__check input {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: var(--qi-blue);
+  cursor: pointer;
+}
+.uw-qi__view {
+  margin-left: auto;
+  border: 0;
+  border-radius: 6px;
+  padding: 6px 11px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #5b6270;
+  background: #f1f3f5;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+.uw-qi__view:hover { background: #e6e9ec; }
+
+/* 허니팟 — 화면·스크린리더에서 완전 숨김 (봇 미끼) */
+.uw-qi__hp {
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------------- 제출 (사이트 컨벤션: 플랫 primary) ---------------- */
+.uw-qi__submit {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  padding: 10px 15px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  color: #fff;
+  cursor: pointer;
+  background: var(--qi-blue);
+  box-shadow: 0 8px 18px rgba(var(--qi-blue-rgb), .26);
+  transition: background .2s ease, box-shadow .2s ease, opacity .2s ease;
+}
+.uw-qi__submit:hover { background: var(--qi-blue-d); }
+.uw-qi__submit:disabled { opacity: .6; cursor: default; box-shadow: none; }
+
+.uw-qi__msg {
+  margin: 10px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+}
+/* 비어있을 땐 공간 예약 없이 완전히 접음 (메시지 있을 때만 표시 → 하단 여백 제거) */
+.uw-qi__msg:empty { display: none; }
+.uw-qi__msg.is-ok  { color: var(--qi-blue-d); }
+.uw-qi__msg.is-err { color: #e5484d; }
+
+/* ---------------- 개인정보 동의 팝업 (본문폭 중앙 팝업) ---------------- */
+.uw-qi-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(15, 17, 20, .5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .28s ease, visibility .28s ease;
+}
+.uw-qi-modal.is-open { opacity: 1; visibility: visible; }
+
+.uw-qi-modal__panel {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(17, 24, 39, .32);
+  overflow: hidden;
+  transform: translateY(10px) scale(.98);
+  transition: transform .28s cubic-bezier(.22, .61, .36, 1);
+}
+.uw-qi-modal.is-open .uw-qi-modal__panel { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .uw-qi-modal__panel { transition: none; }
+}
+
+.uw-qi-modal__head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 17px 20px;
+  border-bottom: 1px solid var(--qi-line);
+}
+.uw-qi-modal__tit {
+  margin: 0;
+  font-size: 16.5px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  color: var(--qi-ink);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.uw-qi-modal__tit::before {          /* 브랜드 컬러 악센트 바 */
+  content: "";
+  width: 4px;
+  height: 15px;
+  border-radius: 2px;
+  background: var(--qi-blue);
+}
+.uw-qi-modal__close {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--qi-muted);
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+}
+.uw-qi-modal__close:hover { background: #f1f3f5; color: var(--qi-ink); }
+
+.uw-qi-modal__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px 22px 24px;
+  color: #444;
+  font-size: 13.5px;
+  line-height: 1.72;
+}
+.uw-qi-modal__body p:first-child { margin-top: 0; }
+.uw-qi-modal__body h4 { margin: 18px 0 5px; font-size: 14px; font-weight: 700; color: #111; }
+.uw-qi-modal__body p  { margin: 5px 0; }
+.uw-qi-modal__body ul { margin: 5px 0; padding-left: 18px; }
+.uw-qi-modal__body li { margin: 3px 0; }
+.uw-qi-modal__foot    { margin-top: 22px; color: #999; font-size: 12.5px; }
+
+/* ---------------- PC 전용: 모바일/태블릿에서 숨김 ---------------- */
+@media (max-width: 768px) {
+  .uw-qi-dock,
+  .uw-qi-modal { display: none !important; }
+}

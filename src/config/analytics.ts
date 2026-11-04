@@ -51,12 +51,13 @@ export const analytics = {
     id: process.env.NEXT_PUBLIC_KAKAO_PIXEL_ID ?? '',
     enabled: isReal(process.env.NEXT_PUBLIC_KAKAO_PIXEL_ID),
   },
+  // 소유확인 코드는 공개값 — env가 비었거나 자리표시자(replace_me 등)면 등록된 실제 코드로 폴백
   verification: {
-    naver:
-      process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION ??
-      'f0d0c06df7f3c48789a39547b8fab344848e1de9',
-    google:
-      process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ??
-      '_ugyViTZzexJlVfe73g-ZrkAepJBh0X_1QPIJiuH95c',
+    naver: isReal(process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION)
+      ? (process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION as string)
+      : 'f0d0c06df7f3c48789a39547b8fab344848e1de9',
+    google: isReal(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION)
+      ? (process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION as string)
+      : '_ugyViTZzexJlVfe73g-ZrkAepJBh0X_1QPIJiuH95c',
   },
 } as const;

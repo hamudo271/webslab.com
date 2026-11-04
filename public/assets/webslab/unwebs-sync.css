@@ -1,0 +1,67 @@
+/* Webslab content on the measured Unwebs presentation/interaction system. */
+.webslab-concept .main-visual-slide.is-active .main-visual-scroll-img {
+  animation: cmPortfolioScroll 6s ease .5s alternate forwards !important;
+}
+.webslab-concept .main-visual-phone {
+  width: 200px;
+  height: 390px;
+  right: 20px;
+  bottom: -80px;
+  overflow: hidden;
+  border: 7px solid #111827;
+  border-radius: 28px;
+  background: #fff;
+  filter: drop-shadow(-10px 10px 30px rgba(0,0,0,.5));
+}
+.webslab-concept .main-visual-phone > img {
+  width: 100%;
+  height: auto !important;
+  max-width: none;
+  object-fit: initial;
+  animation: none !important;
+}
+.webslab-concept .main-portfolio-pc,
+.webslab-concept .main-portfolio-mob { overflow: hidden; }
+.webslab-concept .main-portfolio-pc img,
+.webslab-concept .main-portfolio-mob img {
+  width: 100%;
+  height: auto !important;
+  max-width: none;
+  object-fit: initial;
+  object-position: top;
+}
+.webslab-concept .main-portfolio-pc-img { transition: transform 1.8s cubic-bezier(.22,.61,.36,1); }
+.webslab-concept .main-contact-form-area .uw-inquiry-submit { cursor: pointer; }
+.webslab-concept .uw-inquiry-form[data-preview-only="true"]::before {
+  content: "미리보기에서는 입력 내용을 저장하지 않으며, 제출 시 웹스랩 공식 문의 페이지로 이동합니다.";
+  display: block;
+  margin-bottom: 22px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #f4f7fc;
+  color: #667085;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.webslab-concept .uw-qi__form[data-preview-only="true"]::before {
+  content: "입력 내용은 저장되지 않습니다.";
+  display: block;
+  margin-bottom: 10px;
+  color: rgba(255,255,255,.72);
+  font-size: 12px;
+}
+@media (max-width: 768px) {
+  .webslab-concept .main-visual-phone {
+    width: 92px;
+    height: 182px;
+    right: 0;
+    bottom: -8px;
+    border-width: 4px;
+    border-radius: 17px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .webslab-concept .main-visual-scroll-img,
+.webslab-concept .main-maintenance-track,
+.webslab-concept [class*="digit-box"] { animation: none !important; }
+}

@@ -16,7 +16,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate deploy"
+    "db:migrate": "prisma migrate deploy",
+    "sync:renewal": "node scripts/sync-renewal.mjs",
+    "build:thumbnails": "python3 scripts/build_column_og.py"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

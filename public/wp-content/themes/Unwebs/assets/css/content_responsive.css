@@ -1,0 +1,502 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   Content Responsive — 서브페이지 반응형
+   Breakpoint: 1180(LG) / 768(MD) / 480(SM)
+   ※ --cm-area-px / --cm-section-py / --cm-header-height 같은 공통 토큰은
+     layout.css에서 한 번만 재정의. 여기선 페이지별 개별 스타일만.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1180px 이하 (좁은 PC · 태블릿 가로)
+   ========================================================================== */
+@media (max-width: 1180px) {
+  /* ========== 서브 공통 ========== */
+  html {
+    font-size: 15px;
+  }
+
+  .cm-tit {
+    font-size: 30px;
+  }
+
+  /* ========== service - process ========== */
+  .service-process-wrap {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .service-process-side {
+    flex: none;
+    width: 100%;
+  }
+
+  .service-process-sticky {
+    position: static;
+    padding-top: 0;
+  }
+
+  .service-process-step-list {
+    display: none;
+  }
+
+  .service-process-block {
+    margin-bottom: 80px;
+  }
+
+  .service-process-img {
+    height: 220px;
+    margin-bottom: 24px;
+  }
+
+  .service-process-block-label {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .service-process-block-txt {
+    margin-bottom: 32px;
+  }
+
+  .service-process-roles {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding-top: 26px;
+  }
+
+  .service-process-role {
+    padding: 22px 22px 18px;
+    border-radius: 12px;
+  }
+
+  /* ========== 블로그 / 전문 칼럼 ========== */
+  .blog-layout {
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+  }
+  .blog-single-body { font-size: 16px; }
+  .blog-single-body h2 { font-size: 24px; margin-top: 48px; }
+  .blog-single-body h3 { font-size: 19px; margin-top: 36px; }
+  .blog-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 20px;
+  }
+  .blog-item-info { padding: 24px 22px 20px; }
+  .blog-item-tit { font-size: 17px; }
+
+  /* ========== service - features ========== */
+  .service-features-list {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 32px 18px;
+  }
+  .service-features-icon { margin-bottom: 18px; }
+  .service-features-tit { font-size: 17px; }
+  .service-features-txt { font-size: 13px; }
+
+  /* ========== service - tabs (플로팅) ========== */
+  .service-tabs-link { padding: 10px 22px; font-size: 14px; }
+
+  /* ========== service - info ========== */
+  .service-info-list { gap: 56px 36px; }
+  .service-info-media { margin-bottom: 24px; }
+  .service-info-tit { font-size: 24px; margin-bottom: 14px; }
+  .service-info-desc { font-size: 15px; margin-bottom: 22px; }
+  .service-info-features { gap: 12px; }
+  .service-info-feature-txt { font-size: 16px; }
+
+  /* ========== service - materials ========== */
+  .materials-card { padding: 60px 40px; }
+  .materials-step { padding: 32px 36px; gap: 22px; }
+  .materials-step-tit { font-size: 22px; }
+  .materials-step-desc { font-size: 16px; }
+
+  /* ========== auth (login / register / lostpw) ========== */
+
+  /* ========== maintenance-request-notice ========== */
+
+  /* ========== maintenance-request ========== */
+
+  /* ========== notice ========== */
+
+  /* ========== maintenance-pricing ========== */
+}
+
+
+/* ==========================================================================
+   768px 이하 (태블릿 세로 · 모바일)
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* ========== 서브 공통 ========== */
+  html {
+    font-size: 14px;
+  }
+
+  .cm-tit {
+    font-size: 30px;
+    margin-top: 5px;
+  }
+
+  .cm-tit-txt {
+    font-size: 15px;
+    margin-top: 12px;
+  }
+
+  /* ========== service - process ========== */
+  .service-process-wrap {
+    gap: 30px;
+  }
+
+  .service-process-step {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
+  .service-process-step-num {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .service-process-block {
+    margin-bottom: 60px;
+  }
+
+  .service-process-img {
+    border-radius: 12px;
+    margin-bottom: 20px;
+  }
+
+  .service-process-block-label {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+
+  .service-process-block-txt {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .service-process-roles {
+    gap: 22px;
+  }
+
+  .service-process-role-tag {
+    font-size: 17px;
+    margin-bottom: 12px;
+  }
+
+  .service-process-role-list li {
+    font-size: 13px;
+  }
+
+  /* ========== 블로그 / 전문 칼럼 ========== */
+  .blog-layout {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    margin-top: 36px;
+  }
+  .blog-sidebar {
+    position: static;
+    top: auto;
+  }
+  .blog-sidebar-tit { font-size: 18px; margin-bottom: 12px; padding-bottom: 12px; }
+  .blog-cat-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .blog-cat-item { flex: 0 0 auto; }
+  .blog-cat-item + .blog-cat-item { border-top: 0; }
+  .blog-cat-link {
+    padding: 10px 16px;
+    border: 1px solid var(--cm-border);
+    border-radius: 999px;
+    background: var(--cm-white);
+    font-size: 13px;
+  }
+  .blog-cat-link::before { display: none; }
+  .blog-cat-item.is-active .blog-cat-link {
+    background: var(--cm-primary);
+    border-color: var(--cm-primary);
+    color: var(--cm-white);
+  }
+  .blog-cat-item.is-active .blog-cat-count { color: var(--cm-white); opacity: 0.85; }
+
+  .blog-list {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .blog-item-info { padding: 22px 22px 18px; }
+
+  /* single 768 */
+  .blog-single-body { font-size: 15px; line-height: 1.8; }
+  .blog-single-body h2 { font-size: 21px; margin: 40px 0 16px; padding-bottom: 10px; }
+  .blog-single-body h3 { font-size: 17px; margin: 28px 0 10px; }
+  .blog-single-body blockquote { padding: 16px 20px; margin: 22px 0; }
+
+  /* ========== service - responsive demo ==========
+     가로형(PC/노트북): width 100%, height auto — 모형이 가로로 길게
+     세로형(태블릿/모바일): height 고정, width auto — 모형이 세로로 길게
+     ※ width/height 둘 다 transition 가능하도록 명시값 부여 → 토글 변화가 자연스러움 */
+  .service-responsive-frame {
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-bottom: 0;
+    align-items: center;
+    justify-content: center;
+    min-height: 240px;
+    transition: min-height 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .service-responsive-device {
+    max-width: 100% !important;
+    max-height: 78vh;
+    border-width: 10px;
+    border-radius: 14px;
+    transition: width 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+                height 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+                border-radius 0.55s ease,
+                border-width 0.3s ease;
+  }
+
+  /* 가로형: width 뷰포트 가득, height는 비율로 자동 */
+  .service-responsive-device.is-pc,
+  .service-responsive-device.is-laptop {
+    width: 100% !important;
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  /* 세로형: height 고정, width는 비율로 자동 → 세로로 길게 */
+  .service-responsive-device.is-tablet {
+    width: auto !important;
+    height: 65vh;
+    aspect-ratio: 3 / 4;
+  }
+
+  .service-responsive-device.is-mobile {
+    width: auto !important;
+    height: 65vh;
+    aspect-ratio: 9 / 16;
+    border-radius: 28px;
+  }
+
+  /* ========== service - features ========== */
+  .service-features-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 16px;
+  }
+  .service-features-icon { margin-bottom: 14px; }
+  .service-features-tit { font-size: 15px; margin-bottom: 8px; }
+  .service-features-txt { font-size: 12.5px; line-height: 1.55; }
+
+  /* ========== service - tabs (플로팅) — 모바일 미사용 ========== */
+  .service-tabs-wrap { display: none; }
+
+  /* ========== service - info — 모바일 1열 스택 ========== */
+  .service-info-list {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+  .service-info-media {
+    margin-bottom: 20px;
+    border-radius: 14px;
+  }
+  .service-info-tit { font-size: 20px; margin-bottom: 12px; }
+  .service-info-desc { font-size: 14px; margin-bottom: 18px; line-height: 1.55; }
+  .service-info-features { gap: 10px; }
+  .service-info-check { width: 22px; height: 22px; font-size: 12px; }
+  .service-info-feature { gap: 12px; }
+  .service-info-feature-txt { font-size: 15px; }
+
+  /* ========== service - materials — 박스 제거, 흰 배경 평면 ========== */
+  .service-materials-con {
+    background: #fff;
+    color: var(--cm-text);
+  }
+  .service-materials-con .cm-tit { color: var(--cm-text); }
+  .service-materials-con .cm-tit-sub { color: #86909c; }
+
+  .materials-card {
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    margin-top: 56px; /* 헤더-스텝 간격 확보 */
+  }
+  .materials-steps {
+    gap: 56px;
+  }
+  /* 번호를 가로 옆이 아닌 본문 위 작은 라벨로 — 가로 공간 절약 */
+  .materials-step {
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .materials-step-num {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    margin-top: 0;
+  }
+  /* 모바일: body를 display:contents로 풀어서 자식 재배치
+     순서: 이미지 → 제목 → 설명 (번호는 숨김) */
+  .materials-step-body {
+    display: contents;
+  }
+  .materials-step-num {
+    display: none;
+  }
+  .materials-step-media {
+    order: 1;
+    margin: 0 0 16px;
+    width: 100%;
+  }
+  .materials-step-head {
+    order: 2;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .materials-step-desc {
+    order: 3;
+    font-size: 14px;
+  }
+  .materials-step-tit { font-size: 19px; }
+  .materials-step-cta { padding: 6px 16px; font-size: 13px; }
+  .materials-step-cta i { font-size: 15px; }
+
+  /* ========== service - process (모바일) — 가로 넘침 픽스 + 사이드바 cm-tit-box 간격 ========== */
+  .service-process-wrap {
+    width: 100%;
+    min-width: 0;
+  }
+  .service-process-side,
+  .service-process-blocks {
+    max-width: 100%;
+    width: 100%;
+    min-width: 0;
+  }
+  .service-process-img {
+    aspect-ratio: auto;
+    height: auto;
+  }
+  .service-process-sticky .cm-tit-box {
+    margin-bottom: 24px;
+  }
+  /* 모바일에선 스크롤 반응 애니메이션 비활성 — 인라인 style 안전망 */
+  .service-process-block {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .materials-step-media {
+    background: #f8f9fb;
+    margin-top: 20px;
+  }
+  .materials-step-media.has-video {
+    background: #000;
+    border-color: #2a2f37;
+  }
+  .materials-step-video-toggle {
+    right: 10px;
+    bottom: 10px;
+    width: 32px;
+    height: 32px;
+  }
+  .materials-step-video-toggle i {
+    font-size: 15px;
+  }
+
+  /* ========== auth (login / register / lostpw) ========== */
+
+  /* ========== 헤더 — 로그인/로그아웃 토글 (모바일은 햄버거 메뉴 처리) ========== */
+
+  /* ========== maintenance-request-notice ========== */
+  /* hero padding은 .cm-sub-hero 공통 룰이 처리. cm-tit 사이즈는 .cm-tit 글로벌 룰 사용 */
+
+  /* ========== maintenance-request ========== */
+  /* hero padding은 .cm-sub-hero 공통 룰이 처리 */
+
+  /* 비용 테이블 — 모바일에선 "구분 / 비용" 서브헤드 숨김 + 4열을 2열로 reflow.
+     각 tr은 두 줄(건별 행 → 부가 행)로 자연 흐름 */
+  /* 짝수 위치(부가 서비스 셀)의 우측 border 제거 → 행 우측 끝 정리 */
+
+  /* ========== notice ========== */
+
+  /* ========== maintenance-pricing ========== */
+  /* hero padding은 .cm-sub-hero 공통 룰이 처리 */
+  /* 모바일 1열 스택 시 강조 카드 위에 뱃지 공간 확보 */
+  /* 모바일 1열 스택 시 강조 카드 위에 뱃지 공간 확보 */
+
+  /* ========== sub-faq ========== */
+  .sub-faq-tab {
+    height: 46px;
+    min-width: 86px;
+    padding: 0 22px;
+    font-size: 15px;
+  }
+  .sub-faq-trigger { padding: 22px 16px; gap: 12px; }
+}
+
+
+/* ==========================================================================
+   480px 이하 (작은 모바일)
+   ========================================================================== */
+@media (max-width: 480px) {
+  .cm-tit {
+    font-size: 30px;
+    margin-top: 5px;
+  }
+
+  .cm-tit-txt {
+    font-size: 14px;
+  }
+
+  /* ========== service - responsive demo ========== */
+  .service-responsive-device {
+    border-width: 8px;
+    border-radius: 12px;
+  }
+
+  .service-responsive-device.is-mobile {
+    border-radius: 22px;
+  }
+
+  /* ========== service - features ========== */
+  .service-features-list {
+    gap: 22px 12px;
+  }
+  .service-features-icon { margin-bottom: 12px; border-radius: 10px; }
+  .service-features-tit { font-size: 14px; margin-bottom: 6px; }
+  .service-features-txt { font-size: 12px; }
+
+  /* ========== service - materials (480 추가 조정) ========== */
+  .materials-steps { gap: 48px; }
+  .materials-step { flex-direction: column; gap: 10px; }
+  .materials-step-tit { font-size: 17px; }
+  .materials-step-desc { font-size: 13.5px; }
+  .materials-step-media { margin-top: 16px; }
+
+  /* ========== maintenance-request (480 추가 조정) ========== */
+
+  /* ========== notice (480 추가 조정) ========== */
+
+  /* ========== sub-faq (480 추가 조정) ========== */
+  .sub-faq-tab { height: 40px; min-width: 72px; padding: 0 16px; font-size: 13px; }
+}
+
+
+/* ========== 문의 접수 완료 (inquiry-complete) ========== */
+
+/* 제작 비용 (Service Pricing) — 반응형 */
+
+/* AEO 콘텐츠 블록 반응형 */
+
+/* 개발 백서 반응형 */
+
+/* ========== 가이드센터 문서 레이아웃 ========== */
+
+/* ========== 가이드 nudge ========== */
+
+/* 함께 보면 좋은 글 심플 박스 (26-07-29 v2) */

@@ -1,0 +1,158 @@
+/* WEBSLAB_CONTACT_V1_20261104 — 문의 페이지(/contact/)
+   마디아디자인 문법을 따른다: 흰 바탕, 테두리 알약 라벨, 왼쪽 정렬 큰 검정 제목, 회색 본문 속 검정 굵은 핵심어,
+   숫자는 가는 선으로 나눈 글자 줄, 왼쪽 열과 폼 사이는 세로 가는 선. 그라데이션·그림자·빛 번짐·어두운 카드는 쓰지 않는다.
+   폼 마크업(uw-inquiry)은 그대로 두고 모양만 바꾼다. */
+.ws-cx {
+  --cx-ink: #191919;
+  --cx-body: #555;
+  --cx-gray: #999;
+  --cx-line: #e5e5e5;
+  --cx-fill: #f5f5f7;
+  --cx-blue: #3182f6;
+  padding: calc(var(--cm-header-height, 72px) + clamp(64px, 8vw, 112px)) 24px clamp(96px, 10vw, 150px) !important;
+  background: #fff !important;
+  color: var(--cx-ink);
+  font-family: 'Pretendard Variable', Pretendard, 'Noto Sans KR', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+.ws-cx .area { width: min(100%, 1240px); max-width: none; margin: 0 auto; padding: 0; }
+
+/* 머리 */
+.cx-head { max-width: 760px; }
+.cx-label {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  margin: 0 0 22px;
+  padding: 0 14px;
+  border: 1.5px solid var(--cx-blue);
+  border-radius: 999px;
+  color: var(--cx-blue);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+.cx-title { margin: 0; font-size: clamp(36px, 4vw, 52px); font-weight: 700; line-height: 1.22; letter-spacing: -.03em; word-break: keep-all; }
+.cx-lead { margin: 24px 0 0; color: var(--cx-gray); font-size: 18px; font-weight: 600; line-height: 1.7; letter-spacing: -.03em; word-break: keep-all; }
+.cx-lead b { color: var(--cx-ink); font-weight: 700; }
+
+/* 숫자 — 가는 선으로 나눈 글자 줄 */
+.cx-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: clamp(56px, 6vw, 80px) 0 0; border-top: 1px solid var(--cx-ink); border-bottom: 1px solid var(--cx-line); }
+.cx-stats div { padding: 26px 24px 28px; border-left: 1px solid var(--cx-line); }
+.cx-stats div:first-child { padding-left: 0; border-left: 0; }
+.cx-stats dt { color: var(--cx-gray); font-size: 14px; font-weight: 500; }
+.cx-stats dd { margin: 10px 0 0; font-size: clamp(28px, 2.6vw, 36px); font-weight: 700; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+
+/* 두 열 — 사이에 세로 가는 선 */
+.ws-cx .main-contact-wrap { display: grid !important; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); align-items: start; gap: 0; margin-top: clamp(56px, 6vw, 80px); }
+.cx-side { position: sticky; top: calc(var(--cm-header-height, 72px) + 32px); display: grid; gap: 40px; padding-right: 48px; }
+.cx-block__t { margin: 0 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--cx-line); font-size: 15px; font-weight: 700; letter-spacing: -.02em; }
+.cx-flow { display: grid; gap: 18px; margin: 0; padding: 0; list-style: none; }
+.cx-flow li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; }
+.cx-flow span { color: var(--cx-blue); font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.5; }
+.cx-flow b { display: block; font-size: 15.5px; font-weight: 700; letter-spacing: -.02em; line-height: 1.5; }
+.cx-flow p { margin: 4px 0 0; color: var(--cx-gray); font-size: 14px; line-height: 1.6; word-break: keep-all; }
+.cx-contact { display: grid; gap: 12px; margin: 0; }
+.cx-contact div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; font-size: 14.5px; }
+.cx-contact dt { color: var(--cx-gray); font-weight: 500; }
+.cx-contact dd { margin: 0; font-weight: 600; }
+.cx-contact a { color: var(--cx-ink); text-decoration: none; }
+.cx-contact a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.cx-doc { justify-self: start; color: var(--cx-ink); font-size: 14.5px; font-weight: 600; text-decoration: underline; text-decoration-color: #c8c8c8; text-underline-offset: 5px; }
+.cx-doc span { margin-left: 6px; color: var(--cx-gray); font-weight: 500; }
+.cx-doc:hover { text-decoration-color: var(--cx-ink); }
+
+/* 폼 — 상자 없이, 세로 선 오른쪽에 */
+.ws-cx .main-contact-form-area { padding: 0 0 0 48px; border-left: 1px solid var(--cx-line); }
+.ws-cx .uw-inquiry { margin: 0; counter-reset: cxg; }
+.ws-cx .uw-inquiry-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; }
+.ws-cx .uw-inquiry-group-tit { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 10px; margin: 28px 0 0; padding-bottom: 12px; border-bottom: 1px solid var(--cx-line); font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.ws-cx .uw-inquiry-group-tit:first-child { margin-top: 0; }
+.ws-cx .uw-inquiry-group-tit::before { counter-increment: cxg; content: '0' counter(cxg); color: var(--cx-blue); font-size: 14px; font-weight: 700; }
+.ws-cx .uw-inquiry-field { min-width: 0; margin: 0; padding: 0; border: 0; }
+.ws-cx .uw-inquiry-field--field_message, .ws-cx .uw-inquiry-field--field_attachment, .ws-cx .uw-inquiry-field--field_ref_urls, .ws-cx .uw-inquiry-field--field_current_site { grid-column: 1 / -1; }
+/* 테마(main.css)가 라벨 칸을 .blind 방식으로 숨겨 두었다 — 칸마다 무엇을 적는지 위에 보이게 */
+.ws-cx .main-contact-form-area .uw-inquiry-field-header { position: static !important; width: auto !important; height: auto !important; margin: 0 0 8px !important; overflow: visible !important; clip: auto !important; white-space: normal !important; display: block !important; }
+.ws-cx .uw-inquiry-field-label { display: inline-flex; align-items: center; gap: 3px; color: var(--cx-ink); font-size: 14px; font-weight: 600; letter-spacing: -.02em; }
+.ws-cx .uw-inquiry-field-required { color: var(--cx-blue); text-decoration: none; border: 0; }
+.ws-cx .uw-inquiry-field-input, .ws-cx textarea.uw-inquiry-field-input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--cx-ink);
+  background: var(--cx-fill);
+  font: inherit;
+  font-size: 15.5px;
+  letter-spacing: -.02em;
+  box-sizing: border-box;
+  box-shadow: none;
+  transition: border-color .15s ease, background-color .15s ease;
+}
+.ws-cx textarea.uw-inquiry-field-input { min-height: 150px; padding: 14px 16px; line-height: 1.6; resize: vertical; }
+.ws-cx .uw-inquiry-field-input::placeholder { color: #aaa; }
+.ws-cx .uw-inquiry-field-input:focus { outline: none; border-color: var(--cx-ink); background: #fff; box-shadow: none; }
+.ws-cx .uw-inquiry-field.has-error .uw-inquiry-field-input { border-color: #e5484d; background: #fff; }
+.ws-cx .uw-inquiry-field-error { display: block; margin-top: 6px; color: #e5484d; font-size: 13px; }
+.ws-cx .uw-inquiry-field-error:empty { display: none; }
+.ws-cx .uw-urlrepeat-list { display: grid; gap: 8px; }
+.ws-cx .uw-urlrepeat-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.ws-cx .uw-urlrepeat-remove { width: 36px; height: 36px; border: 1px solid var(--cx-line); border-radius: 8px; color: var(--cx-body); background: #fff; font-size: 18px; line-height: 1; cursor: pointer; }
+.ws-cx .uw-urlrepeat-add { display: inline-flex; align-items: center; gap: 4px; height: 36px; margin-top: 8px; padding: 0 12px; border: 1px solid var(--cx-line); border-radius: 8px; color: var(--cx-ink); background: #fff; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer; }
+.ws-cx .uw-urlrepeat-add:hover, .ws-cx .uw-urlrepeat-remove:hover { border-color: var(--cx-ink); }
+.ws-cx .uw-multifile-box { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 14px 16px; border: 1px dashed #ccc; border-radius: 10px; background: #fff; }
+.ws-cx .uw-multifile-btn { display: inline-flex; align-items: center; gap: 4px; height: 36px; padding: 0 12px; border: 1px solid var(--cx-line); border-radius: 8px; color: var(--cx-ink); background: #fff; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer; }
+.ws-cx .uw-multifile-btn:hover { border-color: var(--cx-ink); }
+.ws-cx .uw-multifile-help { margin: 0; color: var(--cx-gray); font-size: 13px; }
+.ws-cx .main-contact-agree { display: flex; align-items: center; gap: 8px; margin: 28px 0 16px; }
+.ws-cx .main-contact-agree-check { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; color: #fff; background: var(--cx-ink); font-size: 12px; }
+.ws-cx .main-contact-agree-btn { display: inline-flex; align-items: center; gap: 4px; padding: 0; border: 0; background: transparent; color: var(--cx-body); font: inherit; font-size: 14.5px; cursor: pointer; }
+.ws-cx .main-contact-agree-btn:hover { color: var(--cx-ink); }
+.ws-cx .main-contact-agree-required { color: var(--cx-blue); font-weight: 700; }
+.ws-cx .uw-inquiry-actions { margin: 0; }
+.ws-cx .uw-inquiry-submit.uw-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 58px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 10px;
+  color: #fff;
+  background: var(--cx-ink);
+  box-shadow: none;
+  font: inherit;
+  font-size: 16.5px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  cursor: pointer;
+  transition: background-color .15s ease;
+}
+.ws-cx .uw-inquiry-submit.uw-submit-btn::after { content: none; }
+.ws-cx .uw-inquiry-submit.uw-submit-btn:hover { background: #000; }
+.ws-cx .uw-inquiry-submit.uw-submit-btn:focus-visible { outline: 2px solid var(--cx-blue); outline-offset: 3px; }
+.ws-cx .uw-inquiry-message:empty { display: none; }
+.cx-form-note { margin: 12px 0 0; color: var(--cx-gray); font-size: 13.5px; line-height: 1.6; word-break: keep-all; }
+
+@media (max-width: 1024px) {
+  .ws-cx .main-contact-wrap { grid-template-columns: 1fr !important; gap: 48px; }
+  .cx-side { position: static; padding-right: 0; }
+  .ws-cx .main-contact-form-area { padding: 40px 0 0; border-left: 0; border-top: 1px solid var(--cx-ink); }
+  .cx-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cx-stats div:nth-child(3) { padding-left: 0; border-left: 0; }
+  .cx-stats div:nth-child(-n+2) { border-bottom: 1px solid var(--cx-line); }
+}
+@media (max-width: 768px) {
+  .ws-cx { padding-left: 20px !important; padding-right: 20px !important; }
+  .cx-title br { display: none; }
+  .cx-lead { font-size: 16px; }
+  .cx-lead br { display: none; }
+  .cx-stats div { padding: 20px 16px 22px; }
+  .cx-stats div:nth-child(odd) { padding-left: 0; }
+  .ws-cx .uw-inquiry-fields { grid-template-columns: 1fr; }
+}
+
+/* 테마가 두 열 상자에 준 여백·배경·둥근 모서리를 지워 위 숫자 줄과 양 끝을 맞춘다 */
+.ws-cx .main-contact-wrap { max-width: none !important; width: 100% !important; padding: 0 !important; margin-left: 0 !important; margin-right: 0 !important; border: 0 !important; border-radius: 0 !important; background: none !important; box-shadow: none !important; }
+.ws-cx .main-contact-form-area { max-width: none !important; padding-right: 0 !important; border-radius: 0 !important; background: none !important; box-shadow: none !important; }

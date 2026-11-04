@@ -1,0 +1,758 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   Header System
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. Header Base
+   ========================================================================== */
+.cm-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--cm-header-height);
+  z-index: 9999;
+}
+
+.cm-header-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--cm-header-height);
+  z-index: 9999;
+  background-color: transparent;
+  transition: background-color 0.5s cubic-bezier(0.25, 0.8, 0.25, 1),
+              box-shadow 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.cm-header-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: var(--cm-header-height);
+  margin: 0 auto;
+  padding: 0 var(--area-padding);
+}
+
+
+/* ==========================================================================
+   2. Logo
+   ========================================================================== */
+.cm-header-logo {
+  position: relative;
+  z-index: 100;
+}
+
+.cm-header-logo a {
+  display: block;
+}
+
+.cm-header-logo img {
+  height: 50px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  transition: filter 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Text Logo (optional) */
+
+
+/* ==========================================================================
+   3. GNB - PC Navigation
+   ========================================================================== */
+.cm-gnb {
+  position: relative;
+  z-index: 99;
+  margin-left: 40px;
+    margin-left: 70px;
+}
+
+.cm-gnb-list {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 0;
+}
+
+.cm-gnb-item {
+  position: relative;
+  word-break: keep-all;
+}
+
+.cm-gnb-link {
+  position: relative;
+  z-index: 100;
+  line-height: var(--cm-header-height);
+  padding: 15px 30px;
+  border-radius: 10px;
+  text-align: center;
+  color: var(--cm-white);
+  font-size: 16px;
+  font-weight: 700;
+  transition: color 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.cm-header.is-scrolled .cm-gnb-link:hover{  
+    background: var(--cm-bg);
+    transition: 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.cm-gnb-arrow {
+  margin-left: 6px;
+  font-size: 13px;
+  transition: transform 0.3s ease;
+}
+
+.cm-gnb-link:hover .cm-gnb-arrow {
+  transform: rotate(180deg);
+}
+
+.cm-gnb-link:hover,
+.cm-gnb-link:focus,
+.cm-gnb-item.is-active > .cm-gnb-link {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+
+/* ==========================================================================
+   4. GNB Submenu (Dropdown - Each Menu Style)
+   ========================================================================== */
+.cm-gnb-sub {
+  position: absolute;
+  top: calc(var(--cm-header-height) - 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99;
+  min-width: 180px;
+  text-align: left;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* Submenu Background */
+.cm-gnb-sub::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  background-color: var(--cm-white);
+  transition: height 0.2s cubic-bezier(0.4, 0, 1, 1);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 4px, rgba(0, 0, 0, 0.12) 2px 6px 12px;
+  border-radius: 10px;
+}
+
+.cm-gnb-sub-list {
+  padding: 1rem 0;
+}
+
+.cm-gnb-sub-item {
+  position: relative;
+  padding: 0 .5rem;
+  opacity: 0;
+  transition: all 0s 0s;
+}
+
+.cm-gnb-sub-link {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  color: #666;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.7;
+  transition: color 0.3s ease, opacity 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  padding: 0.5rem 0;
+}
+
+/* Submenu Link Hover Background */
+.cm-gnb-sub-link::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #f5f8ff;
+  border-radius: 10px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.cm-gnb-sub-link:hover {
+  color: var(--cm-primary);
+}
+
+.cm-gnb-sub-link:hover::before {
+  opacity: 1;
+}
+
+/* Submenu Open State */
+.cm-gnb-sub.is-open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.cm-gnb-sub.is-open::before {
+  height: 100%;
+}
+
+.cm-gnb-sub.is-open .cm-gnb-sub-item {
+  opacity: 1;
+  transition: var(--cm-transition);
+}
+
+.cm-gnb-sub.is-open .cm-gnb-sub-item:nth-child(1) { transition-delay: 0.15s; }
+.cm-gnb-sub.is-open .cm-gnb-sub-item:nth-child(2) { transition-delay: 0.2s; }
+.cm-gnb-sub.is-open .cm-gnb-sub-item:nth-child(3) { transition-delay: 0.25s; }
+.cm-gnb-sub.is-open .cm-gnb-sub-item:nth-child(4) { transition-delay: 0.3s; }
+.cm-gnb-sub.is-open .cm-gnb-sub-item:nth-child(5) { transition-delay: 0.35s; }
+.cm-gnb-sub.is-open .cm-gnb-sub-item:nth-child(6) { transition-delay: 0.4s; }
+
+
+/* ==========================================================================
+   5. Header CTA Buttons
+   ========================================================================== */
+.cm-header-cta {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.cm-header-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* Outline (샘플 사이트 체험) */
+
+/* Primary (프로젝트 문의) */
+.cm-header-btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--cm-text);
+  background: #fff;
+  border: 1px solid #fff;
+}
+
+.cm-header-btn-primary:hover {
+  background: var(--cm-primary);
+  color: var(--cm-white);
+  border-color: var(--cm-primary);
+}
+
+/* Primary Button Tooltip */
+.cm-header-tooltip {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  color: var(--cm-sub);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  font-size: 13px;
+  font-weight: 400;
+  padding: 8px 16px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+}
+
+.cm-header-tooltip strong {
+  font-weight: 700;
+  color: var(--cm-primary);
+}
+
+.cm-header-btn-primary:hover .cm-header-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* ==========================================================================
+   6. Scrolled State
+   ========================================================================== */
+.cm-header.is-scrolled .cm-header-wrap {
+  background-color: var(--cm-white);
+  border-bottom: 1px solid #ececec;
+}
+
+.cm-header.is-scrolled .cm-header-logo img {
+  filter: none;
+}
+
+.cm-header.is-scrolled .cm-gnb-link {
+  color: var(--cm-text);
+}
+
+.cm-header.is-scrolled .cm-gnb-link:hover,
+.cm-header.is-scrolled .cm-gnb-item.is-active > .cm-gnb-link {
+  color: var(--cm-primary);
+}
+
+/* Scrolled CTA Buttons */
+
+.cm-header.is-scrolled .cm-header-btn-primary {
+  color: #fff;
+  background: var(--cm-text);
+  border-color: var(--cm-text);
+}
+
+.cm-header.is-scrolled .cm-header-btn-primary:hover {
+  background: var(--cm-primary);
+  color: var(--cm-white);
+  border-color: var(--cm-primary);
+}
+
+
+/* ==========================================================================
+   7. Sitemap Overlay — 제거됨 (2026-04-21) */
+
+
+/* ==========================================================================
+   8. Mobile Navigation - Slide-in Accordion Menu
+   ========================================================================== */
+
+/* --- 8.1 Mobile Menu Button (Dot Grid - same as PC) --- */
+.cm-mobile-btn {
+  display: none;
+  position: fixed;
+  top: calc((var(--cm-header-height) - 32px) / 2);
+  right: var(--area-padding);
+  z-index: 10001;
+  height: 40px;
+  padding: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.cm-mobile-btn-dotted {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+.cm-mobile-btn-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--cm-white);
+  margin: 2px;
+  transition: background 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.cm-mobile-btn-dot:nth-child(2),
+.cm-mobile-btn-dot:nth-child(3) {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Scrolled state */
+.cm-header.is-scrolled ~ .cm-mobile-btn .cm-mobile-btn-dot {
+  background: var(--cm-text);
+}
+
+.cm-header.is-scrolled ~ .cm-mobile-btn .cm-mobile-btn-dot:nth-child(2),
+.cm-header.is-scrolled ~ .cm-mobile-btn .cm-mobile-btn-dot:nth-child(3) {
+  background: #999;
+}
+
+/* Menu open state */
+body.mobile-menu-open .cm-mobile-btn .cm-mobile-btn-dot {
+  background: var(--cm-text);
+}
+
+body.mobile-menu-open .cm-mobile-btn .cm-mobile-btn-dot:nth-child(2),
+body.mobile-menu-open .cm-mobile-btn .cm-mobile-btn-dot:nth-child(3) {
+  background: #999;
+}
+
+
+/* --- 8.2 Mobile Overlay --- */
+.cm-mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1),
+              visibility 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body.mobile-menu-open .cm-mobile-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* --- 8.3 Mobile Navigation Panel --- */
+.cm-mobile-nav {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 80%;
+  max-width: 380px;
+  height: 100%;
+  background-color: var(--cm-white);
+  z-index: 10000;
+  transform: translateX(100%);
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+  flex-direction: column;
+}
+
+body.mobile-menu-open .cm-mobile-nav {
+  transform: translateX(0);
+}
+
+
+/* --- 8.4 Mobile Nav Header --- */
+.cm-mobile-nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--cm-border);
+  min-height: var(--cm-header-height);
+  box-sizing: border-box;
+}
+
+.cm-mobile-nav-logo img {
+  height: 32px;
+  width: auto;
+}
+
+
+/* --- 8.5 Mobile Nav Content --- */
+.cm-mobile-nav-content {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0;
+}
+
+.cm-mobile-nav-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+
+/* --- 8.6 Accordion Item --- */
+.cm-mobile-nav-item {
+  border-bottom: 1px solid var(--cm-border);
+}
+
+.cm-mobile-nav-item:last-child {
+  border-bottom: none;
+}
+
+/* Accordion Trigger Button */
+.cm-mobile-nav-trigger,
+.cm-mobile-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 18px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: var(--cm-transition);
+}
+
+
+.cm-mobile-nav-tit {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--cm-text);
+  transition: var(--cm-transition);
+}
+
+.cm-mobile-nav-trigger:hover .cm-mobile-nav-tit,
+.cm-mobile-nav-link:hover .cm-mobile-nav-tit,
+.cm-mobile-nav-item.is-active > .cm-mobile-nav-trigger .cm-mobile-nav-tit,
+.cm-mobile-nav-item.is-active > .cm-mobile-nav-link .cm-mobile-nav-tit {
+  color: #666;
+}
+
+
+/* --- 8.7 Toggle Icon (+/-) --- */
+.cm-mobile-nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--cm-gray);
+  transition: var(--cm-transition);
+}
+
+.cm-mobile-nav-trigger:hover .cm-mobile-nav-icon {
+  color: #666;
+}
+
+/* SVG Icon Base */
+.cm-icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Plus/Minus Toggle State */
+.cm-mobile-nav-icon .cm-icon-minus {
+  display: none;
+}
+
+.cm-mobile-nav-item.is-open .cm-mobile-nav-icon .cm-icon-plus {
+  display: none;
+}
+
+.cm-mobile-nav-item.is-open .cm-mobile-nav-icon .cm-icon-minus {
+  display: block;
+}
+
+
+/* --- 8.8 Accordion Panel (Submenu) --- */
+.cm-mobile-nav-panel {
+  max-height: 0;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.02);
+  transition: max-height 0.5s cubic-bezier(0.2, 0.4, 0.8, 1);
+}
+
+.cm-mobile-nav-item.is-open .cm-mobile-nav-panel {
+  max-height: 500px;
+  transition: max-height 0.5s cubic-bezier(0.2, 0.4, 0.8, 1);
+}
+
+.cm-mobile-nav-sub-list {
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+}
+
+.cm-mobile-nav-sub-link {
+  display: block;
+  padding: 12px 20px 12px 32px;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--cm-gray);
+  transition: var(--cm-transition);
+}
+
+.cm-mobile-nav-sub-link:hover {
+  color: var(--cm-text);
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Main link style (전체보기) */
+
+
+/* --- 8.9 Body Scroll Lock --- */
+body.mobile-menu-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+
+/* ==========================================================================
+   9. Responsive
+   ========================================================================== */
+
+@media (max-width: 1440px) {
+  .cm-header-inner {
+    padding: 0 40px;
+  }
+
+  .cm-gnb {
+    margin-left: 30px;
+  }
+
+  .cm-gnb-list {
+    gap: 4px;
+  }
+
+  .cm-gnb-link {
+    padding: 12px 16px;
+    font-size: 16px;
+  }
+
+  .cm-header-cta {
+    gap: 6px;
+  }
+
+  .cm-header-btn {
+    padding: 8px 18px;
+    font-size: 14px;
+  }
+}
+
+/* Tablet (1180px) - Switch to mobile navigation */
+@media (max-width: 1180px) {
+  .cm-header-inner {
+    padding: 0 24px;
+  }
+
+  .cm-header.is-scrolled .cm-header-wrap {
+    background-color: var(--cm-white);
+    border-bottom: 1px solid var(--cm-border);
+  }
+
+  /* Hide PC elements */
+  .cm-gnb { display: none; }
+  .cm-header-cta { display: none; }
+
+  /* Show mobile elements */
+  .cm-mobile-btn {
+    display: flex;
+    right: 24px;
+  }
+
+  .cm-mobile-overlay {
+    display: block;
+  }
+
+  .cm-mobile-nav {
+    display: flex;
+  }
+}
+
+/* Mobile (768px) */
+@media (max-width: 768px) {
+  .cm-header-inner {
+    padding: 0 20px;
+  }
+
+  .cm-header-logo img {
+    height: 36px;
+  }
+
+  .cm-mobile-btn {
+    right: 20px;
+  }
+
+  .cm-mobile-nav-tit {
+    font-size: 1.2rem;
+  }
+
+  .cm-mobile-nav-sub-link {
+    font-size: 1rem;
+    padding: 10px 20px 10px 28px;
+  }
+}
+
+/* Small Mobile (480px) */
+@media (max-width: 480px) {
+  .cm-header-inner {
+    padding: 0 16px;
+  }
+
+  .cm-header-logo img {
+    height: 36px;
+  }
+
+  .cm-mobile-btn {
+    right: 16px;
+  }
+
+  .cm-mobile-nav {
+    width: 85%;
+    max-width: none;
+  }
+
+  .cm-mobile-nav-header {
+    padding: 12px 16px;
+  }
+
+  .cm-mobile-nav-trigger,
+  .cm-mobile-nav-link {
+    padding: 16px;
+  }
+
+  .cm-mobile-nav-sub-link {
+    padding: 10px 16px 10px 24px;
+  }
+}
+
+
+/* ==========================================================================
+   9. Sub Pages — 메인 외 페이지는 다크 비주얼이 없으므로 항상 '스크롤된' 모습 고정
+   (.is-scrolled 클래스 유무와 무관하게 CSS가 덮어쓴다)
+   ========================================================================== */
+body:not(.home) .cm-header .cm-header-wrap {
+  background-color: var(--cm-white);
+  border-bottom: 1px solid #ececec;
+}
+
+body:not(.home) .cm-header .cm-header-logo img {
+  filter: none;
+}
+
+body:not(.home) .cm-header .cm-gnb-link {
+  color: var(--cm-text);
+}
+
+body:not(.home) .cm-header .cm-gnb-link:hover,
+body:not(.home) .cm-header .cm-gnb-item.is-active > .cm-gnb-link {
+  color: var(--cm-primary);
+}
+
+body:not(.home) .cm-header .cm-gnb-link:hover {
+  background: var(--cm-bg);
+  transition: 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body:not(.home) .cm-header .cm-header-btn-primary {
+  color: #fff;
+  background: var(--cm-text);
+  border-color: var(--cm-text);
+}
+
+body:not(.home) .cm-header .cm-header-btn-primary:hover {
+  background: var(--cm-primary);
+  color: var(--cm-white);
+  border-color: var(--cm-primary);
+}
+
+body:not(.home) .cm-header ~ .cm-mobile-btn .cm-mobile-btn-dot {
+  background: var(--cm-text);
+}
+
+body:not(.home) .cm-header ~ .cm-mobile-btn .cm-mobile-btn-dot:nth-child(2),
+body:not(.home) .cm-header ~ .cm-mobile-btn .cm-mobile-btn-dot:nth-child(3) {
+  background: #999;
+}

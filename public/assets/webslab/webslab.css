@@ -1,0 +1,11 @@
+:root{--ws-blue:#1768ff;--ws-blue-dark:#0b43cc;--ws-ink:#0b1020}
+.webslab-concept .cm-header-logo img,.webslab-concept .cm-mobile-nav-logo img,.webslab-concept .cm-footer-logo img{width:150px;height:auto;object-fit:contain}
+.webslab-concept .cm-footer-logo img{filter:brightness(0) invert(1)}
+.webslab-concept .main-visual-bg-img{background-size:cover;background-position:center;filter:saturate(.85)}
+.webslab-concept .main-visual-bg-img:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,12,34,.9),rgba(12,38,86,.62) 48%,rgba(8,20,46,.72))}
+.webslab-concept .main-visual-phone>img{width:100%;height:100%;object-fit:cover;object-position:top;animation:none!important}
+.webslab-concept .main-visual-btn-primary,.webslab-concept .cm-header-btn-primary,.webslab-concept .cm-footer-cta-btn-primary{background:var(--ws-blue)!important;border-color:var(--ws-blue)!important}
+.webslab-concept .main-portfolio-pc img,.webslab-concept .main-portfolio-mob img{width:100%;height:100%;object-fit:cover;object-position:top}
+.webslab-concept .main-portfolio-mob{display:block}
+.webslab-concept .cm-footer-info a{color:inherit}
+@media(prefers-reduced-motion:reduce){.webslab-concept *{scroll-behavior:auto!important}}
