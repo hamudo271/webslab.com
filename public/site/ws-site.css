@@ -133,7 +133,7 @@
 .ws-prose li::marker { color: var(--ws-gray); }
 .ws-prose strong, .ws-prose b { color: var(--ws-ink); font-weight: 700; }
 .ws-prose a { color: var(--ws-blue); text-decoration: underline; text-underline-offset: 3px; }
-.ws-prose blockquote { margin: 24px 0; padding: 4px 0 4px 18px; border-left: 3px solid var(--ws-blue); color: var(--ws-body); }
+.ws-prose blockquote { margin: 24px 0; padding: 2px 0 2px 18px; border-left: 2px solid #c8c8c8; color: var(--ws-body); }
 .ws-prose img { display: block; max-width: 100%; height: auto; margin: 28px auto; border-radius: 12px; }
 .ws-prose table { width: 100%; margin: 24px 0; border-collapse: collapse; font-size: 15px; }
 .ws-prose th, .ws-prose td { padding: 10px 12px; border-bottom: 1px solid var(--ws-line); text-align: left; vertical-align: top; }
