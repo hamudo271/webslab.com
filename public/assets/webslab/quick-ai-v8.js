@@ -283,12 +283,81 @@
   /* ── 굴절 유리: backdrop-filter에 SVG 변위를 쓰는 건 Chromium만 지원 ── */
   if (navigator.userAgentData && CSS.supports('backdrop-filter', 'blur(1px)')) root.classList.add('is-liquid');
 
-  /* ── Siri식 오브 — 마스터 캔버스 하나를 그려 모든 오브에 복사한다 ──
-     다섯 색 빛 덩어리가 각자 다른 궤도로 돌며 가산 합성(lighter)으로 겹친다. 겹친 곳은 하얗게 타오른다.
-     답변 중에는 속도·진폭이 부드럽게 올라간다. 화면 밖·탭 숨김·움직임 최소화에서는 멈춘다. */
+  /* ── 오브 — 마스터 캔버스 하나를 그려 모든 오브(머리·환영·답변·입력창)에 복사한다 ──
+     WebGL: 빛나는 실선이 감아 도는 에너지 구체. 앞·뒤 두 겹의 물결 실선이 돌고, 둘레 고리가 밝게 타며,
+     가장자리에서 가는 실과 입자가 밖으로 흩날린다(웹스랩 파랑 → 하늘빛 → 흰색, 뒤쪽 실선은 보라 기운).
+     WebGL이 없으면 아래 2D 빛 덩어리 오브로 그린다. 답변 중에는 회전·밝기·흩날림이 부드럽게 올라간다.
+     탭 숨김·움직임 최소화에서는 멈춘다. */
+  function glOrb(M) {
+    var cv = document.createElement('canvas'); cv.width = cv.height = M;
+    var gl = cv.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false, preserveDrawingBuffer: true });
+    if (!gl) return null;
+    var VS = 'attribute vec2 a;varying vec2 v;void main(){v=a;gl_Position=vec4(a,0.,1.);}';
+    var FS = [
+      'precision mediump float;varying vec2 v;uniform float t;uniform float e;',
+      'float h(vec3 p){p=fract(p*.3183+.1);p*=17.;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}',
+      'float n(vec3 x){vec3 i=floor(x),f=fract(x);f=f*f*(3.-2.*f);',
+      ' return mix(mix(mix(h(i),h(i+vec3(1,0,0)),f.x),mix(h(i+vec3(0,1,0)),h(i+vec3(1,1,0)),f.x),f.y),',
+      '  mix(mix(h(i+vec3(0,0,1)),h(i+vec3(1,0,1)),f.x),mix(h(i+vec3(0,1,1)),h(i+vec3(1,1,1)),f.x),f.y),f.z);}',
+      'float fb(vec3 p){return .55*n(p)+.3*n(p*2.1+3.1)+.15*n(p*4.3+7.7);}',
+      'float h2(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}',
+      /* 구 위 한 점의 실선 밝기 — 물결치는 위도선 두 갈래가 엇갈린다 */
+      'float strands(vec3 P,float T){',
+      ' float c=cos(T),s=sin(T);P=vec3(c*P.x+s*P.z,P.y,-s*P.x+c*P.z);',
+      ' float c2=cos(.45),s2=sin(.45);P=vec3(P.x,c2*P.y-s2*P.z,s2*P.y+c2*P.z);',
+      ' float w=fb(P*1.7+vec3(0.,T*.35,0.));',
+      ' float a=P.y*5.+w*4.6;float b=P.y*3.4-P.x*1.8+fb(P*2.3+vec3(5.,0.,T*.3))*5.;',
+      ' float da=abs(sin(a*1.5708)),db=abs(sin(b*1.5708));',
+      ' float la=exp(-da*11.)*.9+exp(-da*48.)*1.5,lb=(exp(-db*14.)*.7+exp(-db*60.)*1.2)*.85;',
+      ' float cc=P.y*8.5+P.z*2.+fb(P*3.1+vec3(T*.4,2.,0.))*7.;float dc=abs(sin(cc*1.5708));',
+      ' float lc=(exp(-dc*18.)*.45+exp(-dc*80.)*.9)*.75;',      /* 가는 잔실 — 촘촘함 */
+      ' float grain=.6+.4*n(P*22.+T*2.);',
+      ' return (la+lb+lc)*grain;}',
+      'void main(){',
+      ' vec2 p=v;float r=length(p);float R=.6;',
+      ' float T=t*(.35+e*.65);',
+      ' float I=0.;vec3 col=vec3(0.);',
+      ' vec3 deep=vec3(.12,.33,.96),blue=vec3(.19,.51,.97),sky=vec3(.62,.82,1.),violet=vec3(.42,.36,1.);',
+      ' if(r<R){',
+      '  float z=sqrt(R*R-r*r);',
+      '  float front=strands(vec3(p,z)/R,T),back=strands(vec3(p,-z)/R,T);',
+      '  float rim=pow(1.-z/R,1.6);',
+      '  float f=front*(1.05+1.2*rim);',
+      '  col+=mix(blue,sky,clamp(f*.8,0.,1.))*f*1.9+violet*back*.55;',
+      '  col+=deep*(.2+.4*rim);',                               /* 안쪽 은은한 빛 */
+      '  I+=f+back*.25+.12+rim*.35;',
+      ' }',
+      ' float ang=atan(p.y,p.x);',
+      ' float ring=exp(-abs(r-R)*55.)*(.45+.75*fb(vec3(ang*2.,T*.8,1.)));',  /* 끊겼다 이어지는 밝은 둘레 */
+      ' col+=mix(blue,sky,.6)*ring*1.3;I+=ring;',
+      ' float out_=max(r-R,0.);',
+      ' float wisp=smoothstep(.42,.85,fb(vec3(ang*3.2,r*5.-T*1.6,T*.4)))*exp(-out_*(7.-e*2.5));',  /* 밖으로 흩날리는 실 */
+      ' wisp*=step(R*.92,r);col+=mix(blue,sky,.4)*wisp*1.5;I+=wisp*.9;',
+      ' vec2 g=vec2(ang*26.,(r-T*.12)*38.);vec2 ci=floor(g);float sh=h2(ci);',
+      ' float spark=step(.93-e*.04,sh)*smoothstep(.45,0.,length(fract(g)-.5))*exp(-out_*7.)*step(R*.8,r);',  /* 입자 */
+      ' col+=sky*spark*1.2;I+=spark;',
+      ' col+=deep*exp(-out_*7.)*.18*step(R,r);',                 /* 바깥 은은한 빛 번짐 */
+      ' float al=clamp(I*1.1+length(col)*.3,0.,1.)*smoothstep(1.,.78,r);',
+      ' col=1.-exp(-col*1.7);',
+      ' gl_FragColor=vec4(col*al,al);}'
+    ].join('\n');
+    function sh(type, src) { var x = gl.createShader(type); gl.shaderSource(x, src); gl.compileShader(x); return gl.getShaderParameter(x, gl.COMPILE_STATUS) ? x : null; }
+    var vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS); if (!vs || !fs) return null;
+    var pr = gl.createProgram(); gl.attachShader(pr, vs); gl.attachShader(pr, fs); gl.linkProgram(pr);
+    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return null;
+    gl.useProgram(pr);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(pr, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    var uT = gl.getUniformLocation(pr, 't'), uE = gl.getUniformLocation(pr, 'e');
+    gl.viewport(0, 0, M, M); gl.clearColor(0, 0, 0, 0);
+    return { canvas: cv, draw: function (time, energy) { gl.clear(gl.COLOR_BUFFER_BIT); gl.uniform1f(uT, time); gl.uniform1f(uE, energy); gl.drawArrays(gl.TRIANGLES, 0, 3); } };
+  }
   (function orbs() {
     var M = 160, master = document.createElement('canvas'); master.width = master.height = M;
-    var g = master.getContext('2d'); if (!g) return;
+    var webgl = glOrb(200);
+    if (webgl) { master = webgl.canvas; M = 200; root.classList.add('has-gl-orb'); }
+    var g = webgl ? null : master.getContext('2d'); if (!webgl && !g) return;
     var blobs = [
       { c: [90, 220, 255], r: .40, ax: .30, ay: .22, wx: .53, wy: .71, p: 0.0 },
       { c: [60, 110, 255],  r: .46, ax: .26, ay: .30, wx: .37, wy: .47, p: 1.7 },
@@ -300,6 +369,7 @@
     function paint(dt) {
       var target = root.classList.contains('is-busy') ? 1 : 0;
       energy += (target - energy) * Math.min(1, dt * 3);
+      if (webgl) { t += dt; webgl.draw(t + 7, energy); return; }
       t += dt * (0.55 + energy * 2.2);
       var R = M / 2, amp = 1 + energy * .35;
       g.globalCompositeOperation = 'source-over';
@@ -334,7 +404,8 @@
         var w = o.offsetWidth; if (!w) return;
         var cv = o.firstElementChild;
         if (!cv || cv.tagName !== 'CANVAS') { cv = document.createElement('canvas'); o.insertBefore(cv, o.firstChild); }
-        var px = Math.round(w * Math.min(2, window.devicePixelRatio || 1));
+        // WebGL 구체는 흩날림까지 담으려고 캔버스를 오브보다 크게(136%) 그린다
+        var px = Math.round(w * (webgl ? 1.36 : 1) * Math.min(2, window.devicePixelRatio || 1));
         if (cv.width !== px) { cv.width = cv.height = px; }
         list.push(cv);
       });
