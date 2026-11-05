@@ -3,7 +3,7 @@
 
 import { COMMERCIAL_METADATA } from '@/lib/seo-policy';
 import { extractFaqs } from '@/lib/site-html';
-import { faqPageJsonLd, serviceJsonLd } from '@/lib/jsonld';
+import { caseStudyJsonLd, faqPageJsonLd, serviceJsonLd } from '@/lib/jsonld';
 import { portfolios } from '@/data/portfolios';
 
 import home from './pages/home.html';
@@ -34,6 +34,8 @@ export type SitePage = {
   html: string;
   /** 브레드크럼·WebPage name */
   name: string;
+  /** 원본 <title> 대신 쓸 검색 제목(원본이 너무 짧을 때) */
+  title?: string;
   /** 홈과 자기 자신 사이의 상위 경로 */
   parents?: Crumb[];
   /** 원본 meta description 대신 쓸 설명(원본이 시안 문구일 때) */
@@ -62,7 +64,7 @@ export const CASE_SLUGS = Object.keys(caseHtml);
 
 export const SITE_PAGES: SitePage[] = [
   { path: '/', html: home, name: '홈', description: COMMERCIAL_METADATA['/'].description },
-  { path: '/about', html: about, name: '회사소개' },
+  { path: '/about', html: about, name: '회사소개', title: `${COMMERCIAL_METADATA['/about'].title} | 웹스랩` },
   {
     path: '/service',
     html: service,
@@ -99,24 +101,54 @@ export const SITE_PAGES: SitePage[] = [
       parents: [{ name: '포트폴리오', path: '/portfolio' }],
       ogImage: p?.cover,
       modified: p?.modifiedAt,
+      extraJsonLd: () =>
+        p
+          ? [
+              caseStudyJsonLd({
+                path: `/portfolio/${slug}`,
+                name: p.title,
+                description: p.description,
+                image: p.cover,
+                year: p.year,
+                client: p.client,
+                siteUrl: p.url,
+                keywords: p.services,
+              }),
+            ]
+          : [],
     };
   }),
-  { path: '/column', html: column, name: '전문 칼럼' },
-  { path: '/contact', html: contact, name: '문의하기' },
+  { path: '/column', html: column, name: '전문 칼럼', title: '홈페이지 제작·리뉴얼 전문 칼럼 | 웹스랩' },
+  {
+    path: '/contact',
+    html: contact,
+    name: '문의하기',
+    title: '홈페이지 제작 견적 문의 | 웹스랩',
+    description:
+      '홈페이지 제작·리뉴얼 견적 문의. 현재 상황과 목표를 알려주시면 필요한 범위를 1영업일 안에 정리해 회신드립니다. 계약 전 메인 시안은 무료입니다.',
+  },
   {
     path: '/faq',
     html: faq,
     name: '자주묻는질문',
+    title: '홈페이지 제작 비용·기간 자주 묻는 질문 | 웹스랩',
     extraJsonLd: (raw) => {
       const faqs = extractFaqs(raw);
       return faqs.length ? [faqPageJsonLd(faqs)] : [];
     },
   },
-  { path: '/notice', html: notice, name: '공지사항' },
+  {
+    path: '/notice',
+    html: notice,
+    name: '공지사항',
+    title: '공지사항 — 웹스랩 운영 안내 | 웹스랩',
+    description: '웹스랩의 새 소식과 운영 안내를 전합니다. 상담·휴무 일정과 서비스 안내 변경 사항을 이곳에서 먼저 확인하세요.',
+  },
   {
     path: '/maintenance',
     html: maintenance,
     name: '유지보수 신청',
+    title: '홈페이지 유지보수 신청 | 웹스랩',
     extraJsonLd: () => [
       serviceJsonLd({
         name: '홈페이지 유지보수',
@@ -132,7 +164,7 @@ export const SITE_PAGES: SitePage[] = [
     name: '유지보수 비용 안내',
     parents: [{ name: '유지보수 신청', path: '/maintenance' }],
   },
-  { path: '/careers', html: careers, name: '채용' },
+  { path: '/careers', html: careers, name: '채용', title: '채용 — 웹 디자이너·퍼블리셔·개발자·기획 | 웹스랩' },
 ];
 
 export function getSitePage(path: string): SitePage {

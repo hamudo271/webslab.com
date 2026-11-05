@@ -404,6 +404,42 @@ function textOf(fragment: string): string {
     .trim();
 }
 
+// ---------------------------------------------------------------------------
+// 속도 — 시안에 딸려 온 WordPress 군더더기와 렌더를 막는 스크립트 정리 (2026-11-05 Lighthouse 기준)
+// ---------------------------------------------------------------------------
+
+/** 블록 에디터용 인라인 스타일 — 리뉴얼 페이지는 wp-block·has-* 클래스를 쓰지 않는다(페이지당 약 14KB) */
+const UNUSED_WP_STYLES = [
+  'wp-img-auto-sizes-contain-inline-css',
+  'wp-block-library-inline-css',
+  'classic-theme-styles-inline-css',
+  'global-styles-inline-css',
+];
+/** 버전 없는 unpkg 주소는 302를 한 번 거친다 — 버전을 고정한 jsDelivr(이미 preconnect)로 */
+const SPLITTING_SRC = 'https://cdn.jsdelivr.net/npm/splitting@1.1.0/dist/splitting.min.js';
+
+export function optimizeAssets(html: string): string {
+  let out = html;
+  for (const id of UNUSED_WP_STYLES) out = out.replace(new RegExp(`<style id="${id}">[\\s\\S]*?</style>\\s*`, 'g'), '');
+  out = out
+    .replace(/src="https:\/\/unpkg\.com\/splitting\/dist\/splitting\.min\.js[^"]*"/g, `src="${SPLITTING_SRC}"`)
+    .replace(/<link rel="preconnect" href="https:\/\/unpkg\.com"[^>]*>\s*/g, '')
+    .replace(/<link rel=['"]dns-prefetch['"] href=['"]\/\/unpkg\.com['"][^>]*>\s*/g, '');
+  // 외부 스크립트는 전부 defer — 문서 순서대로 실행되므로 jQuery → 테마 → 리뉴얼 레이어 순서는 그대로다.
+  // 인라인 스크립트는 설정값(uwBoard·uwInquiry)만 정의해 외부 스크립트보다 먼저 돌아도 된다.
+  // 운영 head 조각(폼 연결·분석)은 이 변환 뒤에 들어가 영향을 받지 않는다.
+  out = out.replace(/<script\b([^>]*)\bsrc="([^"]+)"([^>]*)><\/script>/g, (tag, before: string, src: string, after: string) => {
+    const attrs = before + after;
+    if (/\b(defer|async)\b|type="module"/.test(attrs)) return tag;
+    return `<script${before}src="${src}"${after} defer></script>`;
+  });
+  // 채용 히어로 사진은 CSS 배경이라 늦게 발견된다(가장 큰 화면 요소) — 미리 받기
+  if (out.includes('class="cr-hero__photo"')) {
+    out = out.replace('</head>', '<link rel="preload" as="image" href="/assets/webslab/careers-team.webp" fetchpriority="high">\n</head>');
+  }
+  return out;
+}
+
 export type ProductionOptions = {
   title?: string;
   headStart: string;
@@ -422,6 +458,7 @@ export function toProductionHtml(raw: string, opts: ProductionOptions): string {
   html = removeForeignCaseImages(html);
   html = rewriteFooter(html);
   html = normalizeLinks(html);
+  html = optimizeAssets(html);
   html = injectHead(html, opts.headStart, opts.headEnd);
   html = injectBodyStart(html, opts.bodyStart ?? '');
   html = disableEmailObfuscation(html);

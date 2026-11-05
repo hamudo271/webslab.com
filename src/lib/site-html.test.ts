@@ -57,6 +57,17 @@ describe('리뉴얼 페이지 운영 변환 (src/site/pages 전체)', () => {
     expect(html.trimEnd()).toMatch(/<!--\/email_off--><\/body>\s*<\/html>$/i);
   });
 
+  it.each(pages)('$name — 속도: 안 쓰는 WP 인라인 스타일이 없고, 외부 스크립트는 defer(폼 연결만 동기)', ({ raw }) => {
+    const html = toProductionHtml(raw, { headStart: '<script src="/site/ws-forms.js?v=x"></script>', headEnd: '' });
+    expect(html).not.toContain('global-styles-inline-css');
+    expect(html).not.toContain('wp-block-library-inline-css');
+    expect(html).not.toContain('unpkg.com');
+    const sync = (html.match(/<script\b[^>]*\bsrc="[^"]+"[^>]*>/g) ?? [])
+      .filter((tag) => !/\b(defer|async)\b|type="module"/.test(tag))
+      .map((tag) => tag.match(/src="([^"]+)"/)![1]);
+    expect(sync).toEqual(['/site/ws-forms.js?v=x']);
+  });
+
   it.each(pages)('$name — 푸터에 사업자 정보와 약관 링크가 들어간다', ({ raw }) => {
     const html = produce(raw);
     expect(html).toContain(brand.legal.businessNumber);

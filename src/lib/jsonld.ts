@@ -223,3 +223,31 @@ export function serviceJsonLd(s: ServiceInput) {
     },
   };
 }
+
+type CaseStudyInput = {
+  path: string;
+  name: string;
+  description: string;
+  image?: string;
+  year: number;
+  client: string;
+  siteUrl?: string;
+  keywords: string[];
+};
+
+/** 제작사례 상세 — 웹스랩이 만든 사이트(CreativeWork). 대상 고객사 사이트는 about으로 잇는다. */
+export function caseStudyJsonLd(c: CaseStudyInput) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    '@id': `${absoluteUrl(c.path)}#case`,
+    name: c.name,
+    description: c.description,
+    url: absoluteUrl(c.path),
+    ...(c.image ? { image: absoluteUrl(c.image) } : {}),
+    dateCreated: String(c.year),
+    keywords: c.keywords.join(', '),
+    creator: { '@type': 'Organization', name: brand.name, url: brand.url },
+    about: { '@type': 'Organization', name: c.client, ...(c.siteUrl ? { url: c.siteUrl } : {}) },
+  };
+}

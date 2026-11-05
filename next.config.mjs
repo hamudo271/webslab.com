@@ -13,6 +13,14 @@ const nextConfig = {
       { protocol: 'https', hostname: 'res.cloudinary.com' }, // 칼럼 썸네일/본문 이미지
     ],
   },
+  // 정적 파일 캐시 — 기본값(max-age=0)이면 Cloudflare가 요청마다 원서버에 다시 확인(REVALIDATED)해 느렸다.
+  // CSS·JS는 ?v=로 버전이 바뀌고, 이미지·폰트는 거의 바뀌지 않는다. 30일 + 만료 뒤 1주는 옛 사본을 쓰며 갱신.
+  async headers() {
+    const value = 'public, max-age=2592000, stale-while-revalidate=604800';
+    return ['/assets/:path*', '/wp-content/:path*', '/wp-includes/:path*', '/images/:path*', '/fonts/:path*', '/og/:path*', '/site/:path*'].map(
+      (source) => ({ source, headers: [{ key: 'Cache-Control', value }] }),
+    );
+  },
   // 예전 사이트 주소 301 (Search Console 404 정리) — 목록은 src/config/legacy-redirects.mjs
   async redirects() {
     return LEGACY_REDIRECTS.map((r) => ({ ...r, statusCode: 301 }));

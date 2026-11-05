@@ -27,9 +27,32 @@
 
   var VERT = 'attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
   var FRAG = [
+    /* 점 배치는 큰 정수 인덱스를 다뤄 highp가 필요하다 — 없는 기기는 위도 줄 방식으로 대체 */
+    '#ifdef GL_FRAGMENT_PRECISION_HIGH',
+    'precision highp float;',
+    '#define SF 1',
+    '#else',
     'precision mediump float;',
+    '#endif',
     'uniform vec2 r;uniform vec2 c;uniform float R;uniform float t;uniform vec2 m;uniform sampler2D land;',
     'const float PI=3.14159265;',
+    /* 구면 피보나치 점 — 구 전체에 점 N개를 완전히 고르게 깔고, 한 방향에서 가장 가까운 점까지 거리를 O(1)로 구한다
+       (Keinert 외, "Spherical Fibonacci Mapping", 2015). 위도 줄 방식과 달리 극지방에 동심원 무늬가 생기지 않는다 */
+    '#ifdef SF',
+    'const float PHI=1.61803399;',
+    'float mf(float a,float b){return a*b-floor(a*b);}',
+    'float sfDist(vec3 p,float n){',
+    ' float phi=min(atan(p.y,p.x),PI),ct=p.z;',
+    ' float k=max(2.,floor(log(n*PI*sqrt(5.)*(1.-ct*ct))/log(PHI*PHI)));',
+    ' float Fk=pow(PHI,k)/sqrt(5.);vec2 F=vec2(floor(Fk+.5),floor(Fk*PHI+.5));',
+    ' vec2 ka=2.*F/n;vec2 kb=2.*PI*(fract((F+1.)*PHI)-(PHI-1.));',
+    ' mat2 iB=mat2(ka.y,-ka.x,kb.y,-kb.x)/(ka.y*kb.x-ka.x*kb.y);',
+    ' vec2 cc=floor(iB*vec2(phi,ct-(1.-1./n)));float d=8.;',
+    ' for(int s=0;s<4;s++){vec2 o=vec2(mod(float(s),2.),floor(float(s)/2.));',
+    '  float i=clamp(dot(F,o+cc),0.,n-1.);float ph=2.*PI*mf(i,PHI-1.);float c2=1.-(2.*i+1.)/n;float s2=sqrt(max(1.-c2*c2,0.));',
+    '  vec3 q=vec3(cos(ph)*s2,sin(ph)*s2,c2);d=min(d,dot(q-p,q-p));}',
+    ' return sqrt(d);}',
+    '#endif',
     'float h2(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}',
     'float box(vec2 p,vec2 b,float rd){vec2 q=abs(p)-b+rd;return length(max(q,0.))+min(max(q.x,q.y),0.)-rd;}',
     /* 흐릿한 HUD 패널 한 장: 테두리 빛 + 옅은 면 + 안쪽 줄 */
@@ -62,8 +85,16 @@
     '  vec2 tu=lonlat(n,spin),tb=lonlat(nb,spin);',
     '  float L=texture2D(land,tu).r,Lb=texture2D(land,tb).r;',
     '  float coast=pow(clamp(4.*L*(1.-L),0.,1.),.7);',             /* 해안선 — 마스크 가장자리 */
-    '  float cl=max(cos((.5-tu.y)*PI),.05);',                            /* 위도가 높을수록 경도 방향 점 간격을 넓혀 극지방 뭉침을 막는다 */
-    '  vec2 g=vec2(tu.x*360.*cl,tu.y*180.);float dotv=smoothstep(.45,.05,length(fract(g)-.5));',  /* 점 대륙 */
+    /* 점 대륙 — 구면 피보나치(highp) 또는 위도 줄 방식(대체) */
+    '#ifdef SF',
+    '  float lo=(tu.x-.5)*2.*PI,la=(.5-tu.y)*PI;',                     /* 지구에 붙은 방향(자전과 함께 돈다) */
+    '  vec3 ef=vec3(cos(la)*sin(lo),cos(la)*cos(lo),sin(la));',
+    '  float dotv=smoothstep(.0105,.0045,sfDist(ef,24000.));',          /* 점 2만 4천 개 ≈ 1.3도 간격 — 화면 해상도에서 줄무늬 없이 또렷하게 */
+    '#else',
+    '  float rowf=tu.y*180.,row=floor(rowf);float latc=(.5-(row+.5)/180.)*PI;',
+    '  float nd=max(floor(360.*cos(latc)),1.);',
+    '  vec2 cell=vec2(fract(tu.x*nd)-.5,fract(rowf)-.5);float dotv=smoothstep(.45,.05,length(cell));',
+    '#endif',
     '  vec2 gr=abs(fract(vec2(tu.x*24.,tu.y*12.)+.5)-.5);float grid=max(exp(-gr.x*90.),exp(-gr.y*90.));',
     '  float fres=pow(1.-z,2.2);',
     '  vec3 ocean=vec3(.02,.075,.22)*(.55+.9*fres);',

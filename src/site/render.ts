@@ -115,7 +115,7 @@ export function sitePageHtml(pagePath: string, mutate?: (raw: string) => string)
   return renderHtml({
     raw: mutate ? mutate(page.html) : page.html,
     path: page.path,
-    title: readTitle(page.html),
+    title: page.title ?? readTitle(page.html),
     description,
     ogImage: page.ogImage,
     jsonLd: [...jsonLd, ...(page.extraJsonLd?.(page.html) ?? [])],

@@ -94,3 +94,24 @@ describe('serviceJsonLd', () => {
     expect(ld.areaServed).toBe('KR');
   });
 });
+
+describe('caseStudyJsonLd', () => {
+  it('제작사례를 CreativeWork로, 고객사 사이트는 about으로 잇는다', async () => {
+    const { caseStudyJsonLd } = await import('./jsonld');
+    const ld = caseStudyJsonLd({
+      path: '/portfolio/sample',
+      name: '샘플 사이트',
+      description: '설명',
+      image: '/images/portfolio/sample.webp',
+      year: 2026,
+      client: '샘플',
+      siteUrl: 'https://example.com',
+      keywords: ['UI/UX', '반응형 웹'],
+    });
+    expect(ld['@type']).toBe('CreativeWork');
+    expect(ld.url).toMatch(/\/portfolio\/sample$/);
+    expect(ld.about).toEqual({ '@type': 'Organization', name: '샘플', url: 'https://example.com' });
+    expect(ld.creator.name).toBe('websLAB');
+    expect(ld.keywords).toBe('UI/UX, 반응형 웹');
+  });
+});

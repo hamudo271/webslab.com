@@ -417,11 +417,14 @@
       return list;
     }
     function blit(list) { for (var i = 0; i < list.length; i++) { var c = list[i], x = c.getContext('2d'); x.clearRect(0, 0, c.width, c.height); x.drawImage(master, 0, 0, c.width, c.height); } }
+    // 닫혀 있을 때는 입력창의 작은 오브만 보이므로 초당 20번으로 줄인다(모든 페이지에서 계속 돌아 GPU를 쓰던 부분)
     function frame(now) {
       if (!running) return;
+      requestAnimationFrame(frame);
+      var open = root.getAttribute('data-state') === 'open' || root.classList.contains('is-busy');
+      if (!open && last && now - last < 50) return;
       var dt = last ? Math.min(.05, (now - last) / 1000) : .016; last = now;
       paint(dt); blit(targets());
-      requestAnimationFrame(frame);
     }
     function start() { if (running || reduce.matches || document.hidden) return; running = true; last = 0; requestAnimationFrame(frame); }
     function stop() { running = false; }
