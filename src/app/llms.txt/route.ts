@@ -27,6 +27,7 @@ export function GET() {
   lines.push(`- [자주묻는질문](${base}/faq): 비용·기간·제작 범위·운영 문답`);
   lines.push(`- [공지사항](${base}/notice): 운영 안내와 새 소식`);
   lines.push(`- [문의](${base}/contact): 프로젝트 문의 폼`);
+  lines.push(`- [채용](${base}/careers): 모집 분야(웹 디자이너·퍼블리셔·개발자·기획)와 지원서`);
   lines.push('');
   lines.push('## Column posts');
   lines.push('');

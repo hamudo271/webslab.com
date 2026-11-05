@@ -38,8 +38,8 @@ public/        images(column/ = 칼럼 썸네일), fonts, og, site/(운영 레�
 - **`src/components/layout/Header.tsx`** — 스크롤/오버레이 메뉴. 로직은 `hooks/`로 분리됨(아래 6번 주의).
 - **`src/lib/site-html.ts`** — 리뉴얼 시안 → 운영 HTML 변환(순수 함수, `site-html.test.ts`가 전 페이지 검사): 검색 차단·시안 문구 제거, **다른 회사 추적·인증 코드 제거**(`FOREIGN_TRACKING_MARKERS`), 링크 정리, 푸터 사업자 정보(brand.ts), 문의 폼 운영화(실제 개인정보 동의 체크·선택 항목 완화). 원본 폴더는 건드리지 않고 여기서 일괄 변환 → 재동기화해도 결과 동일.
 - **`src/site/render.ts`** — 리뉴얼 페이지 공통 head(canonical·OG·소유확인·JSON-LD·분석 `lib/site-analytics.ts`) 주입. 공개 라우트는 전부 `sitePageHtml()`/`shellHtml()`만 호출.
-- **`public/site/ws-forms.js`** — 문의 3종(견적 `.uw-inquiry-form` · 간편 `#uwQiForm` · 유지보수 `#mxForm`)을 `/api/contact`로 전송. `<head>` 동기 로드 + window 캡처 submit으로 시안 스크립트(공식 페이지 이동·mailto·admin-ajax)보다 먼저 받는다. 성공 시 GA `contact_form_submit`(관리자 통계 집계 기준).
-- **`src/app/api/contact/route.ts`** — 문의 수신 → Resend 메일. multipart = 리뉴얼 문의 3종(`lib/validators/inquiry.ts`, 첨부 최대 3개·파일당 10MB·합계 25MB, 메일 본문 `lib/inquiry-mail.ts`), JSON = 이전 React 폼 호환.
+- **`public/site/ws-forms.js`** — 폼 4종(견적 `.uw-inquiry-form` · 간편 `#uwQiForm` · 유지보수 `#mxForm` · 채용 지원 `#crForm`)을 `/api/contact`로 전송. `<head>` 동기 로드 + window 캡처 submit으로 시안 스크립트(공식 페이지 이동·mailto·admin-ajax)보다 먼저 받는다. 성공 시 GA `contact_form_submit`(관리자 통계 집계 기준). 채용 지원은 리드가 아니라 `career_apply_submit`만 보낸다.
+- **`src/app/api/contact/route.ts`** — 문의 수신 → Resend 메일. multipart = 리뉴얼 폼 4종(`lib/validators/inquiry.ts`, 견적·채용만 첨부 최대 3개·파일당 10MB·합계 25MB, 메일 본문 `lib/inquiry-mail.ts`), JSON = 이전 React 폼 호환.
 - **칼럼 썸네일** — `pnpm build:thumbnails`(`scripts/build_column_og.py`)가 회사소개서 표지 스타일로 `public/images/column/<slug>.png` + 기본 OG `public/og/default.png` 생성. 새 정적 칼럼을 넣으면 다시 실행.
 - **칼럼 CMS(`/admin`)** — Railway Postgres + Prisma(`lib/db.ts` 싱글턴). 정적 12편(`data/columnPosts.ts`)은 그대로, **DB는 신규 글 전용** — `lib/column-feed.ts`가 병합(최신순, DB 장애 시 정적 폴백). 한글 제목 → 로마자 slug 자동(`lib/slug.ts`, 정적 슬러그 예약 + 충돌 시 `-2`). 인증: `ADMIN_PASSWORD` 평문 비교(timingSafeEqual, 로그인 라우트) + jose JWT(미들웨어 Edge 검증), `middleware.ts`가 `/admin/*`·`/api/admin/*` 보호. 에디터: Tiptap(`components/admin/Editor.tsx`) + Cloudinary 업로드(`/api/admin/upload`).
 

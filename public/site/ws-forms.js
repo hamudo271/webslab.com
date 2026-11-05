@@ -1,7 +1,8 @@
-/* websLAB 운영 문의 연결 — 리뉴얼 시안의 문의 폼 3종을 /api/contact(Resend 메일)로 보낸다.
+/* websLAB 운영 문의 연결 — 리뉴얼 사이트의 폼 4종을 /api/contact(Resend 메일)로 보낸다.
      견적 문의   .uw-inquiry-form   (메인 하단 · /contact)  — 첨부파일 포함
      간편 상담   #uwQiForm          (메인 우측 도크)
      유지보수    #mxForm            (/maintenance 3단계 신청서 — 마지막 단계에서만)
+     채용 지원   #crForm            (/careers 지원서)  — 첨부파일 포함, 리드 집계(contact_form_submit)에서 뺀다
    <head>에서 동기 로드한다. window 캡처 단계 submit 리스너를 테마·시안 스크립트보다 먼저 등록해
    시안 동작(공식 문의 페이지로 이동, mailto, WordPress admin-ajax 전송)이 실행되지 않게 막는다.
    (원본 시안 파일은 그대로 두고 src/lib/site-html.ts + 이 파일로만 운영 동작을 얹는다) */
@@ -17,6 +18,7 @@
     if (form.classList.contains('uw-inquiry-form')) return 'project';
     if (form.id === 'uwQiForm') return 'quick';
     if (form.id === 'mxForm') return 'maintenance';
+    if (form.id === 'crForm') return 'career';
     return null;
   }
 
@@ -31,6 +33,7 @@
       if (form.getAttribute('aria-busy') === 'true') return;
       if (kind === 'project') submitProject(form);
       else if (kind === 'quick') submitQuick(form);
+      else if (kind === 'career') submitCareer(form);
       else submitMaintenance(form);
     },
     true
@@ -291,6 +294,116 @@
         if (btn) btn.innerHTML = label;
       });
   }
+
+  /* ---------- 채용 지원 ---------- */
+
+  function fieldOk(form, name, ok) {
+    var el = form.elements[name];
+    if (!el) return true;
+    el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+    var err = document.getElementById(el.getAttribute('aria-describedby') || '');
+    if (err) err.hidden = ok;
+    return ok;
+  }
+
+  function submitCareer(form) {
+    var bad = null;
+    var position = form.querySelector('input[name="position"]:checked');
+    var choices = form.querySelector('.cr-choices');
+    var posErr = document.getElementById('crPosErr');
+    if (choices) choices.classList.toggle('is-invalid', !position);
+    if (posErr) posErr.hidden = !!position;
+    if (!position) bad = form.querySelector('input[name="position"]');
+
+    var name = value(form, 'name');
+    var phone = value(form, 'phone');
+    var email = value(form, 'email');
+    if (!fieldOk(form, 'name', name !== '') && !bad) bad = form.elements.name;
+    if (!fieldOk(form, 'phone', phone.replace(/\D/g, '').length >= 9) && !bad) bad = form.elements.phone;
+    if (!fieldOk(form, 'email', EMAIL_RE.test(email)) && !bad) bad = form.elements.email;
+    var consent = consentOk(form);
+    if (!consent.ok && !bad) bad = consent.el;
+    if (bad) {
+      scrollToField(bad);
+      return;
+    }
+
+    var fd = new FormData();
+    fd.append('kind', 'career');
+    fd.append('position', position.value);
+    fd.append('name', name);
+    fd.append('phone', phone);
+    fd.append('email', email);
+    fd.append('portfolioUrl', value(form, 'portfolioUrl'));
+    fd.append('message', value(form, 'message'));
+    var file = form.querySelector('input[type="file"]');
+    if (file && file.files) {
+      Array.prototype.forEach.call(file.files, function (f) {
+        fd.append('attachments', f, f.name);
+      });
+    }
+    fd.append('privacyConsent', 'true');
+    fd.append('website', value(form, 'cr_hp'));
+    fd.append('page', location.pathname);
+
+    var submit = form.querySelector('[data-submit]');
+    var hint = form.querySelector('[data-hint]');
+    var hintText = hint ? hint.textContent : '';
+    var labelNode = submit && submit.firstChild && submit.firstChild.nodeType === 3 ? submit.firstChild : null;
+    var label = labelNode ? labelNode.nodeValue : '';
+    busy(form, submit, true);
+    if (labelNode) labelNode.nodeValue = '보내는 중…';
+    if (hint) {
+      hint.textContent = hintText;
+      hint.classList.remove('ws-msg--err');
+    }
+    post(fd)
+      .then(function (res) {
+        if (res.ok) {
+          var done = form.querySelector('[data-done]');
+          if (done) {
+            done.hidden = false;
+            done.setAttribute('tabindex', '-1');
+            done.focus({ preventScroll: true });
+            done.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          }
+          trackCareer(position.value);
+        } else if (hint) {
+          hint.textContent = (res.data.error || '지원서를 보내지 못했어요.') + ' ' + FALLBACK;
+          hint.classList.add('ws-msg--err');
+        }
+      })
+      .catch(function () {
+        if (!hint) return;
+        hint.textContent = '네트워크 오류로 보내지 못했어요. ' + FALLBACK;
+        hint.classList.add('ws-msg--err');
+      })
+      .then(function () {
+        busy(form, submit, false);
+        if (labelNode) labelNode.nodeValue = label;
+      });
+  }
+
+  // 채용 지원은 영업 리드가 아니다 — contact_form_submit·generate_lead·Lead를 보내지 않는다(관리자 문의 통계 기준 유지)
+  function trackCareer(position) {
+    try {
+      if (Array.isArray(window.dataLayer)) window.dataLayer.push({ event: 'career_apply_submit', position: position });
+      if (typeof window.gtag === 'function') window.gtag('event', 'career_apply_submit', { position: position });
+    } catch (err) {
+      /* 분석 도구 오류는 접수와 무관 */
+    }
+  }
+
+  document.addEventListener('click', function (e) {
+    var again = e.target && e.target.closest && e.target.closest('#crForm [data-again]');
+    if (!again) return;
+    var form = again.closest('form');
+    form.reset();
+    var done = form.querySelector('[data-done]');
+    if (done) done.hidden = true;
+    var first = form.querySelector('input[name="position"]');
+    if (first) first.focus();
+  });
 
   /* ---------- 유지보수 신청 ---------- */
 

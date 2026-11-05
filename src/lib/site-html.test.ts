@@ -38,7 +38,7 @@ const PREVIEW_LEFTOVERS = [
 
 describe('리뉴얼 페이지 운영 변환 (src/site/pages 전체)', () => {
   it('동기화된 페이지가 있다', () => {
-    expect(pages.length).toBeGreaterThanOrEqual(15);
+    expect(pages.length).toBeGreaterThanOrEqual(16);
   });
 
   it.each(pages)('$name — 시안 흔적·다른 회사 추적 코드가 남지 않는다', ({ raw }) => {
@@ -83,6 +83,28 @@ describe('리뉴얼 페이지 운영 변환 (src/site/pages 전체)', () => {
     expect(form).toContain('name="privacy_agree"');
     expect(form).toContain('신청이 접수되었어요');
     expect(form).toContain('유지보수 신청하기');
+  });
+
+  it('모든 페이지 헤더·모바일 메뉴·푸터에 채용 메뉴가 있다', () => {
+    for (const { name, raw } of pages) {
+      const html = produce(raw);
+      expect(html, name).toContain('<a href="/careers" class="cm-gnb-link">');
+      expect(html, name).toContain('<a href="/careers" class="cm-mobile-nav-link">');
+      expect(html, name).toContain('<a href="/careers">채용</a>');
+    }
+  });
+
+  it('채용 지원서는 실제 동의 체크와 수집 안내를 갖고, 문의 리드 이벤트를 쓰지 않는다', () => {
+    const html = produce(pages.find((p) => p.name === 'careers.html')!.raw);
+    const form = html.match(/<form class="ws-prep__grid cr-form" id="crForm"[\s\S]*?<\/form>/)![0];
+    expect(form).toContain('name="privacy_agree" value="1" class="ws-agree__input" required');
+    expect(form).toContain('채용 전형 진행과 결과 안내');
+    expect(form.match(/name="position"/g)).toHaveLength(4);
+    expect(form).toContain('type="file"');
+    const forms = fs.readFileSync(path.join(__dirname, '../../public/site/ws-forms.js'), 'utf8');
+    const career = forms.slice(forms.indexOf('function submitCareer'), forms.indexOf('/* ---------- 유지보수 신청'));
+    expect(career).not.toContain("track(");
+    expect(career).toContain('career_apply_submit');
   });
 
   it('메인 간편문의 모달은 실제 수집·이용 안내를 보여준다', () => {

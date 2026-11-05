@@ -1,4 +1,4 @@
-// 리뉴얼 문의 3종 → 알림 메일(제목·본문). 순수 함수 — api/contact가 Resend로 보낸다.
+// 리뉴얼 폼 4종(문의 3종 + 채용 지원) → 알림 메일(제목·본문). 순수 함수 — api/contact가 Resend로 보낸다.
 
 import { brand } from '@/config/brand';
 import type { InquiryInput } from '@/lib/validators/inquiry';
@@ -16,6 +16,7 @@ const KIND_LABEL: Record<InquiryInput['kind'], string> = {
   project: '견적 문의',
   quick: '간편 상담',
   maintenance: '유지보수 신청',
+  career: '채용 지원',
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -29,6 +30,7 @@ export function renderInquiryMail(
 ): InquiryMail {
   let rows: [string, string][];
   let message = '';
+  let messageLabel = '문의 내용';
   let subject: string;
   let replyTo: string | undefined;
 
@@ -69,6 +71,19 @@ export function renderInquiryMail(
       subject = `[${brand.name} ${KIND_LABEL.maintenance}] ${d.name} — ${d.url}`;
       replyTo = EMAIL_RE.test(d.reach) ? d.reach : undefined;
       break;
+    case 'career':
+      rows = [
+        ['지원 분야', d.position],
+        ['이름', d.name],
+        ['연락처', d.phone],
+        ['이메일', d.email],
+        ['포트폴리오 링크', d.portfolioUrl],
+      ];
+      message = d.message;
+      messageLabel = '자기소개';
+      subject = `[${brand.name} ${KIND_LABEL.career}] ${d.position} — ${d.name}`;
+      replyTo = d.email;
+      break;
   }
 
   if (attachments.length) {
@@ -89,7 +104,7 @@ export function renderInquiryMail(
 <table style="border-collapse:collapse;width:100%;font-size:14px;">${rowHtml}</table>
 ${
   message
-    ? `<h3 style="margin-top:24px;letter-spacing:-0.03em;">문의 내용</h3><p style="white-space:pre-wrap;background:#F2F4F6;padding:16px;border:1px solid #E5E8EB;border-radius:8px;">${escapeHtml(message)}</p>`
+    ? `<h3 style="margin-top:24px;letter-spacing:-0.03em;">${escapeHtml(messageLabel)}</h3><p style="white-space:pre-wrap;background:#F2F4F6;padding:16px;border:1px solid #E5E8EB;border-radius:8px;">${escapeHtml(message)}</p>`
     : ''
 }
 <p style="color:#8B95A1;font-size:12px;margin-top:32px;">— ${escapeHtml(brand.name)} · ${escapeHtml(brand.domain)}</p>

@@ -88,7 +88,8 @@ export const STATIC_PAGE_DATES: Record<string, string> = {
   '/notice': '2026-11-04',
   '/maintenance': '2026-11-04',
   '/maintenance/pricing': '2026-11-04',
-  '/privacy-policy': '2026-11-04', // 문의 폼 수집 항목·처리 위탁 반영
+  '/careers': '2026-11-05', // 채용 페이지 신설
+  '/privacy-policy': '2026-11-05', // 채용 지원 수집 항목·보유 기간 추가
   '/terms': '2026-06-25',
 };
 
@@ -108,6 +109,7 @@ export const STATIC_PAGE_PUBLISHED: Record<string, string> = {
   '/notice': '2026-11-04',
   '/maintenance': '2026-11-04',
   '/maintenance/pricing': '2026-11-04',
+  '/careers': '2026-11-05',
 };
 
 export function buildCaseSitemapEntries(cases: Array<{ slug: string; modifiedAt: string }>) {

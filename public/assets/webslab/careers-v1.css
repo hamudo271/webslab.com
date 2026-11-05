@@ -1,0 +1,171 @@
+/* WEBSLAB_CAREERS_V1_20261105 — 채용(/careers/)
+   유지보수 페이지(maintenance-v2.css)의 문법을 그대로 쓴다: 짙은 오로라 히어로 + 유리 카드, 벤토 타일, 알약 버튼, 단계 흐름, 흰 신청서 카드.
+   여기에는 채용 페이지에만 있는 조각(팀 보드 아바타, 대표 인사말 카드, 모집 분야 카드, 4단계 흐름, 지원서 파일 칸)만 둔다. */
+
+/* ─── 히어로 무대 ─── */
+.cr-av { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 30px; border-radius: 10px; font-size: 11.5px; font-weight: 800; letter-spacing: -.02em; transition: color .3s ease, background-color .3s ease; }
+.cr-av--pm { color: #6b5cff; background: #f0eeff; }
+.cr-av--ds { color: #e8590c; background: #fff1e6; }
+.cr-av--fe { color: #1f6ff0; background: #e8f3ff; }
+.cr-av--be { color: #0a8a63; background: #e5f8f0; }
+.cr-board .mx-board__list li { grid-template-columns: 42px minmax(0, 1fr) auto; }
+.cr-board .mx-board__list li.is-now em { color: var(--mx-blue); }
+
+.cr-quote { right: 0; bottom: 0; width: 270px; margin: 0; padding: 18px 18px 16px; animation: mxFloat 8s ease-in-out -2s infinite; }
+.cr-quote blockquote { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.55; letter-spacing: -.03em; word-break: keep-all; }
+.cr-quote figcaption { display: flex; align-items: center; gap: 8px; margin-top: 12px; color: var(--mx-muted); font-size: 12.5px; font-weight: 700; }
+.cr-count .mx-shield__ic { background: linear-gradient(145deg, var(--mx-blue), var(--mx-violet)); }
+
+/* ─── 일하는 방식 ─── */
+.cr-vis--flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.cr-vis--flow i { width: 18px; height: 2px; border-radius: 2px; background: #c5ccd3; }
+.cr-tile--count { justify-content: space-between; }
+.cr-tile--count .mx-btn { flex: 0 0 auto; }
+
+/* ─── 모집 분야 ─── */
+.cr-roles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; }
+.cr-role { display: flex; flex-direction: column; padding: 32px 30px 28px; border-radius: 30px; background: #fff; box-shadow: 0 0 0 1px rgba(2, 32, 71, .04); transition: transform .45s var(--mx-ease), box-shadow .45s ease; }
+.cr-role:hover { transform: translateY(-4px); box-shadow: 0 0 0 1px rgba(2, 32, 71, .04), 0 24px 48px -26px rgba(2, 32, 71, .3); }
+.cr-role__top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.cr-role h3 { margin: 22px 0 0; font-size: 24px; font-weight: 800; letter-spacing: -.04em; }
+.cr-role__k { margin: 20px 0 8px; color: var(--mx-faint); font-size: 13px; font-weight: 700; }
+.cr-role__list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.cr-role__list li { position: relative; padding-left: 16px; color: var(--mx-body); font-size: 15.5px; line-height: 1.55; letter-spacing: -.02em; word-break: keep-all; }
+.cr-role__list li::before { content: ''; position: absolute; top: .68em; left: 2px; width: 5px; height: 5px; border-radius: 50%; background: var(--mx-blue); }
+.cr-role__go { align-self: flex-start; gap: 6px; min-height: 46px; margin-top: 26px; padding: 0 16px 0 20px; font-size: 15px; }
+.cr-role__go svg { width: 16px; height: 16px; }
+
+/* ─── 채용 절차 (4단계) ─── */
+.cr-flow { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.cr-flow::before { left: 12%; right: 12%; }
+.cr-flow li { padding: 32px 22px; background: var(--mx-floor); box-shadow: none; }
+.cr-flow .mx-flow__n { box-shadow: 0 0 0 6px var(--mx-floor); }
+
+/* ─── 지원서 — prepare-v1.css(.ws-prep)의 항목 카드 + 짙은 요약 카드 위에 입력 칸만 얹는다 ─── */
+.cr-apply { --cr-red: #f04452; }
+.cr-apply .ws-prep__row { grid-template-columns: 48px minmax(0, 1fr) auto; }
+.cr-apply .ws-prep__q h3 label { cursor: pointer; }
+.cr-item.is-done { box-shadow: 0 0 0 1px rgba(2, 32, 71, .05), 0 20px 44px -28px rgba(2, 32, 71, .3); }
+.cr-item.is-done .ws-prep__ic { color: var(--p-blue); background: #e8f3ff; }
+.cr-item.is-err { box-shadow: 0 0 0 1.5px var(--cr-red); }
+.cr-item__body { padding: 0 20px 20px 84px; }
+.cr-item__body.mx-field { display: grid; gap: 8px; }
+
+/* 필수/선택 표시 — 채우면 '완료' */
+.cr-badge { display: inline-flex; align-items: center; gap: 5px; height: 30px; padding: 0 12px; border-radius: 999px; color: var(--p-faint); background: var(--p-soft); font-size: 13px; font-weight: 700; white-space: nowrap; transition: color .2s ease, background-color .2s ease; }
+.cr-badge.is-req { color: var(--p-blue); background: #e8f3ff; }
+.cr-item.is-done .cr-badge { color: #fff; background: var(--p-ink); }
+.cr-item.is-done .cr-badge::before { content: ''; width: 12px; height: 12px; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m3.5 8.4 2.8 2.8L12.5 5' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m3.5 8.4 2.8 2.8L12.5 5' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; }
+
+/* 지원 분야 — 있어요/없어요 토글과 같은 회색 판 위 흰 알약 */
+.cr-seg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 14px; background: var(--p-soft); }
+.cr-seg label { position: relative; cursor: pointer; }
+.cr-seg input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.cr-seg span { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 12px; border-radius: 11px; color: var(--p-muted); font-size: 14.5px; font-weight: 700; text-align: center; word-break: keep-all; transition: color .18s ease, background-color .18s ease, box-shadow .18s ease; }
+.cr-seg label:hover span { color: var(--p-ink); }
+.cr-seg input:checked + span { color: var(--p-ink); background: #fff; box-shadow: 0 1px 2px rgba(2, 32, 71, .08), 0 4px 12px -4px rgba(2, 32, 71, .14); }
+.cr-seg input:focus-visible + span { outline: 2px solid var(--p-blue); outline-offset: 2px; }
+.cr-choices.is-invalid { box-shadow: inset 0 0 0 2px var(--cr-red); }
+
+/* 입력 칸 */
+.cr-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.cr-form input[type="text"], .cr-form input[type="tel"], .cr-form input[type="email"], .cr-form textarea {
+  width: 100%; box-sizing: border-box; min-height: 52px; padding: 14px 16px; border: 0; border-radius: 14px;
+  color: var(--p-ink); background: var(--p-soft); font: inherit; font-size: 16px; transition: background-color .18s ease, box-shadow .18s ease;
+}
+.cr-form textarea { min-height: 112px; line-height: 1.6; resize: vertical; }
+.cr-form input::placeholder, .cr-form textarea::placeholder { color: var(--p-faint); }
+.cr-form input:focus, .cr-form textarea:focus { outline: none; background: #fff; box-shadow: inset 0 0 0 2px var(--p-blue); }
+.cr-form [aria-invalid="true"] { box-shadow: inset 0 0 0 2px var(--cr-red) !important; }
+.cr-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* 첨부 */
+.cr-file { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.cr-drop { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px; background: var(--p-soft); box-shadow: inset 0 0 0 1.5px transparent; cursor: pointer; transition: background-color .18s ease, box-shadow .18s ease; }
+.cr-drop:hover, .cr-drop.is-over { background: #eef5ff; box-shadow: inset 0 0 0 1.5px var(--p-blue); }
+.cr-form:has(.cr-file:focus-visible) .cr-drop { outline: 2px solid var(--p-blue); outline-offset: 3px; }
+.cr-drop__ic { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 12px; color: var(--p-blue); background: #fff; }
+.cr-drop__ic svg { width: 20px; height: 20px; }
+.cr-drop b { display: block; font-size: 15px; font-weight: 800; letter-spacing: -.02em; }
+.cr-drop small { display: block; margin-top: 2px; color: var(--p-muted); font-size: 13px; font-weight: 600; }
+.cr-files { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.cr-files:empty { display: none; }
+.cr-files li { display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 14px; border-radius: 12px; background: #fff; box-shadow: inset 0 0 0 1px var(--p-line); font-size: 14px; font-weight: 600; }
+.cr-files span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cr-files small { color: var(--p-faint); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.cr-files button { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0; border: 0; border-radius: 10px; color: var(--p-muted); background: transparent; cursor: pointer; }
+.cr-files button:hover { color: var(--p-ink); background: var(--p-soft); }
+.cr-files button svg { width: 14px; height: 14px; }
+.cr-apply .mx-err { margin: 0; color: #e42939; font-size: 14px; font-weight: 600; }
+.cr-apply .mx-err[hidden] { display: none; }
+.cr-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* 요약 카드 — 지원 분야는 글자가 길어 숫자보다 작게 */
+.cr-card { position: relative; }
+.cr-card .ws-prep__sum b { max-width: 62%; font-size: 14.5px; text-align: right; word-break: keep-all; }
+.cr-card .ws-prep__sum b.is-empty { color: rgba(255, 255, 255, .45); font-weight: 600; }
+.cr-card .ws-prep__sum li:last-child b:not(.is-empty) { color: #8fbcff; }
+
+/* 동의 — 짙은 카드 위 */
+.cr-consent { display: grid; gap: 8px; margin: 18px 0 0; padding: 14px; border-radius: 16px; background: rgba(255, 255, 255, .07); }
+.cr-consent .ws-agree__text { color: rgba(255, 255, 255, .86); font-size: 14.5px; }
+.cr-consent .ws-agree__text em { color: #8fbcff; }
+.cr-consent .ws-agree__input:not(:checked) + .ws-agree__box { background: transparent !important; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .4); }
+.cr-consent.has-error .ws-agree__input:not(:checked) + .ws-agree__box { box-shadow: inset 0 0 0 1.5px #ff8a93; }
+.cr-consent .mx-err { color: #ff8a93; font-size: 13px; }
+.cr-consent__more summary { width: max-content; color: rgba(255, 255, 255, .6); font-size: 13px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; list-style: none; }
+.cr-consent__more summary::-webkit-details-marker { display: none; }
+.cr-consent__more summary:hover { color: #fff; }
+.cr-consent__info { display: grid; gap: 6px; margin: 10px 0 8px; font-size: 12.5px; line-height: 1.55; }
+.cr-consent__info div { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 8px; }
+.cr-consent__info dt { color: rgba(255, 255, 255, .5); font-weight: 700; }
+.cr-consent__info dd { margin: 0; color: rgba(255, 255, 255, .8); word-break: keep-all; }
+.cr-consent .ws-consent__link { color: rgba(255, 255, 255, .6) !important; font-size: 12.5px !important; }
+.cr-consent .ws-consent__link:hover { color: #fff !important; }
+
+.cr-submit { border: 0; font-family: inherit; cursor: pointer; }
+.cr-form[aria-busy="true"] .cr-submit { opacity: .6; cursor: progress; }
+.cr-hint { text-align: center; }
+.cr-hint.ws-msg--err { color: #ff8a93 !important; text-align: left; }
+.ws-prep__extra a { color: var(--p-ink); font-weight: 700; text-decoration: none; }
+.ws-prep__extra a:hover { color: var(--p-blue); }
+
+/* 접수 완료 — 카드를 덮는다 */
+.cr-done { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 28px; border-radius: inherit; background: radial-gradient(100% 80% at 0% 0%, rgba(49, 130, 246, .5), transparent 70%), var(--p-night); text-align: center; animation: mxStep .5s var(--p-ease); }
+.cr-done[hidden] { display: none; }
+.cr-done__ic { display: inline-flex; align-items: center; justify-content: center; width: 72px; height: 72px; border-radius: 50%; color: #fff; background: linear-gradient(145deg, var(--p-blue), #6b5cff); box-shadow: 0 16px 36px -14px rgba(49, 130, 246, .8); }
+.cr-done__ic svg { width: 34px; height: 34px; }
+.cr-done strong { margin-top: 22px; font-size: 22px; font-weight: 800; letter-spacing: -.035em; }
+.cr-done p { margin: 10px 0 0; color: rgba(255, 255, 255, .7); font-size: 14.5px; line-height: 1.65; word-break: keep-all; }
+.cr-done p a { color: #8fbcff; font-weight: 700; }
+.cr-done .ws-prep__copy { margin-top: 18px; }
+
+/* ─── 태블릿 ─── */
+@media (max-width: 1024px) {
+  .cr-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cr-flow::before { display: none; }
+}
+/* ─── 모바일 ─── */
+@media (max-width: 768px) {
+  /* 좁은 화면에서는 카드를 겹치지 않고 쌓는다(팀 보드가 길어 인사말 카드가 진행 막대를 가린다) */
+  .cr-stage { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; min-height: 0; }
+  .cr-stage .mx-card { position: relative; inset: auto; width: auto; }
+  .cr-stage .cr-board { grid-column: 1 / -1; }
+  .cr-stage .cr-count { order: 1; align-self: stretch; }
+  .cr-stage .cr-quote { order: 2; }
+  .cr-quote { padding: 14px; }
+  .cr-quote blockquote { font-size: 13.5px; }
+  .cr-roles, .cr-flow, .cr-row { grid-template-columns: 1fr; }
+  .cr-apply .ws-prep__row { grid-template-columns: 40px minmax(0, 1fr) auto; }
+  .cr-item__body { padding: 0 16px 16px; }
+  .cr-seg span { min-height: 42px; font-size: 14px; }
+  .cr-badge { height: 28px; padding: 0 10px; font-size: 12.5px; }
+  .cr-role { padding: 26px 24px 24px; border-radius: 26px; }
+  .cr-role:hover { transform: none; }
+  .cr-role h3 { font-size: 22px; }
+  .cr-tile--count .mx-btn { align-self: stretch; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cr-quote { animation: none !important; }
+  .cr-role:hover { transform: none; }
+}

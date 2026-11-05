@@ -1,9 +1,10 @@
 import { z } from 'zod';
 
-// 리뉴얼 사이트 문의 3종 — public/site/ws-forms.js가 폼 값을 이 이름으로 맞춰 보낸다.
+// 리뉴얼 사이트 폼 4종 — public/site/ws-forms.js가 폼 값을 이 이름으로 맞춰 보낸다.
 //  project     견적 문의 (메인 하단 · /contact)  — 첨부파일 가능
 //  quick       간편 상담 (메인 우측 도크)
 //  maintenance 유지보수 신청 (/maintenance 3단계 신청서)
+//  career      채용 지원 (/careers 지원서)  — 첨부파일 가능
 
 const phone = z
   .string({ message: '연락처를 입력해 주세요' })
@@ -56,11 +57,26 @@ export const maintenanceInquirySchema = z.object({
   privacyConsent: consent,
 });
 
+export const careerInquirySchema = z.object({
+  kind: z.literal('career'),
+  position: required(40, '지원 분야를 골라 주세요'),
+  name: required(50, '이름을 입력해 주세요'),
+  phone,
+  email: z.email({ message: '올바른 이메일 형식이 아닙니다' }),
+  portfolioUrl: optional(500),
+  message: z.string().trim().max(3000, '자기소개는 3000자 이내로 입력해 주세요').default(''),
+  privacyConsent: consent,
+});
+
 export const inquirySchema = z.discriminatedUnion('kind', [
   projectInquirySchema,
   quickInquirySchema,
   maintenanceInquirySchema,
+  careerInquirySchema,
 ]);
+
+/** 첨부파일을 받는 폼 */
+export const KINDS_WITH_ATTACHMENTS: ReadonlySet<string> = new Set(['project', 'career']);
 
 export type InquiryInput = z.infer<typeof inquirySchema>;
 export type InquiryKind = InquiryInput['kind'];
@@ -94,6 +110,8 @@ export function inquiryFromFormData(form: FormData): Record<string, unknown> {
     mode: one('mode'),
     work: many('work'),
     reach: one('reach'),
+    position: one('position'),
+    portfolioUrl: one('portfolioUrl'),
     privacyConsent: one('privacyConsent') === 'true',
   };
 }

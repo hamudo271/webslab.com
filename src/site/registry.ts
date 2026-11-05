@@ -21,6 +21,7 @@ import faq from './pages/faq.html';
 import notice from './pages/notice.html';
 import maintenance from './pages/maintenance.html';
 import maintenancePricing from './pages/maintenance--pricing.html';
+import careers from './pages/careers.html';
 
 export type Crumb = { name: string; path: string };
 
@@ -123,6 +124,7 @@ export const SITE_PAGES: SitePage[] = [
     name: '유지보수 비용 안내',
     parents: [{ name: '유지보수 신청', path: '/maintenance' }],
   },
+  { path: '/careers', html: careers, name: '채용' },
 ];
 
 export function getSitePage(path: string): SitePage {

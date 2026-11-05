@@ -1,10 +1,10 @@
 // 개인정보 처리방침 · 이용약관 본문 (리뉴얼 셸 안에 들어가는 HTML)
-// TODO: 표준 템플릿 기반 초안 — 법무 검토 후 확정. 수집 항목은 리뉴얼 문의 폼 3종(견적·간편·유지보수)과 일치시킬 것.
+// TODO: 표준 템플릿 기반 초안 — 법무 검토 후 확정. 수집 항목은 리뉴얼 폼 4종(견적·간편·유지보수·채용 지원)과 일치시킬 것.
 
 import { brand } from '@/config/brand';
 import { escapeHtml as e } from '@/lib/site-html';
 
-export const PRIVACY_EFFECTIVE_DATE = '2026-11-04';
+export const PRIVACY_EFFECTIVE_DATE = '2026-11-05';
 export const TERMS_EFFECTIVE_DATE = '2025-01-01';
 
 function doc(label: string, title: string, date: string, body: string): string {
@@ -30,6 +30,7 @@ export function privacyPolicyMain(): string {
 <li>견적 문의 — 필수: 회사명, 담당자 성함·직책, 연락처, 이메일, 문의 내용 / 선택: 기존 홈페이지 주소, 참고 사이트, 예산, 일정, 첨부파일</li>
 <li>간편 상담 — 필수: 이름, 연락처, 상담 분야</li>
 <li>유지보수 신청 — 필수: 사이트 주소, 이름 또는 회사명, 연락처(전화번호 또는 이메일) / 선택: 맡기실 방식, 필요한 작업, 요청 내용</li>
+<li>채용 지원 — 필수: 지원 분야, 이름, 연락처, 이메일 / 선택: 포트폴리오·작업물 링크, 자기소개, 첨부파일(이력서·포트폴리오)</li>
 <li>자동 수집: 접속 IP, 쿠키, 접속 일시, 이용 기록</li>
 </ul>
 
@@ -37,6 +38,7 @@ export function privacyPolicyMain(): string {
 <ul>
 <li>문의·상담 응대 및 견적 회신</li>
 <li>서비스 제공 및 계약 이행</li>
+<li>채용 전형 진행 및 결과 안내</li>
 <li>방문 통계 분석을 통한 사이트 개선</li>
 <li>법령 또는 이용약관 위반 행위 대응</li>
 </ul>
@@ -45,6 +47,7 @@ export function privacyPolicyMain(): string {
 <p>회사는 법령에서 정한 보유 기간 또는 정보주체로부터 동의받은 보유 기간 동안 개인정보를 보관하며, 보유 기간 종료 시 지체 없이 파기합니다.</p>
 <ul>
 <li>문의 응대 기록: 응대 종료 후 3년</li>
+<li>채용 지원 서류: 채용 여부 결정 후 1년 (지원자가 요청하면 즉시 파기)</li>
 <li>계약 관련 기록: 계약 종료 후 5년 (전자상거래법)</li>
 <li>접속 로그: 3개월 (통신비밀보호법)</li>
 </ul>
@@ -52,12 +55,12 @@ export function privacyPolicyMain(): string {
 <h2>4. 개인정보 처리의 위탁</h2>
 <p>회사는 원활한 서비스 제공을 위해 아래와 같이 개인정보 처리 업무를 위탁하고 있습니다.</p>
 <ul>
-<li>Resend, Inc. — 문의 내용 메일 발송</li>
+<li>Resend, Inc. — 문의·지원 내용 메일 발송</li>
 <li>Railway Corporation — 웹사이트 서버 운영</li>
 <li>Cloudflare, Inc. — 네트워크 보안·전송</li>
 <li>Google LLC (Google Analytics) — 방문 통계 분석</li>
 </ul>
-<p>위 업체의 서버는 국외(미국 등)에 있으며, 문의 접수 또는 사이트 이용 시점에 네트워크를 통해 전송됩니다. 위탁 업무에 필요한 범위를 넘어 개인정보를 이용하지 않도록 관리합니다.</p>
+<p>위 업체의 서버는 국외(미국 등)에 있으며, 문의·지원 접수 또는 사이트 이용 시점에 네트워크를 통해 전송됩니다. 위탁 업무에 필요한 범위를 넘어 개인정보를 이용하지 않도록 관리합니다.</p>
 
 <h2>5. 개인정보의 제3자 제공</h2>
 <p>회사는 정보주체의 동의, 법률의 특별한 규정 등 「개인정보 보호법」 제17조 및 제18조에 해당하는 경우에만 개인정보를 제3자에게 제공합니다.</p>

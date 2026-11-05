@@ -79,6 +79,48 @@ describe('문의 스키마', () => {
     expect(mail.html).toContain('월간 백업, 콘텐츠 수정');
   });
 
+  it('채용 지원 — 분야·이름·연락처·이메일·동의만 필수, 메일 제목에 분야가 들어가고 회신은 지원자에게', () => {
+    const parsed = inquirySchema.safeParse(
+      inquiryFromFormData(
+        form([
+          ['kind', 'career'],
+          ['position', '웹 디자이너'],
+          ['name', '김지원'],
+          ['phone', '010-2222-3333'],
+          ['email', 'jiwon@example.com'],
+          ['privacyConsent', 'true'],
+        ]),
+      ),
+    );
+    expect(parsed.success).toBe(true);
+    if (!parsed.success || parsed.data.kind !== 'career') return;
+    expect(parsed.data.portfolioUrl).toBe('');
+    const mail = renderInquiryMail(
+      { ...parsed.data, message: '<b>안녕하세요</b>' },
+      [{ name: '이력서.pdf', size: 300 * 1024 }],
+    );
+    expect(mail.subject).toBe('[websLAB 채용 지원] 웹 디자이너 — 김지원');
+    expect(mail.replyTo).toBe('jiwon@example.com');
+    expect(mail.html).toContain('자기소개');
+    expect(mail.html).not.toContain('<b>안녕하세요</b>');
+    expect(mail.html).toContain('이력서.pdf');
+  });
+
+  it('채용 지원 — 분야를 고르지 않거나 이메일이 틀리면 거부한다', () => {
+    const base: [string, string][] = [
+      ['kind', 'career'],
+      ['name', '김지원'],
+      ['phone', '010-2222-3333'],
+      ['privacyConsent', 'true'],
+    ];
+    const noPosition = inquirySchema.safeParse(inquiryFromFormData(form([...base, ['email', 'a@b.co']])));
+    expect(noPosition.success).toBe(false);
+    const badEmail = inquirySchema.safeParse(
+      inquiryFromFormData(form([...base, ['position', '웹 기획·PM'], ['email', 'not-mail']])),
+    );
+    expect(badEmail.success).toBe(false);
+  });
+
   it('알 수 없는 kind는 거부한다', () => {
     expect(inquirySchema.safeParse({ kind: 'other', privacyConsent: true }).success).toBe(false);
   });

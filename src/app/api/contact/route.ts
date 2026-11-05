@@ -6,7 +6,12 @@ import {
   BUDGET_LABELS,
   type ContactInput,
 } from '@/lib/validators/contact';
-import { checkAttachments, inquiryFromFormData, inquirySchema } from '@/lib/validators/inquiry';
+import {
+  checkAttachments,
+  inquiryFromFormData,
+  inquirySchema,
+  KINDS_WITH_ATTACHMENTS,
+} from '@/lib/validators/inquiry';
 import { renderInquiryMail } from '@/lib/inquiry-mail';
 import { brand } from '@/config/brand';
 
@@ -14,7 +19,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 // 문의 수신 → Resend 메일
-//  - multipart/form-data: 리뉴얼 사이트 문의 3종(견적·간편·유지보수, public/site/ws-forms.js) — 첨부파일 가능
+//  - multipart/form-data: 리뉴얼 사이트 폼 4종(견적·간편·유지보수·채용 지원, public/site/ws-forms.js) — 견적·채용은 첨부파일 가능
 //  - application/json: 이전 React 문의 폼(contactSchema) 호환
 
 function escapeHtml(s: string): string {
@@ -116,7 +121,7 @@ async function handleInquiry(req: Request): Promise<NextResponse> {
   const data = parsed.data;
 
   const files =
-    data.kind === 'project'
+    KINDS_WITH_ATTACHMENTS.has(data.kind)
       ? form.getAll('attachments').filter((f): f is File => f instanceof File && f.size > 0)
       : [];
   const fileInfo = files.map((f) => ({ name: f.name, size: f.size }));
