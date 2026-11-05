@@ -31,6 +31,8 @@
 
   function loadDeferred() {
     hero.querySelectorAll('.ws-shot[data-src]').forEach(function (img) {
+      // 화면 크기에 맞는 해상도 후보(srcset)를 먼저 — src보다 늦게 넣으면 큰 원본을 먼저 받는다
+      if (img.hasAttribute('data-srcset')) { img.srcset = img.getAttribute('data-srcset'); img.removeAttribute('data-srcset'); }
       img.src = img.getAttribute('data-src');
       img.removeAttribute('data-src');
     });
