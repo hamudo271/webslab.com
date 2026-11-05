@@ -76,6 +76,16 @@ describe('리뉴얼 페이지 운영 변환 (src/site/pages 전체)', () => {
     }
   });
 
+  it('무한 애니메이션이 있는 섹션에 data-ws-live가 붙는다(화면 밖에서는 멈춤)', () => {
+    const home = produce(pages.find((p) => p.name === 'home.html')!.raw);
+    expect(home).toMatch(/<section data-ws-live[^>]*class="ws-numbers/);
+    expect(home).toMatch(/<section data-ws-live[^>]*class="ws-process/);
+    const careers = produce(pages.find((p) => p.name === 'careers.html')!.raw);
+    expect(careers).toMatch(/<section data-ws-live[^>]*class="mx-hero/);
+    expect((careers.match(/data-ws-live/g) ?? []).length).toBeGreaterThanOrEqual(2);
+    expect(fs.readFileSync(path.join(__dirname, '../../public/site/ws-site.css'), 'utf8')).toContain('[data-ws-live]:not(.ws-on)');
+  });
+
   it.each(pages)('$name — 속도: 로컬 CSS는 동기화 때 만든 묶음(공통 + 페이지) 두 개뿐이다', ({ raw }) => {
     const head = raw.slice(0, raw.indexOf('</head>')).replace(/<noscript>[\s\S]*?<\/noscript>/g, '');
     const local = (head.match(/<link\b[^>]*rel="stylesheet"[^>]*href="\/(?!\/)[^"]+"/g) ?? []).map(

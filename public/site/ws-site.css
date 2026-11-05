@@ -199,3 +199,8 @@
   .ws-article__summary, .ws-article__author { padding: 20px; }
   .ws-btn { height: 48px; padding: 0 20px; font-size: 15px; }
 }
+
+/* 화면 밖 섹션의 CSS 애니메이션은 멈춘다 — data-ws-live는 site-html.ts가, .ws-on은 ws-media.js가 붙인다 */
+[data-ws-live]:not(.ws-on) *,
+[data-ws-live]:not(.ws-on) *::before,
+[data-ws-live]:not(.ws-on) *::after { animation-play-state: paused !important; }

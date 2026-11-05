@@ -102,8 +102,8 @@
   var canvas = numbers.querySelector('.ws-numbers__stars');
   if (!canvas || reduceMotion || !canvas.getContext) return;
   var ctx = canvas.getContext('2d');
-  var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  var W = 0, H = 0, pts = [], raf = null, visible = false;
+  var dpr = Math.min(window.devicePixelRatio || 1, 1.5);   // 1px 별·선이라 1.5배면 충분 — 그리는 픽셀 44% 감소
+  var W = 0, H = 0, pts = [], raf = null, visible = false, lastT = 0;
   var COUNT = 70, LINK = 120;
 
   function resize() {
@@ -119,6 +119,8 @@
   }
 
   function frame(t) {
+    if (t - lastT < 15) { raf = visible ? requestAnimationFrame(frame) : null; return; }   // 120Hz 화면에서도 60fps까지만
+    lastT = t;
     ctx.clearRect(0, 0, W, H);
     for (var i = 0; i < pts.length; i++) {
       var p = pts[i];

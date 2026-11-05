@@ -64,7 +64,7 @@
     return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null;
   }
 
-  Array.prototype.forEach.call(hosts, function (host) {
+  function boot() { Array.prototype.forEach.call(hosts, function (host) {
     var canvas = document.createElement('canvas');
     canvas.className = 'mx-aurora';
     canvas.setAttribute('aria-hidden', 'true');
@@ -117,7 +117,7 @@
     }, { passive: true });
     area.addEventListener('pointerleave', function () { tx = 0; ty = 0; });
 
-    var start = performance.now() - 40000 * Math.random(), raf = 0, visible = false, shown = false;
+    var start = performance.now() - 40000 * Math.random(), raf = 0, visible = false, shown = false, lastDraw = 0;
     function draw(now) {
       resize();
       mx += (tx - mx) * .04; my += (ty - my) * .04;
@@ -127,7 +127,7 @@
       if (!shown) { shown = true; host.classList.add('is-gl'); }
     }
     function loop(now) {
-      draw(now);
+      if (now - lastDraw >= 30) { lastDraw = now; draw(now); }   // 느리게 흐르는 빛이라 30fps면 같다 — 사진 혼합·마스크 합성도 절반
       raf = visible && !document.hidden && !reduce.matches ? requestAnimationFrame(loop) : 0;
     }
     function kick() {
@@ -145,5 +145,8 @@
     if (reduce.addEventListener) reduce.addEventListener('change', kick);
     window.addEventListener('resize', function () { if (reduce.matches || !raf) { w = 0; draw(performance.now()); } }, { passive: true });
     canvas.addEventListener('webglcontextlost', function (e) { e.preventDefault(); host.classList.remove('is-gl'); cancelAnimationFrame(raf); raf = 0; });
-  });
+  }); }
+  // 셰이더 컴파일은 첫 화면이 그려진 뒤 한가할 때 — 그때까지는 CSS의 고정 밤하늘이 보인다
+  function idle(fn) { ('requestIdleCallback' in window) ? requestIdleCallback(fn, { timeout: 1500 }) : setTimeout(fn, 300); }
+  if (document.readyState === 'complete') idle(boot); else window.addEventListener('load', function () { idle(boot); });
 }());

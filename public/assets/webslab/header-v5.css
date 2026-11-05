@@ -1545,7 +1545,7 @@ html body.mobile-menu-open .cm-mobile-btn .cm-mobile-btn-dot:nth-child(2) {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%);
-  animation: wsCtaFloat 2.6s ease-in-out infinite;
+  animation: wsCtaFloat 2.6s ease-in-out 4;   /* 무한이면 쉴 때도 화면을 계속 다시 그린다 */
   pointer-events: none;
 }
 .ws-header-developed-v4 .ws-cta .ws-cta__bubble strong { color: #fff; font-weight: 800; }

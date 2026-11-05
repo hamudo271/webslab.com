@@ -358,7 +358,7 @@
     gl.viewport(0, 0, M, M); gl.clearColor(0, 0, 0, 0);
     return { canvas: cv, draw: function (time, energy) { gl.clear(gl.COLOR_BUFFER_BIT); gl.uniform1f(uT, time); gl.uniform1f(uE, energy); gl.drawArrays(gl.TRIANGLES, 0, 3); } };
   }
-  (function orbs() {
+  function orbs() {
     var M = 160, master = document.createElement('canvas'); master.width = master.height = M;
     var webgl = glOrb(200);
     if (webgl) { master = webgl.canvas; M = 200; root.classList.add('has-gl-orb'); }
@@ -418,22 +418,31 @@
     }
     function blit(list) { for (var i = 0; i < list.length; i++) { var c = list[i], x = c.getContext('2d'); x.clearRect(0, 0, c.width, c.height); x.drawImage(master, 0, 0, c.width, c.height); } }
     // 닫혀 있을 때는 입력창의 작은 오브만 보이므로 초당 20번으로 줄인다(모든 페이지에서 계속 돌아 GPU를 쓰던 부분)
+    // 쉴 때(닫혀 있고 포인터도 없을 때)는 한 장면만 그리고 완전히 멈춘다 — 모든 페이지에 떠 있는 오브가 GPU를 계속 쓰지 않게
+    var hovered = false;
+    function want() { return hovered || root.classList.contains('is-open') || root.classList.contains('is-busy') || root.getAttribute('data-state') === 'open'; }
     function frame(now) {
       if (!running) return;
+      if (!want()) { running = false; return; }
       requestAnimationFrame(frame);
-      var open = root.getAttribute('data-state') === 'open' || root.classList.contains('is-busy');
-      if (!open && last && now - last < 50) return;
+      var open = root.classList.contains('is-open') || root.classList.contains('is-busy');
+      if (!open && last && now - last < 33) return;
       var dt = last ? Math.min(.05, (now - last) / 1000) : .016; last = now;
       paint(dt); blit(targets());
     }
-    function start() { if (running || reduce.matches || document.hidden) return; running = true; last = 0; requestAnimationFrame(frame); }
+    function start() { if (running || reduce.matches || document.hidden || !want()) return; running = true; last = 0; requestAnimationFrame(frame); }
     function stop() { running = false; }
     paint(.016); blit(targets());
     start();
+    root.addEventListener('pointerenter', function () { hovered = true; start(); });
+    root.addEventListener('pointerleave', function () { hovered = false; });
     document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
     reduce.addEventListener && reduce.addEventListener('change', function () { reduce.matches ? stop() : start(); });
     /* 열고 닫을 때 새로 보이는 오브를 즉시 그린다 */
-    new MutationObserver(function () { if (!running) { paint(.016); blit(targets()); } }).observe(root, { attributes: true, attributeFilter: ['class'], subtree: false });
-  }());
+    new MutationObserver(function () { if (want()) start(); else if (!running) { paint(.016); blit(targets()); } }).observe(root, { attributes: true, attributeFilter: ['class', 'data-state'], subtree: false });
+  }
+  // WebGL 생성·셰이더 컴파일은 첫 화면이 다 그려진 뒤 한가할 때 — 그때까지는 CSS 구슬이 보인다
+  function idle(fn) { ('requestIdleCallback' in window) ? requestIdleCallback(fn, { timeout: 1500 }) : setTimeout(fn, 400); }
+  if (document.readyState === 'complete') idle(orbs); else window.addEventListener('load', function () { idle(orbs); });
   renderHistory(); resizeField(); root.setAttribute('data-state', 'closed');
 }());

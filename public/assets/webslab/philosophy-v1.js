@@ -22,6 +22,7 @@
 
   var canvas = root.querySelector('.ws-philo__bg');
   if (!canvas || !window.WebGLRenderingContext) return;
+  function boot() {
   var gl = canvas.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power' });
   if (!gl) return;
 
@@ -176,7 +177,7 @@
   }, { passive: true });
   root.addEventListener('pointerleave', function () { tx = 0; ty = 0; });
 
-  var start = performance.now(), raf = 0, visible = false, shown = false;
+  var start = performance.now(), raf = 0, visible = false, shown = false, lastDraw = 0;
   function draw(now) {
     resize();
     mx += (tx - mx) * .04; my += (ty - my) * .04;
@@ -186,7 +187,7 @@
     if (!shown) { shown = true; root.classList.add('is-gl'); }
   }
   function loop(now) {
-    draw(now);
+    if (now - lastDraw >= 30) { lastDraw = now; draw(now); }   // 천천히 도는 지구라 30fps — 무거운 점 배치 셰이더를 절반만
     raf = visible && !document.hidden && !reduce.matches ? requestAnimationFrame(loop) : 0;
   }
   function kick() {
@@ -200,4 +201,10 @@
   if (reduce.addEventListener) reduce.addEventListener('change', kick);
   window.addEventListener('resize', function () { if (!raf) { w = 0; draw(performance.now()); } }, { passive: true });
   canvas.addEventListener('webglcontextlost', function (e) { e.preventDefault(); root.classList.remove('is-gl'); cancelAnimationFrame(raf); raf = 0; });
+  }
+  // WebGL 생성·셰이더 컴파일은 섹션이 가까워질 때 — 페이지를 열자마자 GPU를 붙잡지 않는다
+  if ('IntersectionObserver' in window) {
+    var bo = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { bo.disconnect(); boot(); } }, { rootMargin: '400px' });
+    bo.observe(root);
+  } else boot();
 }());
