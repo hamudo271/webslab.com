@@ -229,13 +229,10 @@
     inset 0 0 0 1px rgba(255, 255, 255, .18);
 }
 .wsai-v8__orb--sm { width: 22px; height: 22px; }
-/* WebGL 에너지 구체 — 실선·입자가 둘레 밖으로 흩날리므로 원으로 자르지 않고, 유리 광택·그림자도 뺀다 */
-.wsai-v8.has-gl-orb .wsai-v8__orb { overflow: visible; border-radius: 0; background: radial-gradient(closest-side, rgba(49, 130, 246, .35), transparent); box-shadow: none; }
-.wsai-v8.has-gl-orb .wsai-v8__orb::after { content: none; }
+/* WebGL 오브 — 예전 무지개 유리구슬(광택 ::after·그림자 유지) + 에너지 실선.
+   둘레 밖 흩날림이 보이도록 자르지 않고, 캔버스를 136%로 그려 구 지름을 오브 크기에 맞춘다 */
+.wsai-v8.has-gl-orb .wsai-v8__orb { overflow: visible; background: none; }
 .wsai-v8.has-gl-orb .wsai-v8__orb canvas { inset: -18%; width: 136%; height: 136%; border-radius: 0; }
-.wsai-v8.has-gl-orb .wsai-v8__orb--lg { width: 96px; height: 96px; }
-.wsai-v8.has-gl-orb.is-busy .wsai-v8__composer .wsai-v8__orb { animation: wsai-orb-breathe 1.2s ease-in-out infinite; }
-@keyframes wsai-orb-breathe { 50% { transform: scale(1.08); } }
 .wsai-v8.is-busy .wsai-v8__composer .wsai-v8__orb { animation: wsai-orb-pulse 1.2s ease-in-out infinite; }
 @keyframes wsai-orb-pulse { 50% { transform: scale(1.09); box-shadow: 0 0 0 .5px rgba(255,255,255,.3), 0 0 20px 2px rgba(150, 110, 255, .75); } }
 
@@ -699,7 +696,6 @@
   .wsai-v8__welcome h2 { font-size: 21px; }
   .wsai-v8__welcome p { font-size: 13px; }
   .wsai-v8__orb--lg { width: 64px; height: 64px; }
-  .wsai-v8.has-gl-orb .wsai-v8__orb--lg { width: 80px; height: 80px; }
   .wsai-v8__starters { grid-template-columns: 1fr; gap: 6px; }
   .wsai-v8__user { max-width: 86%; font-size: 13.5px; }
   .wsai-v8__markdown { font-size: 13.5px; }

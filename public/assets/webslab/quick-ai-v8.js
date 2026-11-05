@@ -284,8 +284,8 @@
   if (navigator.userAgentData && CSS.supports('backdrop-filter', 'blur(1px)')) root.classList.add('is-liquid');
 
   /* ── 오브 — 마스터 캔버스 하나를 그려 모든 오브(머리·환영·답변·입력창)에 복사한다 ──
-     WebGL: 빛나는 실선이 감아 도는 에너지 구체. 앞·뒤 두 겹의 물결 실선이 돌고, 둘레 고리가 밝게 타며,
-     가장자리에서 가는 실과 입자가 밖으로 흩날린다(웹스랩 파랑 → 하늘빛 → 흰색, 뒤쪽 실선은 보라 기운).
+     WebGL: 예전 무지개 오브(다섯 색 빛 덩어리) 안으로 빛나는 에너지 실선이 감아 돌고,
+     둘레에서 가는 실과 입자가 옅게 흩날린다. 유리 광택(::after)은 CSS가 얹는다.
      WebGL이 없으면 아래 2D 빛 덩어리 오브로 그린다. 답변 중에는 회전·밝기·흩날림이 부드럽게 올라간다.
      탭 숨김·움직임 최소화에서는 멈춘다. */
   function glOrb(M) {
@@ -314,32 +314,37 @@
       ' float grain=.6+.4*n(P*22.+T*2.);',
       ' return (la+lb+lc)*grain;}',
       'void main(){',
-      ' vec2 p=v;float r=length(p);float R=.6;',
-      ' float T=t*(.35+e*.65);',
-      ' float I=0.;vec3 col=vec3(0.);',
-      ' vec3 deep=vec3(.12,.33,.96),blue=vec3(.19,.51,.97),sky=vec3(.62,.82,1.),violet=vec3(.42,.36,1.);',
-      ' if(r<R){',
-      '  float z=sqrt(R*R-r*r);',
-      '  float front=strands(vec3(p,z)/R,T),back=strands(vec3(p,-z)/R,T);',
-      '  float rim=pow(1.-z/R,1.6);',
-      '  float f=front*(1.05+1.2*rim);',
-      '  col+=mix(blue,sky,clamp(f*.8,0.,1.))*f*1.9+violet*back*.55;',
-      '  col+=deep*(.2+.4*rim);',                               /* 안쪽 은은한 빛 */
-      '  I+=f+back*.25+.12+rim*.35;',
-      ' }',
-      ' float ang=atan(p.y,p.x);',
-      ' float ring=exp(-abs(r-R)*55.)*(.45+.75*fb(vec3(ang*2.,T*.8,1.)));',  /* 끊겼다 이어지는 밝은 둘레 */
-      ' col+=mix(blue,sky,.6)*ring*1.3;I+=ring;',
-      ' float out_=max(r-R,0.);',
-      ' float wisp=smoothstep(.42,.85,fb(vec3(ang*3.2,r*5.-T*1.6,T*.4)))*exp(-out_*(7.-e*2.5));',  /* 밖으로 흩날리는 실 */
-      ' wisp*=step(R*.92,r);col+=mix(blue,sky,.4)*wisp*1.5;I+=wisp*.9;',
+      ' vec2 p=v;float r=length(p);float R=.735;',                 /* 캔버스 136% → 구 지름 = 오브 크기 */
+      ' float T=t*(.35+e*.65),T2=t*(.55+e*1.6);',
+      /* ① 구 안 — 예전 무지개 오브: 다섯 색 빛 덩어리가 각자 궤도로 돌며 더해진다 */
+      ' vec2 q=p/R;float rq=length(q);',
+      ' vec3 c=mix(vec3(.11,.063,.31),vec3(.02,.016,.1),clamp(length(q-vec2(0.,.1)),0.,1.));',
+      ' vec3 C[5];C[0]=vec3(.35,.86,1.);C[1]=vec3(.24,.43,1.);C[2]=vec3(.67,.31,1.);C[3]=vec3(1.,.24,.59);C[4]=vec3(1.,.55,.31);',
+      ' vec4 B[5];B[0]=vec4(.3,.22,.53,.71);B[1]=vec4(.26,.3,.37,.47);B[2]=vec4(.32,.26,.61,.39);B[3]=vec4(.28,.32,.43,.67);B[4]=vec4(.22,.2,.77,.58);',
+      ' float RR[5];RR[0]=.8;RR[1]=.92;RR[2]=.96;RR[3]=.8;RR[4]=.52;',
+      ' for(int i=0;i<5;i++){float ph=float(i)*1.25;',
+      '  vec2 o=vec2(sin(T2*B[i].z*2.+ph)*B[i].x,cos(T2*B[i].w*2.+ph*1.3)*B[i].y)*2.*(1.+e*.3);',
+      '  float rr=RR[i]*(1.+sin(T2*1.3+ph)*.12);vec2 d=q-o;',
+      '  c+=C[i]*exp(-dot(d,d)/(rr*rr*.32))*(.62+e*.2);}',
+      /* ② 그 위로 에너지 실선 — 앞쪽은 밝게, 뒤쪽은 옅게, 둘레로 갈수록 진하게 */
+      ' float z=sqrt(max(1.-rq*rq,0.));',
+      ' float front=strands(vec3(q,z),T),back=strands(vec3(q,-z),T);',
+      ' float rim=pow(1.-z,1.6);',
+      ' c+=vec3(.86,.93,1.)*front*(.42+.75*rim)*.8+vec3(.8,.75,1.)*back*.16;',
+      ' c+=vec3(.6,.78,1.)*rim*.22;',
+      ' vec3 inner=1.-exp(-c*1.35);',
+      ' float aIn=smoothstep(R+.008,R-.008,r);',
+      /* ③ 구 밖 — 둘레 빛, 흩날리는 실, 입자 (오브를 크게 덮지 않게 옅게) */
+      ' float ang=atan(p.y,p.x),out_=max(r-R,0.);',
+      ' float ring=exp(-out_*40.)*(.35+.6*fb(vec3(ang*2.,T*.8,1.)));',
+      ' float wisp=smoothstep(.5,.9,fb(vec3(ang*3.2,r*5.-T*1.6,T*.4)))*exp(-out_*(9.-e*3.));',
       ' vec2 g=vec2(ang*26.,(r-T*.12)*38.);vec2 ci=floor(g);float sh=h2(ci);',
-      ' float spark=step(.93-e*.04,sh)*smoothstep(.45,0.,length(fract(g)-.5))*exp(-out_*7.)*step(R*.8,r);',  /* 입자 */
-      ' col+=sky*spark*1.2;I+=spark;',
-      ' col+=deep*exp(-out_*7.)*.18*step(R,r);',                 /* 바깥 은은한 빛 번짐 */
-      ' float al=clamp(I*1.1+length(col)*.3,0.,1.)*smoothstep(1.,.78,r);',
-      ' col=1.-exp(-col*1.7);',
-      ' gl_FragColor=vec4(col*al,al);}'
+      ' float spark=step(.94-e*.04,sh)*smoothstep(.45,0.,length(fract(g)-.5))*exp(-out_*8.);',
+      ' vec3 oc=vec3(.55,.72,1.)*ring*.9+vec3(.62,.55,1.)*wisp*.9+vec3(.85,.92,1.)*spark;',
+      ' float aOut=clamp(ring*.75+wisp*.7+spark,0.,1.)*smoothstep(1.,.82,r);',
+      ' oc=1.-exp(-oc*1.5);',
+      ' vec3 rgb=inner*aIn+oc*aOut*(1.-aIn);float al=aIn+aOut*(1.-aIn);',
+      ' gl_FragColor=vec4(rgb,al);}'
     ].join('\n');
     function sh(type, src) { var x = gl.createShader(type); gl.shaderSource(x, src); gl.compileShader(x); return gl.getShaderParameter(x, gl.COMPILE_STATUS) ? x : null; }
     var vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS); if (!vs || !fs) return null;
