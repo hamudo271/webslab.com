@@ -1,5 +1,5 @@
 /* WEBSLAB_AURORA_V1_20261105 — 짙은 히어로·마무리 띠의 오로라를 WebGL 셰이더로 그린다.
-   브랜드 파랑·보라·청록 커튼이 노이즈로 천천히 흐르고, 포인터 쪽으로 빛이 조금 기운다.
+   별이 있는 밤하늘에 오로라 커튼 두 줄기가 휘어지며 흐르고(웹스랩 하늘빛·파랑·보라), 포인터 쪽으로 빛이 조금 기운다.
    - 제목이 있는 왼쪽은 어둡게 남겨 글자 대비를 지킨다(오른쪽으로 갈수록 밝게)
    - 절반 해상도로 그리고(빛 번짐이라 차이가 없다) 화면 밖·숨은 탭에서는 멈춘다
    - 움직임 줄이기: 한 장면만 그리고 멈춘다 · WebGL이 없으면 기존 CSS 오로라(.mx-hero__bg i)가 그대로 남는다 */
@@ -10,40 +10,49 @@
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   var VERT = 'attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
+  // 밤하늘 오로라 — 별이 있는 짙은 하늘에 휘어지며 소용돌이치는 커튼 두 줄기.
+  // 커튼은 아래 가장자리가 밝고 선명하며 위로 세로 빛줄기가 뻗어 사라진다. 색은 웹스랩 팔레트:
+  // 가장자리 하늘빛 → 브랜드 파랑(#3182f6) → 위쪽 보라(#6b5cff).
   var FRAG = [
     'precision mediump float;',
     'uniform vec2 r;uniform float t;uniform vec2 m;uniform float side;uniform float gain;',
     'float h(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}',
     'float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);',
     ' return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}',
-    'float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p=p*2.03+vec2(17.1,9.2);a*=.5;}return v;}',
+    'float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*n(p);p=p*2.02+vec2(17.1,9.2);a*=.5;}return v;}',
     'void main(){',
     ' vec2 uv=gl_FragCoord.xy/r;',
-    ' vec2 p=(gl_FragCoord.xy-.5*r)/r.y;',
-    ' p+=m*.06;',
-    ' float T=t*.045;',
-    ' vec3 night=vec3(.039,.063,.125);',
-    ' vec3 col=night;',
-    ' vec3 C0=vec3(.18,.42,1.);',   /* 브랜드 파랑 #2f6bff */
-    ' vec3 C1=vec3(.42,.36,1.);',   /* 보라 #6b5cff */
-    ' vec3 C2=vec3(.07,.72,.79);',  /* 청록 #12b8c9 */
-    ' for(int i=0;i<3;i++){',
+    ' vec2 p=(gl_FragCoord.xy-.5*r)/r.y+m*.05;',
+    ' float T=t*.07;',
+    ' vec3 skyTop=vec3(.024,.039,.09),skyLow=vec3(.05,.08,.165);',
+    ' vec3 sky=mix(skyLow,skyTop,smoothstep(-.45,.5,p.y));',
+    ' vec3 aur=vec3(0.);',
+    ' for(int i=0;i<2;i++){',
     '  float fi=float(i);',
-    '  vec3 c=i==0?C0:(i==1?C1:C2);',
-    '  float w=fbm(vec2(p.x*.9+fi*3.7,T*2.+fi*1.3));',
-    '  float y0=.22-fi*.2+.42*(w-.5)+.1*sin(p.x*1.6+T*5.+fi*2.1);',
-    '  float d=p.y-y0;',
-    '  float core=exp(-d*d*36.);',
-    '  float rays=fbm(vec2(p.x*7.5+fi*11.,T*3.+p.y*.6));',
-    '  float curtain=smoothstep(-.04,.1,d)*exp(-max(d,0.)*(2.6+fi*.6))*rays;',
-    '  col+=c*(core*.55+curtain*.85)*(i==2?.55:1.);',
+    '  vec2 q=p+vec2(fi*2.7,0.);',
+    '  vec2 w=vec2(fbm(q*1.3+vec2(T*.9,fi)),fbm(q*1.3+vec2(5.2-T*.7,fi+3.1)));',
+    '  q+=(w-.5)*.55;',                                                         /* 소용돌이 */
+    '  float yc=(i==0?.04:-.15)+.3*(fbm(vec2(q.x*.7+T*.6+fi*4.,fi))-.5)+.06*sin(q.x*2.3+T*1.7+fi);',
+    '  float d=q.y-yc;',                                                        /* 0보다 크면 가장자리 위 */
+    '  float prof=exp(-max(-d,0.)*40.)*exp(-max(d,0.)*(5.2+fi*2.2));',
+    '  float rays=n(vec2(q.x*34.+w.x*6.,q.y*1.6-T*2.5+fi*9.));',
+    '  rays=.3+.7*smoothstep(.2,.95,rays);',                                    /* 세로 빛줄기 */
+    '  float patchy=smoothstep(.26,.74,fbm(vec2(q.x*1.6-T*.8+fi*7.,T*.3)));',   /* 끊겼다 이어지는 밝기 */
+    '  float edge=exp(-d*d*900.)*.55;',                                         /* 밝은 아래 가장자리 */
+    '  float I=(prof*rays+edge)*patchy;',
+    '  float hg=clamp(d*4.,0.,1.);',
+    '  vec3 c=mix(vec3(.5,.78,1.),vec3(.19,.47,1.),smoothstep(0.,.35,hg));',
+    '  c=mix(c,vec3(.42,.36,1.),smoothstep(.35,1.,hg));',
+    '  aur+=c*I*(i==0?1.:.72);',
     ' }',
-    ' float glow=exp(-dot(p-vec2(.55,.35),p-vec2(.55,.35))*2.2);',  /* 오른쪽 위 은은한 빛 */
-    ' col+=C0*glow*.22;',
-    ' float bias=mix(1.,smoothstep(-.15,1.05,uv.x),side);',          /* 글자 쪽은 어둡게 */
-    ' col=night+(col-night)*mix(.18,1.,bias)*gain;',
-    ' col*=1.-.35*pow(length(uv-.5)*1.15,2.);',                       /* 가장자리 비네트 */
-    ' col+=(h(gl_FragCoord.xy+t)-.5)/255.;',                          /* 밴딩 막는 디더 */
+    ' float hz=exp(-pow((uv.y-.06)/.1,2.))*(.35+.65*fbm(vec2(p.x*3.+T*.4,7.)));', /* 지평선 근처 옅은 안개 */
+    ' vec2 g=gl_FragCoord.xy/2.5,cell=floor(g);float sh=h(cell);',
+    ' float star=step(.992,sh)*smoothstep(.42,0.,length(fract(g)-.5))*(.55+.45*sin(t*(.7+sh*2.3)+sh*40.));',
+    ' star*=smoothstep(-.2,.35,p.y)*(1.-clamp(length(aur)*1.4,0.,1.));',      /* 오로라·지평선 쪽 별은 흐리게 */
+    ' float bias=mix(1.,smoothstep(-.15,1.05,uv.x),side);',                     /* 제목 쪽은 어둡게 */
+    ' vec3 col=sky+aur*1.1*mix(.2,1.,bias)*gain+vec3(.07,.1,.19)*hz*.55+vec3(.78,.86,1.)*star*.75;',
+    ' col*=1.-.32*pow(length(uv-.5)*1.15,2.);',                                /* 비네트 */
+    ' col+=(h(gl_FragCoord.xy+t)-.5)/255.;',                                    /* 밴딩 막는 디더 */
     ' gl_FragColor=vec4(col,1.);',
     '}'
   ].join('\n');
