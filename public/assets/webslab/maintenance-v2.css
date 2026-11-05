@@ -108,6 +108,13 @@
 .mx-hero__facts b { color: #fff; font-size: 20px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
 .mx-hero__facts span { color: rgba(255, 255, 255, .62); font-size: 14.5px; font-weight: 500; }
 
+/* 셰이더 오로라(aurora-v1.js) — 준비되면 캔버스가 서서히 나타나고 CSS 오로라 원은 물러난다.
+   스크립트·WebGL이 없으면 아래 CSS 오로라가 그대로 남는다. */
+.mx-aurora { position: absolute; inset: 0; display: block; width: 100%; height: 100%; opacity: 0; transition: opacity 1.4s cubic-bezier(.16, 1, .3, 1); }
+.mx-hero__bg.is-gl .mx-aurora { opacity: 1; }
+.mx-hero__bg.is-gl i { opacity: 0 !important; animation: none !important; transition: opacity 1.4s ease; }
+.mx-end__card .mx-hero__bg { overflow: hidden; border-radius: inherit; }
+
 /* 밝은 히어로(비용 안내) */
 .mx-hero--light { color: var(--mx-ink); background: linear-gradient(180deg, #f2f7ff, #fff 85%); }
 .mx-hero--light .mx-hero__bg i { opacity: .22; }
