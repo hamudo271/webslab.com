@@ -8,7 +8,7 @@
 .cr-hero__photo {
   position: absolute;
   inset: 0;
-  background: url('/assets/webslab/careers-team.webp') 60% 42% / cover no-repeat;
+  background: url('/assets/webslab/careers-team-v2.webp') 60% 42% / cover no-repeat;   /* 흑백 — luminosity 합성이라 밝기만 쓰인다 */
   opacity: .34;
   mix-blend-mode: luminosity;
   -webkit-mask-image: linear-gradient(90deg, transparent 8%, rgba(0, 0, 0, .45) 38%, #000 66%);
@@ -22,6 +22,8 @@
     mask-image: linear-gradient(180deg, transparent 18%, rgba(0, 0, 0, .5) 45%, #000 70%);
   }
 }
+
+@media (max-width: 640px) { .cr-hero__photo { background-image: url('/assets/webslab/careers-team-v2-800.webp'); } }
 
 /* ─── 히어로 무대 — 유지보수 페이지와 같은 카드 문법(maintenance-v2.css .mx-card) ─── */
 .cr-quote { right: 0; bottom: 0; width: 280px; margin: 0; padding: 18px 18px 16px; }

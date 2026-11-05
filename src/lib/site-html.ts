@@ -435,7 +435,8 @@ export function optimizeAssets(html: string): string {
   });
   // 채용 히어로 사진은 CSS 배경이라 늦게 발견된다(가장 큰 화면 요소) — 미리 받기
   if (out.includes('class="cr-hero__photo"')) {
-    out = out.replace('</head>', '<link rel="preload" as="image" href="/assets/webslab/careers-team.webp" fetchpriority="high">\n</head>');
+    out = out.replace('</head>', '<link rel="preload" as="image" href="/assets/webslab/careers-team-v2.webp" media="(min-width: 641px)" fetchpriority="high">\n' +
+        '<link rel="preload" as="image" href="/assets/webslab/careers-team-v2-800.webp" media="(max-width: 640px)" fetchpriority="high">\n</head>');
   }
   return out;
 }
