@@ -6,12 +6,6 @@
    기존 2MB 풀셋 프리로드 대신 페이지에 쓰인 청크만 내려받아 초기 폰트 전송을 대폭 절감. */
 @import './pretendard.css';
 
-/* Swiper CSS — global import for SSR safety */
-@import 'swiper/css';
-@import 'swiper/css/effect-fade';
-@import 'swiper/css/autoplay';
-@import 'swiper/css/navigation';
-
 @layer base {
   :root {
     /* Tailwind의 font-pretendard(var(--font-pretendard))가 참조. 동적 서브셋 font-family와 일치. */
@@ -36,15 +30,4 @@
   .text-pretty {
     text-wrap: pretty;
   }
-}
-
-/* Swiper navigation arrow color overrides */
-.swiper-button-prev,
-.swiper-button-next {
-  color: white;
-}
-
-.swiper-button-prev::after,
-.swiper-button-next::after {
-  font-size: 20px;
 }

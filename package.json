@@ -21,7 +21,6 @@
     "build:thumbnails": "python3 scripts/build_column_og.py"
   },
   "dependencies": {
-    "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^6.19.3",
     "@tiptap/extension-image": "^3.27.2",
     "@tiptap/extension-placeholder": "^3.27.2",
@@ -30,23 +29,19 @@
     "@tiptap/starter-kit": "^3.27.2",
     "cloudinary": "^2.10.0",
     "clsx": "^2.1.1",
-    "framer-motion": "^11.18.2",
     "jose": "^6.2.3",
     "lucide-react": "^0.460.0",
     "next": "14.2.35",
     "react": "^18",
     "react-dom": "^18",
-    "react-hook-form": "^7.75.0",
     "resend": "^4.8.0",
     "sharp": "^0.33.5",
-    "swiper": "^11.2.10",
     "tailwind-merge": "^3.6.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.20",
     "@testing-library/jest-dom": "^6",
-    "@testing-library/react": "^16",
     "@types/node": "^24",
     "@types/react": "^18",
     "@types/react-dom": "^18",

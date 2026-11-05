@@ -51,15 +51,6 @@ export function computePublishedAt(
 
 // ── 공개 조회 ──
 
-export const PUBLIC_PAGE_SIZE = 9;
-
-export function findPublishedPosts(category?: string) {
-  return prisma.post.findMany({
-    where: { status: 'PUBLISHED', ...(category ? { category } : {}) },
-    orderBy: { publishedAt: 'desc' },
-  });
-}
-
 export function findPublishedPostBySlug(slug: string) {
   return prisma.post.findFirst({ where: { slug, status: 'PUBLISHED' } });
 }
