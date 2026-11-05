@@ -153,28 +153,51 @@
 .cr-tile--count p { color: rgba(255, 255, 255, .64); }
 .cr-tile--count .cr-count__num { margin: 0; max-width: none; font-size: clamp(72px, 9vw, 128px); font-weight: 800; line-height: .9; letter-spacing: -.06em; font-variant-numeric: tabular-nums; background: linear-gradient(135deg, #fff 30%, #8fbcff 70%, #a99bff); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .cr-tile--count .cr-count__num span { font-size: .5em; vertical-align: .55em; }
+.cr-shots { display: flex; align-items: center; gap: 8px; margin: 22px 0 0; padding: 0; list-style: none; }
+.cr-shots li { width: 76px; height: 56px; overflow: hidden; border-radius: 12px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .14); background: #1b2436; }
+.cr-shots img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.cr-shots__more { display: flex; align-items: center; justify-content: center; color: rgba(255, 255, 255, .7); font-size: 14px; font-weight: 800; letter-spacing: -.02em; }
 .cr-btn-light { gap: 8px; color: var(--mx-ink); background: #fff; }
 .cr-btn-light:hover { background: #e9eefb; }
 .cr-btn-light svg { width: 17px; height: 17px; }
 
-/* ─── 모집 분야 ─── */
+/* ─── 모집 분야 — 흰 카드: 아이콘+제목 한 줄, 번호 목록, 바닥의 지원 줄 ─── */
+.cr-open { display: inline-flex; align-items: center; gap: 8px; margin: 18px 0 0; padding: 0 14px 0 12px; height: 34px; border-radius: 999px; color: #0a8a63; background: #e6f7f0; font-size: 13.5px; font-weight: 800; letter-spacing: -.01em; }
+.cr-open i { width: 7px; height: 7px; border-radius: 50%; background: #12b886; box-shadow: 0 0 0 3px rgba(18, 184, 134, .18); }
 .cr-roles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; }
-.cr-role { display: flex; flex-direction: column; padding: 32px 30px 28px; border-radius: 30px; background: #fff; box-shadow: 0 0 0 1px rgba(2, 32, 71, .04); transition: transform .45s var(--mx-ease), box-shadow .45s ease; }
+.cr-role { display: flex; flex-direction: column; padding: 30px 30px 20px; border-radius: 30px; background: #fff; box-shadow: 0 0 0 1px rgba(2, 32, 71, .04); transition: transform .45s var(--mx-ease), box-shadow .45s ease; }
 .cr-role:hover { transform: translateY(-4px); box-shadow: 0 0 0 1px rgba(2, 32, 71, .04), 0 24px 48px -26px rgba(2, 32, 71, .3); }
-.cr-role__top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.cr-role h3 { margin: 22px 0 0; font-size: 24px; font-weight: 800; letter-spacing: -.04em; }
-.cr-role__k { margin: 20px 0 8px; color: var(--mx-faint); font-size: 13px; font-weight: 700; }
-.cr-role__list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.cr-role__list li { position: relative; padding-left: 16px; color: var(--mx-body); font-size: 15.5px; line-height: 1.55; letter-spacing: -.02em; word-break: keep-all; }
-.cr-role__list li::before { content: ''; position: absolute; top: .68em; left: 2px; width: 5px; height: 5px; border-radius: 50%; background: var(--mx-blue); }
-.cr-role__go { align-self: flex-start; gap: 6px; min-height: 46px; margin-top: 26px; padding: 0 16px 0 20px; font-size: 15px; }
-.cr-role__go svg { width: 16px; height: 16px; }
+.cr-role__head { display: flex; align-items: center; gap: 16px; }
+.cr-role__head .mx-ic { flex: 0 0 auto; transition: color .3s ease, background-color .3s ease; }
+.cr-role:hover .mx-ic { color: #fff; background: var(--mx-blue); }
+.cr-role h3 { margin: 0; font-size: 25px; font-weight: 800; letter-spacing: -.04em; word-break: keep-all; }
+.cr-role__k { margin: 26px 0 4px; color: var(--mx-faint); font-size: 13px; font-weight: 700; }
+.cr-role__list { margin: 0; padding: 0; list-style: none; counter-reset: crTask; }
+.cr-role__list li { display: grid; grid-template-columns: 30px minmax(0, 1fr); align-items: baseline; gap: 10px; padding: 13px 0; border-top: 1px solid var(--mx-soft); color: var(--mx-ink); font-size: 15.5px; font-weight: 500; line-height: 1.55; letter-spacing: -.02em; word-break: keep-all; counter-increment: crTask; }
+.cr-role__list li:first-child { border-top: 0; }
+.cr-role__list li::before { content: '0' counter(crTask); color: var(--mx-blue); font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 0; }
+.cr-role__go { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 54px; margin-top: auto; padding: 0 16px 0 20px; border-radius: 16px; color: var(--mx-ink); background: var(--mx-floor); font-size: 15px; font-weight: 700; letter-spacing: -.02em; text-decoration: none; transition: color .25s ease, background-color .25s ease; }
+.cr-role__go svg { width: 18px; height: 18px; transition: transform .3s var(--mx-ease); }
+.cr-role__go:hover { color: #fff; background: var(--mx-ink); }
+.cr-role__go:hover svg { transform: translateX(3px); }
+.cr-role__go:focus-visible { outline: 2px solid var(--mx-blue); outline-offset: 3px; }
+.cr-role .cr-role__list + .cr-role__go { margin-top: 22px; }
 
-/* ─── 채용 절차 (4단계) ─── */
-.cr-flow { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.cr-flow::before { left: 12%; right: 12%; }
-.cr-flow li { padding: 32px 22px; background: var(--mx-floor); box-shadow: none; }
-.cr-flow .mx-flow__n { box-shadow: 0 0 0 6px var(--mx-floor); }
+/* ─── 채용 절차 — 흰 카드 한 장 속 타임라인: 선이 차오르며 단계가 차례로 켜진다 ─── */
+.cr-flow { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 24px; margin: 0; padding: 44px 40px 40px; border-radius: 32px; background: #fff; box-shadow: 0 0 0 1px rgba(2, 32, 71, .04); list-style: none; counter-reset: none; }
+.cr-flow::before, .cr-flow::after { content: ''; position: absolute; top: 66px; left: calc(40px + 12.5% - 5px); right: calc(40px + 12.5% - 5px); height: 2px; border-radius: 2px; background: var(--mx-line); }
+.cr-flow::after { background: linear-gradient(90deg, var(--mx-ink), var(--mx-blue)); transform: scaleX(0); transform-origin: left; transition: transform 1.3s var(--mx-ease) .25s; }
+.cr-flow.is-in::after { transform: none; }
+.cr-flow li { position: relative; display: grid; justify-items: center; text-align: center; }
+.cr-flow__n { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; color: var(--mx-faint); background: #fff; box-shadow: inset 0 0 0 2px var(--mx-line); font-size: 16px; font-weight: 800; font-variant-numeric: tabular-nums; transition: color .35s ease, background-color .35s ease, box-shadow .35s ease; }
+.cr-flow.is-in .cr-flow__n { color: #fff; background: var(--mx-ink); box-shadow: 0 0 0 6px #fff; }
+.cr-flow.is-in li:nth-child(2) .cr-flow__n { transition-delay: .5s; }
+.cr-flow.is-in li:nth-child(3) .cr-flow__n { transition-delay: .85s; }
+.cr-flow.is-in li:nth-child(4) .cr-flow__n { background: var(--mx-blue); box-shadow: 0 0 0 6px #fff, 0 0 0 10px rgba(49, 130, 246, .16); transition-delay: 1.2s; }
+.cr-flow__txt { margin-top: 22px; }
+.cr-flow h3 { margin: 0; font-size: 21px; font-weight: 800; letter-spacing: -.035em; }
+.cr-flow p { max-width: 15em; margin: 10px auto 0; color: var(--mx-body); font-size: 15px; line-height: 1.6; letter-spacing: -.02em; word-break: keep-all; }
+.cr-flow small { display: inline-block; margin-top: 14px; padding: 6px 11px; border-radius: 8px; color: var(--mx-blue); background: #e8f3ff; font-size: 12.5px; font-weight: 700; }
 
 /* ─── 지원서 — prepare-v1.css(.ws-prep)의 항목 카드 + 짙은 요약 카드 위에 입력 칸만 얹는다 ─── */
 .cr-apply { --cr-red: #f04452; }
@@ -280,8 +303,17 @@
   .cr-way { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .cr-tile--count { grid-template-columns: auto minmax(0, 1fr); }
   .cr-tile--count .cr-btn-light { grid-column: 1 / -1; justify-self: start; }
-  .cr-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .cr-flow::before { display: none; }
+  .cr-flow { grid-template-columns: 1fr; gap: 0; padding: 32px 28px; }
+  .cr-flow::before, .cr-flow::after { display: none; }
+  /* 세로선은 점과 점 사이 구간마다 — 마지막 점 아래로 삐져나오지 않는다 */
+  .cr-flow li:not(:last-child)::before, .cr-flow li:not(:last-child)::after { content: ''; position: absolute; top: 58px; bottom: -14px; left: 21px; width: 2px; border-radius: 2px; background: var(--mx-line); }
+  .cr-flow li:not(:last-child)::after { background: linear-gradient(180deg, var(--mx-ink), var(--mx-blue)); transform: scaleY(0); transform-origin: top; transition: transform .6s var(--mx-ease); }
+  .cr-flow.is-in li:nth-child(1)::after { transform: none; transition-delay: .15s; }
+  .cr-flow.is-in li:nth-child(2)::after { transform: none; transition-delay: .5s; }
+  .cr-flow.is-in li:nth-child(3)::after { transform: none; transition-delay: .85s; }
+  .cr-flow li { grid-template-columns: 44px minmax(0, 1fr); justify-items: start; column-gap: 18px; padding: 14px 0; text-align: left; }
+  .cr-flow__txt { margin-top: 0; }
+  .cr-flow p { margin-left: 0; }
 }
 /* ─── 모바일 ─── */
 @media (max-width: 768px) {
@@ -294,14 +326,21 @@
   .cr-quote { padding: 14px; }
   .cr-quote blockquote { font-size: 13.5px; }
   .cr-stage .mx-stage__note { position: static; grid-column: 1 / -1; justify-self: end; }
-  .cr-roles, .cr-flow, .cr-row { grid-template-columns: 1fr; }
+  .cr-roles, .cr-row { grid-template-columns: 1fr; }
+  .cr-flow { padding: 24px 20px; border-radius: 26px; }
+  .cr-flow li:not(:last-child)::before, .cr-flow li:not(:last-child)::after { left: 21px; }
+  .cr-flow h3 { font-size: 19px; }
+  .cr-shots li { width: 60px; height: 44px; border-radius: 10px; }
+  .cr-open { margin-top: 14px; }
   .cr-apply .ws-prep__row { grid-template-columns: 40px minmax(0, 1fr) auto; }
   .cr-item__body { padding: 0 16px 16px; }
   .cr-seg span { min-height: 42px; font-size: 14px; }
   .cr-badge { height: 28px; padding: 0 10px; font-size: 12.5px; }
-  .cr-role { padding: 26px 24px 24px; border-radius: 26px; }
+  .cr-role { padding: 24px 20px 16px; border-radius: 26px; }
   .cr-role:hover { transform: none; }
   .cr-role h3 { font-size: 22px; }
+  .cr-role__head { gap: 12px; }
+  .cr-role__head .mx-ic { width: 44px; height: 44px; }
   .cr-way { grid-template-columns: 1fr; gap: 12px; }
   .cr-tile--wide { grid-column: auto; }
   .cr-tile { gap: 28px; min-height: 0; padding: 30px 24px 0; border-radius: 28px; }
