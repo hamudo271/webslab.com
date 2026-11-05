@@ -57,6 +57,7 @@ public/        images(column/ = 칼럼 썸네일), fonts, og, site/(운영 레�
 - **`seo-policy.ts` 크롤러 목록 변경 시** — Cloudflare 관리형 AI봇 차단 규칙과 **모순되지 않게** 맞출 것(레포엔 안 보이는 Cloudflare robots.txt가 별도로 존재).
 - **리뉴얼 페이지 수정 시** — `public/assets` 등 동기화 결과물을 직접 고치지 말 것(다음 sync에 덮임). 원본 폴더 수정 → `pnpm sync:renewal` → `CI=true npx vitest run`(시안 흔적·추적 코드 잔존 검사) 순서. 시안 문구를 운영 문구로 바꾸는 규칙은 `site-html.ts`의 `PREVIEW_COPY`. 새 페이지는 `src/site/registry.ts` + `src/app/<경로>/route.ts` 추가.
 - **정적 파일은 30일 캐시**(`next.config.mjs` headers — `/assets`·`/wp-content`·`/images` 등). CSS·JS를 고치면 HTML의 `?v=`를 반드시 올리고, 이미지·영상을 바꿀 때는 **파일 이름을 바꾸거나 `?v=`를 붙일 것** — 같은 이름으로 덮으면 브라우저·Cloudflare가 최대 30일 옛 파일을 보여준다.
+- **CSS 묶음**: `pnpm sync:renewal`이 페이지 head의 로컬 CSS를 순서대로 합쳐 `public/assets/bundle/<내용해시>.css` 두 개(전 페이지 공통 테마 + 페이지별)로 바꾼다 — 렌더 차단 요청 29개 → 2개. 원본 HTML은 개별 link 그대로 두고 고치면 되고(해시라 캐시 자동 갱신), 묶음 파일을 직접 고치지 말 것. CSS 안 상대 `url()`은 절대 경로로 바뀐다.
 - **운영 변환의 속도 처리**(`site-html.ts` `optimizeAssets`): 안 쓰는 WP 인라인 스타일 제거, 외부 스크립트 전부 `defer`(폼 연결 `ws-forms.js`만 동기), Splitting.js는 버전 고정 jsDelivr. 새 인라인 스크립트가 외부 라이브러리를 **바로** 부르면 defer 때문에 깨진다 — `DOMContentLoaded` 안에서 부를 것.
 - **`globals.css`에 `scroll-behavior: smooth` 넣지 말 것** — App Router의 라우트 변경 시 즉시 top 이동을 깨뜨림(과거 버그).
 - **환경변수(하드코딩 금지)**: `RESEND_API_KEY`(문의 메일), `CONTACT_FROM_EMAIL`·`CONTACT_TO_EMAIL`, `CONTACT_DRY_RUN=true`(메일 안 보내고 로그만), `NEXT_PUBLIC_SITE_URL`, analytics 키들 + CMS용 `DATABASE_URL`(Railway Postgres 자동 주입)·`ADMIN_PASSWORD`(평문)·`ADMIN_JWT_SECRET`·`CLOUDINARY_URL`. Railway 대시보드에서 관리. ⚠️ 로컬 `.env`에서 값에 `$`가 있으면 `\$`로 이스케이프(Next가 $변수 확장함).
