@@ -103,6 +103,17 @@ export function injectHead(html: string, headStart: string, headEnd: string): st
   return withStart.replace('</head>', `${headEnd}\n</head>`);
 }
 
+/**
+ * Cloudflare 이메일 난독화 끄기 — 켜져 있으면 메일 주소를 /cdn-cgi/l/email-protection 링크로 바꿔,
+ * 구글이 그 주소를 따라가 404로 보고한다(Search Console '찾을 수 없음'). 메일 주소는 어차피 공개값이다.
+ * stripComments 뒤에 넣어야 살아남는다.
+ */
+export function disableEmailObfuscation(html: string): string {
+  return html
+    .replace(/<body\b[^>]*>/i, (tag) => `${tag}<!--email_off-->`)
+    .replace(/<\/body>(?![\s\S]*<\/body>)/i, '<!--/email_off--></body>');
+}
+
 export function injectBodyStart(html: string, snippet: string): string {
   if (!snippet) return html;
   return html.replace(/<body\b[^>]*>/i, (tag) => `${tag}\n${snippet}`);
@@ -413,5 +424,6 @@ export function toProductionHtml(raw: string, opts: ProductionOptions): string {
   html = normalizeLinks(html);
   html = injectHead(html, opts.headStart, opts.headEnd);
   html = injectBodyStart(html, opts.bodyStart ?? '');
+  html = disableEmailObfuscation(html);
   return html;
 }

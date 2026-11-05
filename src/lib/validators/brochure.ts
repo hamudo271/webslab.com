@@ -20,5 +20,5 @@ export const brochureSchema = z.object({
 export type BrochureInput = z.infer<typeof brochureSchema>;
 
 /** 다운로드 파일 경로. 폼 통과 후에만 전달한다. */
-export const BROCHURE_FILE = '/files/websLAB-brochure.pdf';
+export const BROCHURE_FILE = '/assets/webslab/files/webslab-company-profile.pdf';
 export const BROCHURE_FILENAME = 'websLAB-회사소개서.pdf';

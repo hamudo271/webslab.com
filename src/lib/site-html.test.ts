@@ -50,6 +50,13 @@ describe('리뉴얼 페이지 운영 변환 (src/site/pages 전체)', () => {
     expect(html).not.toMatch(/<a\b[^>]*href="https?:\/\/(?:www\.)?webslab\.co\.kr/);
   });
 
+  it.each(pages)('$name — Cloudflare 이메일 난독화를 끈다(본문 전체가 email_off 안)', ({ raw }) => {
+    const html = produce(raw);
+    const body = html.slice(html.search(/<body\b/i));
+    expect(body).toMatch(/^<body\b[^>]*><!--email_off-->/i);
+    expect(html.trimEnd()).toMatch(/<!--\/email_off--><\/body>\s*<\/html>$/i);
+  });
+
   it.each(pages)('$name — 푸터에 사업자 정보와 약관 링크가 들어간다', ({ raw }) => {
     const html = produce(raw);
     expect(html).toContain(brand.legal.businessNumber);

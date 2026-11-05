@@ -1,3 +1,5 @@
+import { LEGACY_REDIRECTS } from './src/config/legacy-redirects.mjs';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
@@ -13,6 +15,10 @@ const nextConfig = {
       { protocol: 'https', hostname: 'placehold.co' },
       { protocol: 'https', hostname: 'res.cloudinary.com' }, // 칼럼 썸네일/본문 이미지
     ],
+  },
+  // 예전 사이트 주소 301 (Search Console 404 정리) — 목록은 src/config/legacy-redirects.mjs
+  async redirects() {
+    return LEGACY_REDIRECTS.map((r) => ({ ...r, statusCode: 301 }));
   },
   experimental: {
     optimizePackageImports: ['lucide-react'],
