@@ -68,6 +68,18 @@ describe('리뉴얼 페이지 운영 변환 (src/site/pages 전체)', () => {
     expect(sync).toEqual(['/site/ws-forms.js?v=x']);
   });
 
+  it.each(pages)('$name — 속도: 로컬 CSS는 동기화 때 만든 묶음(공통 + 페이지) 두 개뿐이다', ({ raw }) => {
+    const head = raw.slice(0, raw.indexOf('</head>')).replace(/<noscript>[\s\S]*?<\/noscript>/g, '');
+    const local = (head.match(/<link\b[^>]*rel="stylesheet"[^>]*href="\/(?!\/)[^"]+"/g) ?? []).map(
+      (tag) => tag.match(/href="([^"]+)"/)![1],
+    );
+    expect(local.length).toBeLessThanOrEqual(2);
+    for (const href of local) {
+      expect(href).toMatch(/^\/assets\/bundle\/[0-9a-f]{12}\.css$/);
+      expect(fs.existsSync(path.join(__dirname, '../../public', href)), href).toBe(true);
+    }
+  });
+
   it.each(pages)('$name — 푸터에 사업자 정보와 약관 링크가 들어간다', ({ raw }) => {
     const html = produce(raw);
     expect(html).toContain(brand.legal.businessNumber);

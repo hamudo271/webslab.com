@@ -75,8 +75,9 @@
 }
 /* Chromium: 가장자리 렌즈 굴절 — 배경이 실제로 휘어 보인다 (다른 엔진은 위의 블러 유리) */
 .wsai-v8.is-liquid:not(.is-open) .wsai-v8__sheet {
-  -webkit-backdrop-filter: blur(3px) brightness(.5) saturate(1.5) url(#wsaiLiquid);
-  backdrop-filter: blur(3px) brightness(.5) saturate(1.5) url(#wsaiLiquid);
+  /* SVG 굴절(url(#wsaiLiquid))은 화면에 늘 떠 있는 동안 스크롤마다 매 프레임 다시 계산돼 무거웠다 — 일반 흐림으로 */
+  -webkit-backdrop-filter: blur(14px) brightness(.5) saturate(1.5);
+  backdrop-filter: blur(14px) brightness(.5) saturate(1.5);
 }
 .wsai-v8.is-open .wsai-v8__sheet {
   height: var(--ai-sheet-h);
