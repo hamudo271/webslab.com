@@ -17,6 +17,8 @@ import portfolioUniverlab from './pages/portfolio--univerlab-media.html';
 import portfolioBlueOcean from './pages/portfolio--blue-ocean-guardians.html';
 import portfolioDcd from './pages/portfolio--dcd-company.html';
 import portfolioFirstMcn from './pages/portfolio--thefirstmcn.html';
+import portfolioReyou from './pages/portfolio--reyourclinic.html';
+import portfolioApkoc from './pages/portfolio--apkocdesign.html';
 import column from './pages/column.html';
 import contact from './pages/contact.html';
 import faq from './pages/faq.html';
@@ -52,6 +54,8 @@ const caseHtml: Record<string, string> = {
   'blue-ocean-guardians': portfolioBlueOcean,
   'dcd-company': portfolioDcd,
   thefirstmcn: portfolioFirstMcn,
+  reyourclinic: portfolioReyou,
+  apkocdesign: portfolioApkoc,
 };
 
 export const CASE_SLUGS = Object.keys(caseHtml);
