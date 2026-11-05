@@ -1,95 +1,92 @@
-/* WEBSLAB_PHILOSOPHY_V1_20261105 — 메인 '웹스랩 철학' 섹션
-   일렁이는 입자 그물 구체를 WebGL로 그린다: 표면이 노이즈로 부풀었다 꺼지고, 점으로 된 그물 위로 접힌 결이 밝게 흐른다.
-   색은 웹스랩 파랑 → 하늘빛, 결의 꼭대기에 보라와 아주 약한 주황(예전 무지개 오브와 같은 계열).
-   아래에는 받침대 고리 빛과 바닥 반사. 포인터 쪽으로 구체가 살짝 돈다.
-   - 절반 해상도 + 픽셀 상한, 화면 밖·숨은 탭에서 멈춤, 움직임 줄이기: 한 장면만
-   - WebGL이 없으면 CSS 빛(.ws-philo:not(.is-gl) .ws-philo__stage::before)이 대신한다 */
+/* WEBSLAB_PHILOSOPHY_V1_20261105 — 메인 '웹스랩 철학' 섹션 배경
+   홀로그램 공간 속 디지털 지구를 WebGL로 그린다.
+   - 지구: 실제 육지(earth-land.png — Natural Earth 1:110m, 퍼블릭 도메인)를 점으로 찍은 대륙 + 빛나는 해안선,
+     옅은 경위선, 반대편 대륙이 비치는 홀로그램 투명감, 둘레 대기 빛. 천천히 자전하고 포인터 쪽으로 살짝 돈다.
+     서울 자리에는 작은 신호가 퍼진다.
+   - 공간: 지구 뒤로 흐릿한 HUD 패널들과 받침대 고리 빛(웹스랩 파랑·하늘빛).
+   - 절반 해상도 + 픽셀 상한, 화면 밖·숨은 탭에서 멈춤, 움직임 줄이기: 한 장면만, WebGL 없으면 CSS 빛 */
 (function () {
   'use strict';
   var root = document.querySelector('.ws-philo');
   if (!root) return;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  /* ── 나타나기 ── */
-  var reveal = Array.prototype.slice.call(root.querySelectorAll('[data-reveal]'));
+  /* ── 나타나기 — 섹션이 보이면 글자가 순서대로 ── */
   if ('IntersectionObserver' in window && !reduce.matches) {
     root.classList.add('has-reveal');
     var ro = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); ro.unobserve(e.target); } });
-    }, { threshold: .2, rootMargin: '0px 0px -8% 0px' });
-    reveal.forEach(function (el) { ro.observe(el); });
+      if (es[0].isIntersecting) { root.classList.add('is-in'); ro.disconnect(); }
+    }, { threshold: .25 });
+    ro.observe(root);
   }
 
-  var canvas = root.querySelector('.ws-philo__orb');
+  var canvas = root.querySelector('.ws-philo__bg');
   if (!canvas || !window.WebGLRenderingContext) return;
-  // 투명 캔버스 — 섹션 배경(CSS) 위에 빛만 더한다(캔버스 경계가 네모로 드러나지 않게)
-  var gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false, depth: false, powerPreference: 'low-power' });
+  var gl = canvas.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power' });
   if (!gl) return;
 
   var VERT = 'attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
   var FRAG = [
     'precision mediump float;',
-    'uniform vec2 r;uniform vec2 c;uniform float R0;uniform float t;uniform vec2 m;',
-    'float h(vec3 p){p=fract(p*.3183+.1);p*=17.;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}',
-    'float n(vec3 x){vec3 i=floor(x),f=fract(x);f=f*f*(3.-2.*f);',
-    ' return mix(mix(mix(h(i),h(i+vec3(1,0,0)),f.x),mix(h(i+vec3(0,1,0)),h(i+vec3(1,1,0)),f.x),f.y),',
-    '  mix(mix(h(i+vec3(0,0,1)),h(i+vec3(1,0,1)),f.x),mix(h(i+vec3(0,1,1)),h(i+vec3(1,1,1)),f.x),f.y),f.z);}',
-    'float fb(vec3 p){return .55*n(p)+.3*n(p*2.07+3.1)+.15*n(p*4.2+7.7);}',
+    'uniform vec2 r;uniform vec2 c;uniform float R;uniform float t;uniform vec2 m;uniform sampler2D land;',
+    'const float PI=3.14159265;',
     'float h2(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}',
-    'vec3 rot(vec3 P,float ay,float ax){float c1=cos(ay),s1=sin(ay);P=vec3(c1*P.x+s1*P.z,P.y,-s1*P.x+c1*P.z);',
-    ' float c2=cos(ax),s2=sin(ax);return vec3(P.x,c2*P.y-s2*P.z,s2*P.y+c2*P.z);}',
-    /* 구 위 한 점의 빛: 점 그물 + 접힌 결 + 색 */
-    'vec3 surf(vec3 P,float T,float front){',
-    ' float w=fb(P*2.1+vec3(T*.7,0.,T*.4));',
-    ' float th=atan(P.z,P.x),ph=acos(clamp(P.y,-1.,1.));',
-    ' vec2 g=vec2(th*19.1,ph*19.1);',                               /* 점 그물(경위도 격자) */
-    ' float dotv=smoothstep(.36,.0,length(fract(g)-.5));',
-    ' float a=P.y*4.6+w*6.2;float fold=exp(-abs(sin(a*1.5708))*7.5);',  /* 접힌 결 */
-    ' float b=P.x*3.2-P.y*2.+fb(P*3.3+vec3(0.,T*.5,2.))*5.;float fold2=exp(-abs(sin(b*1.5708))*12.)*.6;',
-    ' float k=clamp(fold+fold2,0.,1.4);',
-    ' vec3 deep=vec3(.07,.2,.86),cyan=vec3(.42,.84,1.),violet=vec3(.52,.36,1.),warm=vec3(1.,.52,.32);',
-    ' vec3 col=mix(deep,cyan,clamp(k,0.,1.));',
-    ' col=mix(col,violet,smoothstep(.54,.78,w)*.7);',
-    ' col+=warm*smoothstep(.7,.88,w)*fold*.8;',
-    ' float d=dotv*(.32+1.25*k)+k*.32;',
-    ' return col*d*front;}',
+    'float box(vec2 p,vec2 b,float rd){vec2 q=abs(p)-b+rd;return length(max(q,0.))+min(max(q.x,q.y),0.)-rd;}',
+    /* 흐릿한 HUD 패널 한 장: 테두리 빛 + 옅은 면 + 안쪽 줄 */
+    'float panel(vec2 p,vec2 o,vec2 s,float seed){vec2 q=p-o;float d=box(q,s,.05);',
+    ' float edge=exp(-abs(d)*38.)*.55,fill=smoothstep(.02,-.02,d)*.07;',
+    ' float rows=smoothstep(.02,-.02,d)*smoothstep(.35,.0,abs(fract(q.y/s.y*3.2+seed)-.5))*step(h2(vec2(floor(q.y/s.y*3.2+seed),seed)),.7)*.06;',
+    ' return edge+fill+rows;}',
+    'vec3 tilt(vec3 v,float a){float c1=cos(a),s1=sin(a);return vec3(v.x,c1*v.y-s1*v.z,s1*v.y+c1*v.z);}',
+    'vec2 lonlat(vec3 n,float spin){return vec2(fract((atan(n.x,n.z)+spin)/(2.*PI)+.5),.5-asin(clamp(n.y,-1.,1.))/PI);}',
     'void main(){',
     ' vec2 fc=gl_FragCoord.xy;vec2 uv=fc/r;',
-    ' vec2 p=(fc-c)/R0;',                                          /* 구 반지름 = 1 */
-    ' float T=t*.22;',
-    ' float ay=T*.9+m.x*.5,ax=.35+m.y*.25;',
-    /* 공간: 짙은 남색, 구 둘레 빛 */
-    ' vec3 col=vec3(.03,.08,.24)*exp(-dot(p*vec2(.32,.5),p*vec2(.32,.5)));',
+    ' vec2 p=(fc-c)/R;',                                             /* 지구 반지름 = 1 */
+    ' vec3 col=mix(vec3(.01,.016,.04),vec3(.018,.035,.08),smoothstep(-1.6,1.4,p.y));',
+    /* 뒤 벽의 가로 빛띠 — 홀로그램 공간 */
+    ' col+=vec3(.05,.12,.3)*exp(-pow((p.y-.95)*3.,2.))*.25+vec3(.04,.1,.26)*exp(-pow((p.y+1.)*4.,2.))*.25;',
+    /* HUD 패널 — 지구 양옆 뒤에 흐릿하게 */
+    ' float hud=panel(p,vec2(-1.95,.55),vec2(.5,.34),.3)+panel(p,vec2(-2.15,-.42),vec2(.42,.3),1.7)+panel(p,vec2(-1.35,1.25),vec2(.36,.2),2.9)',
+    '  +panel(p,vec2(1.95,.62),vec2(.46,.32),4.1)+panel(p,vec2(2.2,-.35),vec2(.5,.36),5.3)+panel(p,vec2(1.4,-1.18),vec2(.34,.2),6.6);',
+    ' if(r.x>r.y)hud*=mix(.25,1.,smoothstep(.3,.56,uv.x));',            /* 넓은 화면: 글자 쪽 패널은 더 흐리게 */
+    ' col+=vec3(.42,.72,1.)*hud*.55;',
+    /* 받침대 — 지구 아래 타원 고리 */
+    ' float fy=-1.22;vec2 e=vec2(p.x/1.15,(p.y-fy)/.17);float er=length(e);',
+    ' col+=vec3(.32,.6,1.)*(exp(-abs(er-1.)*16.)*.5+exp(-abs(er-.7)*24.)*.25)*smoothstep(2.,.0,abs(p.x));',
+    ' col+=vec3(.15,.35,.9)*exp(-er*2.)*.22;',
     ' float rr=length(p);',
-    /* 일렁이는 반지름 — 보는 방향의 노이즈로 둘레가 부풀었다 꺼진다 */
-    ' vec3 dir=rot(vec3(p/max(rr,1e-3),0.),ay,ax);',
-    ' float Rw=1.+.16*(fb(dir*1.5+vec3(0.,T*1.1,0.))-.5)*2.;',
-    ' if(rr<Rw){',
-    '  vec2 q=p/Rw;float z=sqrt(max(1.-dot(q,q),0.));',
-    '  vec3 F=rot(vec3(q,z),ay,ax),B=rot(vec3(q,-z),ay,ax);',
-    '  float fres=pow(1.-z,2.);',
-    '  col+=surf(F,T,1.)*(.75+1.3*fres)*1.25;',
-    '  col+=surf(B,T,1.)*vec3(.55,.5,1.)*.28;',                   /* 뒤쪽 그물은 옅게 */
-    '  col+=vec3(.05,.16,.6)*(.25+fres*.9);',
+    ' float spin=t*.07+m.x*.35,ta=.42+m.y*.12;',
+    ' if(rr<1.){',
+    '  float z=sqrt(1.-rr*rr);',
+    '  vec3 n=tilt(vec3(p,z),ta),nb=tilt(vec3(p,-z),ta);',
+    '  vec2 tu=lonlat(n,spin),tb=lonlat(nb,spin);',
+    '  float L=texture2D(land,tu).r,Lb=texture2D(land,tb).r;',
+    '  float coast=pow(clamp(4.*L*(1.-L),0.,1.),.7);',             /* 해안선 — 마스크 가장자리 */
+    '  float cl=max(cos((.5-tu.y)*PI),.05);',                            /* 위도가 높을수록 경도 방향 점 간격을 넓혀 극지방 뭉침을 막는다 */
+    '  vec2 g=vec2(tu.x*360.*cl,tu.y*180.);float dotv=smoothstep(.45,.05,length(fract(g)-.5));',  /* 점 대륙 */
+    '  vec2 gr=abs(fract(vec2(tu.x*24.,tu.y*12.)+.5)-.5);float grid=max(exp(-gr.x*90.),exp(-gr.y*90.));',
+    '  float fres=pow(1.-z,2.2);',
+    '  vec3 ocean=vec3(.02,.075,.22)*(.55+.9*fres);',
+    '  float lit=.6+.55*max(dot(vec3(p,z),normalize(vec3(-.55,.45,.7))),0.);',
+    '  vec3 land_=vec3(.36,.72,1.)*(smoothstep(.5,.9,L)*dotv*1.25+L*.16)+vec3(.7,.9,1.)*coast*.95;',
+    '  col=mix(col,ocean,.92)+land_*lit*(.75+.55*fres)+vec3(.25,.5,1.)*grid*.1*(1.-L)+vec3(.25,.5,1.)*Lb*.07;',
+    '  col+=vec3(.3,.6,1.)*fres*.35;',
+    /* 서울(37.57N, 126.98E) 신호 */
+    '  float slat=37.57/180.*PI,slon=126.98/180.*PI-spin;',
+    '  vec3 sp=vec3(cos(slat)*sin(slon),sin(slat),cos(slat)*cos(slon));',
+    '  float c1=cos(-ta),s1=sin(-ta);sp=vec3(sp.x,c1*sp.y-s1*sp.z,s1*sp.y+c1*sp.z);',
+    '  if(sp.z>0.){float ds=length(p-sp.xy);float pulse=fract(t*.45);',
+    '   col+=vec3(.75,.92,1.)*(exp(-ds*90.)*1.1+exp(-abs(ds-pulse*.16)*120.)*(1.-pulse)*.7)*smoothstep(0.,.3,sp.z);}',
     ' }',
-    ' float edge=abs(rr-Rw);',
-    ' col+=vec3(.35,.6,1.)*exp(-edge*30.)*.55;',                    /* 둘레 빛 */
-    ' col+=vec3(.12,.3,1.)*exp(-max(rr-Rw,0.)*3.)*.32*step(Rw,rr);',
-    /* 받침대 — 구 아래 타원 고리와 바닥 반사 */
-    ' float fy=-1.5;',
-    ' vec2 e=vec2(p.x/1.2,(p.y-fy)/.2);float er=length(e);',
-    ' col+=vec3(.3,.58,1.)*(exp(-abs(er-1.)*16.)*.75+exp(-abs(er-.66)*26.)*.35)*smoothstep(2.2,.0,abs(p.x));',
-    ' col+=vec3(.2,.42,1.)*exp(-er*2.2)*.35;',
-    ' if(p.y<fy){vec2 pr=vec2(p.x,2.*fy-p.y);col+=vec3(.12,.3,.9)*exp(-length(pr*vec2(1.,1.6))*1.6)*.28*smoothstep(fy-1.6,fy,p.y);}',
-    /* 떠다니는 작은 입자 */
-    ' vec2 g=fc/3.;vec2 ci=floor(g);float sh=h2(ci);',
-    ' float sp=step(.996,sh)*smoothstep(.45,0.,length(fract(g)-.5))*(.5+.5*sin(t*(.8+sh*2.)+sh*30.));',
-    ' col+=vec3(.6,.78,1.)*sp*.6*exp(-rr*.35);',
-    ' col=1.-exp(-col*1.35);',
-    ' col*=smoothstep(.0,.2,uv.x)*smoothstep(1.,.8,uv.x)*smoothstep(.0,.1,uv.y)*smoothstep(1.,.9,uv.y);',  /* 가장자리로 갈수록 사라지게 */
+    /* 대기 빛 */
+    ' col+=vec3(.25,.55,1.)*exp(-abs(rr-1.)*22.)*.55+vec3(.1,.32,.95)*exp(-max(rr-1.,0.)*3.2)*.3*step(1.,rr);',
+    /* 떠다니는 먼지 입자 */
+    ' vec2 q=fc/3.;float sh=h2(floor(q));',
+    ' col+=vec3(.6,.78,1.)*step(.997,sh)*smoothstep(.45,0.,length(fract(q)-.5))*(.4+.4*sin(t*(.6+sh*2.)+sh*30.));',
+    ' col=1.-exp(-col*1.3);',
+    ' col*=1.-.3*pow(length(uv-vec2(.6,.5))*1.1,2.);',
     ' col+=(h2(fc+t)-.5)/255.;',
-    ' float al=clamp(max(col.r,max(col.g,col.b))*1.15,0.,1.);',
-    ' gl_FragColor=vec4(col,al);',
+    ' gl_FragColor=vec4(col,1.);',
     '}'
   ].join('\n');
 
@@ -105,24 +102,39 @@
   var loc = gl.getAttribLocation(prog, 'a');
   gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
   var U = {};
-  ['r', 'c', 'R0', 't', 'm'].forEach(function (k) { U[k] = gl.getUniformLocation(prog, k); });
+  ['r', 'c', 'R', 't', 'm', 'land'].forEach(function (k) { U[k] = gl.getUniformLocation(prog, k); });
+
+  /* 육지 마스크 — 받기 전에는 바다만 그린다 */
+  var tex = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, 1, 1, 0, gl.LUMINANCE, gl.UNSIGNED_BYTE, new Uint8Array([0]));
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.uniform1i(U.land, 0);
+  var img = new Image();
+  img.onload = function () {
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, gl.LUMINANCE, gl.UNSIGNED_BYTE, img);
+    if (!raf) draw(performance.now());
+  };
+  img.src = '/assets/webslab/earth-land.png?v=20261105-1';
 
   var w = 0, h = 0;
   function resize() {
     var rect = canvas.getBoundingClientRect();
     var k = Math.min(window.devicePixelRatio || 1, 2) * .55;
     var nw = Math.max(1, Math.round(rect.width * k)), nh = Math.max(1, Math.round(rect.height * k));
-    var cap = Math.sqrt(650000 / (nw * nh));
+    var cap = Math.sqrt(700000 / (nw * nh));
     if (cap < 1) { nw = Math.round(nw * cap); nh = Math.round(nh * cap); }
     if (nw === w && nh === h) return;
     w = nw; h = nh; canvas.width = w; canvas.height = h;
     gl.viewport(0, 0, w, h);
     gl.uniform2f(U.r, w, h);
-    // 구 중심·크기: 넓은 무대는 가운데 조금 위, 좁은 화면은 캔버스 가운데
-    var wide = rect.width > 1024;
-    var R0 = Math.min(w, h) * (wide ? .24 : .27);
-    gl.uniform2f(U.c, w * .5, h * (wide ? .58 : .56));
-    gl.uniform1f(U.R0, R0);
+    // 넓은 화면: 지구는 오른쪽 가운데 · 좁은 화면: 아래 가운데
+    if (rect.width > 768) { gl.uniform2f(U.c, w * .72, h * .5); gl.uniform1f(U.R, Math.min(h * .34, w * .2)); }
+    else { gl.uniform2f(U.c, w * .5, h * .2); gl.uniform1f(U.R, w * .4); }
   }
 
   var mx = 0, my = 0, tx = 0, ty = 0;
@@ -138,7 +150,7 @@
     resize();
     mx += (tx - mx) * .04; my += (ty - my) * .04;
     gl.uniform2f(U.m, mx, my);
-    gl.uniform1f(U.t, (now - start) / 1000 + 12);
+    gl.uniform1f(U.t, (now - start) / 1000 + 20);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
     if (!shown) { shown = true; root.classList.add('is-gl'); }
   }

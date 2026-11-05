@@ -141,7 +141,7 @@ window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(argumen
 <link rel="stylesheet" href="/assets/webslab/services-v1.css?v=20261102-2">
 <link rel="stylesheet" href="/assets/webslab/sections-v1.css?v=20261102-4">
 <link rel="stylesheet" href="/assets/webslab/cases-v2.css?v=20261104-4">
-<link rel="stylesheet" href="/assets/webslab/philosophy-v1.css?v=20261105-2">
+<link rel="stylesheet" href="/assets/webslab/philosophy-v1.css?v=20261105-3">
 <link rel="stylesheet" href="/assets/webslab/contact-v1.css?v=20261104-7">
 <link rel="stylesheet" href="/assets/webslab/inquiry-v1.css?v=20261104-4">
 </head>
@@ -577,50 +577,16 @@ window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(argumen
   </div>
 </section>
 
-<!-- 웹스랩 철학 — 일렁이는 입자 구체(philosophy-v1.js, WebGL) 둘레에 원칙 네 개를 홀로그램 패널로 띄운다.
-     문구는 회사소개·서비스 페이지와 PRODUCT.md에 적힌 사실만(계약 전 시안, 필요한 범위만, 한 팀, 사실만). 인사말은 회사소개 페이지의 대표 문구 -->
+<!-- 웹스랩 철학 — 왼쪽 정렬 큰 글씨 + 배경(philosophy-v1.js): 홀로그램 공간 속 빛나는 디지털 지구.
+     지구 육지는 Natural Earth 1:110m(퍼블릭 도메인)을 earth-land.png로 래스터화. 문구는 회사소개·서비스에 적힌 사실만 -->
 <section class="ws-philo" aria-labelledby="wsPhiloTitle">
+  <canvas class="ws-philo__bg" aria-hidden="true"></canvas>
   <div class="ws-philo__inner">
-    <header class="ws-philo__head" data-reveal>
-      <h2 class="ws-philo__title" id="wsPhiloTitle" data-no-split>만드는 날보다 <br><em>쓰이는 날이 더 깁니다</em></h2>
-      <p class="ws-philo__lead">홈페이지는 오픈하는 날 끝나지 않습니다. 그래서 웹스랩은 시안부터 운영까지, 처음 맡은 팀이 끝까지 책임지는 방식으로 일합니다.</p>
-    </header>
-    <div class="ws-philo__stage">
-      <canvas class="ws-philo__orb" aria-hidden="true"></canvas>
-      <ul class="ws-philo__panels">
-        <li class="ws-philo__panel is-l1" data-reveal>
-          <span class="ws-philo__bar" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="ws-philo__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01M7 13h6M7 16h4"/></svg></span>
-          <h3>먼저 보여드립니다</h3>
-          <p>계약하기 전에 메인 시안부터 만듭니다. 방향이 맞는지 눈으로 확인한 뒤에 결정하세요.</p>
-          <span class="ws-philo__meta">계약 전 메인 시안 · 무료</span>
-        </li>
-        <li class="ws-philo__panel is-l2" data-reveal>
-          <span class="ws-philo__bar" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="ws-philo__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg></span>
-          <h3>필요한 만큼만 만듭니다</h3>
-          <p>기획·디자인·개발·운영 가운데 지금 꼭 필요한 범위만 골라 제안합니다.</p>
-          <span class="ws-philo__meta">맞춤 범위 제안</span>
-        </li>
-        <li class="ws-philo__panel is-r1" data-reveal>
-          <span class="ws-philo__bar" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="ws-philo__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8.5" r="3"/><circle cx="16.5" cy="9.5" r="2.5"/><path d="M2.5 19c.6-3 2.8-4.75 5.5-4.75S12.9 16 13.5 19M14 14.6c.8-.4 1.6-.6 2.5-.6 2.3 0 4.1 1.5 4.6 4"/></svg></span>
-          <h3>한 팀이 끝까지 갑니다</h3>
-          <p>기획한 사람이 오픈을 지켜보고, 만든 사람이 운영까지 살핍니다. 일을 쪼개 넘기지 않습니다.</p>
-          <span class="ws-philo__meta">기획부터 운영까지 한 팀</span>
-        </li>
-        <li class="ws-philo__panel is-r2" data-reveal>
-          <span class="ws-philo__bar" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="ws-philo__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9 17.5 20 6.5"/></svg></span>
-          <h3>사실만 말합니다</h3>
-          <p>숫자는 부풀리지 않고, 사례는 실제로 만들어 지금도 운영 중인 사이트만 보여드립니다.</p>
-          <span class="ws-philo__meta">실제 사례만</span>
-        </li>
-      </ul>
-      <figure class="ws-philo__quote" data-reveal>
-        <blockquote>“시작은 누구나 할 수 있지만<br>끝까지 책임지는 회사는 많지 않다”</blockquote>
-        <figcaption>조현도 · 웹스랩 대표</figcaption>
-      </figure>
+    <h2 class="ws-philo__title" id="wsPhiloTitle" data-no-split><span class="ws-philo__thin">만드는 날보다,</span> <span class="ws-philo__bold">쓰이는 날이 더 깁니다</span></h2>
+    <p class="ws-philo__lead">홈페이지는 오픈하는 날 끝나지 않습니다. 계약 전에 <b>먼저 보여드리고</b>, 필요한 만큼만 만들고, <b>처음 맡은 팀이 운영까지</b> 끝까지 함께합니다.</p>
+    <div class="ws-philo__actions">
+      <a class="ws-philo__btn is-primary" href="/about/">웹스랩 이야기</a>
+      <a class="ws-philo__btn" href="/portfolio/">제작 사례 보기<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 10h10m0 0-4.25-4.25M14.5 10l-4.25 4.25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
   </div>
 </section>
@@ -1190,7 +1156,7 @@ var uwBoard = {"ajaxUrl":"/wp-admin/admin-ajax.php","nonce":"710d6da5cf"};
   document.addEventListener('submit',function(e){e.preventDefault();},true);
   document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;var h=a.getAttribute('href')||'';if(h.indexOf('wp-admin/admin-ajax.php')>-1)e.preventDefault();},true);
   </script><script src="/assets/webslab/webslab.js?v=20261028-1"></script><script src="/assets/webslab/hero-v1.js?v=20261104-1" defer></script><script src="/assets/webslab/services-v1.js?v=20261102-1" defer></script><script src="/assets/webslab/sections-v1.js?v=20261103-1" defer></script>
-<script src="/assets/webslab/philosophy-v1.js?v=20261105-3" defer></script><div class="uw-qi-dock" id="uwQiDock">
+<script src="/assets/webslab/philosophy-v1.js?v=20261105-5" defer></script><div class="uw-qi-dock" id="uwQiDock">
         <div class="uw-qi" id="uwQi" aria-hidden="true">
 
           <button type="button" class="uw-qi__tab" id="uwQiTab" aria-expanded="false" aria-controls="uwQiPanel">
