@@ -548,3 +548,85 @@
   [data-reveal], .mx-bubbles[data-reveal] li { opacity: 1 !important; transform: none !important; transition: none !important; }
   .mx-btn:hover .mx-btn__arrow svg { animation: none; }
 }
+
+/* ═══ v3 (2026-11-05) — 채용 페이지와 같은 톤으로: 보라 그라데이션·떠다니는 종이·펄스 점을 걷어내고
+   브랜드 파랑 하나 + 흰 카드 + 짙은 남색 강조 타일. 쉴 때는 아무것도 움직이지 않는다. ═══ */
+/* 머리말 — 유리 알약 대신 글자 한 줄 */
+.mx-kicker { margin: 0 0 22px; color: rgba(255, 255, 255, .62); font-size: 16px; font-weight: 600; letter-spacing: -.01em; }
+.mx-hero--light .mx-kicker { color: var(--mx-muted); }
+/* 밝은 히어로(비용 안내)도 고정 배경 — 떠다니는 원 없음 */
+.mx-hero--light > .mx-hero__bg i { display: none; }
+.mx-hero--light > .mx-hero__bg {
+  background:
+    radial-gradient(44% 60% at 84% 10%, rgba(107, 92, 255, .14), transparent 70%),
+    radial-gradient(36% 50% at 10% 90%, rgba(49, 130, 246, .12), transparent 70%);
+}
+/* 고민 말풍선 — 답 풍선의 파란 번짐 제거 */
+.mx-bubbles li.is-answer { box-shadow: none; }
+
+/* 맡길 수 있는 일 — 속도 막대는 파랑 하나, 강조 타일은 채용 '110+'와 같은 남색 */
+.mx-vis--speed b { background: var(--mx-blue); }
+.mx-tile--accent {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(24px, 4vw, 56px);
+  padding: 40px 44px;
+  background: radial-gradient(120% 140% at 0% 0%, #1e2a4a 0%, #0d1322 55%, #0a0f1a 100%);
+}
+.mx-tile--accent .mx-tile__txt { max-width: 520px; }
+.mx-tile--accent h3 { margin: 0; }
+.mx-tile--accent .mx-tile__txt p { color: rgba(255, 255, 255, .64) !important; }
+.mx-tile .mx-free__num { margin: 0; font-size: clamp(72px, 9vw, 128px); font-weight: 800; line-height: .9; letter-spacing: -.06em; font-variant-numeric: tabular-nums; background: linear-gradient(135deg, #fff 30%, #8fbcff 70%, #a99bff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.mx-tile .mx-free__num span { font-size: .42em; letter-spacing: -.04em; vertical-align: .5em; }
+.mx-btn--light { gap: 8px; min-height: 50px; padding: 0 22px; color: var(--mx-ink); background: #fff; }
+.mx-btn--light svg { width: 16px; height: 16px; }
+.mx-btn--light:hover { background: #e8f3ff; }
+
+/* 진행 방식 — 카드 세 장 대신 한 카드 속 타임라인(채용 절차와 같은 그림). 보이면 선이 차오르고 점이 하나씩 켜진다. */
+.mx-flow { gap: 0 24px; padding: 44px 40px 40px; border-radius: 32px; background: #fff; box-shadow: 0 0 0 1px rgba(2, 32, 71, .04); }
+.mx-flow::before, .mx-flow::after { top: 66px; left: calc(40px + (100% - 80px) / 6); right: calc(40px + (100% - 80px) / 6); height: 2px; border-radius: 2px; background: var(--mx-line); }
+.mx-flow::after { content: ''; position: absolute; background: linear-gradient(90deg, var(--mx-ink), var(--mx-blue)); transform: scaleX(0); transform-origin: left; transition: transform 1.3s var(--mx-ease) .25s; }
+.mx-flow.is-in::after { transform: none; }
+.mx-flow li { display: grid; justify-items: center; padding: 0; border-radius: 0; background: none; box-shadow: none; }
+.mx-flow__n { position: relative; z-index: 1; width: 44px; height: 44px; color: var(--mx-faint); background: #fff; box-shadow: inset 0 0 0 2px var(--mx-line); font-variant-numeric: tabular-nums; transition: color .35s ease, background-color .35s ease, box-shadow .35s ease; }
+.mx-flow li:last-child .mx-flow__n { background: #fff; }
+.mx-flow.is-in .mx-flow__n { color: #fff; background: var(--mx-ink); box-shadow: 0 0 0 6px #fff; }
+.mx-flow.is-in li:nth-child(2) .mx-flow__n { transition-delay: .5s; }
+.mx-flow.is-in li:nth-child(3) .mx-flow__n { background: var(--mx-blue); box-shadow: 0 0 0 6px #fff, 0 0 0 10px rgba(49, 130, 246, .16); transition-delay: .85s; }
+.mx-flow__txt { margin-top: 22px; }
+.mx-flow h3 { margin-top: 0; letter-spacing: -.035em; }
+.mx-flow p { max-width: 17em; margin-left: auto; margin-right: auto; font-size: 15px; letter-spacing: -.02em; }
+.mx-flow small { padding: 6px 11px; }
+
+/* 신청서 — 진행 막대·완료 아이콘도 파랑 하나 */
+.mx-form__bar i { background: var(--mx-blue); }
+.mx-done__ic { background: var(--mx-blue); box-shadow: none; }
+
+/* 비용 안내 — 견적서는 똑바로, 가만히. 어두운 카드는 남색 하나(보라 번짐 없음). 빈도 막대는 파랑. */
+.mx-receipt__paper { transform: none; animation: none; box-shadow: 0 0 0 1px rgba(2, 32, 71, .05), 0 24px 48px -28px rgba(2, 32, 71, .35); }
+.mx-price.is-best, .mx-result__card { background: radial-gradient(120% 140% at 0% 0%, #1e2a4a 0%, #0d1322 55%, #0a0f1a 100%); box-shadow: none; }
+.mx-basis__vis--freq i { background: #b9d6fb; }
+.mx-basis__vis--freq i:nth-child(4) { background: var(--mx-blue); }
+
+@media (max-width: 1024px) {
+  .mx-tile--accent { grid-template-columns: auto minmax(0, 1fr); }
+  .mx-tile--accent .mx-btn--light { grid-column: 1 / -1; justify-self: start; }
+}
+@media (max-width: 768px) {
+  .mx-kicker { margin-bottom: 16px; font-size: 15px; }
+  .mx-tile--accent { grid-template-columns: 1fr; gap: 18px; padding: 32px 24px; }
+  .mx-tile--accent .mx-btn--light { justify-self: stretch; justify-content: center; }
+  .mx-tile .mx-free__num { font-size: 72px; }
+  /* 타임라인 세로로 — 구간선은 단계 사이에만 */
+  .mx-flow { gap: 0; padding: 24px 20px; border-radius: 26px; }
+  .mx-flow::before, .mx-flow::after { display: none; }
+  .mx-flow li { position: relative; grid-template-columns: 44px minmax(0, 1fr); justify-items: start; column-gap: 18px; padding: 14px 0; text-align: left; }
+  .mx-flow li:not(:last-child)::before, .mx-flow li:not(:last-child)::after { content: ''; position: absolute; top: 58px; bottom: -14px; left: 21px; width: 2px; border-radius: 2px; background: var(--mx-line); }
+  .mx-flow li:not(:last-child)::after { background: linear-gradient(180deg, var(--mx-ink), var(--mx-blue)); transform: scaleY(0); transform-origin: top; transition: transform .6s var(--mx-ease); }
+  .mx-flow.is-in li:nth-child(1)::after { transform: none; transition-delay: .15s; }
+  .mx-flow.is-in li:nth-child(2)::after { transform: none; transition-delay: .5s; }
+  .mx-flow__txt { margin-top: 0; }
+  .mx-flow h3 { font-size: 19px; }
+  .mx-flow p { margin-left: 0; }
+}
