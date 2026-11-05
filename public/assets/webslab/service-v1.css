@@ -131,6 +131,11 @@
   border-radius: 42px;
 }
 
+/* 프레임 아래 출처 한 줄 — 실제 제작 사례임을 밝힌다 */
+.ws-svc .srd-real-cap { margin: 18px 0 0; color: var(--ws-muted, #8b95a1); font-size: 13px; font-weight: 500; text-align: center; letter-spacing: -.01em; }
+.ws-svc .srd-real-cap a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.ws-svc .srd-real-cap a:hover { color: var(--ws-blue); }
+
 /* ═══════════ 서비스 안내 — 2열 카드 ═══════════ */
 .ws-svc .service-info-list {
   display: grid;

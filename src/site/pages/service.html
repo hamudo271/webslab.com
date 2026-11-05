@@ -81,7 +81,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 <link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/xpressengine/XEIcon@2.3.3/xeicon.min.css?ver=2.3.3" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xpressengine/XEIcon@2.3.3/xeicon.min.css?ver=2.3.3"></noscript>
 <link rel="stylesheet" href="/assets/bundle/a15ec29ee0f4.css">
-<link rel="stylesheet" href="/assets/bundle/77499bda737a.css">
+<link rel="stylesheet" href="/assets/bundle/5b0e1e20fad3.css">
 <script id="jquery-core-js" src="/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
 <script id="jquery-migrate-js" src="/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1"></script>
 
@@ -98,6 +98,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 <meta name="webslab-header-quick" content="WEBSLAB_HEADER_QUICK_TOSS_V3_20261102">
 <meta name="webslab-header-developed" content="WEBSLAB_HEADER_DEVELOPED_V4_20261102">
 <meta name="webslab-ai-assistant" content="WEBSLAB_AI_ASSISTANT_V8_LIQUID_20261102">
+<link rel="preload" as="image" imagesrcset="/assets/webslab/case-roland-pc-640.webp 640w, /assets/webslab/case-roland-pc.webp 1200w" imagesizes="(max-width: 768px) calc(100vw - 72px), min(100vw - 112px, 1236px)" fetchpriority="high">
 </head>
 <body class="wp-singular page-template-default page page-id-43 wp-theme-Unwebs is-sub has-status-banner webslab-exact-subpages ws-header-v2 ws-header-quick-v3 ws-header-developed-v4">
 <!-- Skip Navigation (접근성) -->
@@ -427,14 +428,18 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
     <div class="service-responsive-frame" data-animate="fade-up" data-delay="200">
       <div class="service-responsive-device is-pc">
 
-        <!-- 실제 사이트 화면 (apple.com/kr/store 기기별 캡처) — 외부 사이트는 iframe 차단(X-Frame-Options: DENY) -->
-        <div class="srd-real" tabindex="0" aria-label="Apple 스토어 실제 화면 미리보기">
-          <img class="srd-real-img is-pc" src="/assets/webslab/apple-store-pc.webp" alt="Apple 스토어 PC 화면" width="1200" height="6148" fetchpriority="high" decoding="async">
-          <img class="srd-real-img is-laptop" src="/assets/webslab/apple-store-laptop.webp" alt="Apple 스토어 노트북 화면" width="1024" height="6148" loading="lazy">
-          <img class="srd-real-img is-tablet" src="/assets/webslab/apple-store-tablet.webp" alt="Apple 스토어 태블릿 화면" width="1024" height="6159" loading="lazy">
-          <img class="srd-real-img is-mobile" src="/assets/webslab/apple-store-mobile.webp" alt="Apple 스토어 모바일 화면" width="760" height="13472" loading="lazy">
+        <!-- 실제 제작 사례(코스모스악기 · Roland Korea, rolandkorea.com)를 기기별 폭으로 캡처한 화면.
+             이 섹션이 서비스 페이지의 첫 화면 = PC 캡처가 LCP: 폰에는 600px 폭을 내려주고(srcset) head에서 preload한다.
+             나머지 기기 화면은 페이지가 다 뜬 뒤 한가할 때 아래 스크립트가 받는다(탭 전환 때 빈 화면이 없게). -->
+        <div class="srd-real" tabindex="0" aria-label="웹스랩 제작 사례(Roland Korea) 기기별 화면 미리보기">
+          <img class="srd-real-img is-pc" srcset="/assets/webslab/case-roland-pc-640.webp 640w, /assets/webslab/case-roland-pc.webp 1200w" sizes="(max-width: 768px) calc(100vw - 72px), min(100vw - 112px, 1236px)" src="/assets/webslab/case-roland-pc.webp" alt="Roland Korea 사이트 PC 화면" width="1200" height="3214" fetchpriority="high" decoding="async">
+          <img class="srd-real-img is-laptop" data-srcset="/assets/webslab/case-roland-laptop-640.webp 640w, /assets/webslab/case-roland-laptop.webp 1024w" data-sizes="(max-width: 768px) calc(100vw - 72px), min(100vw - 112px, 1236px)" data-src="/assets/webslab/case-roland-laptop.webp" alt="Roland Korea 사이트 노트북 화면" width="1024" height="3092" decoding="async">
+          <img class="srd-real-img is-tablet" data-srcset="/assets/webslab/case-roland-tablet-640.webp 640w, /assets/webslab/case-roland-tablet.webp 1024w" data-sizes="(max-width: 768px) calc(100vw - 72px), min(100vw - 112px, 1236px)" data-src="/assets/webslab/case-roland-tablet.webp" alt="Roland Korea 사이트 태블릿 화면" width="1024" height="4506" decoding="async">
+          <img class="srd-real-img is-mobile" data-src="/assets/webslab/case-roland-mobile.webp" alt="Roland Korea 사이트 모바일 화면" width="760" height="5067" decoding="async">
+                  </div>
         </div>
       </div>
+      <p class="srd-real-cap">실제 제작 사례 · <a href="https://rolandkorea.com" target="_blank" rel="noopener">rolandkorea.com</a> · 코스모스악기</p>
     </div>
 
   </div>
@@ -458,6 +463,18 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
         if (real) real.scrollTop = 0;
       });
     });
+    // PC 화면은 바로(LCP), 나머지 기기 화면은 페이지가 다 뜬 뒤 한가할 때 받는다 — 첫 화면과 경쟁하지 않게.
+    var imgs = Array.prototype.slice.call(device.querySelectorAll('.srd-real-img[data-src]'));
+    function load(im) {
+      if (!im || !im.dataset.src) return;
+      if (im.dataset.sizes) im.sizes = im.dataset.sizes;
+      if (im.dataset.srcset) im.srcset = im.dataset.srcset;
+      im.src = im.dataset.src; delete im.dataset.src;
+    }
+    function loadAll() { imgs.forEach(load); }
+    toggles.forEach(function (btn) { btn.addEventListener('click', function () { load(device.querySelector('.srd-real-img.is-' + btn.getAttribute('data-device'))); }); });
+    function idle() { if ('requestIdleCallback' in window) requestIdleCallback(loadAll, { timeout: 2500 }); else setTimeout(loadAll, 1000); }
+    if (document.readyState === 'complete') idle(); else window.addEventListener('load', idle);
   })();
 </script>  </div>
 
