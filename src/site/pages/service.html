@@ -429,7 +429,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
         <!-- 실제 사이트 화면 (apple.com/kr/store 기기별 캡처) — 외부 사이트는 iframe 차단(X-Frame-Options: DENY) -->
         <div class="srd-real" tabindex="0" aria-label="Apple 스토어 실제 화면 미리보기">
-          <img class="srd-real-img is-pc" src="/assets/webslab/apple-store-pc.webp" alt="Apple 스토어 PC 화면" width="1200" height="6148" loading="lazy">
+          <img class="srd-real-img is-pc" src="/assets/webslab/apple-store-pc.webp" alt="Apple 스토어 PC 화면" width="1200" height="6148" fetchpriority="high" decoding="async">
           <img class="srd-real-img is-laptop" src="/assets/webslab/apple-store-laptop.webp" alt="Apple 스토어 노트북 화면" width="1024" height="6148" loading="lazy">
           <img class="srd-real-img is-tablet" src="/assets/webslab/apple-store-tablet.webp" alt="Apple 스토어 태블릿 화면" width="1024" height="6159" loading="lazy">
           <img class="srd-real-img is-mobile" src="/assets/webslab/apple-store-mobile.webp" alt="Apple 스토어 모바일 화면" width="760" height="13472" loading="lazy">

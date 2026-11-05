@@ -68,6 +68,14 @@ describe('리뉴얼 페이지 운영 변환 (src/site/pages 전체)', () => {
     expect(sync).toEqual(['/site/ws-forms.js?v=x']);
   });
 
+  it.each(pages)('$name — 속도: 영상은 autoplay 없이 preload="none"(재생은 ws-media.js가 보일 때만)', ({ raw }) => {
+    const videos = produce(raw).match(/<video\b[^>]*>/g) ?? [];
+    for (const tag of videos) {
+      expect(tag).not.toMatch(/\sautoplay\b/);
+      expect(tag).toContain('preload="none"');
+    }
+  });
+
   it.each(pages)('$name — 속도: 로컬 CSS는 동기화 때 만든 묶음(공통 + 페이지) 두 개뿐이다', ({ raw }) => {
     const head = raw.slice(0, raw.indexOf('</head>')).replace(/<noscript>[\s\S]*?<\/noscript>/g, '');
     const local = (head.match(/<link\b[^>]*rel="stylesheet"[^>]*href="\/(?!\/)[^"]+"/g) ?? []).map(

@@ -425,6 +425,14 @@ export function optimizeAssets(html: string): string {
     .replace(/src="https:\/\/unpkg\.com\/splitting\/dist\/splitting\.min\.js[^"]*"/g, `src="${SPLITTING_SRC}"`)
     .replace(/<link rel="preconnect" href="https:\/\/unpkg\.com"[^>]*>\s*/g, '')
     .replace(/<link rel=['"]dns-prefetch['"] href=['"]\/\/unpkg\.com['"][^>]*>\s*/g, '');
+  // 자동 재생 영상: autoplay가 있으면 preload 값과 상관없이 처음부터 내려받는다 — 화면에 보일 때 public/site/ws-media.js가 재생
+  out = out.replace(/<video\b[^>]*>/g, (tag) => {
+    if (!/\sautoplay(?:="[^"]*")?(?=[\s>])/.test(tag)) return tag;
+    return tag
+      .replace(/\sautoplay(?:="[^"]*")?(?=[\s>])/, ' data-ws-autoplay')
+      .replace(/\spreload="[^"]*"/, '')
+      .replace(/^<video\b/, '<video preload="none"');
+  });
   // 외부 스크립트는 전부 defer — 문서 순서대로 실행되므로 jQuery → 테마 → 리뉴얼 레이어 순서는 그대로다.
   // 인라인 스크립트는 설정값(uwBoard·uwInquiry)만 정의해 외부 스크립트보다 먼저 돌아도 된다.
   // 운영 head 조각(폼 연결·분석)은 이 변환 뒤에 들어가 영향을 받지 않는다.

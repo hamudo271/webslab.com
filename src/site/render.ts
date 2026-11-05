@@ -84,7 +84,11 @@ export function renderHtml(input: RenderInput): string {
       noindex: input.noindex,
     }),
   ].join('\n');
-  const headEnd = `<link rel="stylesheet" href="/site/ws-site.css?v=${assetVersion('ws-site.css')}">`;
+  const headEnd = [
+    `<link rel="stylesheet" href="/site/ws-site.css?v=${assetVersion('ws-site.css')}">`,
+    // 자동 재생 영상을 화면에 보일 때만 재생(site-html.ts가 autoplay를 data-ws-autoplay로 바꾼다)
+    `<script src="/site/ws-media.js?v=${assetVersion('ws-media.js')}" defer></script>`,
+  ].join('\n');
   return toProductionHtml(input.raw, {
     title: input.title,
     headStart,
