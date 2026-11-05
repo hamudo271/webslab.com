@@ -27,6 +27,9 @@
       var li = rows[i], em = li.querySelector('em');
       li.classList.remove('is-now'); li.classList.add('is-done'); em.textContent = em.getAttribute('data-done');
       bar.style.setProperty('--p', (i + 1) / rows.length); count.textContent = String(i + 1);
+      // 네 줄이 다 끝나면 머리줄 상태도 '완료'로
+      var state = $('.mx-board__state', board);
+      if (state && i === rows.length - 1) state.lastChild.nodeValue = '완료';
     };
     var now = function (i) { if (rows[i]) { rows[i].classList.add('is-now'); rows[i].querySelector('em').textContent = '진행 중'; } };
     if (reduce) rows.forEach(function (_, i) { done(i); });

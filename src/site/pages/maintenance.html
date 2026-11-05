@@ -114,7 +114,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 <meta name="webslab-ai-assistant" content="WEBSLAB_AI_ASSISTANT_V8_LIQUID_20261102">
 <link rel="stylesheet" href="/assets/webslab/quick-ai-v8.css?v=20261103-9">
 <link rel="stylesheet" href="/assets/webslab/support-v1.css?v=20261104-2">
-<link rel="stylesheet" href="/assets/webslab/maintenance-v2.css?v=20261104-3">
+<link rel="stylesheet" href="/assets/webslab/maintenance-v2.css?v=20261105-3">
 </head>
 <body class="wp-singular page-template-default page page-id-787 wp-theme-Unwebs is-sub has-status-banner webslab-exact-subpages ws-header-v2 ws-header-quick-v3 ws-header-developed-v4">
 <!-- Skip Navigation (접근성) -->
@@ -392,27 +392,30 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
         </ul>
       </div>
 
-      <!-- 예시 화면(실제 기록 아님) — 운영 점검표 · 요청 대화 · 보안 카드 -->
+      <!-- 예시 화면(실제 기록 아님) — 운영 리포트 · 요청 대화 · 보안 사고 위젯. 실제 앱 화면 문법: 불투명한 면, 가는 구분선, 한 가지 선 아이콘, 상태는 글자로 -->
       <div class="mx-stage" aria-hidden="true" data-reveal>
+        <p class="mx-stage__note">예시 화면</p>
         <div class="mx-card mx-board">
-          <div class="mx-board__top"><span class="mx-board__site"><i></i>yourcompany.co.kr</span><span class="mx-tag">예시 화면</span></div>
-          <p class="mx-board__title">이번 달 운영 리포트</p>
+          <div class="mx-board__top"><span class="mx-board__app">Y</span><span class="mx-board__head"><b>이번 달 운영 리포트</b><small>yourcompany.co.kr</small></span><span class="mx-board__state"><i></i>운영 중</span></div>
           <ul class="mx-board__list">
-            <li><span class="mx-check"><svg viewBox="0 0 16 16" fill="none"><path d="m4 8.4 2.6 2.6L12 5.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>정기 점검 · 보안 패치</b><small>서버 · 프로그램 환경</small></span><em data-done="완료">점검 중</em></li>
-            <li><span class="mx-check"><svg viewBox="0 0 16 16" fill="none"><path d="m4 8.4 2.6 2.6L12 5.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>월간 백업</b><small>사이트 전체 데이터</small></span><em data-done="완료">대기</em></li>
-            <li><span class="mx-check"><svg viewBox="0 0 16 16" fill="none"><path d="m4 8.4 2.6 2.6L12 5.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>콘텐츠 수정</b><small>메인 배너 교체 요청</small></span><em data-done="완료">대기</em></li>
-            <li><span class="mx-check"><svg viewBox="0 0 16 16" fill="none"><path d="m4 8.4 2.6 2.6L12 5.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>성능 개선</b><small>이미지 용량 · 페이지 속도</small></span><em data-done="완료">대기</em></li>
+            <li><span class="mx-row-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 5 6.2v5.3c0 4.3 2.9 7.6 7 9 4.1-1.4 7-4.7 7-9V6.2l-7-2.7Z"/><path d="m9 12 2.2 2.2L15.2 10"/></svg></span><span><b>정기 점검 · 보안 패치</b><small>서버 · 프로그램 환경</small></span><em data-done="완료">대기</em></li>
+            <li><span class="mx-row-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6.5" rx="7" ry="2.75"/><path d="M5 6.5v5.5c0 1.5 3.1 2.75 7 2.75s7-1.25 7-2.75V6.5M5 12v5.5c0 1.5 3.1 2.75 7 2.75s7-1.25 7-2.75V12"/></svg></span><span><b>월간 백업</b><small>사이트 전체 데이터</small></span><em data-done="완료">대기</em></li>
+            <li><span class="mx-row-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 19.5h4l10-10a2.83 2.83 0 0 0-4-4l-10 10v4Z"/><path d="m13 7 4 4"/></svg></span><span><b>콘텐츠 수정</b><small>메인 배너 교체 요청</small></span><em data-done="완료">대기</em></li>
+            <li><span class="mx-row-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16a7.5 7.5 0 1 1 15 0"/><path d="m12 16 3.5-4.5"/></svg></span><span><b>성능 개선</b><small>이미지 용량 · 페이지 속도</small></span><em data-done="완료">대기</em></li>
           </ul>
-          <div class="mx-board__foot"><span class="mx-board__bar"><i></i></span><span class="mx-board__count"><b>0</b> / 4 완료</span></div>
+          <div class="mx-board__foot"><span class="mx-board__count"><b>0</b> / 4 완료</span><span class="mx-board__bar"><i></i></span></div>
         </div>
         <div class="mx-card mx-chat">
-          <p class="mx-chat__me">메인 배너 이미지 바꿔주세요</p>
-          <p class="mx-chat__typing"><i></i><i></i><i></i></p>
-          <p class="mx-chat__you"><span class="mx-chat__av">W</span>반영했어요. 확인해 보세요!</p>
+          <p class="mx-chat__head"><b>유지보수 요청</b><span>방금</span></p>
+          <div class="mx-chat__body">
+            <p class="mx-chat__me">메인 배너 이미지 바꿔주세요</p>
+            <p class="mx-chat__typing"><i></i><i></i><i></i></p>
+            <p class="mx-chat__you"><span class="mx-chat__av">W</span>반영했어요. 확인해 보세요!</p>
+          </div>
         </div>
         <div class="mx-card mx-shield">
-          <span class="mx-shield__ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 5 6.2v5.3c0 4.3 2.9 7.6 7 9 4.1-1.4 7-4.7 7-9V6.2l-7-2.7Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2.2 2.2L15.2 10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <span><small>보안 사고</small><b>0<span>건</span></b></span>
+          <p class="mx-shield__top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 5 6.2v5.3c0 4.3 2.9 7.6 7 9 4.1-1.4 7-4.7 7-9V6.2l-7-2.7Z"/><path d="m9 12 2.2 2.2L15.2 10"/></svg>보안 사고</p>
+          <b>0<span>건</span></b>
         </div>
       </div>
     </div>
