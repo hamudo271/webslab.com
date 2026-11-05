@@ -2,6 +2,27 @@
    유지보수 페이지(maintenance-v2.css)의 문법을 그대로 쓴다: 짙은 오로라 히어로 + 유리 카드, 벤토 타일, 알약 버튼, 단계 흐름, 흰 신청서 카드.
    여기에는 채용 페이지에만 있는 조각(팀 보드 아바타, 대표 인사말 카드, 모집 분야 카드, 4단계 흐름, 지원서 파일 칸)만 둔다. */
 
+/* ─── 히어로 배경 사진 — 움직이는 오로라(aurora-v1.js) 위에 반투명으로 얹는다 ───
+   luminosity 혼합: 사진의 밝기만 남고 색은 아래 오로라에서 와서 웹스랩 파랑 톤으로 물든다.
+   제목이 있는 왼쪽(모바일은 위쪽)은 사진이 사라지게 해 글자 대비를 지킨다. */
+.cr-hero__photo {
+  position: absolute;
+  inset: 0;
+  background: url('/assets/webslab/careers-team.webp') 60% 42% / cover no-repeat;
+  opacity: .34;
+  mix-blend-mode: luminosity;
+  -webkit-mask-image: linear-gradient(90deg, transparent 8%, rgba(0, 0, 0, .45) 38%, #000 66%);
+  mask-image: linear-gradient(90deg, transparent 8%, rgba(0, 0, 0, .45) 38%, #000 66%);
+  pointer-events: none;
+}
+@media (max-width: 1024px) {
+  .cr-hero__photo {
+    opacity: .3;
+    -webkit-mask-image: linear-gradient(180deg, transparent 18%, rgba(0, 0, 0, .5) 45%, #000 70%);
+    mask-image: linear-gradient(180deg, transparent 18%, rgba(0, 0, 0, .5) 45%, #000 70%);
+  }
+}
+
 /* ─── 히어로 무대 — 유지보수 페이지와 같은 카드 문법(maintenance-v2.css .mx-card) ─── */
 .cr-quote { right: 0; bottom: 0; width: 280px; margin: 0; padding: 18px 18px 16px; }
 .cr-quote blockquote { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.55; letter-spacing: -.025em; word-break: keep-all; }
