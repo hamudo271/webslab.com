@@ -1,4 +1,4 @@
-// 리뉴얼 제작사례 상세 — 4건 고정(src/site/registry CASE_SLUGS)
+// 리뉴얼 제작사례 상세 — src/site/registry CASE_SLUGS에 등록된 사례만
 import { htmlResponse, sitePageHtml } from '@/site/render';
 import { notFoundHtml } from '@/site/doc-pages';
 import { CASE_SLUGS } from '@/site/registry';

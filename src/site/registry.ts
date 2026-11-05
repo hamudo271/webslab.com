@@ -15,6 +15,8 @@ import portfolioRoland from './pages/portfolio--roland-korea.html';
 import portfolioByeolha from './pages/portfolio--byeolha-studycafe.html';
 import portfolioUniverlab from './pages/portfolio--univerlab-media.html';
 import portfolioBlueOcean from './pages/portfolio--blue-ocean-guardians.html';
+import portfolioDcd from './pages/portfolio--dcd-company.html';
+import portfolioFirstMcn from './pages/portfolio--thefirstmcn.html';
 import column from './pages/column.html';
 import contact from './pages/contact.html';
 import faq from './pages/faq.html';
@@ -48,6 +50,8 @@ const caseHtml: Record<string, string> = {
   'byeolha-studycafe': portfolioByeolha,
   'univerlab-media': portfolioUniverlab,
   'blue-ocean-guardians': portfolioBlueOcean,
+  'dcd-company': portfolioDcd,
+  thefirstmcn: portfolioFirstMcn,
 };
 
 export const CASE_SLUGS = Object.keys(caseHtml);
