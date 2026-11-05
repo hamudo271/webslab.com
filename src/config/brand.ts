@@ -8,10 +8,10 @@ export const brand = {
   email: 'contact@webslab.co.kr',
   phone: '010-9891-2787',
   address: {
-    streetAddress: '서울특별시 강남구 역삼로3길 19 10층 1007호', // TODO: 실제 주소
-    addressLocality: '서울',
-    addressRegion: 'KR-11',
-    postalCode: '06236', // TODO: 실 우편번호
+    streetAddress: '대구광역시 중구 남산로 85 대광M타워 4층, 413호', // 2026-11-05 이전(서울 역삼 → 대구 중구)
+    addressLocality: '대구',
+    addressRegion: 'KR-27',
+    postalCode: '', // TODO: 우편번호 확인 후 기입(비어 있으면 JSON-LD에서 빠진다)
     addressCountry: 'KR',
   },
   // 외부 채널 — 값을 채우면 푸터 채널 링크와 JSON-LD sameAs에 자동 반영된다.

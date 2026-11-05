@@ -327,7 +327,7 @@ function eyebrow(s, txt, x, y, color = C.brand) {
     ['대표', '조현도'],
     ['사업자등록번호', '173-58-00764'],
     ['전문 인원', '6명'],
-    ['주소', '서울특별시 강남구 역삼로3길 19 10층 1007호'],
+    ['주소', '대구광역시 중구 남산로 85 대광M타워 4층, 413호'],
     ['전화', '010-9891-2787'],
     ['이메일', 'contact@webslab.co.kr'],
     ['웹사이트', 'webslab.co.kr'],
@@ -866,7 +866,7 @@ TOP_PORTFOLIO.forEach((p, idx) => {
   });
 
   // Bottom strip — moved up to respect margin
-  s.addText('웹스랩  ·  대표 조현도  ·  서울특별시 강남구 역삼로3길 19 10층 1007호  ·  173-58-00764', {
+  s.addText('웹스랩  ·  대표 조현도  ·  대구광역시 중구 남산로 85 대광M타워 4층, 413호  ·  173-58-00764', {
     x: M, y: H - 0.55, w: W - 2 * M, h: 0.3,
     fontFace: FONT, fontSize: 9, color: C.subtle, align: 'center',
   });

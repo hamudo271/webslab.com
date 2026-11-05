@@ -17,7 +17,7 @@ export function organizationJsonLd() {
       streetAddress: brand.address.streetAddress,
       addressLocality: brand.address.addressLocality,
       addressRegion: brand.address.addressRegion,
-      postalCode: brand.address.postalCode,
+      postalCode: brand.address.postalCode || undefined,
       addressCountry: brand.address.addressCountry,
     },
     sameAs: brandSameAs,
@@ -44,7 +44,7 @@ export function localBusinessJsonLd() {
       streetAddress: brand.address.streetAddress,
       addressLocality: brand.address.addressLocality,
       addressRegion: brand.address.addressRegion,
-      postalCode: brand.address.postalCode,
+      postalCode: brand.address.postalCode || undefined,
       addressCountry: brand.address.addressCountry,
     },
     openingHoursSpecification: [

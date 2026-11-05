@@ -254,7 +254,7 @@ def page_about_2(c, page_num):
         ('대표', '조현도'),
         ('사업자등록번호', '173-58-00764'),
         ('전문 인원', '6명'),
-        ('주소', '서울특별시 강남구 역삼로3길 19 10층 1007호'),
+        ('주소', '대구광역시 중구 남산로 85 대광M타워 4층, 413호'),
         ('전화', '010-9891-2787'),
         ('이메일', 'contact@webslab.co.kr'),
     ]
@@ -472,7 +472,7 @@ def page_back(c):
     # Contact line
     c.setFillColor(MUTED)
     c.setFont('Pretendard', 9)
-    c.drawCentredString(W / 2, H / 2 - 80, 'contact@webslab.co.kr  ·  서울특별시 강남구 역삼로3길 19 10층 1007호')
+    c.drawCentredString(W / 2, H / 2 - 80, 'contact@webslab.co.kr  ·  대구광역시 중구 남산로 85 대광M타워 4층, 413호')
 
     # Bottom strip
     c.setFillColor(HexColor('#3A4250'))
