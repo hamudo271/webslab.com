@@ -7,5 +7,5 @@ import { columnListHtml } from '@/site/column-pages';
 export const revalidate = 600;
 
 export async function GET() {
-  return htmlResponse(columnListHtml(await getColumnFeed()));
+  return htmlResponse(columnListHtml(await getColumnFeed()), 200, 60); // 새 글 반영 지연 ≤ 1분
 }

@@ -441,6 +441,12 @@ export function optimizeAssets(html: string): string {
     .replace(/<link rel="preload" as="style" href="https:\/\/cdn\.jsdelivr\.net\/gh\/xpressengine\/XEIcon[^>]*>\s*/g, '')
     .replace(/<noscript><link rel="stylesheet" href="https:\/\/cdn\.jsdelivr\.net\/gh\/xpressengine\/XEIcon[^>]*><\/noscript>\s*/g, '')
     .replace(/<link[^>]*href="https:\/\/cdn\.jsdelivr\.net\/gh\/xpressengine\/XEIcon[^>]*>\s*/g, '');
+  // 로고(2043×424 PNG 32KB → 헤더에서 ~150px로 그려진다)와 파비콘(512px PNG 32KB)은 public/site의 작은 판으로.
+  // 원본 PNG는 OG·회사소개서 등 다른 용도로 그대로 둔다.
+  out = out
+    .replace(/src="\/assets\/webslab\/webslab-logo\.png"/g, 'src="/site/logo-400.webp" srcset="/site/logo-400.webp 400w, /site/logo-800.webp 800w" sizes="200px"')
+    .replace(/<link rel="icon" type="image\/png" sizes="512x512" href="\/assets\/webslab\/webslab-icon\.png[^"]*">/g, '<link rel="icon" type="image/png" sizes="64x64" href="/site/icon-64.png?v=1">')
+    .replace(/<link rel="apple-touch-icon" sizes="512x512" href="\/assets\/webslab\/webslab-icon\.png[^"]*">/g, '<link rel="apple-touch-icon" sizes="180x180" href="/site/icon-180.png?v=1">');
   out = out
     .replace(/src="https:\/\/unpkg\.com\/splitting\/dist\/splitting\.min\.js[^"]*"/g, `src="${SPLITTING_SRC}"`)
     .replace(/<link rel="preconnect" href="https:\/\/unpkg\.com"[^>]*>\s*/g, '')

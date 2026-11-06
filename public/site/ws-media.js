@@ -48,8 +48,10 @@
     Array.prototype.forEach.call(videos, play);
     return;
   }
+  // 실제로 화면에 1/4쯤 들어왔을 때만 받는다 — 미리 당겨 받으면(rootMargin) 첫 화면 바로 아래 영상(≈300KB)이
+  // 첫 화면과 같이 내려와 느린 회선에서 LCP를 밀었다(2026-11-06 서비스 페이지 Lighthouse)
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) { (e.isIntersecting ? play : pause)(e.target); });
-  }, { rootMargin: '200px 0px', threshold: 0.01 });
+  }, { rootMargin: '0px', threshold: 0.25 });
   Array.prototype.forEach.call(videos, function (v) { io.observe(v); });
 })();

@@ -23,5 +23,5 @@ export async function GET(_req: Request, { params }: { params: { slug: string } 
     .update({ where: { id: dbPost.id }, data: { viewCount: { increment: 1 } } })
     .catch((err) => console.error('[column:view]', err));
 
-  return htmlResponse(dbArticleHtml(dbPost));
+  return htmlResponse(dbArticleHtml(dbPost), 200, 60); // DB 글 수정 반영 지연 ≤ 1분
 }

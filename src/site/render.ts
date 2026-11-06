@@ -23,20 +23,40 @@ import { getSitePage, SHELL_HTML, type Crumb, type SitePage } from './registry';
 const DEFAULT_OG = { path: siteConfig.defaultOgImage, width: 1200, height: 675 };
 
 const versions = new Map<string, string>();
+const contents = new Map<string, string>();
+
+function readSiteAsset(file: string): string {
+  let s = contents.get(file);
+  if (s === undefined) {
+    try {
+      s = fs.readFileSync(path.join(process.cwd(), 'public/site', file), 'utf8');
+    } catch {
+      s = '';
+    }
+    contents.set(file, s);
+  }
+  return s;
+}
 
 /** public/site/* 파일 내용 해시 — 배포마다 CDN·브라우저 캐시를 확실히 갈아끼운다 */
 function assetVersion(file: string): string {
   let v = versions.get(file);
   if (!v) {
-    try {
-      const buf = fs.readFileSync(path.join(process.cwd(), 'public/site', file));
-      v = crypto.createHash('md5').update(buf).digest('hex').slice(0, 8);
-    } catch {
-      v = 'v1';
-    }
+    v = crypto.createHash('md5').update(readSiteAsset(file)).digest('hex').slice(0, 8) || 'v1';
     versions.set(file, v);
   }
   return v;
+}
+
+/** 첫 화면에 꼭 필요한 작은 운영 파일(폼 연결 JS·운영 CSS)은 요청을 따로 보내지 않고 HTML에 넣는다 —
+ *  렌더를 막는 요청이 둘 줄어 느린 회선에서 수백 ms. 파일이 비어 있으면(테스트 등) 링크로 돌아간다. */
+function inlineScript(file: string): string {
+  const s = readSiteAsset(file);
+  return s && !s.includes('</script') ? `<script>${s}</script>` : `<script src="/site/${file}?v=${assetVersion(file)}"></script>`;
+}
+function inlineStyle(file: string): string {
+  const s = readSiteAsset(file);
+  return s && !s.includes('</style') ? `<style>${s}</style>` : `<link rel="stylesheet" href="/site/${file}?v=${assetVersion(file)}">`;
 }
 
 const abs = (src: string) => (/^https?:\/\//.test(src) ? src : absoluteUrl(src));
@@ -59,8 +79,8 @@ export function renderHtml(input: RenderInput): string {
   const ogImage = input.ogImage ? abs(input.ogImage) : absoluteUrl(DEFAULT_OG.path);
   const ogSize = input.ogImage ? input.ogImageSize : DEFAULT_OG;
   const headStart = [
-    // 폼 연결 스크립트는 테마 스크립트보다 먼저 submit을 받아야 해서 동기 로드(작은 파일)
-    `<script src="/site/ws-forms.js?v=${assetVersion('ws-forms.js')}"></script>`,
+    // 폼 연결 스크립트는 테마 스크립트보다 먼저 submit을 받아야 해서 동기(인라인)
+    inlineScript('ws-forms.js'),
     analyticsHead(),
     renderHeadMeta({
       path: input.path,
@@ -85,7 +105,7 @@ export function renderHtml(input: RenderInput): string {
     }),
   ].join('\n');
   const headEnd = [
-    `<link rel="stylesheet" href="/site/ws-site.css?v=${assetVersion('ws-site.css')}">`,
+    inlineStyle('ws-site.css'),
     // 자동 재생 영상을 화면에 보일 때만 재생(site-html.ts가 autoplay를 data-ws-autoplay로 바꾼다)
     `<script src="/site/ws-media.js?v=${assetVersion('ws-media.js')}" defer></script>`,
   ].join('\n');
@@ -134,9 +154,17 @@ export function shellHtml(input: ShellInput): string {
   return renderHtml({ ...rest, raw: replaceMain(SHELL_HTML, main, mainClass) });
 }
 
-export function htmlResponse(html: string, status = 200): Response {
+/** 리뉴얼 페이지 HTML 응답. 본문은 빌드 시점에 정해지므로 CDN이 10분 들고 있어도 된다(배포마다 새 빌드).
+ *  Cloudflare는 HTML을 기본으로 캐시하지 않는다 — 대시보드에 "HTML 캐시" Cache Rule(/admin·/api 제외)을 만들면
+ *  이 헤더대로 엣지에서 바로 응답해 원서버(Railway) 왕복 ~1초가 사라진다. 브라우저는 매번 재검증(max-age=0). */
+export function htmlResponse(html: string, status = 200, edgeSeconds = 600): Response {
   return new Response(html, {
     status,
-    headers: { 'content-type': 'text/html; charset=utf-8' },
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+      ...(status === 200
+        ? { 'cache-control': `public, max-age=0, s-maxage=${edgeSeconds}, stale-while-revalidate=86400`, 'cdn-cache-control': `max-age=${edgeSeconds}` }
+        : { 'cache-control': 'no-store' }),
+    },
   });
 }
