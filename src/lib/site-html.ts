@@ -447,6 +447,8 @@ const UNUSED_WP_STYLES = [
 ];
 /** 버전 없는 unpkg 주소는 302를 한 번 거친다 — 버전을 고정한 jsDelivr(이미 preconnect)로 */
 const SPLITTING_SRC = 'https://cdn.jsdelivr.net/npm/splitting@1.1.0/dist/splitting.min.js';
+/** 파일 이름에 버전을 넣어 30일 캐시와 충돌하지 않는다(폰트를 올리면 새 이름으로) */
+const PRETENDARD_CSS = '/site/pretendard-v1.3.9.css';
 /** 운영에서 쓰지 않는 시안 스크립트 — 전 페이지 약 45KB(gzip) + 실행 시간.
  *  jQuery(+migrate)는 아래 두 파일만 쓴다. uw-board.js는 게시판 CPT용(해당 마크업 없음),
  *  uw-inquiry.js는 WP admin-ajax 전송·파일 위젯·URL 추가인데 전송은 ws-forms.js가 가로채고,
@@ -479,6 +481,9 @@ export function optimizeAssets(html: string): string {
     .replace(/<link rel="apple-touch-icon" sizes="512x512" href="\/assets\/webslab\/webslab-icon\.png[^"]*">/g, '<link rel="apple-touch-icon" sizes="180x180" href="/site/icon-180.png?v=1">')
     // 본문 속 작은 아이콘(서비스 제작 절차의 20px 아바타 등)도 512px PNG 대신 64px 판으로
     .replace(/(<img\b[^>]*\bsrc=")\/assets\/webslab\/webslab-icon\.png(?:\?[^"]*)?"/g, '$1/site/icon-64.png?v=1"');
+  // 한글 웹폰트: 정적판(굵기 7종 x 한글 조각 — 첫 방문 약 600KB, 목록 CSS만 123KB) → 가변판 하나(약 330KB, CSS 14KB).
+  // public/site의 사본은 family 이름만 Pretendard로 바꾼 것이라 사이트 CSS는 그대로 둔다. 비동기 로드(preload→onload)는 원본 그대로.
+  out = out.replace(/https:\/\/cdn\.jsdelivr\.net\/gh\/orioncactus\/pretendard\/dist\/web\/static\/pretendard-dynamic-subset\.css/g, PRETENDARD_CSS);
   out = out
     .replace(/src="https:\/\/unpkg\.com\/splitting\/dist\/splitting\.min\.js[^"]*"/g, `src="${SPLITTING_SRC}"`)
     .replace(/<link rel="preconnect" href="https:\/\/unpkg\.com"[^>]*>\s*/g, '')

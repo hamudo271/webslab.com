@@ -68,6 +68,9 @@ describe('리뉴얼 페이지 운영 변환 (src/site/pages 전체)', () => {
     expect(html).not.toMatch(/jquery(?:-migrate)?\.min\.js|uw-board\.js|uw-inquiry\.js|uw-(?:board|inquiry)-js-extra/);
     // 아이콘 폰트는 부분집합(public/site/xeicon-sub.woff2 + ws-site.css) — jsDelivr XEIcon 링크 없음
     expect(html).not.toContain('XEIcon');
+    // 한글 폰트는 가변판 사본(public/site) — 정적판(굵기 7종) 링크 없음
+    expect(html).not.toContain('pretendard/dist/web/static');
+    expect(html).toContain('href="/site/pretendard-v1.3.9.css"');
     const sync = (html.match(/<script\b[^>]*\bsrc="[^"]+"[^>]*>/g) ?? [])
       .filter((tag) => !/\b(defer|async)\b|type="module"/.test(tag))
       .map((tag) => tag.match(/src="([^"]+)"/)![1]);
