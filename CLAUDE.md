@@ -35,7 +35,7 @@ public/        images(column/ = 칼럼 썸네일), fonts, og, site/(운영 레�
 - **`src/lib/metadata.ts`** — `buildMetadata()`로 페이지 메타/OG 생성.
 - **`src/components/common/Button.tsx`** — `variants`/`sizes` 맵 기반. `ButtonLink`(a) / `Button`(button) 두 형태. 새 버튼 스타일은 맵에 추가.
 - **`src/lib/site-html.ts`** — 리뉴얼 시안 → 운영 HTML 변환(순수 함수, `site-html.test.ts`가 전 페이지 검사): 검색 차단·시안 문구 제거, **다른 회사 추적·인증 코드 제거**(`FOREIGN_TRACKING_MARKERS`), 링크 정리, 푸터 사업자 정보(brand.ts), 문의 폼 운영화(실제 개인정보 동의 체크·선택 항목 완화). 원본 폴더는 건드리지 않고 여기서 일괄 변환 → 재동기화해도 결과 동일.
-- **`src/site/render.ts`** — 리뉴얼 페이지 공통 head(canonical·OG·소유확인·JSON-LD·분석 `lib/site-analytics.ts`) 주입. 공개 라우트는 전부 `sitePageHtml()`/`shellHtml()`만 호출.
+- **`src/site/render.ts`** — 리뉴얼 페이지 공통 head(canonical·OG·소유확인·JSON-LD·분석 `lib/site-analytics.ts`) 주입. 공개 라우트는 전부 `sitePageHtml()`/`shellHtml()`만 호출. `ws-forms.js`·`ws-site.css`는 HTML에 **인라인**(렌더 차단 요청 0), `ws-media.js`만 defer 링크. `htmlResponse()`는 `s-maxage=600`(칼럼 목록·DB 글 60초, 404 no-store)을 보내지만 **Cloudflare는 HTML을 기본 캐시하지 않는다** — 대시보드 Cache Rule(/admin·/api 제외, 원서버 TTL 존중)을 켜야 원서버 왕복(~1초 TTFB)이 사라진다.
 - **`public/site/ws-forms.js`** — 폼 4종(견적 `.uw-inquiry-form` · 간편 `#uwQiForm` · 유지보수 `#mxForm` · 채용 지원 `#crForm`)을 `/api/contact`로 전송. `<head>` 동기 로드 + window 캡처 submit으로 시안 스크립트(공식 페이지 이동·mailto·admin-ajax)보다 먼저 받는다. 성공 시 GA `contact_form_submit`(관리자 통계 집계 기준). 채용 지원은 리드가 아니라 `career_apply_submit`만 보낸다.
 - **`src/app/api/contact/route.ts`** — 문의 수신 → Resend 메일. multipart = 리뉴얼 폼 4종(`lib/validators/inquiry.ts`, 견적·채용만 첨부 최대 3개·파일당 10MB·합계 25MB, 메일 본문 `lib/inquiry-mail.ts`). multipart가 아니면 415.
 - **칼럼 썸네일** — `pnpm build:thumbnails`(`scripts/build_column_og.py`)가 회사소개서 표지 스타일로 `public/images/column/<slug>.png` + 기본 OG `public/og/default.png` 생성. 새 정적 칼럼을 넣으면 다시 실행.
