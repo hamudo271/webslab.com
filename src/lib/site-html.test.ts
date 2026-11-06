@@ -6,7 +6,9 @@ import {
   extractFaqs,
   FOREIGN_TRACKING_MARKERS,
   normalizeLinks,
+  clampDescription,
   normalizePagePath,
+  pageImages,
   renderHeadMeta,
   toProductionHtml,
 } from './site-html';
@@ -176,6 +178,16 @@ describe('리뉴얼 페이지 운영 변환 (src/site/pages 전체)', () => {
     expect(modal).toContain('이름, 연락처, 상담 분야');
   });
 
+  it('사이트맵용 본문 사진을 뽑는다 — srcset은 가장 큰 후보, 아이콘·로고·외부 주소 제외, 지연 로드 포함', () => {
+    const html = '<header><img src="/assets/hero.webp"></header><main>' +
+      '<img srcset="/a-800.webp 800w, /a-1600.webp 1600w" src="/a-1600.webp">' +
+      '<img data-src="/b.jpg?v=2"><img src="/site/icon-64.png"><img src="/assets/webslab/webslab-logo.png">' +
+      '<img src="https://other.kr/c.png"><img src="/d.svg"><img src="/a-1600.webp"></main>';
+    expect(pageImages(html)).toEqual(['/a-1600.webp', '/b.jpg']);
+    const home = pageImages(pages.find((p) => p.name === 'home.html')!.raw);
+    expect(home.length).toBeGreaterThan(2);
+  });
+
   it('FAQ 페이지 문답을 그대로 추출한다 (FAQPage JSON-LD 소스)', () => {
     const faqs = extractFaqs(pages.find((p) => p.name === 'faq.html')!.raw);
     expect(faqs.length).toBeGreaterThanOrEqual(5);
@@ -232,6 +244,16 @@ describe('운영 head 메타', () => {
     expect(head).toContain('<meta name="google-site-verification" content="g-code">');
     expect(head).toContain('index, follow');
     expect(head).not.toContain('</script><b>');
+  });
+
+  it('설명은 155자 안쪽으로 — 문장 끝에서 자르고, 짧은 설명은 그대로 둔다', () => {
+    expect(clampDescription('짧은 설명입니다.')).toBe('짧은 설명입니다.');
+    const long = '첫 문장은 충분히 길게 이어지는 소개 문장입니다. '.repeat(3) + '마지막 문장은 잘려야 합니다. '.repeat(5);
+    const out = clampDescription(long);
+    expect(out.length).toBeLessThanOrEqual(155);
+    expect(out.endsWith('다.')).toBe(true);
+    expect(clampDescription('가'.repeat(200)).endsWith('…')).toBe(true);
+    expect(renderHeadMeta({ ...base, description: long })).not.toContain(long);
   });
 
   it('404는 noindex', () => {

@@ -53,6 +53,34 @@ for (const p of pages) {
 console.log(`[sync] 페이지 ${pages.length}개 → src/site/pages`);
 for (const p of pages) console.log(`        ${p.route.padEnd(32)} ${pageName(p.route)}.html`);
 
+// 페이지 수정일 — 사이트맵 lastmod · WebPage dateModified의 소스(src/site/page-dates.json).
+// 본문(<main>)의 글자와 이미지 주소로 지문을 떠서 지난 동기화와 달라졌을 때만 오늘 날짜로 올린다.
+// 스타일·스크립트·CSS 묶음 해시만 바뀐 날은 그대로 — 검색엔진은 lastmod가 늘 정확할 때만 믿어 준다.
+const DATES_FILE = path.join(ROOT, 'src/site/page-dates.json');
+function contentFingerprint(html) {
+  const m = html.match(/<main\b[\s\S]*?<\/main>/i);
+  const body = (m ? m[0] : html)
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/<(script|style|noscript)\b[\s\S]*?<\/\1>/gi, '');
+  const images = [...body.matchAll(/<(?:img|source)\b[^>]*?\b(?:data-)?src(?:set)?="([^"]+)"/gi)].map((x) => x[1].split(/[?\s]/)[0]);
+  const text = body.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+  return crypto.createHash('md5').update(text + '\n' + images.join('\n')).digest('hex').slice(0, 16);
+}
+{
+  const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date()); // YYYY-MM-DD (KST)
+  const prev = fs.existsSync(DATES_FILE) ? JSON.parse(fs.readFileSync(DATES_FILE, 'utf8')) : {};
+  const next = {};
+  const changed = [];
+  for (const p of pages) {
+    const hash = contentFingerprint(fs.readFileSync(p.abs, 'utf8'));
+    const old = prev[p.route];
+    next[p.route] = old && old.hash === hash ? old : { hash, modified: today };
+    if (!old || old.hash !== hash) changed.push(p.route);
+  }
+  fs.writeFileSync(DATES_FILE, JSON.stringify(next, null, 2) + '\n');
+  console.log(`[sync] 본문이 바뀐 페이지 ${changed.length}개${changed.length ? ` (${changed.join(', ')}) → 수정일 ${today}` : ''}`);
+}
+
 for (const dir of ASSET_DIRS) {
   const from = path.join(SRC, dir);
   const to = path.join(ROOT, 'public', dir);

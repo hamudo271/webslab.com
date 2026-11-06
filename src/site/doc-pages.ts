@@ -30,10 +30,20 @@ function legalPage(path: string, name: string, description: string, main: string
 }
 
 export const privacyPolicyHtml = () =>
-  legalPage('/privacy-policy', '개인정보 처리방침', '웹스랩의 개인정보 수집·이용·보관 정책.', privacyPolicyMain());
+  legalPage(
+    '/privacy-policy',
+    '개인정보 처리방침',
+    '웹스랩이 홈페이지 제작 문의·유지보수 신청·채용 지원으로 받는 개인정보의 수집 항목, 이용 목적, 보유 기간, 처리 위탁과 정보주체의 권리를 안내합니다.',
+    privacyPolicyMain(),
+  );
 
 export const termsHtml = () =>
-  legalPage('/terms', '이용약관', '웹스랩 웹사이트 및 서비스 이용약관.', termsMain());
+  legalPage(
+    '/terms',
+    '이용약관',
+    '웹스랩 웹사이트와 홈페이지 제작 서비스의 이용 조건 — 서비스 제공 범위, 이용계약, 이용자의 의무, 지적재산권, 책임의 한계와 분쟁 해결을 정합니다.',
+    termsMain(),
+  );
 
 export function notFoundHtml(): string {
   return shellHtml({

@@ -1,3 +1,5 @@
+import pageDates from '@/site/page-dates.json';
+
 export type CrawlerRule = {
   userAgent: string;
   allow?: string;
@@ -6,12 +8,14 @@ export type CrawlerRule = {
 
 // AI search / answer engines — ALLOWED so our content can surface and be cited
 // in AI search results (ChatGPT search, Perplexity, Claude, etc.).
-const AI_SEARCH_BOTS = ['OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'Claude-Web'];
+// (Claude-Web은 Cloudflare 관리 규칙이 막는 옛 이름이라 허용 목록에서 뺐다 — 2026-11-06 두 robots가 서로 모순됐다.
+//  Anthropic 검색·사용자 요청 크롤러는 Claude-SearchBot·Claude-User)
+const AI_SEARCH_BOTS = ['OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'Claude-SearchBot', 'Claude-User'];
 
 // AI model-training crawlers — BLOCKED (content not used for model training).
 // Mirrors Cloudflare's managed AI-bot block so the two robots.txt sources agree
 // instead of contradicting each other (allow vs. disallow for the same agent).
-const AI_TRAINING_BOTS = ['GPTBot', 'ClaudeBot', 'Google-Extended', 'CCBot', 'Bytespider'];
+const AI_TRAINING_BOTS = ['GPTBot', 'ClaudeBot', 'Claude-Web', 'Google-Extended', 'CCBot', 'Bytespider'];
 
 export const crawlerRules: CrawlerRule[] = [
   { userAgent: '*', allow: '/', disallow: ['/api/', '/admin/'] },
@@ -74,24 +78,26 @@ export const CORE_GUIDE_LINKS: Record<string, GuideLink[]> = {
   ],
 };
 
-// 내용이 실제로 바뀐 날만 올린다(메타·스타일 리팩터는 제외). git 기록 기준.
+// 페이지 수정일(사이트맵 lastmod · WebPage dateModified).
+// 리뉴얼 페이지는 pnpm sync:renewal이 본문 글자·이미지 지문으로 자동 관리한다(src/site/page-dates.json —
+// 본문이 바뀐 동기화 날만 올라가고 스타일만 바꾼 날은 그대로). 손으로 적는 건 리뉴얼 밖 문서 페이지뿐.
 // /column·/portfolio는 sitemap-data에서 하위 글·케이스 최신일과 비교해 늦은 쪽을 쓴다.
-export const STATIC_PAGE_DATES: Record<string, string> = {
-  '/': '2026-11-04', // 리뉴얼 디자인 공개
-  '/about': '2026-11-04',
-  '/service': '2026-11-04',
-  '/portfolio': '2026-11-04',
-  '/column': '2026-11-04',
-  '/program': '2026-11-04',
-  '/contact': '2026-11-04',
-  '/faq': '2026-11-04', // 리뉴얼과 함께 신설
-  '/notice': '2026-11-04',
-  '/maintenance': '2026-11-04',
-  '/maintenance/pricing': '2026-11-04',
-  '/careers': '2026-11-05', // 채용 페이지 신설
+const MANUAL_PAGE_DATES: Record<string, string> = {
   '/privacy-policy': '2026-11-05', // 채용 지원 수집 항목·보유 기간 추가
   '/terms': '2026-06-25',
 };
+const SYNCED_PAGE_DATES: Record<string, string> = Object.fromEntries(
+  Object.entries(pageDates as Record<string, { modified: string }>).map(([path, v]) => [path, v.modified]),
+);
+/** 사이트맵 pages에 올리는 경로(사례 상세는 sitemap-cases가 따로 다룬다) */
+export const STATIC_PAGE_DATES: Record<string, string> = {
+  ...Object.fromEntries(Object.entries(SYNCED_PAGE_DATES).filter(([path]) => !path.startsWith('/portfolio/'))),
+  ...MANUAL_PAGE_DATES,
+};
+/** 사례 상세 페이지 본문 수정일 — sitemap-cases가 데이터(modifiedAt)와 비교해 늦은 쪽을 쓴다 */
+export const CASE_PAGE_DATES: Record<string, string> = Object.fromEntries(
+  Object.entries(SYNCED_PAGE_DATES).filter(([path]) => path.startsWith('/portfolio/')),
+);
 
 // 각 페이지가 처음 공개된 날(git 최초 커밋 기준). WebPage JSON-LD의 datePublished 소스로,
 // 위 STATIC_PAGE_DATES(의미 있는 갱신일 = dateModified)와 짝을 이룬다.

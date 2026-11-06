@@ -98,6 +98,15 @@ export type ArticleView = {
   cta: { title: string; description: string; serviceHref: string; serviceLabel: string };
 };
 
+/** 본문 표지 — 사이트가 만든 칼럼 표지(/images/column/*.png)는 옆에 같은 이름의 webp가 있어(build_column_og.py)
+ *  그쪽을 먼저 쓴다(69KB → 약 14KB). PNG는 OG·RSS·사이트맵용으로 그대로. DB 글(Cloudinary)은 원본 그대로. */
+export function coverImg(src: string, alt: string): string {
+  const img = `<img src="${e(src)}" width="1200" height="630" alt="${e(alt)}" fetchpriority="high">`;
+  return /^\/images\/column\/[\w-]+\.png$/.test(src)
+    ? `<picture><source srcset="${e(src.replace(/\.png$/, '.webp'))}" type="image/webp">${img}</picture>`
+    : img;
+}
+
 export function renderArticle(a: ArticleView): string {
   const group = columnGroupOf(a.category);
   const showModified = a.modifiedAt && isoDay(a.modifiedAt) !== isoDay(a.publishedAt);
@@ -144,7 +153,7 @@ ${a.faqs
 <p class="ws-article__lead">${e(a.excerpt)}</p>
 <p class="ws-article__meta"><span>${e(a.author.name)} · ${e(a.author.role)}</span><time datetime="${isoDay(a.publishedAt)}">${dotted(a.publishedAt)}</time>${showModified ? `<span>수정 <time datetime="${isoDay(a.modifiedAt!)}">${dotted(a.modifiedAt!)}</time></span>` : ''}<span>${a.readMinutes}분 분량</span></p>
 </header>
-${a.cover ? `<figure class="ws-article__cover"><img src="${e(a.cover)}" width="1200" height="630" alt="${e(a.title)}" fetchpriority="high"></figure>` : ''}
+${a.cover ? `<figure class="ws-article__cover">${coverImg(a.cover, a.title)}</figure>` : ''}
 ${summary}
 <div class="ws-prose">${a.bodyHtml}</div>
 ${faqs}

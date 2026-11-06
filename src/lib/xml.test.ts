@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { latestDate, rssXml, sitemapIndexXml, urlsetXml } from './xml';
+import { absolutizeHtml, latestDate, rssXml, sitemapIndexXml, urlsetXml } from './xml';
 
 describe('urlsetXml', () => {
   it('declares the image namespace and emits image:loc per image', () => {
@@ -57,6 +57,25 @@ describe('rssXml', () => {
   it('declares dc and media namespaces', () => {
     expect(xml).toContain('xmlns:dc="http://purl.org/dc/elements/1.1/"');
     expect(xml).toContain('xmlns:media="http://search.yahoo.com/mrss/"');
+  });
+
+  it('본문 전체를 content:encoded(CDATA)로 싣고, 항목을 최신순으로 정렬해 lastBuildDate를 최신 항목에 맞춘다', () => {
+    const feed = rssXml({
+      title: 't', link: 'https://x.kr/', description: 'd', selfUrl: 'https://x.kr/rss.xml',
+      items: [
+        { title: '옛 글', link: 'https://x.kr/a', description: 'a', pubDate: new Date('2026-01-01T00:00:00Z') },
+        { title: '새 글', link: 'https://x.kr/b', description: 'b', pubDate: new Date('2026-09-01T00:00:00Z'), content: '<p>본문 ]]> 끝</p>' },
+      ],
+    });
+    expect(feed).toContain('xmlns:content="http://purl.org/rss/1.0/modules/content/"');
+    expect(feed.indexOf('새 글')).toBeLessThan(feed.indexOf('옛 글'));
+    expect(feed).toContain(`<lastBuildDate>${new Date('2026-09-01T00:00:00Z').toUTCString()}</lastBuildDate>`);
+    expect(feed).toContain('<content:encoded><![CDATA[<p>본문 ]]]]><![CDATA[> 끝</p>]]></content:encoded>');
+  });
+
+  it('본문의 루트 상대 경로를 절대 URL로 바꾼다(외부·프로토콜 상대 주소는 그대로)', () => {
+    expect(absolutizeHtml('<a href="/column/a">a</a><img src="/images/x.png"><a href="https://o.kr/">o</a><img src="//cdn/x">', 'https://x.kr/'))
+      .toBe('<a href="https://x.kr/column/a">a</a><img src="https://x.kr/images/x.png"><a href="https://o.kr/">o</a><img src="//cdn/x">');
   });
 
   it('emits author, item thumbnail with mime type, and channel image', () => {

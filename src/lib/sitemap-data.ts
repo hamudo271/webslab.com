@@ -1,7 +1,9 @@
 import { siteConfig } from '@/config/site';
 import { prisma } from '@/lib/db';
 import { latestDate } from '@/lib/xml';
-import { buildCaseSitemapEntries, STATIC_PAGE_DATES } from '@/lib/seo-policy';
+import { buildCaseSitemapEntries, CASE_PAGE_DATES, STATIC_PAGE_DATES } from '@/lib/seo-policy';
+import { pageImages } from '@/lib/site-html';
+import { SITE_PAGES } from '@/site/registry';
 import { columnPosts } from '@/data/columnPosts';
 import { portfolios } from '@/data/portfolios';
 
@@ -48,7 +50,7 @@ export function getCaseEntries(): SitemapEntry[] {
   return buildCaseSitemapEntries(portfolios).map((item) => {
     const p = bySlug.get(item.path.replace('/portfolio/', ''));
     const images = [p?.cover, p?.fullShot].filter((s): s is string => Boolean(s)).map(abs);
-    return { loc: `${base()}${item.path}`, lastmod: item.lastmod, images };
+    return { loc: `${base()}${item.path}`, lastmod: latestDate([item.lastmod, CASE_PAGE_DATES[item.path]]), images };
   });
 }
 
@@ -63,8 +65,18 @@ export async function getPageEntries(articles?: SitemapEntry[]): Promise<Sitemap
     '/column': articleLatest,
     '/portfolio': caseLatest,
   };
-  return Object.entries(STATIC_PAGE_DATES).map(([path, date]) => ({
-    loc: `${base()}${path}`,
-    lastmod: latestDate([date, derived[path]]),
-  }));
+  return Object.entries(STATIC_PAGE_DATES).map(([path, date]) => {
+    const images = imagesOf(path);
+    return {
+      loc: `${base()}${path}`,
+      lastmod: latestDate([date, derived[path]]),
+      ...(images.length ? { images } : {}),
+    };
+  });
+}
+
+/** 리뉴얼 페이지 본문의 사진(절대 URL). 약관 등 리뉴얼 밖 문서 페이지는 없다. */
+function imagesOf(path: string): string[] {
+  const page = SITE_PAGES.find((p) => p.path === path);
+  return page ? pageImages(page.html).map(abs) : [];
 }

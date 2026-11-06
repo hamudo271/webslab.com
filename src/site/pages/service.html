@@ -80,7 +80,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
 <link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/xpressengine/XEIcon@2.3.3/xeicon.min.css?ver=2.3.3" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xpressengine/XEIcon@2.3.3/xeicon.min.css?ver=2.3.3"></noscript>
-<link rel="stylesheet" href="/assets/bundle/a09135e6448b.css">
+<link rel="stylesheet" href="/assets/bundle/4a93875c1f8f.css">
 <link rel="stylesheet" href="/assets/bundle/9fdd542c5077.css">
 <script id="jquery-core-js" src="/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
 <script id="jquery-migrate-js" src="/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1"></script>
@@ -435,7 +435,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
           <img class="srd-real-img is-pc" srcset="/assets/webslab/case-roland-pc-640.webp 640w, /assets/webslab/case-roland-pc.webp 1200w" sizes="(max-width: 768px) calc(100vw - 72px), min(100vw - 112px, 1236px)" src="/assets/webslab/case-roland-pc.webp" alt="Roland Korea 사이트 PC 화면" width="1200" height="3214" fetchpriority="high" decoding="async">
           <img class="srd-real-img is-laptop" data-srcset="/assets/webslab/case-roland-laptop-640.webp 640w, /assets/webslab/case-roland-laptop.webp 1024w" data-sizes="(max-width: 768px) calc(100vw - 72px), min(100vw - 112px, 1236px)" data-src="/assets/webslab/case-roland-laptop.webp" alt="Roland Korea 사이트 노트북 화면" width="1024" height="3092" decoding="async">
           <img class="srd-real-img is-tablet" data-srcset="/assets/webslab/case-roland-tablet-640.webp 640w, /assets/webslab/case-roland-tablet.webp 1024w" data-sizes="(max-width: 768px) calc(100vw - 72px), min(100vw - 112px, 1236px)" data-src="/assets/webslab/case-roland-tablet.webp" alt="Roland Korea 사이트 태블릿 화면" width="1024" height="4506" decoding="async">
-          <img class="srd-real-img is-mobile" data-src="/assets/webslab/case-roland-mobile.webp" alt="Roland Korea 사이트 모바일 화면" width="760" height="5067" decoding="async">
+          <img class="srd-real-img is-mobile" data-srcset="/assets/webslab/case-roland-mobile-400.webp 400w, /assets/webslab/case-roland-mobile.webp 760w" data-sizes="(max-width: 768px) 62vw, 360px" data-src="/assets/webslab/case-roland-mobile.webp" alt="Roland Korea 사이트 모바일 화면" width="760" height="5067" decoding="async">
                   </div>
         </div>
       </div>
@@ -463,7 +463,8 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
         if (real) real.scrollTop = 0;
       });
     });
-    // PC 화면은 바로(LCP), 나머지 기기 화면은 페이지가 다 뜬 뒤 한가할 때 받는다 — 첫 화면과 경쟁하지 않게.
+    // PC 화면은 바로(LCP). 나머지 기기 화면(폰 기준 합계 ~250KB)은 방문자가 기기 탭에 손을 댈 때(마우스 올림·
+    // 포커스·터치) 받기 시작한다 — 누르는 순간엔 이미 받는 중이라 빈 화면이 거의 없고, 안 누르면 받지 않는다.
     var imgs = Array.prototype.slice.call(device.querySelectorAll('.srd-real-img[data-src]'));
     function load(im) {
       if (!im || !im.dataset.src) return;
@@ -471,10 +472,11 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
       if (im.dataset.srcset) im.srcset = im.dataset.srcset;
       im.src = im.dataset.src; delete im.dataset.src;
     }
-    function loadAll() { imgs.forEach(load); }
+    var warmed = false;
+    function warm() { if (warmed) return; warmed = true; imgs.forEach(load); }
+    var bar = document.querySelector('.service-responsive-toggle');
+    if (bar) ['pointerenter', 'focusin', 'touchstart'].forEach(function (ev) { bar.addEventListener(ev, warm, { passive: true, once: true }); });
     toggles.forEach(function (btn) { btn.addEventListener('click', function () { load(device.querySelector('.srd-real-img.is-' + btn.getAttribute('data-device'))); }); });
-    function idle() { if ('requestIdleCallback' in window) requestIdleCallback(loadAll, { timeout: 2500 }); else setTimeout(loadAll, 1000); }
-    if (document.readyState === 'complete') idle(); else window.addEventListener('load', idle);
   })();
 </script>  </div>
 

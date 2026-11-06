@@ -31,7 +31,8 @@ public/        images(column/ = 칼럼 썸네일), fonts, og, site/(운영 레�
 - **`src/config/site.ts`** — `siteConfig.baseUrl`, `absoluteUrl(path)`. 절대 URL은 이 함수로만 생성.
 - **`src/data/*.ts`** — 칼럼(`columnPosts.ts`, 칼럼 본문이라 큼)·포트폴리오(`portfolios.ts`, 사이트맵·llms.txt·사례 OG 소스)·저자·칼럼 분류. 공개 페이지 문구는 리뉴얼 원본 HTML에 있다.
 - **`src/lib/jsonld.ts`** — JSON-LD 스키마 순수 함수(organization/article/faqPage/service…). `site/render.ts`·`site/column-pages.ts`가 head에 넣는다. 구조화 데이터 변경은 여기.
-- **`src/lib/seo-policy.ts`** — robots.txt 크롤러 정책(AI 검색봇 허용 / 학습봇 차단). Cloudflare 관리형 차단과 **일치시켜야** 함.
+- **`src/lib/seo-policy.ts`** — robots.txt 크롤러 정책(AI 검색봇 허용 / 학습봇 차단). Cloudflare 관리형 차단과 **일치시켜야** 함(테스트가 같은 봇의 허용·차단 동시 지정을 잡는다). 페이지 수정일(`STATIC_PAGE_DATES`)은 **`src/site/page-dates.json`에서 온다** — `pnpm sync:renewal`이 본문(<main>) 글자·이미지 지문이 바뀐 날만 그날 날짜로 올린다(스타일만 바꾼 날은 그대로). 손으로 고치지 말 것. 리뉴얼 밖 문서(약관·개인정보)만 `MANUAL_PAGE_DATES`.
+- **사이트맵·RSS** — `/sitemap.xml`(인덱스) → pages·articles·cases. pages에는 본문 사진(`pageImages`)이 image:image로 붙는다. `/rss.xml`은 칼럼(정적+DB, **본문 전체** `content:encoded` — 요약·본문·FAQ) + 제작 사례를 최신순으로 최대 50건. 네이버 서치어드바이저에는 `https://webslab.co.kr/sitemap.xml`과 `https://webslab.co.kr/rss.xml`을 제출한다. 메타 설명은 `clampDescription`이 155자 안쪽으로 자른다.
 - **`src/lib/metadata.ts`** — `buildMetadata()`로 페이지 메타/OG 생성.
 - **`src/components/common/Button.tsx`** — `variants`/`sizes` 맵 기반. `ButtonLink`(a) / `Button`(button) 두 형태. 새 버튼 스타일은 맵에 추가.
 - **`src/lib/site-html.ts`** — 리뉴얼 시안 → 운영 HTML 변환(순수 함수, `site-html.test.ts`가 전 페이지 검사): 검색 차단·시안 문구 제거, **다른 회사 추적·인증 코드 제거**(`FOREIGN_TRACKING_MARKERS`), 링크 정리, 푸터 사업자 정보(brand.ts), 문의 폼 운영화(실제 개인정보 동의 체크·선택 항목 완화). 원본 폴더는 건드리지 않고 여기서 일괄 변환 → 재동기화해도 결과 동일.

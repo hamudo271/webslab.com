@@ -146,7 +146,10 @@ def browser_mock(img, draw, top, width, button):
 
 def finish(img, size, path):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    img.resize(size, Image.LANCZOS).save(path, 'PNG', optimize=True)
+    out = img.resize(size, Image.LANCZOS)
+    out.save(path, 'PNG', optimize=True)  # OG·RSS·사이트맵용(공유 미리보기 호환)
+    # 본문 표지용 webp — src/site/column.ts가 <picture>로 먼저 쓴다(PNG 대비 약 1/3)
+    out.convert('RGB').save(os.path.splitext(path)[0] + '.webp', 'WEBP', quality=80, method=6)
     return path
 
 

@@ -60,6 +60,8 @@ type RssItem = {
   author?: string;
   /** 대표 이미지 절대 URL — 네이버·피드 리더 썸네일 */
   image?: string;
+  /** 본문 전체 HTML(링크·이미지는 절대 URL) — content:encoded. 네이버는 피드로 새 글을 빨리 수집한다 */
+  content?: string;
 };
 
 type RssChannel = {
@@ -88,9 +90,21 @@ function imageMime(url: string): string {
   return (ext && map[ext]) || 'image/jpeg';
 }
 
-/** RSS 2.0 — 네이버 수집 채널·피드 리더 대응 */
+/** CDATA 안에 넣을 수 있게 — 본문에 `]]>`가 있으면 구간을 끊어 잇는다 */
+function cdata(s: string): string {
+  return `<![CDATA[${s.replace(/\]\]>/g, ']]]]><![CDATA[>')}]]>`;
+}
+
+/** 본문 HTML의 루트 상대 경로(/column/…, /images/…)를 절대 URL로 — 피드 리더·수집기는 사이트 밖에서 읽는다 */
+export function absolutizeHtml(html: string, base: string): string {
+  const root = base.replace(/\/$/, '');
+  return html.replace(/\b(href|src)="\/(?!\/)([^"]*)"/g, (_m, attr: string, rest: string) => `${attr}="${root}/${rest}"`);
+}
+
+/** RSS 2.0 — 네이버 수집 채널·피드 리더 대응. 항목은 최신순으로 정렬해 내보낸다. */
 export function rssXml(ch: RssChannel): string {
-  const items = ch.items
+  const sorted = [...ch.items].sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime());
+  const items = sorted
     .map((i) =>
       [
         '<item>',
@@ -98,6 +112,7 @@ export function rssXml(ch: RssChannel): string {
         `<link>${escapeXml(i.link)}</link>`,
         `<guid isPermaLink="true">${escapeXml(i.link)}</guid>`,
         `<description>${escapeXml(i.description)}</description>`,
+        i.content ? `<content:encoded>${cdata(i.content)}</content:encoded>` : '',
         i.category ? `<category>${escapeXml(i.category)}</category>` : '',
         i.author ? `<dc:creator>${escapeXml(i.author)}</dc:creator>` : '',
         `<pubDate>${i.pubDate.toUTCString()}</pubDate>`,
@@ -112,11 +127,12 @@ export function rssXml(ch: RssChannel): string {
     )
     .join('');
 
-  const lastBuild = (ch.items[0]?.pubDate ?? new Date()).toUTCString();
+  // 피드가 마지막으로 바뀐 때 = 가장 최근 항목 시각(요청 시각을 쓰면 매번 '새 피드'로 보인다)
+  const lastBuild = (sorted[0]?.pubDate ?? new Date()).toUTCString();
 
   return (
     `<?xml version="1.0" encoding="UTF-8"?>` +
-    `<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">` +
+    `<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/">` +
     `<channel>` +
     `<title>${escapeXml(ch.title)}</title>` +
     `<link>${escapeXml(ch.link)}</link>` +

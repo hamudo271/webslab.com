@@ -139,7 +139,19 @@ export type HeadMeta = {
   noindex?: boolean;
 };
 
-export function renderHeadMeta(m: HeadMeta): string {
+/** 검색 결과 설명은 네이버·구글 모두 대략 150자 안팎에서 잘린다 — 길면 마지막 문장 끝에서, 문장이 없으면
+ *  어절 끝에서 자르고 말줄임표를 단다(사례 소개처럼 본문용으로 쓴 긴 문장이 메타로 쓰일 때). */
+export function clampDescription(text: string, max = 155): string {
+  const t = text.replace(/\s+/g, ' ').trim();
+  if (t.length <= max) return t;
+  const cut = t.slice(0, max);
+  const sentence = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('다.'), cut.lastIndexOf('요.'));
+  if (sentence >= max * 0.5) return cut.slice(0, sentence + (cut[sentence] === '.' ? 1 : 2)).trim();
+  return cut.slice(0, Math.max(cut.lastIndexOf(' '), max * 0.6)).trim() + '…';
+}
+
+export function renderHeadMeta(input: HeadMeta): string {
+  const m = { ...input, description: clampDescription(input.description) };
   const e = escapeHtml;
   const robots = m.noindex
     ? 'noindex, follow'
@@ -148,7 +160,7 @@ export function renderHeadMeta(m: HeadMeta): string {
     `<meta name="description" content="${e(m.description)}">`,
     `<meta name="robots" content="${robots}">`,
     `<link rel="canonical" href="${e(m.canonical)}">`,
-    `<link rel="alternate" type="application/rss+xml" title="${e(m.siteName)} 전문 칼럼" href="${e(m.rssUrl)}">`,
+    `<link rel="alternate" type="application/rss+xml" title="${e(m.siteName)} — 홈페이지 제작 칼럼·제작 사례" href="${e(m.rssUrl)}">`,
     `<meta property="og:type" content="${m.ogType ?? 'website'}">`,
     `<meta property="og:site_name" content="${e(m.siteName)}">`,
     `<meta property="og:locale" content="${e(m.locale)}">`,
@@ -382,6 +394,24 @@ export function replaceMain(html: string, inner: string, mainClass: string): str
   );
 }
 
+/** 사이트맵 image:image용 — 본문(<main>)에 실제로 보이는 사진(원본 경로, 중복 제거). 아이콘·로고·SVG·
+ *  데이터 URI는 빼고, srcset 후보는 가장 큰 것(마지막)을 쓴다. 지연 로드(data-src/data-srcset)도 포함. */
+export function pageImages(html: string, limit = 8): string[] {
+  const main = html.match(/<main\b[\s\S]*?<\/main>/i)?.[0] ?? '';
+  const out: string[] = [];
+  for (const tag of main.match(/<img\b[^>]*>/gi) ?? []) {
+    const attr = (name: string) => tag.match(new RegExp(`\\s${name}="([^"]+)"`))?.[1];
+    const set = attr('srcset') ?? attr('data-srcset');
+    const src = set ? set.split(',').map((s) => s.trim().split(/\s+/)[0]).pop() : attr('src') ?? attr('data-src');
+    if (!src || !/^\/(?!\/)/.test(src)) continue;
+    const clean = src.split('?')[0];
+    if (!/\.(webp|jpe?g|png|avif)$/i.test(clean) || /(icon|logo|favicon|avatar)/i.test(clean)) continue;
+    if (!out.includes(clean)) out.push(clean);
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
 /** FAQ 페이지 문답 추출 → FAQPage JSON-LD (화면에 보이는 문답과 같아야 한다) */
 export function extractFaqs(html: string): { question: string; answer: string }[] {
   const items = html.match(/<li class="ws-faq-item"[\s\S]*?<\/li>/g) ?? [];
@@ -446,7 +476,9 @@ export function optimizeAssets(html: string): string {
   out = out
     .replace(/src="\/assets\/webslab\/webslab-logo\.png"/g, 'src="/site/logo-400.webp" srcset="/site/logo-400.webp 400w, /site/logo-800.webp 800w" sizes="200px"')
     .replace(/<link rel="icon" type="image\/png" sizes="512x512" href="\/assets\/webslab\/webslab-icon\.png[^"]*">/g, '<link rel="icon" type="image/png" sizes="64x64" href="/site/icon-64.png?v=1">')
-    .replace(/<link rel="apple-touch-icon" sizes="512x512" href="\/assets\/webslab\/webslab-icon\.png[^"]*">/g, '<link rel="apple-touch-icon" sizes="180x180" href="/site/icon-180.png?v=1">');
+    .replace(/<link rel="apple-touch-icon" sizes="512x512" href="\/assets\/webslab\/webslab-icon\.png[^"]*">/g, '<link rel="apple-touch-icon" sizes="180x180" href="/site/icon-180.png?v=1">')
+    // 본문 속 작은 아이콘(서비스 제작 절차의 20px 아바타 등)도 512px PNG 대신 64px 판으로
+    .replace(/(<img\b[^>]*\bsrc=")\/assets\/webslab\/webslab-icon\.png(?:\?[^"]*)?"/g, '$1/site/icon-64.png?v=1"');
   out = out
     .replace(/src="https:\/\/unpkg\.com\/splitting\/dist\/splitting\.min\.js[^"]*"/g, `src="${SPLITTING_SRC}"`)
     .replace(/<link rel="preconnect" href="https:\/\/unpkg\.com"[^>]*>\s*/g, '')

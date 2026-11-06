@@ -29,17 +29,21 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var current = 0;
 
-  function loadDeferred() {
-    hero.querySelectorAll('.ws-shot[data-src]').forEach(function (img) {
+  // 사례 한 장(PC 화면·폰 화면·배경)만 받는다. 예전엔 첫 전환 때 나머지 세 사례를 한꺼번에 받아
+  // 폰에서 1MB 가까이 내려왔다(2026-11-06) — 지금 보여 줄 것과 바로 다음 것만 받는다.
+  function loadSlide(i) {
+    [pcShots[i], moShots[i]].forEach(function (img) {
+      if (!img || !img.hasAttribute('data-src')) return;
       // 화면 크기에 맞는 해상도 후보(srcset)를 먼저 — src보다 늦게 넣으면 큰 원본을 먼저 받는다
       if (img.hasAttribute('data-srcset')) { img.srcset = img.getAttribute('data-srcset'); img.removeAttribute('data-srcset'); }
       img.src = img.getAttribute('data-src');
       img.removeAttribute('data-src');
     });
-    hero.querySelectorAll('.ws-hero__bg-img[data-bg]').forEach(function (bg) {
+    var bg = bgs[i];
+    if (bg && bg.hasAttribute('data-bg')) {
       bg.style.backgroundImage = "url('" + bg.getAttribute('data-bg') + "')";
       bg.removeAttribute('data-bg');
-    });
+    }
   }
 
   function restart(el, cls) {
@@ -51,7 +55,8 @@
   function select(index, focusTab) {
     var data = CASES[index];
     if (!data) return;
-    loadDeferred();
+    loadSlide(index);
+    loadSlide((index + 1) % CASES.length);
     current = index;
 
     tabs.forEach(function (tab, i) {
@@ -143,7 +148,11 @@
     restart(moShots[0], 'is-scrolling');
   }
 
-  // 첫 화면 이후 나머지 사례 이미지를 미리 받아 둔다
-  if (document.readyState === 'complete') setTimeout(loadDeferred, 1200);
-  else window.addEventListener('load', function () { setTimeout(loadDeferred, 1200); });
+  // 첫 화면이 다 뜬 뒤 한가할 때 두 번째 사례만 미리 받아 둔다(첫 자동 전환 때 빈 화면이 없게)
+  function warmNext() {
+    var go = function () { loadSlide(1); };
+    if ('requestIdleCallback' in window) requestIdleCallback(go, { timeout: 3000 }); else setTimeout(go, 1500);
+  }
+  if (document.readyState === 'complete') warmNext();
+  else window.addEventListener('load', warmNext);
 })();
