@@ -204,3 +204,7 @@
 [data-ws-live]:not(.ws-on) *,
 [data-ws-live]:not(.ws-on) *::before,
 [data-ws-live]:not(.ws-on) *::after { animation-play-state: paused !important; }
+
+/* 첫 화면은 JS를 기다리지 않는다 — 시안의 data-animate 등장 효과는 main.js(defer)가 .is-visible을 붙여야 보이는데,
+   서비스·프로그램·포트폴리오는 첫 화면부터 그 효과를 쓴다(폰 ≤768px은 시안 CSS가 이미 끈다). 데스크톱도 첫 섹션은 바로 보인다. */
+main > div:first-of-type [data-animate], main > section:first-of-type [data-animate] { opacity: 1 !important; transform: none !important; animation: none !important; }
