@@ -1,7 +1,7 @@
 // 칼럼 목록·상세 페이지 HTML (리뉴얼 셸) — 라우트 핸들러가 부른다.
 
 import type { Post } from '@prisma/client';
-import { absoluteUrl } from '@/config/site';
+import { absoluteUrl, siteConfig } from '@/config/site';
 import { brand } from '@/config/brand';
 import { makeExcerpt } from '@/lib/posts';
 import { estimateReadMinutes, type ColumnListItem } from '@/lib/column-feed';
@@ -129,7 +129,7 @@ export function dbArticleHtml(post: Post): string {
         slug: post.slug,
         datePublished: publishedAt,
         dateModified: modifiedAt,
-        image: post.thumbnailUrl ? abs(post.thumbnailUrl) : absoluteUrl('/og/default.png'),
+        image: post.thumbnailUrl ? abs(post.thumbnailUrl) : absoluteUrl(siteConfig.defaultOgImage),
         author,
       }),
       personJsonLd(author),

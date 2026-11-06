@@ -20,7 +20,7 @@ import { analyticsBodyStart, analyticsHead } from '@/lib/site-analytics';
 import { getSitePage, SHELL_HTML, type Crumb, type SitePage } from './registry';
 
 /** 기본 공유 이미지 (scripts/build_column_og.py가 회사소개서 표지 스타일로 생성) */
-const DEFAULT_OG = { path: siteConfig.defaultOgImage, width: 1200, height: 675 };
+const DEFAULT_OG = { path: siteConfig.defaultOgImage, width: 1200, height: 630 };
 
 const versions = new Map<string, string>();
 const contents = new Map<string, string>();

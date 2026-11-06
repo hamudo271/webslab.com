@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { personJsonLd, articleJsonLd, faqPageJsonLd, howToJsonLd, serviceJsonLd } from './jsonld';
+import { personJsonLd, articleJsonLd, faqPageJsonLd, howToJsonLd, serviceJsonLd, websiteJsonLd, organizationJsonLd } from './jsonld';
 import type { Author } from '@/data/authors';
 import { representative } from '@/data/authors';
 
@@ -44,7 +44,7 @@ describe('articleJsonLd', () => {
     expect(ld['@type']).toBe('Article');
     expect(ld.headline).toBe('리뉴얼 시기 판단 7가지 신호');
     expect(ld.author).toMatchObject({ '@type': 'Person', name: '조현도' });
-    expect(ld.publisher).toMatchObject({ '@type': 'Organization', name: 'websLAB' });
+    expect(ld.publisher).toMatchObject({ '@type': 'Organization', name: '웹스랩' });
     expect(ld.mainEntityOfPage).toBe('https://webslab.co.kr/column/renewal-timing-signals');
   });
 });
@@ -90,7 +90,7 @@ describe('serviceJsonLd', () => {
       areaServed: 'KR',
     });
     expect(ld['@type']).toBe('Service');
-    expect(ld.provider).toMatchObject({ '@type': 'Organization', name: 'websLAB' });
+    expect(ld.provider).toMatchObject({ '@type': 'Organization', name: '웹스랩' });
     expect(ld.areaServed).toBe('KR');
   });
 });
@@ -111,7 +111,19 @@ describe('caseStudyJsonLd', () => {
     expect(ld['@type']).toBe('CreativeWork');
     expect(ld.url).toMatch(/\/portfolio\/sample$/);
     expect(ld.about).toEqual({ '@type': 'Organization', name: '샘플', url: 'https://example.com' });
-    expect(ld.creator.name).toBe('websLAB');
+    expect(ld.creator.name).toBe('웹스랩');
     expect(ld.keywords).toBe('UI/UX, 반응형 웹');
+  });
+});
+
+describe('site name', () => {
+  it('검색 결과 사이트 이름은 한국어 웹스랩, 영문·도메인은 다른 이름 — 사이트와 회사가 같은 이름을 쓴다', () => {
+    const site = websiteJsonLd();
+    const org = organizationJsonLd();
+    expect(site.name).toBe('웹스랩');
+    expect(site.alternateName).toEqual(['websLAB', 'webslab.co.kr']);
+    expect(site.url).toBe('https://webslab.co.kr/');
+    expect(org.name).toBe(site.name);
+    expect(site.publisher).toEqual({ '@id': org['@id'] });
   });
 });

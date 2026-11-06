@@ -1,13 +1,18 @@
 import { brand, brandSameAs } from '@/config/brand';
-import { absoluteUrl } from '@/config/site';
+import { absoluteUrl, siteConfig } from '@/config/site';
 import type { Author } from '@/data/authors';
+
+/** 검색 결과에 보일 대표 이름은 한국어 '웹스랩'. 영문 표기·도메인은 다른 이름으로 둔다(구글 사이트 이름 가이드). */
+const SITE_NAME = brand.nameKo;
+const SITE_ALT_NAMES = [brand.name, brand.domain];
 
 export function organizationJsonLd() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: brand.name,
-    alternateName: brand.nameKo,
+    '@id': `${brand.url}/#organization`,
+    name: SITE_NAME,
+    alternateName: SITE_ALT_NAMES,
     url: brand.url,
     logo: absoluteUrl('/images/logo.png'),
     email: brand.email,
@@ -29,11 +34,11 @@ export function localBusinessJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
     '@id': `${brand.url}/#localbusiness`,
-    name: brand.name,
-    alternateName: brand.nameKo,
+    name: SITE_NAME,
+    alternateName: SITE_ALT_NAMES,
     description: brand.description,
     url: brand.url,
-    image: absoluteUrl('/og/default.png'),
+    image: absoluteUrl(siteConfig.defaultOgImage),
     logo: absoluteUrl('/images/logo.png'),
     email: brand.email,
     telephone: brand.phone,
@@ -65,15 +70,13 @@ export function websiteJsonLd() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: brand.name,
-    alternateName: brand.nameKo,
-    url: brand.url,
+    '@id': `${brand.url}/#website`,
+    name: SITE_NAME,
+    alternateName: SITE_ALT_NAMES,
+    url: `${brand.url}/`,
     description: brand.description,
     inLanguage: 'ko',
-    publisher: {
-      '@type': 'Organization',
-      name: brand.name,
-    },
+    publisher: { '@id': `${brand.url}/#organization` },
   };
 }
 
@@ -98,8 +101,8 @@ export function webPageJsonLd(p: WebPageInput) {
     inLanguage: 'ko',
     ...(p.datePublished ? { datePublished: p.datePublished } : {}),
     dateModified: p.dateModified,
-    isPartOf: { '@type': 'WebSite', name: brand.name, url: brand.url },
-    publisher: { '@type': 'Organization', name: brand.name, url: brand.url },
+    isPartOf: { '@type': 'WebSite', '@id': `${brand.url}/#website`, name: SITE_NAME, url: `${brand.url}/` },
+    publisher: { '@type': 'Organization', '@id': `${brand.url}/#organization`, name: SITE_NAME, url: brand.url },
   };
 }
 
@@ -130,7 +133,7 @@ export function personJsonLd(author: Author) {
     sameAs: author.sameAs,
     worksFor: {
       '@type': 'Organization',
-      name: 'websLAB',
+      name: SITE_NAME,
     },
   };
 }
@@ -161,7 +164,7 @@ export function articleJsonLd(a: ArticleInput) {
     },
     publisher: {
       '@type': 'Organization',
-      name: brand.name,
+      name: SITE_NAME,
       logo: { '@type': 'ImageObject', url: absoluteUrl('/images/logo.png') },
     },
     mainEntityOfPage: absoluteUrl(`/column/${a.slug}`),
@@ -218,7 +221,7 @@ export function serviceJsonLd(s: ServiceInput) {
     areaServed: s.areaServed,
     provider: {
       '@type': 'Organization',
-      name: brand.name,
+      name: SITE_NAME,
       url: brand.url,
     },
   };
@@ -247,7 +250,7 @@ export function caseStudyJsonLd(c: CaseStudyInput) {
     ...(c.image ? { image: absoluteUrl(c.image) } : {}),
     dateCreated: String(c.year),
     keywords: c.keywords.join(', '),
-    creator: { '@type': 'Organization', name: brand.name, url: brand.url },
+    creator: { '@type': 'Organization', name: SITE_NAME, url: brand.url },
     about: { '@type': 'Organization', name: c.client, ...(c.siteUrl ? { url: c.siteUrl } : {}) },
   };
 }

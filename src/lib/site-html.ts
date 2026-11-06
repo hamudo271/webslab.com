@@ -449,6 +449,13 @@ const UNUSED_WP_STYLES = [
 const SPLITTING_SRC = 'https://cdn.jsdelivr.net/npm/splitting@1.1.0/dist/splitting.min.js';
 /** 파일 이름에 버전을 넣어 30일 캐시와 충돌하지 않는다(폰트를 올리면 새 이름으로) */
 const PRETENDARD_CSS = '/site/pretendard-v1.3.9.css';
+/** 파비콘 묶음 — 파일은 scripts/build_column_og.py(render_icons)가 만든다. 바꾸면 ?v=를 올릴 것(정적 파일 30일 캐시). */
+const FAVICON_LINKS = [
+  '<link rel="icon" href="/favicon.ico?v=2" sizes="48x48">',
+  '<link rel="icon" type="image/png" sizes="96x96" href="/site/favicon-96.png?v=2">',
+  '<link rel="icon" type="image/png" sizes="192x192" href="/site/favicon-192.png?v=2">',
+  '<link rel="manifest" href="/site.webmanifest?v=2">',
+].join('\n');
 /** 운영에서 쓰지 않는 시안 스크립트 — 전 페이지 약 45KB(gzip) + 실행 시간.
  *  jQuery(+migrate)는 아래 두 파일만 쓴다. uw-board.js는 게시판 CPT용(해당 마크업 없음),
  *  uw-inquiry.js는 WP admin-ajax 전송·파일 위젯·URL 추가인데 전송은 ws-forms.js가 가로채고,
@@ -477,8 +484,9 @@ export function optimizeAssets(html: string): string {
   // 원본 PNG는 OG·회사소개서 등 다른 용도로 그대로 둔다.
   out = out
     .replace(/src="\/assets\/webslab\/webslab-logo\.png"/g, 'src="/site/logo-400.webp" srcset="/site/logo-400.webp 400w, /site/logo-800.webp 800w" sizes="200px"')
-    .replace(/<link rel="icon" type="image\/png" sizes="512x512" href="\/assets\/webslab\/webslab-icon\.png[^"]*">/g, '<link rel="icon" type="image/png" sizes="64x64" href="/site/icon-64.png?v=1">')
-    .replace(/<link rel="apple-touch-icon" sizes="512x512" href="\/assets\/webslab\/webslab-icon\.png[^"]*">/g, '<link rel="apple-touch-icon" sizes="180x180" href="/site/icon-180.png?v=1">')
+    // 파비콘: 구글 검색 아이콘은 48의 배수 정사각만 쓴다 → ico(16·32·48) + 96·192 PNG. 네이버·구형 브라우저는 /favicon.ico를 직접 찾는다.
+    .replace(/<link rel="icon" type="image\/png" sizes="512x512" href="\/assets\/webslab\/webslab-icon\.png[^"]*">/g, FAVICON_LINKS)
+    .replace(/<link rel="apple-touch-icon" sizes="512x512" href="\/assets\/webslab\/webslab-icon\.png[^"]*">/g, '<link rel="apple-touch-icon" sizes="180x180" href="/site/apple-touch-icon.png?v=2">')
     // 본문 속 작은 아이콘(서비스 제작 절차의 20px 아바타 등)도 512px PNG 대신 64px 판으로
     .replace(/(<img\b[^>]*\bsrc=")\/assets\/webslab\/webslab-icon\.png(?:\?[^"]*)?"/g, '$1/site/icon-64.png?v=1"');
   // 한글 웹폰트: 정적판(굵기 7종 x 한글 조각 — 첫 방문 약 600KB, 목록 CSS만 123KB) → 가변판 하나(약 330KB, CSS 14KB).

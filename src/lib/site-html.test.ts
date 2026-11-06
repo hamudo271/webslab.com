@@ -77,6 +77,20 @@ describe('리뉴얼 페이지 운영 변환 (src/site/pages 전체)', () => {
     expect(sync).toEqual(['/site/ws-forms.js?v=x']);
   });
 
+  it.each(pages)('$name — 파비콘: 48의 배수 크기(ico·96·192) + 홈 화면 아이콘, 원본 512px PNG 링크 없음', ({ raw }) => {
+    const html = produce(raw);
+    expect(html).toContain('href="/favicon.ico?v=2"');
+    expect(html).toContain('href="/site/favicon-96.png?v=2"');
+    expect(html).toContain('href="/site/favicon-192.png?v=2"');
+    expect(html).toContain('href="/site/apple-touch-icon.png?v=2"');
+    expect(html).toContain('rel="manifest"');
+    expect(html).not.toMatch(/<link rel="(?:icon|apple-touch-icon)"[^>]*webslab-icon\.png/);
+    // 파일이 실제로 있어야 한다
+    for (const f of ['favicon.ico', 'site/favicon-96.png', 'site/favicon-192.png', 'site/favicon-512.png', 'site/apple-touch-icon.png', 'site.webmanifest']) {
+      expect(fs.existsSync(path.join(process.cwd(), 'public', f)), f).toBe(true);
+    }
+  });
+
   it.each(pages)('$name — 속도: 영상은 autoplay 없이 preload="none"(재생은 ws-media.js가 보일 때만)', ({ raw }) => {
     const videos = produce(raw).match(/<video\b[^>]*>/g) ?? [];
     for (const tag of videos) {
