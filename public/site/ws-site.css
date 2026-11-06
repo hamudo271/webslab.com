@@ -208,3 +208,9 @@
 /* 첫 화면은 JS를 기다리지 않는다 — 시안의 data-animate 등장 효과는 main.js(defer)가 .is-visible을 붙여야 보이는데,
    서비스·프로그램·포트폴리오는 첫 화면부터 그 효과를 쓴다(폰 ≤768px은 시안 CSS가 이미 끈다). 데스크톱도 첫 섹션은 바로 보인다. */
 main > div:first-of-type [data-animate], main > section:first-of-type [data-animate] { opacity: 1 !important; transform: none !important; animation: none !important; }
+
+/* 아이콘 폰트 — XEIcon 2.3.3에서 사이트가 쓰는 글리프 27개만 뽑은 부분집합(xeicon-sub.woff2 1584B).
+   운영 변환(site-html.ts)이 jsDelivr의 XEIcon CSS·폰트 링크를 떼고 이 규칙을 쓴다. 새 글리프를 쓰면 다시 뽑아야 한다(테스트가 검사). */
+@font-face{font-family:xeicon;src:url(/site/xeicon-sub.woff2) format("woff2");font-weight:400;font-style:normal;font-display:block}
+[class^=xi-],[class*=" xi-"]{font-family:xeicon!important;display:inline-block;speak:none;font-style:normal;font-weight:400;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.xi-angle-down-min:before{content:"\e942"}.xi-angle-left:before{content:"\e93b"}.xi-angle-left-min:before{content:"\e93c"}.xi-angle-right:before{content:"\e93e"}.xi-angle-right-min:before{content:"\e93f"}.xi-arrow-left:before{content:"\e906"}.xi-arrow-right:before{content:"\e907"}.xi-check:before{content:"\e928"}.xi-check-circle-o:before{content:"\e92c"}.xi-close:before{content:"\e921"}.xi-comment:before{content:"\e9d7"}.xi-desktop:before{content:"\eada"}.xi-external-link:before{content:"\e980"}.xi-flash:before{content:"\eb09"}.xi-heart-o:before{content:"\ea11"}.xi-home-o:before{content:"\e902"}.xi-laptop:before{content:"\eae9"}.xi-lock:before{content:"\e964"}.xi-long-arrow-right:before{content:"\e90b"}.xi-message-o:before{content:"\ea15"}.xi-mobile:before{content:"\eaed"}.xi-pause:before{content:"\ea3b"}.xi-pen:before{content:"\e9c3"}.xi-play:before{content:"\ea3e"}.xi-plus:before{content:"\e913"}.xi-puzzle:before{content:"\eb93"}.xi-tablet:before{content:"\eaf9"}

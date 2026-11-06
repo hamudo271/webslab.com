@@ -417,10 +417,30 @@ const UNUSED_WP_STYLES = [
 ];
 /** 버전 없는 unpkg 주소는 302를 한 번 거친다 — 버전을 고정한 jsDelivr(이미 preconnect)로 */
 const SPLITTING_SRC = 'https://cdn.jsdelivr.net/npm/splitting@1.1.0/dist/splitting.min.js';
+/** 운영에서 쓰지 않는 시안 스크립트 — 전 페이지 약 45KB(gzip) + 실행 시간.
+ *  jQuery(+migrate)는 아래 두 파일만 쓴다. uw-board.js는 게시판 CPT용(해당 마크업 없음),
+ *  uw-inquiry.js는 WP admin-ajax 전송·파일 위젯·URL 추가인데 전송은 ws-forms.js가 가로채고,
+ *  파일 위젯은 main.js([data-multifile]), URL 추가는 ws-forms.js가 맡는다. */
+const UNUSED_THEME_SCRIPTS = [
+  /\/wp-includes\/js\/jquery\/jquery\.min\.js/,
+  /\/wp-includes\/js\/jquery\/jquery-migrate\.min\.js/,
+  /\/assets\/js\/CPT\/board\/uw-board\.js/,
+  /\/assets\/js\/CPT\/inquiry\/uw-inquiry\.js/,
+];
+const UNUSED_THEME_INLINE = ['uw-board-js-extra', 'uw-inquiry-js-extra'];
 
 export function optimizeAssets(html: string): string {
   let out = html;
   for (const id of UNUSED_WP_STYLES) out = out.replace(new RegExp(`<style id="${id}">[\\s\\S]*?</style>\\s*`, 'g'), '');
+  for (const id of UNUSED_THEME_INLINE) out = out.replace(new RegExp(`<script id="${id}">[\\s\\S]*?</script>\\s*`, 'g'), '');
+  out = out.replace(/<script\b[^>]*\bsrc="([^"]+)"[^>]*><\/script>\s*/g, (tag, src: string) =>
+    UNUSED_THEME_SCRIPTS.some((re) => re.test(src)) ? '' : tag);
+  // 아이콘 폰트: XEIcon 전체(CSS 36KB + woff2 57KB, jsDelivr)를 사이트가 쓰는 25개 글리프만 담은
+  // public/site/xeicon-sub.woff2(1.5KB) + ws-site.css 규칙으로 — 외부 요청 2개와 렌더 차단이 사라진다
+  out = out
+    .replace(/<link rel="preload" as="style" href="https:\/\/cdn\.jsdelivr\.net\/gh\/xpressengine\/XEIcon[^>]*>\s*/g, '')
+    .replace(/<noscript><link rel="stylesheet" href="https:\/\/cdn\.jsdelivr\.net\/gh\/xpressengine\/XEIcon[^>]*><\/noscript>\s*/g, '')
+    .replace(/<link[^>]*href="https:\/\/cdn\.jsdelivr\.net\/gh\/xpressengine\/XEIcon[^>]*>\s*/g, '');
   out = out
     .replace(/src="https:\/\/unpkg\.com\/splitting\/dist\/splitting\.min\.js[^"]*"/g, `src="${SPLITTING_SRC}"`)
     .replace(/<link rel="preconnect" href="https:\/\/unpkg\.com"[^>]*>\s*/g, '')

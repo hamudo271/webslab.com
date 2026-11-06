@@ -10,6 +10,7 @@
 // - 작업용 폴더(_backup, .impeccable, .claude)와 미리보기 전용 파일(robots.txt, _headers)은 제외
 // - 어느 페이지·CSS·JS도 참조하지 않는 에셋과 EXCLUDE 목록은 public에 남기지 않는다(URL로도 노출 X)
 import fs from 'node:fs';
+import { transform } from 'lightningcss';
 import path from 'node:path';
 import crypto from 'node:crypto';
 
@@ -105,10 +106,23 @@ function bundle(hrefs, label) {
       return `/* ${href} */\n` + absolutizeCss(fs.readFileSync(src, 'utf8'), href);
     })
     .join('\n');
-  const name = `${crypto.createHash('md5').update(css).digest('hex').slice(0, 12)}.css`;
+  const min = minifyCss(css, label);
+  const name = `${crypto.createHash('md5').update(min).digest('hex').slice(0, 12)}.css`;
   const out = path.join(BUNDLE_DIR, name);
-  if (!fs.existsSync(out)) { fs.writeFileSync(out, css); bundles++; }
+  if (!fs.existsSync(out)) { fs.writeFileSync(out, min); bundles++; }
   return `<link rel="stylesheet" href="/assets/bundle/${name}">\n`;
+}
+// 묶음은 lightningcss로 압축한다(주석·공백 제거, 값 단축 — gzip 뒤에도 20% 안팎 작아진다).
+// 시안 CSS에 섞인 옛 문법은 errorRecovery로 넘기고, 그래도 실패하면 원문을 그대로 쓴다.
+function minifyCss(css, label) {
+  try {
+    const { code, warnings } = transform({ filename: `${label}.css`, code: Buffer.from(css), minify: true, errorRecovery: true });
+    if (warnings.length) console.warn(`[sync] ${label}: CSS 경고 ${warnings.length}개 (첫 번째: ${warnings[0].message})`);
+    return code.toString();
+  } catch (e) {
+    console.warn(`[sync] ${label}: CSS 압축 실패, 원문 사용 — ${e.message}`);
+    return css;
+  }
 }
 const coreTag = common > 1 ? bundle(sheets[0].hrefs.slice(0, common), 'core') : '';
 for (const sh of sheets) {

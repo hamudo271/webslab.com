@@ -62,6 +62,10 @@ describe('리뉴얼 페이지 운영 변환 (src/site/pages 전체)', () => {
     expect(html).not.toContain('global-styles-inline-css');
     expect(html).not.toContain('wp-block-library-inline-css');
     expect(html).not.toContain('unpkg.com');
+    // jQuery·게시판·시안 문의 스크립트는 운영에서 빠진다(URL 추가는 ws-forms.js, 파일 위젯은 main.js)
+    expect(html).not.toMatch(/jquery(?:-migrate)?\.min\.js|uw-board\.js|uw-inquiry\.js|uw-(?:board|inquiry)-js-extra/);
+    // 아이콘 폰트는 부분집합(public/site/xeicon-sub.woff2 + ws-site.css) — jsDelivr XEIcon 링크 없음
+    expect(html).not.toContain('XEIcon');
     const sync = (html.match(/<script\b[^>]*\bsrc="[^"]+"[^>]*>/g) ?? [])
       .filter((tag) => !/\b(defer|async)\b|type="module"/.test(tag))
       .map((tag) => tag.match(/src="([^"]+)"/)![1]);
@@ -84,6 +88,16 @@ describe('리뉴얼 페이지 운영 변환 (src/site/pages 전체)', () => {
     expect(careers).toMatch(/<section data-ws-live[^>]*class="mx-hero/);
     expect((careers.match(/data-ws-live/g) ?? []).length).toBeGreaterThanOrEqual(2);
     expect(fs.readFileSync(path.join(__dirname, '../../public/site/ws-site.css'), 'utf8')).toContain('[data-ws-live]:not(.ws-on)');
+  });
+
+  it('아이콘 폰트 부분집합이 페이지가 쓰는 xi-* 글리프를 전부 담는다', () => {
+    const site = fs.readFileSync(path.join(__dirname, '../../public/site/ws-site.css'), 'utf8');
+    expect(site).toContain('font-family:xeicon');
+    expect(fs.existsSync(path.join(__dirname, '../../public/site/xeicon-sub.woff2'))).toBe(true);
+    const used = new Set<string>();
+    for (const { raw } of pages) (raw.match(/\bxi-[a-z0-9-]+/g) ?? []).forEach((cls) => used.add(cls));
+    expect(used.size).toBeGreaterThan(10);
+    used.forEach((cls) => expect(site, cls).toContain(`.${cls}:before{content:`));
   });
 
   it.each(pages)('$name — 속도: 로컬 CSS는 동기화 때 만든 묶음(공통 + 페이지) 두 개뿐이다', ({ raw }) => {

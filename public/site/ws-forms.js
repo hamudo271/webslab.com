@@ -228,6 +228,38 @@
       });
   }
 
+  /* 참고 사이트 URL — '+ URL 추가' / 삭제. 시안의 uw-inquiry.js(jQuery)가 하던 일인데, 그 파일과 jQuery를
+     운영 변환(site-html.ts)에서 빼면서 여기로 옮겼다. 값은 field_ref_urls[]로 함께 전송된다. */
+  document.addEventListener('click', function (e) {
+    var add = e.target.closest && e.target.closest('.uw-urlrepeat-add');
+    var rm = e.target.closest && e.target.closest('.uw-urlrepeat-remove');
+    if (add) {
+      var wrap = add.closest('[data-urlrepeat]');
+      var list = wrap && wrap.querySelector('.uw-urlrepeat-list');
+      var first = list && list.querySelector('.uw-urlrepeat-input');
+      if (!list) return;
+      var row = document.createElement('div');
+      row.className = 'uw-urlrepeat-row';
+      var input = document.createElement('input');
+      input.className = 'uw-inquiry-field-input uw-urlrepeat-input';
+      input.type = 'url';
+      input.name = (first && first.name) || 'field_ref_urls[]';
+      input.placeholder = (first && first.placeholder) || 'https://example.com';
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'uw-urlrepeat-remove';
+      btn.setAttribute('aria-label', 'URL 삭제');
+      btn.innerHTML = '&times;';
+      row.appendChild(input);
+      row.appendChild(btn);
+      list.appendChild(row);
+      input.focus();
+    } else if (rm) {
+      var r = rm.closest('.uw-urlrepeat-row');
+      if (r) r.remove();
+    }
+  });
+
   /* ---------- 간편 상담 (메인 도크) ---------- */
 
   function submitQuick(form) {
