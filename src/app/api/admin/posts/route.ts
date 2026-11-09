@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { computePublishedAt, uniqueSlug } from '@/lib/posts';
+import { computePublishedAt, revalidateColumnPages, uniqueSlug } from '@/lib/posts';
 import { postInputSchema } from '@/lib/validators/post';
 
 export const runtime = 'nodejs';
@@ -55,6 +55,7 @@ export async function POST(req: Request) {
         publishedAt: computePublishedAt(null, d.status),
       },
     });
+    revalidateColumnPages();
     return NextResponse.json({ post }, { status: 201 });
   } catch (err) {
     console.error('[admin:posts:create]', err);

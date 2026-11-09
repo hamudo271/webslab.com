@@ -1,4 +1,5 @@
 import type { Post, PostStatus } from '@prisma/client';
+import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/db';
 import { baseSlug } from '@/lib/slug';
 import { columnPosts } from '@/data/columnPosts';
@@ -47,6 +48,15 @@ export function computePublishedAt(
 ): Date | null {
   if (status === 'PUBLISHED') return existing?.publishedAt ?? new Date();
   return existing?.publishedAt ?? null;
+}
+
+/** 글 저장·삭제 직후 칼럼 목록(ISR 10분)을 바로 다시 만든다. 글 페이지·사이트맵·RSS는 매 요청 DB를 읽는다. */
+export function revalidateColumnPages(): void {
+  try {
+    revalidatePath('/column');
+  } catch (err) {
+    console.error('[posts:revalidate]', err);
+  }
 }
 
 // ── 공개 조회 ──

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { computePublishedAt, uniqueSlug } from '@/lib/posts';
+import { computePublishedAt, revalidateColumnPages, uniqueSlug } from '@/lib/posts';
 import { postInputSchema } from '@/lib/validators/post';
 
 export const runtime = 'nodejs';
@@ -59,6 +59,7 @@ export async function PUT(req: Request, { params }: Params) {
         publishedAt: computePublishedAt(existing, d.status),
       },
     });
+    revalidateColumnPages();
     return NextResponse.json({ post });
   } catch (err) {
     console.error('[admin:posts:update]', err);
@@ -72,6 +73,7 @@ export async function DELETE(_req: Request, { params }: Params) {
   if (!id) return NextResponse.json({ error: '잘못된 요청입니다.' }, { status: 400 });
   try {
     await prisma.post.delete({ where: { id } });
+    revalidateColumnPages();
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error('[admin:posts:delete]', err);
