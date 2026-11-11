@@ -7,7 +7,7 @@
 칼럼은 제목 위에 파란 분류 라벨을 얹는다.
 
 출력
-  public/images/column/<slug>.png   칼럼 썸네일 (src/data/columnPosts.ts cover)
+  public/images/column/<slug>.png   칼럼 썸네일 (src/data/columnPosts*.ts cover)
   public/og/webslab-og.jpg          사이트 기본 OG (site.ts defaultOgImage) — 홈 히어로 스타일, 실제 사례 화면
   public/favicon.ico, public/site/favicon-{48,96,192,512}.png, apple-touch-icon.png   파비콘
 
@@ -18,7 +18,8 @@ import re
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA = os.path.join(ROOT, 'src/data/columnPosts.ts')
+# 정적 칼럼 데이터 파일 — 새 묶음 파일을 만들면 여기에 추가
+DATA_FILES = [os.path.join(ROOT, 'src/data', f) for f in ('columnPosts-2026-11.ts', 'columnPosts.ts')]
 OUT_DIR = os.path.join(ROOT, 'public/images/column')
 DEFAULT_OG = os.path.join(ROOT, 'public/og/webslab-og.jpg')
 FONT_DIRS = [os.path.expanduser('~/Library/Fonts'), '/Library/Fonts', '/tmp/og-fonts']
@@ -281,7 +282,7 @@ def render_icons():
 
 
 def main():
-    posts = parse_posts(open(DATA, encoding='utf-8').read())
+    posts = [p for f in DATA_FILES for p in parse_posts(open(f, encoding='utf-8').read())]
     print(f'칼럼 {len(posts)}편')
     for slug, category, title in posts:
         render_column(slug, category, title)

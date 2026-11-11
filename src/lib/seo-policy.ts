@@ -12,10 +12,29 @@ export type CrawlerRule = {
 //  Anthropic 검색·사용자 요청 크롤러는 Claude-SearchBot·Claude-User)
 const AI_SEARCH_BOTS = ['OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'Claude-SearchBot', 'Claude-User'];
 
-// AI model-training crawlers — BLOCKED (content not used for model training).
-// Mirrors Cloudflare's managed AI-bot block so the two robots.txt sources agree
-// instead of contradicting each other (allow vs. disallow for the same agent).
-const AI_TRAINING_BOTS = ['GPTBot', 'ClaudeBot', 'Claude-Web', 'Google-Extended', 'CCBot', 'Bytespider'];
+// AI 학습용 크롤러 — 차단(콘텐츠를 모델 학습에 쓰지 않게).
+// Cloudflare의 Training 정책은 묶음 전체를 한 번에 켜고 끄는 설정뿐이라, 그쪽을 Allow로 바꿔도
+// 학습봇 차단이 유지되도록 Cloudflare 관리 목록의 학습봇을 여기에도 직접 적는다.
+// Google-Extended는 일부러 뺐다(2026-11-11): 이 토큰을 막으면 Gemini가 답변에 사이트 내용을 쓰는 것도 막힌다.
+// 구글 검색·AI 개요는 Googlebot이 맡아 이 토큰과 무관하다. Cloudflare Training이 Disallow인 동안은
+// Cloudflare 쪽 robots가 여전히 Google-Extended를 막는다(서로 모순은 아님 — 여기서는 언급하지 않을 뿐).
+const AI_TRAINING_BOTS = [
+  'GPTBot',
+  'ClaudeBot',
+  'anthropic-ai',
+  'Claude-Web',
+  'CCBot',
+  'Bytespider',
+  'Amazonbot',
+  'Applebot-Extended',
+  'meta-externalagent',
+  'cohere-ai',
+  'Diffbot',
+  'omgili',
+  'MistralAI-Training',
+  'PetalBot',
+  'Google-CloudVertexBot',
+];
 
 export const crawlerRules: CrawlerRule[] = [
   { userAgent: '*', allow: '/', disallow: ['/api/', '/admin/'] },

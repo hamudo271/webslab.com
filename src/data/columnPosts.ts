@@ -1,3 +1,5 @@
+import { columnPostsNov2026 } from './columnPosts-2026-11';
+
 export type FaqEntry = { question: string; answer: string };
 export type HowToStep = { name: string; text: string };
 export type HowToBlock = { name: string; description: string; steps: HowToStep[] };
@@ -30,6 +32,8 @@ const cover = (slug: string) => `/images/column/${slug}.png`;
 const publishedAt = '2026-06-22';
 
 export const columnPosts: ColumnPost[] = [
+  // 2026-11 추가분(최신 글이 앞)
+  ...columnPostsNov2026,
   {
     slug: 'corporate-website-cost',
     primaryKeyword: '기업 홈페이지 제작 비용',

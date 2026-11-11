@@ -20,6 +20,14 @@ describe('crawlerRules', () => {
     expect(allowed).not.toContain('Claude-Web');
   });
 
+  it('학습봇은 직접 막고, Gemini 답변에 쓰이는 Google-Extended는 막지 않는다', () => {
+    const blocked = crawlerRules.filter((r) => r.disallow.includes('/')).map((r) => r.userAgent);
+    for (const bot of ['GPTBot', 'ClaudeBot', 'CCBot', 'Bytespider', 'Amazonbot', 'Applebot-Extended', 'meta-externalagent']) {
+      expect(blocked, bot).toContain(bot);
+    }
+    expect(blocked).not.toContain('Google-Extended');
+  });
+
   it('allows Next.js rendering assets and blocks API/admin routes for general crawlers', () => {
     const general = crawlerRules.find((rule) => rule.userAgent === '*');
 
