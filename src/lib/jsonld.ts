@@ -6,17 +6,45 @@ import type { Author } from '@/data/authors';
 const SITE_NAME = brand.nameKo;
 const SITE_ALT_NAMES = [brand.name, brand.domain];
 
+/** 같은 대상을 가리키는 스키마를 하나로 잇는 식별자 — 검색·AI가 회사와 대표(글쓴이)를 같은 엔티티로 묶는다. */
+const ORG_ID = `${brand.url}/#organization`;
+const REPRESENTATIVE_ID = `${brand.url}/about#representative`;
+const orgRef = { '@type': 'Organization', '@id': ORG_ID, name: SITE_NAME, url: brand.url };
+
+/** 회사가 실제로 제공하는 일(서비스·프로그램·유지보수 페이지에 있는 범위만). */
+const KNOWS_ABOUT = [
+  '기업 홈페이지 제작',
+  '홈페이지 리뉴얼',
+  '반응형 홈페이지',
+  'CMS 구축',
+  '검색엔진 최적화(SEO)',
+  '홈페이지 유지보수',
+  '업무 자동화 프로그램 개발',
+];
+
 export function organizationJsonLd() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    '@id': `${brand.url}/#organization`,
+    '@id': ORG_ID,
     name: SITE_NAME,
     alternateName: SITE_ALT_NAMES,
+    description: brand.description,
     url: brand.url,
     logo: absoluteUrl('/images/logo.png'),
     email: brand.email,
     telephone: brand.phone,
+    taxID: brand.legal.businessNumber,
+    founder: { '@type': 'Person', '@id': REPRESENTATIVE_ID, name: brand.legal.representativeName },
+    areaServed: { '@type': 'Country', name: 'South Korea' },
+    knowsAbout: KNOWS_ABOUT,
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      telephone: brand.phone,
+      email: brand.email,
+      availableLanguage: 'Korean',
+    },
     address: {
       '@type': 'PostalAddress',
       streetAddress: brand.address.streetAddress,
@@ -76,7 +104,7 @@ export function websiteJsonLd() {
     url: `${brand.url}/`,
     description: brand.description,
     inLanguage: 'ko',
-    publisher: { '@id': `${brand.url}/#organization` },
+    publisher: { '@id': ORG_ID },
   };
 }
 
@@ -84,6 +112,8 @@ type WebPageInput = {
   path: string;
   name: string;
   description: string;
+  /** 회사소개·문의·목록 페이지는 더 구체적인 타입으로 알린다 */
+  type?: 'WebPage' | 'AboutPage' | 'ContactPage' | 'CollectionPage';
   /** 최초 공개일이 확인되지 않는 문서는 생략(추정값을 넣지 않는다) */
   datePublished?: string;
   dateModified: string;
@@ -93,7 +123,7 @@ type WebPageInput = {
 export function webPageJsonLd(p: WebPageInput) {
   return {
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
+    '@type': p.type ?? 'WebPage',
     '@id': `${absoluteUrl(p.path)}#webpage`,
     url: absoluteUrl(p.path),
     name: p.name,
@@ -102,7 +132,25 @@ export function webPageJsonLd(p: WebPageInput) {
     ...(p.datePublished ? { datePublished: p.datePublished } : {}),
     dateModified: p.dateModified,
     isPartOf: { '@type': 'WebSite', '@id': `${brand.url}/#website`, name: SITE_NAME, url: `${brand.url}/` },
-    publisher: { '@type': 'Organization', '@id': `${brand.url}/#organization`, name: SITE_NAME, url: brand.url },
+    publisher: orgRef,
+    ...(p.type === 'AboutPage' || p.type === 'ContactPage' ? { about: { '@id': ORG_ID } } : {}),
+  };
+}
+
+type ListEntry = { name: string; path: string };
+
+/** 목록 페이지(포트폴리오·칼럼)에 실린 항목 — 순서대로. */
+export function itemListJsonLd(items: ListEntry[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    numberOfItems: items.length,
+    itemListElement: items.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: it.name,
+      url: absoluteUrl(it.path),
+    })),
   };
 }
 
@@ -125,16 +173,14 @@ export function personJsonLd(author: Author) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    ...(author.id === 'representative' ? { '@id': REPRESENTATIVE_ID } : {}),
     name: author.name,
     alternateName: author.nameKo,
     jobTitle: author.role,
     description: author.bio,
     url: author.profileUrl,
     sameAs: author.sameAs,
-    worksFor: {
-      '@type': 'Organization',
-      name: SITE_NAME,
-    },
+    worksFor: orgRef,
   };
 }
 
@@ -159,11 +205,14 @@ export function articleJsonLd(a: ArticleInput) {
     dateModified: a.dateModified ?? a.datePublished,
     author: {
       '@type': 'Person',
+      ...(a.author.id === 'representative' ? { '@id': REPRESENTATIVE_ID } : {}),
       name: a.author.name,
+      jobTitle: a.author.role,
       url: a.author.profileUrl,
     },
     publisher: {
       '@type': 'Organization',
+      '@id': ORG_ID,
       name: SITE_NAME,
       logo: { '@type': 'ImageObject', url: absoluteUrl('/images/logo.png') },
     },
@@ -219,11 +268,7 @@ export function serviceJsonLd(s: ServiceInput) {
     description: s.description,
     serviceType: s.serviceType,
     areaServed: s.areaServed,
-    provider: {
-      '@type': 'Organization',
-      name: SITE_NAME,
-      url: brand.url,
-    },
+    provider: orgRef,
   };
 }
 
@@ -250,7 +295,7 @@ export function caseStudyJsonLd(c: CaseStudyInput) {
     ...(c.image ? { image: absoluteUrl(c.image) } : {}),
     dateCreated: String(c.year),
     keywords: c.keywords.join(', '),
-    creator: { '@type': 'Organization', name: SITE_NAME, url: brand.url },
+    creator: orgRef,
     about: { '@type': 'Organization', name: c.client, ...(c.siteUrl ? { url: c.siteUrl } : {}) },
   };
 }

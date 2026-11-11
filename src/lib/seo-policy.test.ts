@@ -41,7 +41,7 @@ describe('commercial page metadata', () => {
   it('maps one distinct target keyword to each core page', () => {
     expect(COMMERCIAL_METADATA['/'].keyword).toBe('기업 홈페이지 제작 업체');
     expect(COMMERCIAL_METADATA['/service'].keyword).toBe('기업 홈페이지 제작');
-    expect(COMMERCIAL_METADATA['/portfolio'].keyword).toBe('B2B 홈페이지 제작 사례');
+    expect(COMMERCIAL_METADATA['/portfolio'].keyword).toBe('홈페이지 제작 사례');
     expect(COMMERCIAL_METADATA['/about'].keyword).toBe('기업 홈페이지 전문 에이전시');
     expect(new Set(Object.values(COMMERCIAL_METADATA).map((item) => item.keyword)).size).toBe(4);
   });

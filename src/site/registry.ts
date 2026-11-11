@@ -3,7 +3,8 @@
 
 import { COMMERCIAL_METADATA } from '@/lib/seo-policy';
 import { extractFaqs } from '@/lib/site-html';
-import { caseStudyJsonLd, faqPageJsonLd, serviceJsonLd } from '@/lib/jsonld';
+import { caseStudyJsonLd, faqPageJsonLd, itemListJsonLd, organizationJsonLd, personJsonLd, serviceJsonLd } from '@/lib/jsonld';
+import { representative } from '@/data/authors';
 import { portfolios } from '@/data/portfolios';
 
 import home from './pages/home.html';
@@ -42,6 +43,8 @@ export type SitePage = {
   description?: string;
   /** 기본 공유 이미지 대신 쓸 이미지(사이트 경로) */
   ogImage?: string;
+  /** WebPage보다 구체적인 스키마 타입(회사소개·문의·목록) */
+  pageType?: 'AboutPage' | 'ContactPage' | 'CollectionPage';
   /** WebPage dateModified — 없으면 seo-policy STATIC_PAGE_DATES */
   modified?: string;
   extraJsonLd?: (raw: string) => object[];
@@ -63,8 +66,24 @@ const caseHtml: Record<string, string> = {
 export const CASE_SLUGS = Object.keys(caseHtml);
 
 export const SITE_PAGES: SitePage[] = [
-  { path: '/', html: home, name: '홈', description: COMMERCIAL_METADATA['/'].description },
-  { path: '/about', html: about, name: '회사소개', title: `${COMMERCIAL_METADATA['/about'].title} | 웹스랩` },
+  {
+    path: '/',
+    html: home,
+    name: '홈',
+    // 브랜드명 + 본문 h1(홈페이지 제작·리뉴얼·유지보수)과 같은 말
+    title: '웹스랩 | 기업 홈페이지 제작·리뉴얼·유지보수',
+    description: COMMERCIAL_METADATA['/'].description,
+  },
+  {
+    path: '/about',
+    html: about,
+    name: '회사소개',
+    title: `${COMMERCIAL_METADATA['/about'].title} | 웹스랩`,
+    description: COMMERCIAL_METADATA['/about'].description,
+    pageType: 'AboutPage',
+    // 회사와 대표(칼럼 글쓴이)를 같은 식별자로 잇는다
+    extraJsonLd: () => [organizationJsonLd(), personJsonLd(representative)],
+  },
   {
     path: '/service',
     html: service,
@@ -91,7 +110,22 @@ export const SITE_PAGES: SitePage[] = [
       }),
     ],
   },
-  { path: '/portfolio', html: portfolio, name: '포트폴리오' },
+  {
+    path: '/portfolio',
+    html: portfolio,
+    name: '포트폴리오',
+    title: `${COMMERCIAL_METADATA['/portfolio'].title} | 웹스랩`,
+    description: COMMERCIAL_METADATA['/portfolio'].description,
+    pageType: 'CollectionPage',
+    extraJsonLd: () => [
+      itemListJsonLd(
+        CASE_SLUGS.flatMap((slug) => {
+          const p = portfolios.find((x) => x.slug === slug);
+          return p ? [{ name: p.title, path: `/portfolio/${slug}` }] : [];
+        }),
+      ),
+    ],
+  },
   ...CASE_SLUGS.map((slug) => {
     const p = portfolios.find((x) => x.slug === slug);
     return {
@@ -118,12 +152,19 @@ export const SITE_PAGES: SitePage[] = [
           : [],
     };
   }),
-  { path: '/column', html: column, name: '전문 칼럼', title: '홈페이지 제작·리뉴얼 전문 칼럼 | 웹스랩' },
+  {
+    path: '/column',
+    html: column,
+    name: '전문 칼럼',
+    title: '홈페이지 제작·리뉴얼 전문 칼럼 | 웹스랩',
+    pageType: 'CollectionPage',
+  },
   {
     path: '/contact',
     html: contact,
     name: '문의하기',
     title: '홈페이지 제작 견적 문의 | 웹스랩',
+    pageType: 'ContactPage',
     description:
       '홈페이지 제작·리뉴얼 견적 문의. 현재 상황과 목표를 알려주시면 필요한 범위를 1영업일 안에 정리해 회신드립니다. 계약 전 메인 시안은 무료입니다.',
   },

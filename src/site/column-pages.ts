@@ -10,6 +10,7 @@ import {
   breadcrumbJsonLd,
   faqPageJsonLd,
   howToJsonLd,
+  itemListJsonLd,
   personJsonLd,
 } from '@/lib/jsonld';
 import { columnPosts, type ColumnPost } from '@/data/columnPosts';
@@ -29,7 +30,9 @@ function crumbs(title: string, slug: string) {
 }
 
 export function columnListHtml(items: ColumnListItem[]): string {
-  return sitePageHtml('/column', (raw) => applyColumnList(raw, items));
+  return sitePageHtml('/column', (raw) => applyColumnList(raw, items), [
+    itemListJsonLd(items.map((it) => ({ name: it.title, path: `/column/${it.slug}` }))),
+  ]);
 }
 
 export function staticArticleHtml(post: ColumnPost): string {

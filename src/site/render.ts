@@ -122,13 +122,14 @@ function crumbsFor(page: SitePage): Crumb[] {
 }
 
 /** 등록된 리뉴얼 페이지 1장. mutate로 본문 일부(예: 칼럼 목록)를 먼저 바꿀 수 있다. */
-export function sitePageHtml(pagePath: string, mutate?: (raw: string) => string): string {
+export function sitePageHtml(pagePath: string, mutate?: (raw: string) => string, moreJsonLd: object[] = []): string {
   const page = getSitePage(pagePath);
   const description = page.description ?? readMeta(page.html, 'description') ?? brand.description;
   const webPage = webPageJsonLd({
     path: page.path,
     name: page.path === '/' ? brand.nameKo : page.name,
     description,
+    type: page.pageType,
     datePublished: STATIC_PAGE_PUBLISHED[page.path],
     dateModified: page.modified ?? STATIC_PAGE_DATES[page.path] ?? STATIC_PAGE_DATES['/'],
   });
@@ -142,7 +143,7 @@ export function sitePageHtml(pagePath: string, mutate?: (raw: string) => string)
     title: page.title ?? readTitle(page.html),
     description,
     ogImage: page.ogImage,
-    jsonLd: [...jsonLd, ...(page.extraJsonLd?.(page.html) ?? [])],
+    jsonLd: [...jsonLd, ...(page.extraJsonLd?.(page.html) ?? []), ...moreJsonLd],
   });
 }
 

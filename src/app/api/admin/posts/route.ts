@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { pingIndexNow } from '@/lib/indexnow';
 import { computePublishedAt, revalidateColumnPages, uniqueSlug } from '@/lib/posts';
 import { postInputSchema } from '@/lib/validators/post';
 
@@ -56,6 +57,7 @@ export async function POST(req: Request) {
       },
     });
     revalidateColumnPages();
+    if (post.status === 'PUBLISHED') pingIndexNow([`/column/${post.slug}`, '/column']);
     return NextResponse.json({ post }, { status: 201 });
   } catch (err) {
     console.error('[admin:posts:create]', err);
