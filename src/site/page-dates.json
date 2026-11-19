@@ -1,7 +1,7 @@
 {
   "/": {
-    "hash": "b8f6e214968ea704",
-    "modified": "2026-11-05"
+    "hash": "c400b59db584e630",
+    "modified": "2026-11-19"
   },
   "/about": {
     "hash": "163ef9571403f08d",
@@ -36,8 +36,12 @@
     "modified": "2026-11-04"
   },
   "/portfolio": {
-    "hash": "7819d2a82aeed575",
-    "modified": "2026-11-04"
+    "hash": "d8e46c2d99ecbd27",
+    "modified": "2026-11-19"
+  },
+  "/portfolio/612-academy": {
+    "hash": "55cc17b3788727c4",
+    "modified": "2026-11-19"
   },
   "/portfolio/apkocdesign": {
     "hash": "21477eb24890ac78",
@@ -54,6 +58,14 @@
   "/portfolio/dcd-company": {
     "hash": "b237dc918ec33576",
     "modified": "2026-11-04"
+  },
+  "/portfolio/dr-planners": {
+    "hash": "539ffc6f4d75caab",
+    "modified": "2026-11-19"
+  },
+  "/portfolio/haeun-nuri": {
+    "hash": "d98ffe122b91a92e",
+    "modified": "2026-11-19"
   },
   "/portfolio/reyourclinic": {
     "hash": "9bce899ae0a33408",

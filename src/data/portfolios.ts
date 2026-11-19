@@ -7,7 +7,8 @@ export type Portfolio = {
   client: string;
   category: string;
   industry: Industry;
-  duration: Duration;
+  /** 확인된 경우에만 적는다 — 없으면 표시하지 않는다 */
+  duration?: Duration;
   services: string[];
   year: number;
   modifiedAt: string;
@@ -199,6 +200,69 @@ export const portfolios: Portfolio[] = [
     results: [
       { label: '구성', value: '랭킹 · 포트폴리오 · 후기' },
       { label: '문의 동선', value: '상담 신청 · 카카오톡' },
+    ],
+  },
+  {
+    slug: 'haeun-nuri',
+    title: '해운누리한의원 공식 사이트',
+    client: '해운누리한의원',
+    category: '신규 제작',
+    industry: 'HEALTHCARE',
+    services: ['UI/UX', '병원 사이트', '반응형 웹'],
+    year: 2026,
+    modifiedAt: '2026-11-19',
+    summary: '부산 해운대 한의원 공식 사이트',
+    description:
+      '부산 해운대 장산역 1번 출구 앞 해운누리한의원의 공식 사이트. 진료시간·오시는 길·의료진 소개와 입원실 안내, 약침·추나 같은 치료법과 일곱 가지 진료과목을 메뉴로 나눠 담았습니다. 네이버 예약·카카오톡 상담·전화 상담·오시는 길을 화면 옆 빠른 메뉴와 모바일 하단 바에 모아 예약으로 바로 이어지게 구성했습니다.',
+    cover: cover('haeun-nuri'),
+    fullShot: fullShot('haeun-nuri'),
+    gallery: [],
+    url: 'https://haeun-nuri.com',
+    results: [
+      { label: '예약 동선', value: '네이버 예약 · 카카오톡 · 전화' },
+      { label: '구성', value: '진료과목 7개 · 입원실 안내 · 의료진 소개' },
+    ],
+  },
+  {
+    slug: 'dr-planners',
+    title: '닥터플래너스 병원 마케팅 플래닝 사이트',
+    client: '닥터플래너스',
+    category: '신규 제작',
+    industry: 'BRAND',
+    services: ['UI/UX', '브랜드 사이트', '인터랙티브 웹', '반응형 웹'],
+    year: 2026,
+    modifiedAt: '2026-11-19',
+    summary: '병원 마케팅 플래닝 회사 공식 사이트',
+    description:
+      '병원 마케팅을 진단부터 실행까지 맡는 플래닝 회사 닥터플래너스(DR.PLANERS)의 공식 사이트. 스크롤에 따라 장면이 이어지는 첫 화면으로 ‘방향부터 결정합니다’라는 메시지를 전하고, 성장 플래닝·브랜딩·마케팅·홈페이지와 검색 노출 서비스를 차례로 소개합니다. 칼럼과 자주 묻는 질문을 담은 인사이트 메뉴를 두고, 어느 화면에서든 무료 병원 진단 신청으로 이어지게 구성했습니다.',
+    cover: cover('dr-planners'),
+    fullShot: fullShot('dr-planners'),
+    gallery: [],
+    url: 'https://dr-planners.com',
+    results: [
+      { label: '구성', value: '서비스 4개 영역 · 인사이트' },
+      { label: '문의 동선', value: '무료 병원 진단 · 상담하기' },
+    ],
+  },
+  {
+    slug: '612-academy',
+    title: '612 어학원 공식 사이트',
+    client: '612 어학원',
+    category: '신규 제작',
+    industry: 'EDUCATION',
+    services: ['UI/UX', '브랜드 사이트', '반응형 웹'],
+    year: 2026,
+    modifiedAt: '2026-11-19',
+    summary: 'OPIc·영어회화·중국어 어학원 공식 사이트',
+    description:
+      'OPIc·영어회화·TOEIC Speaking·중국어회화·SPA·TSC를 가르치는 612 어학원의 공식 사이트. 수업 장면 사진을 모자이크처럼 배치한 첫 화면에 이어 학원 소개, 영어·중국어 과정, 강사 소개, 수강 후기를 차례로 보여 줍니다. 수강신청 메뉴와 지점별 카카오톡 채널·전화문의·상담신청 버튼으로 바로 문의할 수 있게 구성했습니다.',
+    cover: cover('612-academy'),
+    fullShot: fullShot('612-academy'),
+    gallery: [],
+    url: 'https://612.co.kr',
+    results: [
+      { label: '구성', value: '영어·중국어 과정 · 강사 소개 · 수강 후기' },
+      { label: '문의 동선', value: '수강신청 · 카카오톡 · 상담신청' },
     ],
   },
 ];

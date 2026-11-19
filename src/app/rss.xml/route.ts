@@ -75,7 +75,7 @@ export async function GET() {
         `<p>${escapeHtml(c.description)}</p>` +
         `<ul><li>고객: ${escapeHtml(c.client)}</li><li>구분: ${escapeHtml(c.category)}</li>` +
         (c.services.length ? `<li>작업 범위: ${escapeHtml(c.services.join(', '))}</li>` : '') +
-        `<li>기간: ${escapeHtml(c.duration)}</li>` +
+        (c.duration ? `<li>기간: ${escapeHtml(c.duration)}</li>` : '') +
         (c.url ? `<li>사이트: <a href="${escapeHtml(c.url)}">${escapeHtml(c.url.replace(/^https?:\/\//, ''))}</a></li>` : '') +
         `</ul>`,
       category: '제작 사례',
