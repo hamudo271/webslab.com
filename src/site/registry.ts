@@ -79,7 +79,8 @@ const caseHtml: Record<string, string> = {
   'neo-v': portfolioNeoV,
 };
 
-export const CASE_SLUGS = Object.keys(caseHtml);
+// 숨긴 사례(portfolios.ts hidden)는 상세 페이지도 열지 않는다(404)
+export const CASE_SLUGS = Object.keys(caseHtml).filter((slug) => portfolios.some((p) => p.slug === slug));
 
 export const SITE_PAGES: SitePage[] = [
   {

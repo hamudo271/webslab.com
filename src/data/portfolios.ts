@@ -24,12 +24,14 @@ export type Portfolio = {
   gallery: string[];
   url?: string;
   results?: { label: string; value: string }[];
+  /** true면 사이트 어디에도 내보내지 않는다(목록·상세·사이트맵·llms·RSS). 자료는 그대로 둔다 — 되살릴 때 지우면 된다. */
+  hidden?: boolean;
 };
 
 const cover = (slug: string) => `/images/portfolio/${slug}.webp`;
 const fullShot = (slug: string) => `/images/portfolio/${slug}-full.webp`;
 
-export const portfolios: Portfolio[] = [
+const allPortfolios: Portfolio[] = [
   {
     slug: 'roland-korea',
     title: '코스모스악기 · Roland Korea 브랜드 사이트',
@@ -246,6 +248,7 @@ export const portfolios: Portfolio[] = [
   },
   {
     slug: '612-academy',
+    hidden: true, // 2026-11-20 사용자 요청으로 잠시 내림 — 되살릴 때: 이 줄 삭제 + 원본 폴더 _backup/20261120-hidden-612 의 카드·홈 항목 복원 후 sync
     title: '612 어학원 공식 사이트',
     client: '612 어학원',
     category: '신규 제작',
@@ -372,3 +375,6 @@ export const portfolios: Portfolio[] = [
     ],
   },
 ];
+
+/** 공개하는 사례만 — 사이트 전역(등록·사이트맵·llms·RSS)이 이 목록을 쓴다. */
+export const portfolios: Portfolio[] = allPortfolios.filter((p) => !p.hidden);
