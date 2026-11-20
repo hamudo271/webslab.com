@@ -25,6 +25,8 @@ async function connect() {
   throw new Error('no devtools');
 }
 const send = (method, params = {}) => new Promise((res, rej) => { const i = ++id; pending.set(i, { res, rej }); ws.send(JSON.stringify({ id: i, method, params })); });
+// 슬라이드·페이드가 넘어가는 중간(글자가 겹친 화면)이 찍히지 않게 전환 시간을 0으로 만든다
+const NO_TRANSITION = `(()=>{if(document.getElementById('__capnt'))return;const st=document.createElement('style');st.id='__capnt';st.textContent='*,*::before,*::after{transition-duration:0s!important;transition-delay:0s!important}';document.head.appendChild(st);})()`;
 async function shot({ name, width, height, mobile, maxHeight }) {
   await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 2, mobile: !!mobile });
   if (mobile) {
@@ -37,6 +39,8 @@ async function shot({ name, width, height, mobile, maxHeight }) {
   await send('Page.navigate', { url });
   await sleep(6000);
   const ev = (expression) => send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true }).then((r) => r.result.value);
+  await ev(NO_TRANSITION);
+  await sleep(1500);
   // 화면 높이(vh)는 실제 기기처럼 두고, 그 아래까지 이어서 찍는다(100vh 히어로가 늘어나지 않게)
   await ev(`(async()=>{const s=ms=>new Promise(r=>setTimeout(r,ms));const max=${maxHeight};for(let y=0;y<Math.min(document.documentElement.scrollHeight,max);y+=300){window.scrollTo(0,y);await s(220);}window.scrollTo(0,0);await s(1800);})()`);
   const pageH = await ev('Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)');
@@ -46,6 +50,7 @@ async function shot({ name, width, height, mobile, maxHeight }) {
   console.log(slug, name, width, clipH);
 }
 // 스크롤 연출이 있는 사이트용: 실제로 스크롤하며 화면 단위로 찍는다(이어 붙이기는 파이썬에서)
+const VIDEO_T = Number(process.env.VIDEO_T || 1.5);
 async function tiles({ width, height, maxHeight, positions }) {
   await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 2, mobile: false });
   await send('Emulation.setUserAgentOverride', { userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36' });
@@ -53,8 +58,10 @@ async function tiles({ width, height, maxHeight, positions }) {
   await send('Page.navigate', { url });
   await sleep(7000);
   const ev = (expression) => send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true }).then((r) => r.result.value);
-  // 영상: 조작 막대는 숨기고, 장면 전환 중간(겹친 화면)이 찍히지 않게 같은 시점(1.5초)에 멈춰 둔다
-  const freeze = `(()=>{if(!document.getElementById('__cap')){const st=document.createElement('style');st.id='__cap';st.textContent='video::-webkit-media-controls{display:none!important}';document.head.appendChild(st);}document.querySelectorAll('video').forEach(v=>{v.muted=true;v.removeAttribute('controls');v.autoplay=false;try{v.pause();if(Math.abs(v.currentTime-1.5)>0.05)v.currentTime=1.5;}catch(e){}});})()`;
+  await ev(NO_TRANSITION);
+  await sleep(1500);
+  // 영상: 조작 막대는 숨기고, 장면 전환 중간(겹친 화면)이 찍히지 않게 같은 시점(기본 1.5초, VIDEO_T 환경변수로 조정)에 멈춰 둔다
+  const freeze = `(()=>{if(!document.getElementById('__cap')){const st=document.createElement('style');st.id='__cap';st.textContent='video::-webkit-media-controls{display:none!important}';document.head.appendChild(st);}document.querySelectorAll('video').forEach(v=>{v.muted=true;v.removeAttribute('controls');v.autoplay=false;try{v.pause();if(Math.abs(v.currentTime-${VIDEO_T})>0.05)v.currentTime=${VIDEO_T};}catch(e){}});})()`;
   await ev(freeze);
   const pageH = await ev('Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)');
   let n = 0;
@@ -63,8 +70,8 @@ async function tiles({ width, height, maxHeight, positions }) {
   for (const y of ys) {
     // 사람이 내리듯 조금씩 내려가 등장 효과·영상을 깨우고, 멈춘 뒤 충분히 기다린다
     await ev(`(async()=>{const s=ms=>new Promise(r=>setTimeout(r,ms));const from=window.scrollY;for(let i=1;i<=18;i++){window.scrollTo(0,from+(${y}-from)*i/18);await s(80);}await s(2600);})()`);
-    // 둘째 화면부터는 떠 있는 요소(헤더·빠른 메뉴·상담 버튼)를 숨긴다 — 화면을 덮는 고정 배경은 남긴다
-    if (y > 0) await ev(`document.querySelectorAll('body *').forEach(e=>{const p=getComputedStyle(e).position;const r=e.getBoundingClientRect();if(p==='fixed'&&r.width*r.height<innerWidth*innerHeight*0.35)e.style.visibility='hidden'})`);
+    // 둘째 화면부터는 떠 있는 요소(고정·상단 붙박이 헤더, 빠른 메뉴, 상담 버튼)를 숨긴다 — 화면을 덮는 고정 배경은 남긴다
+    if (y > 0) await ev(`document.querySelectorAll('body *').forEach(e=>{const p=getComputedStyle(e).position;const r=e.getBoundingClientRect();if((p==='fixed'&&r.width*r.height<innerWidth*innerHeight*0.35)||(p==='sticky'&&r.top<=1&&r.height<160&&r.width>innerWidth*0.6))e.style.visibility='hidden'})`);
     await ev(freeze);
     await sleep(500);
     const real = await ev('Math.round(window.scrollY)');

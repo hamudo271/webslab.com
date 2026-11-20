@@ -41,6 +41,9 @@ for slug, domain in CASES.items():
             full.paste(im, (0, y)); y += im.height
     else:
         full = Image.open(f'shots/{slug}-full.png').convert('RGB')
+    # PC 첫 화면: 실제 스크롤로 찍은 첫 두 화면이 이어져 있으면 그것으로 만든다(등장 효과가 빠지지 않는다)
+    if len(tiles) > 1 and ys[1] - ys[0] == 900:
+        pc = full.crop((0, 0, 2880, 3060))
     for w, name in [(2240, 'pc'), (1200, 'pc-1200'), (720, 'pc-720')]:
         save(pc.resize((w, round(w * pc.height / pc.width)), Image.LANCZOS), f'{SRC}/hero/{slug}-{name}.webp', 80)
     for w, name in [(600, 'mo'), (300, 'mo-300')]:

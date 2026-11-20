@@ -23,6 +23,9 @@ import portfolioApkoc from './pages/portfolio--apkocdesign.html';
 import portfolioHaeunNuri from './pages/portfolio--haeun-nuri.html';
 import portfolioDrPlanners from './pages/portfolio--dr-planners.html';
 import portfolio612 from './pages/portfolio--612-academy.html';
+import portfolioHwangchil from './pages/portfolio--hwangchil-korea.html';
+import portfolioSamryoong from './pages/portfolio--samryoong.html';
+import portfolioSuccessInside from './pages/portfolio--success-inside.html';
 import column from './pages/column.html';
 import contact from './pages/contact.html';
 import faq from './pages/faq.html';
@@ -67,6 +70,9 @@ const caseHtml: Record<string, string> = {
   'haeun-nuri': portfolioHaeunNuri,
   'dr-planners': portfolioDrPlanners,
   '612-academy': portfolio612,
+  'hwangchil-korea': portfolioHwangchil,
+  samryoong: portfolioSamryoong,
+  'success-inside': portfolioSuccessInside,
 };
 
 export const CASE_SLUGS = Object.keys(caseHtml);
