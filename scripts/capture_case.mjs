@@ -39,7 +39,7 @@ async function shot({ name, width, height, mobile, maxHeight }) {
   await send('Page.navigate', { url });
   await sleep(6000);
   const ev = (expression) => send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true }).then((r) => r.result.value);
-  await ev(NO_TRANSITION);
+  if (!process.env.KEEP_TRANSITIONS) await ev(NO_TRANSITION); // 전환을 꺼서 어긋나는 사이트는 KEEP_TRANSITIONS=1
   await sleep(1500);
   // 화면 높이(vh)는 실제 기기처럼 두고, 그 아래까지 이어서 찍는다(100vh 히어로가 늘어나지 않게)
   await ev(`(async()=>{const s=ms=>new Promise(r=>setTimeout(r,ms));const max=${maxHeight};for(let y=0;y<Math.min(document.documentElement.scrollHeight,max);y+=300){window.scrollTo(0,y);await s(220);}window.scrollTo(0,0);await s(1800);})()`);
@@ -58,7 +58,7 @@ async function tiles({ width, height, maxHeight, positions }) {
   await send('Page.navigate', { url });
   await sleep(7000);
   const ev = (expression) => send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true }).then((r) => r.result.value);
-  await ev(NO_TRANSITION);
+  if (!process.env.KEEP_TRANSITIONS) await ev(NO_TRANSITION); // 전환을 꺼서 어긋나는 사이트는 KEEP_TRANSITIONS=1
   await sleep(1500);
   // 영상: 조작 막대는 숨기고, 장면 전환 중간(겹친 화면)이 찍히지 않게 같은 시점(기본 1.5초, VIDEO_T 환경변수로 조정)에 멈춰 둔다
   const freeze = `(()=>{if(!document.getElementById('__cap')){const st=document.createElement('style');st.id='__cap';st.textContent='video::-webkit-media-controls{display:none!important}';document.head.appendChild(st);}document.querySelectorAll('video').forEach(v=>{v.muted=true;v.removeAttribute('controls');v.autoplay=false;try{v.pause();if(Math.abs(v.currentTime-${VIDEO_T})>0.05)v.currentTime=${VIDEO_T};}catch(e){}});})()`;

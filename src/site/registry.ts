@@ -26,6 +26,7 @@ import portfolio612 from './pages/portfolio--612-academy.html';
 import portfolioHwangchil from './pages/portfolio--hwangchil-korea.html';
 import portfolioSamryoong from './pages/portfolio--samryoong.html';
 import portfolioSuccessInside from './pages/portfolio--success-inside.html';
+import portfolioKordc from './pages/portfolio--kordc.html';
 import column from './pages/column.html';
 import contact from './pages/contact.html';
 import faq from './pages/faq.html';
@@ -73,6 +74,7 @@ const caseHtml: Record<string, string> = {
   'hwangchil-korea': portfolioHwangchil,
   samryoong: portfolioSamryoong,
   'success-inside': portfolioSuccessInside,
+  kordc: portfolioKordc,
 };
 
 export const CASE_SLUGS = Object.keys(caseHtml);
@@ -159,6 +161,7 @@ export const SITE_PAGES: SitePage[] = [
                 client: p.client,
                 siteUrl: p.url,
                 keywords: p.services,
+                collaboration: p.category === '협업',
               }),
             ]
           : [],

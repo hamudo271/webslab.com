@@ -328,4 +328,26 @@ export const portfolios: Portfolio[] = [
       { label: '문의 동선', value: '출연 신청' },
     ],
   },
+  {
+    slug: 'kordc',
+    title: '한국배관협회 공식 사이트',
+    client: '한국배관협회',
+    // 웹스랩 단독 제작이 아니라 협업으로 참여한 사례(사용자 확인 2026-11-20) — 단독 제작처럼 쓰지 않는다
+    category: '협업',
+    industry: 'BRAND',
+    services: ['서비스 사이트', '반응형 웹'],
+    year: 2026,
+    modifiedAt: '2026-11-20',
+    summary: '배관 수리 서비스 협회 공식 사이트',
+    description:
+      '변기·싱크대·하수구 막힘과 누수 탐지 같은 배관 수리를 정가 기준으로 안내하는 한국배관협회의 공식 사이트. 첫 화면에서 작업별 표준 정가와 고객 후기, 시공 전후 사진, 진행 절차, 자주 묻는 질문을 차례로 보여 주고, 상담센터 전화와 무료 상담 신청·실시간 상담 버튼으로 바로 문의할 수 있게 구성된 사이트입니다. 웹스랩이 협업으로 참여했습니다.',
+    cover: cover('kordc'),
+    fullShot: fullShot('kordc'),
+    gallery: [],
+    url: 'https://kordc.org',
+    results: [
+      { label: '구성', value: '표준 정가표 · 시공 사례 · FAQ' },
+      { label: '문의 동선', value: '상담센터 전화 · 무료 상담 신청 · 실시간 상담' },
+    ],
+  },
 ];

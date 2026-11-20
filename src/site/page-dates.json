@@ -1,6 +1,6 @@
 {
   "/": {
-    "hash": "82e0d118b5ed65b0",
+    "hash": "6d54107c840733fc",
     "modified": "2026-11-20"
   },
   "/about": {
@@ -36,7 +36,7 @@
     "modified": "2026-11-04"
   },
   "/portfolio": {
-    "hash": "4276b7eeebcd3c85",
+    "hash": "9deeec25eac5cd1f",
     "modified": "2026-11-20"
   },
   "/portfolio/612-academy": {
@@ -69,6 +69,10 @@
   },
   "/portfolio/hwangchil-korea": {
     "hash": "265aca22507f085e",
+    "modified": "2026-11-20"
+  },
+  "/portfolio/kordc": {
+    "hash": "b6ad0d595913dea9",
     "modified": "2026-11-20"
   },
   "/portfolio/reyourclinic": {

@@ -281,10 +281,15 @@ type CaseStudyInput = {
   client: string;
   siteUrl?: string;
   keywords: string[];
+  /** 웹스랩 단독 제작이 아니라 협업으로 참여한 사례 — creator 대신 contributor로 적는다 */
+  collaboration?: boolean;
 };
 
 /** 제작사례 상세 — 웹스랩이 만든 사이트(CreativeWork). 대상 고객사 사이트는 about으로 잇는다. */
 export function caseStudyJsonLd(c: CaseStudyInput) {
+  const role: { creator?: typeof orgRef; contributor?: typeof orgRef } = c.collaboration
+    ? { contributor: orgRef }
+    : { creator: orgRef };
   return {
     '@context': 'https://schema.org',
     '@type': 'CreativeWork',
@@ -295,7 +300,7 @@ export function caseStudyJsonLd(c: CaseStudyInput) {
     ...(c.image ? { image: absoluteUrl(c.image) } : {}),
     dateCreated: String(c.year),
     keywords: c.keywords.join(', '),
-    creator: orgRef,
+    ...role,
     about: { '@type': 'Organization', name: c.client, ...(c.siteUrl ? { url: c.siteUrl } : {}) },
   };
 }

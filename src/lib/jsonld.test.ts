@@ -111,8 +111,23 @@ describe('caseStudyJsonLd', () => {
     expect(ld['@type']).toBe('CreativeWork');
     expect(ld.url).toMatch(/\/portfolio\/sample$/);
     expect(ld.about).toEqual({ '@type': 'Organization', name: '샘플', url: 'https://example.com' });
-    expect(ld.creator.name).toBe('웹스랩');
+    expect(ld.creator?.name).toBe('웹스랩');
     expect(ld.keywords).toBe('UI/UX, 반응형 웹');
+  });
+
+  it('협업 사례는 creator가 아니라 contributor로 적는다', async () => {
+    const { caseStudyJsonLd } = await import('./jsonld');
+    const ld = caseStudyJsonLd({
+      path: '/portfolio/sample',
+      name: '샘플',
+      description: '설명',
+      year: 2026,
+      client: '샘플 고객',
+      keywords: ['반응형 웹'],
+      collaboration: true,
+    });
+    expect(ld.creator).toBeUndefined();
+    expect(ld.contributor).toMatchObject({ '@type': 'Organization', name: '웹스랩' });
   });
 });
 
