@@ -11,7 +11,8 @@
     { name: '코스모스악기 · Roland Korea 브랜드 사이트', meta: '브랜드 · 신규 제작 · 반응형 홈페이지', href: '/portfolio/roland-korea/', domain: 'rolandkorea.com', tint: '#ff5a1f' },
     { name: '공간의 분위기를 담은 별하 스터디카페', meta: '브랜드 · 공간 경험 · 반응형 홈페이지', href: '/portfolio/byeolha-studycafe/', domain: 'project12.co.kr', tint: '#2fbf8f' },
     { name: '콘텐츠가 중심이 되는 유니버랩 미디어', meta: '미디어 · 브랜드 사이트 · 반응형 홈페이지', href: '/portfolio/univerlab-media/', domain: 'univerlabmedia.co.kr', tint: '#5b4ff5' },
-    { name: '정보 구조를 새로 세운 대한잠수협회', meta: '협회 · 공식 사이트 · 반응형 홈페이지', href: '/portfolio/blue-ocean-guardians/', domain: 'blueoceanguardians.org', tint: '#1683c6' }
+    { name: '정보 구조를 새로 세운 대한잠수협회', meta: '협회 · 공식 사이트 · 반응형 홈페이지', href: '/portfolio/blue-ocean-guardians/', domain: 'blueoceanguardians.org', tint: '#1683c6' },
+    { name: '뷰파인더 화면으로 스튜디오를 보여 주는 NEO.V', meta: '미디어 · 신규 제작 · 반응형 홈페이지', href: '/portfolio/neo-v/', domain: 'neo-v.net', tint: '#e5383b' }
   ];
 
   var tabs = Array.prototype.slice.call(hero.querySelectorAll('.ws-browser__tab'));

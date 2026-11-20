@@ -27,6 +27,7 @@ import portfolioHwangchil from './pages/portfolio--hwangchil-korea.html';
 import portfolioSamryoong from './pages/portfolio--samryoong.html';
 import portfolioSuccessInside from './pages/portfolio--success-inside.html';
 import portfolioKordc from './pages/portfolio--kordc.html';
+import portfolioNeoV from './pages/portfolio--neo-v.html';
 import column from './pages/column.html';
 import contact from './pages/contact.html';
 import faq from './pages/faq.html';
@@ -75,6 +76,7 @@ const caseHtml: Record<string, string> = {
   samryoong: portfolioSamryoong,
   'success-inside': portfolioSuccessInside,
   kordc: portfolioKordc,
+  'neo-v': portfolioNeoV,
 };
 
 export const CASE_SLUGS = Object.keys(caseHtml);

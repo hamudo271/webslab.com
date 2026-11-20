@@ -350,4 +350,25 @@ export const portfolios: Portfolio[] = [
       { label: '문의 동선', value: '상담센터 전화 · 무료 상담 신청 · 실시간 상담' },
     ],
   },
+  {
+    slug: 'neo-v',
+    title: 'NEO.V 유튜브 브랜딩 스튜디오 사이트',
+    client: 'NEO.V',
+    category: '신규 제작',
+    industry: 'BRAND',
+    services: ['UI/UX', '브랜드 사이트', '인터랙티브 웹', '반응형 웹'],
+    year: 2026,
+    modifiedAt: '2026-11-20',
+    summary: '유튜브 브랜딩 스튜디오 공식 사이트',
+    description:
+      '유튜브 채널과 브랜드 영상을 기획부터 제작까지 맡는 유튜브 브랜딩 스튜디오 NEO.V(네오브)의 공식 사이트. 카메라 뷰파인더를 닮은 화면 틀과 인트로 연출로 영상 스튜디오의 인상을 주고, 제작에 참여한 영상의 조회수와 함께한 곳, 세 가지 서비스, 작업한 장면, 진행 방식을 한 화면씩 넘겨 보게 구성했습니다. 상단의 문의하기로 바로 이어집니다.',
+    cover: cover('neo-v'),
+    fullShot: fullShot('neo-v'),
+    gallery: [],
+    url: 'https://neo-v.net',
+    results: [
+      { label: '구성', value: '서비스 3종 · 작업 영상 · 진행 방식' },
+      { label: '문의 동선', value: '문의하기' },
+    ],
+  },
 ];

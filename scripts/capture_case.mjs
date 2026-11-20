@@ -70,8 +70,8 @@ async function tiles({ width, height, maxHeight, positions }) {
   for (const y of ys) {
     // 사람이 내리듯 조금씩 내려가 등장 효과·영상을 깨우고, 멈춘 뒤 충분히 기다린다
     await ev(`(async()=>{const s=ms=>new Promise(r=>setTimeout(r,ms));const from=window.scrollY;for(let i=1;i<=18;i++){window.scrollTo(0,from+(${y}-from)*i/18);await s(80);}await s(2600);})()`);
-    // 둘째 화면부터는 떠 있는 요소(고정·상단 붙박이 헤더, 빠른 메뉴, 상담 버튼)를 숨긴다 — 화면을 덮는 고정 배경은 남긴다
-    if (y > 0) await ev(`document.querySelectorAll('body *').forEach(e=>{const p=getComputedStyle(e).position;const r=e.getBoundingClientRect();if((p==='fixed'&&r.width*r.height<innerWidth*innerHeight*0.35)||(p==='sticky'&&r.top<=1&&r.height<160&&r.width>innerWidth*0.6))e.style.visibility='hidden'})`);
+    // 둘째 화면부터는 떠 있는 요소(고정·상단 붙박이 헤더, 빠른 메뉴, 상담 버튼, 화면 전체를 덮는 고정 틀 안의 작은 조각)를 숨긴다 — 화면을 덮는 고정 배경은 남긴다
+    if (y > 0) await ev(`(()=>{const big=innerWidth*innerHeight*0.35;const fixedAnc=new WeakMap();const inFixed=e=>{if(!e||e===document.body)return false;if(fixedAnc.has(e))return fixedAnc.get(e);const v=getComputedStyle(e).position==='fixed'||inFixed(e.parentElement);fixedAnc.set(e,v);return v;};document.querySelectorAll('body *').forEach(e=>{const p=getComputedStyle(e).position;const r=e.getBoundingClientRect();const small=r.width*r.height<big;if(small&&r.width>0&&inFixed(e))e.style.visibility='hidden';else if(p==='sticky'&&r.top<=40&&r.height<160&&r.width>200)e.style.visibility='hidden';});})()`);
     await ev(freeze);
     await sleep(500);
     const real = await ev('Math.round(window.scrollY)');

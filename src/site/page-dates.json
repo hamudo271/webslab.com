@@ -1,6 +1,6 @@
 {
   "/": {
-    "hash": "6d54107c840733fc",
+    "hash": "9312d0b6d6cc6dbd",
     "modified": "2026-11-20"
   },
   "/about": {
@@ -36,7 +36,7 @@
     "modified": "2026-11-04"
   },
   "/portfolio": {
-    "hash": "9deeec25eac5cd1f",
+    "hash": "0bcd4afa2e5dcbeb",
     "modified": "2026-11-20"
   },
   "/portfolio/612-academy": {
@@ -73,6 +73,10 @@
   },
   "/portfolio/kordc": {
     "hash": "b6ad0d595913dea9",
+    "modified": "2026-11-20"
+  },
+  "/portfolio/neo-v": {
+    "hash": "de7ba0ccb985a455",
     "modified": "2026-11-20"
   },
   "/portfolio/reyourclinic": {
