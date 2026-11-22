@@ -1,4 +1,4 @@
-// 전문 칼럼 목록 — 리뉴얼 목록 마크업에 정적 18편 + 관리자 발행글을 채운다
+// 전문 칼럼 목록 — 리뉴얼 목록 마크업에 정적 칼럼 + 관리자 발행글을 채운다
 import { getColumnFeed } from '@/lib/column-feed';
 import { htmlResponse } from '@/site/render';
 import { columnListHtml } from '@/site/column-pages';

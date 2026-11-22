@@ -1,5 +1,5 @@
 // 전문 칼럼 — 리뉴얼 셸 안에 들어가는 목록 줄·상세 본문 HTML.
-// 목록은 리뉴얼 시안(column-v1)과 같은 마크업을 쓰고, 글은 정적 18편 + 관리자(DB) 발행글을 함께 보여준다.
+// 목록은 리뉴얼 시안(column-v1)과 같은 마크업을 쓰고, 글은 정적 칼럼 + 관리자(DB) 발행글을 함께 보여준다.
 
 import { escapeHtml as e } from '@/lib/site-html';
 import type { ColumnListItem } from '@/lib/column-feed';

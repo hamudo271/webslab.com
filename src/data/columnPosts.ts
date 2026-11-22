@@ -1,4 +1,5 @@
 import { columnPostsNov2026 } from './columnPosts-2026-11';
+import { columnPostsNov2026b } from './columnPosts-2026-11-22';
 
 export type FaqEntry = { question: string; answer: string };
 export type HowToStep = { name: string; text: string };
@@ -33,6 +34,7 @@ const publishedAt = '2026-06-22';
 
 export const columnPosts: ColumnPost[] = [
   // 2026-11 추가분(최신 글이 앞)
+  ...columnPostsNov2026b,
   ...columnPostsNov2026,
   {
     slug: 'corporate-website-cost',

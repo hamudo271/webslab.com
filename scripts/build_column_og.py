@@ -19,7 +19,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 정적 칼럼 데이터 파일 — 새 묶음 파일을 만들면 여기에 추가
-DATA_FILES = [os.path.join(ROOT, 'src/data', f) for f in ('columnPosts-2026-11.ts', 'columnPosts.ts')]
+DATA_FILES = [os.path.join(ROOT, 'src/data', f) for f in ('columnPosts-2026-11-22.ts', 'columnPosts-2026-11.ts', 'columnPosts.ts')]
 OUT_DIR = os.path.join(ROOT, 'public/images/column')
 DEFAULT_OG = os.path.join(ROOT, 'public/og/webslab-og.jpg')
 FONT_DIRS = [os.path.expanduser('~/Library/Fonts'), '/Library/Fonts', '/tmp/og-fonts']

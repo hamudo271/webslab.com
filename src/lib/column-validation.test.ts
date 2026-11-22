@@ -88,6 +88,19 @@ describe('published SEO column registry', () => {
     ['business-automation-program', '업무 자동화 프로그램 개발'],
     ['website-agency-handover', '홈페이지 업체 변경'],
     ['ga4-inquiry-tracking', '홈페이지 GA4 설정'],
+    // 2026-11-22 추가 12편 (columnPosts-2026-11-22.ts)
+    ['website-renewal-process', '홈페이지 리뉴얼 절차'],
+    ['website-rfp-writing', '홈페이지 제작 제안요청서'],
+    ['website-renewal-failures', '홈페이지 리뉴얼 실패'],
+    ['website-content-migration', '홈페이지 데이터 이전'],
+    ['website-maintenance-cost', '홈페이지 유지보수 비용'],
+    ['website-maintenance-contract', '홈페이지 유지보수 계약'],
+    ['website-monthly-checklist', '홈페이지 정기 점검'],
+    ['website-backup-recovery', '홈페이지 백업'],
+    ['website-down-emergency', '홈페이지 접속 오류'],
+    ['association-website', '협회 홈페이지 제작'],
+    ['website-agency-freelancer-platform', '홈페이지 제작 프리랜서 에이전시 비교'],
+    ['website-launch-checklist', '홈페이지 오픈 체크리스트'],
   ]);
 
   it('publishes exactly the approved keyword articles', () => {
