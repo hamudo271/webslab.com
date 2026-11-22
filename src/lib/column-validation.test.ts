@@ -101,6 +101,19 @@ describe('published SEO column registry', () => {
     ['association-website', '협회 홈페이지 제작'],
     ['website-agency-freelancer-platform', '홈페이지 제작 프리랜서 에이전시 비교'],
     ['website-launch-checklist', '홈페이지 오픈 체크리스트'],
+    // 2026-11-22 추가 업종별 12편 (columnPosts-2026-11-industry.ts)
+    ['oriental-clinic-website', '한의원 홈페이지 제작'],
+    ['law-firm-website', '법률사무소 홈페이지 제작'],
+    ['tax-accounting-website', '세무사 홈페이지 제작'],
+    ['academy-website', '학원 홈페이지 제작'],
+    ['food-company-website', '식품 회사 홈페이지 제작'],
+    ['construction-interior-website', '인테리어 홈페이지 제작'],
+    ['startup-website', '스타트업 홈페이지 제작'],
+    ['franchise-website', '프랜차이즈 홈페이지 제작'],
+    ['studycafe-website', '스터디카페 홈페이지 제작'],
+    ['marketing-agency-website', '마케팅 대행사 홈페이지 제작'],
+    ['video-production-website', '영상 제작사 홈페이지 제작'],
+    ['product-brand-website', '브랜드 홈페이지 제작'],
   ]);
 
   it('publishes exactly the approved keyword articles', () => {

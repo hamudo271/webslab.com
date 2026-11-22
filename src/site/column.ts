@@ -9,7 +9,7 @@ import type { Author } from '@/data/authors';
 /** 목록 탭 분류 — 글 카테고리(POST_CATEGORIES)를 6개 묶음으로. 시안의 분류(제작·리뉴얼 등)를 그대로 잇는다. */
 export const COLUMN_GROUPS: { name: string; categories: string[] }[] = [
   { name: '견적·준비', categories: ['비용·견적', '업체 선정', '일정·프로세스'] },
-  { name: '제작·리뉴얼', categories: ['리뉴얼', 'B2B 전략', '제조업', '물류·무역', '의료·병원'] },
+  { name: '제작·리뉴얼', categories: ['리뉴얼', 'B2B 전략', '제조업', '물류·무역', '의료·병원', '업종별 가이드'] },
   { name: 'SEO·CMS', categories: ['SEO', 'SEO·마이그레이션', 'CMS·운영'] },
   { name: '디자인·UX', categories: ['디자인·UX', '공공·접근성'] },
   { name: '기술·플랫폼', categories: ['기술·플랫폼'] },

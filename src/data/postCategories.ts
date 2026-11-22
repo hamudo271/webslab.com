@@ -16,6 +16,7 @@ export const POST_CATEGORIES = [
   '물류·무역',
   '의료·병원',
   '공공·접근성',
+  '업종별 가이드',
 ] as const;
 
 export const DEFAULT_POST_CATEGORY: (typeof POST_CATEGORIES)[number] = 'SEO';
