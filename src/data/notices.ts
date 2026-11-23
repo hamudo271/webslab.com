@@ -24,19 +24,19 @@ export const notices: Notice[] = [
     date: '2026-11-23',
     title: '가이드센터 칼럼 확대 안내 — 업종별·리뉴얼·유지보수·제작 준비 가이드',
     body: [
-      '<a href="/column">가이드센터</a>에 이번 달에만 새 가이드 50편을 더해, 2026년 11월 23일 기준 70편이 넘는 글을 보실 수 있습니다. 홈페이지를 처음 만드는 분부터 리뉴얼과 운영을 맡은 담당자까지, 상담 전에 궁금한 내용을 미리 확인하실 수 있도록 정리했습니다.',
+      '<a href="/column">가이드센터</a>에 이번 달에만 새 가이드 55편을 더해, 2026년 11월 23일 기준 70편이 넘는 글을 보실 수 있습니다. 홈페이지를 처음 만드는 분부터 리뉴얼과 운영을 맡은 담당자까지, 상담 전에 궁금한 내용을 미리 확인하실 수 있도록 정리했습니다.',
       '<strong>업종별 가이드</strong> — <a href="/column/oriental-clinic-website">한의원</a>, <a href="/column/law-firm-website">법률사무소</a>, <a href="/column/tax-accounting-website">세무사</a>, <a href="/column/academy-website">학원</a>, <a href="/column/food-company-website">식품 회사</a>, <a href="/column/startup-website">스타트업</a>, <a href="/column/franchise-website">프랜차이즈</a>처럼 업종마다 필요한 페이지와 확인해야 할 표시·광고 기준을 다뤘습니다.',
       '<strong>리뉴얼·유지보수</strong> — <a href="/column/website-renewal-process">리뉴얼 절차</a>, <a href="/column/website-rfp-writing">제안요청서 쓰는 법</a>, <a href="/column/website-content-migration">데이터 이전</a>, <a href="/column/website-maintenance-cost">유지보수 비용</a>, <a href="/column/website-backup-recovery">백업</a>, <a href="/column/website-down-emergency">접속 오류 대응</a>을 순서대로 읽으실 수 있습니다.',
-      '<strong>제작 준비</strong> — <a href="/column/website-production-process">제작 과정</a>, <a href="/column/website-design-draft">디자인 시안 보는 법</a>, <a href="/column/website-copywriting">원고 작성</a>, <a href="/column/website-image-license">이미지 저작권</a>, <a href="/column/website-menu-structure">메뉴 구성</a>을 새로 실었습니다.',
+      '<strong>제작 준비</strong> — <a href="/column/website-creation-guide">웹사이트 제작 가이드</a>, <a href="/column/website-production-process">제작 과정</a>, <a href="/column/website-design-draft">디자인 시안 보는 법</a>, <a href="/column/website-copywriting">원고 작성</a>, <a href="/column/website-image-license">이미지 저작권</a>, <a href="/column/website-menu-structure">메뉴 구성</a>을 새로 실었습니다.',
       '새 글은 <a href="/rss.xml">RSS</a>로도 받아 보실 수 있습니다.',
     ],
   },
   {
     no: 12,
     date: '2026-11-23',
-    title: '자주묻는질문을 43개로 늘렸습니다',
+    title: '자주묻는질문을 44개로 늘렸습니다',
     body: [
-      '상담 전에 많이 묻는 질문을 6개에서 43개로 늘리고, <strong>비용·일정·상담·제작·검색·운영</strong> 여섯 분류로 나눴습니다.',
+      '상담 전에 많이 묻는 질문을 6개에서 44개로 늘리고, <strong>비용·일정·상담·제작·검색·운영</strong> 여섯 분류로 나눴습니다.',
       '견적만 받아 봐도 되는지, 디자인 시안은 몇 번까지 수정할 수 있는지, 원고와 사진이 없어도 제작할 수 있는지, 검색 상위 노출을 약속할 수 있는지, 다른 업체에서 만든 사이트의 유지보수를 맡길 수 있는지 같은 질문에 답해 두었습니다.',
       '<a href="/faq">자주묻는질문</a> 페이지의 검색창에 단어를 넣으면 관련 질문만 골라 볼 수 있습니다. 원하는 답이 없으면 <a href="/contact">문의하기</a>로 남겨 주세요. 1영업일 안에 회신드립니다.',
     ],

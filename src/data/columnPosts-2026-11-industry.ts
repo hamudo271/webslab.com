@@ -11,7 +11,7 @@ export const columnPostsIndustry: ColumnPost[] = [
     primaryKeyword: '한의원 홈페이지 제작',
     title: '한의원 홈페이지 제작 가이드: 진료 안내부터 의료광고 점검까지',
     excerpt:
-      '한의원 홈페이지는 진료 시간과 위치, 진료 과목, 치료법, 비용 안내, 예약 연결이 먼저 보여야 합니다. 필요한 메뉴와 의료광고에서 조심할 표현을 정리했습니다.',
+      '한의원 홈페이지(웹사이트)는 진료 시간과 위치, 진료 과목, 치료법, 비용 안내, 예약 연결이 먼저 보여야 합니다. 필요한 메뉴와 의료광고에서 조심할 표현을 정리했습니다.',
     category: '의료·병원',
     publishedAt,
     modifiedAt: publishedAt,
@@ -84,7 +84,7 @@ export const columnPostsIndustry: ColumnPost[] = [
     primaryKeyword: '법률사무소 홈페이지 제작',
     title: '법률사무소·법무법인 홈페이지 제작 가이드: 업무 분야와 상담 신청 구성',
     excerpt:
-      '법률사무소 홈페이지는 업무 분야, 변호사 소개, 상담 절차와 비용 안내, 상담 신청이 핵심입니다. 필요한 구성과 변호사 광고 규정에서 조심할 표현을 정리했습니다.',
+      '법률사무소 홈페이지(웹사이트)는 업무 분야, 변호사 소개, 상담 절차와 비용 안내, 상담 신청이 핵심입니다. 필요한 구성과 변호사 광고 규정에서 조심할 표현을 정리했습니다.',
     category: '업종별 가이드',
     publishedAt,
     modifiedAt: publishedAt,
@@ -163,7 +163,7 @@ export const columnPostsIndustry: ColumnPost[] = [
     primaryKeyword: '세무사 홈페이지 제작',
     title: '세무·회계사무소 홈페이지 제작 가이드: 서비스 안내와 상담 신청 구성',
     excerpt:
-      '세무·회계사무소 홈페이지는 맡길 수 있는 업무, 대상 고객, 수수료 기준, 상담 신청이 분명해야 합니다. 필요한 구성과 신고 일정에 맞춘 운영 방법을 정리했습니다.',
+      '세무·회계사무소 홈페이지(웹사이트)는 맡길 수 있는 업무, 대상 고객, 수수료 기준, 상담 신청이 분명해야 합니다. 필요한 구성과 신고 일정에 맞춘 운영 방법을 정리했습니다.',
     category: '업종별 가이드',
     publishedAt,
     modifiedAt: publishedAt,
@@ -235,7 +235,7 @@ export const columnPostsIndustry: ColumnPost[] = [
     primaryKeyword: '학원 홈페이지 제작',
     title: '학원·교육기관 홈페이지 제작 가이드: 과정 안내부터 상담 신청까지',
     excerpt:
-      '학원 홈페이지는 과정과 시간표, 강사, 교습비, 위치, 상담 신청이 먼저 보여야 합니다. 학부모와 학생이 찾는 정보와 교습비 표시, 미성년자 개인정보에서 확인할 것을 정리했습니다.',
+      '학원 홈페이지(웹사이트)는 과정과 시간표, 강사, 교습비, 위치, 상담 신청이 먼저 보여야 합니다. 학부모와 학생이 찾는 정보와 교습비 표시, 미성년자 개인정보에서 확인할 것을 정리했습니다.',
     category: '업종별 가이드',
     publishedAt,
     modifiedAt: publishedAt,
@@ -308,7 +308,7 @@ export const columnPostsIndustry: ColumnPost[] = [
     primaryKeyword: '식품 회사 홈페이지 제작',
     title: '식품 회사 홈페이지 제작 가이드: 제품 소개와 표시·광고 점검',
     excerpt:
-      '식품 회사 홈페이지는 소비자, 유통·납품 담당자, 해외 바이어가 각각 다른 것을 봅니다. 제품 페이지 구성과 구매처 연결, 식품 표시·광고에서 조심할 표현을 정리했습니다.',
+      '식품 회사 홈페이지(웹사이트)는 소비자, 유통·납품 담당자, 해외 바이어가 각각 다른 것을 봅니다. 제품 페이지 구성과 구매처 연결, 식품 표시·광고에서 조심할 표현을 정리했습니다.',
     category: '업종별 가이드',
     publishedAt,
     modifiedAt: publishedAt,
@@ -384,7 +384,7 @@ export const columnPostsIndustry: ColumnPost[] = [
     primaryKeyword: '인테리어 홈페이지 제작',
     title: '건설·인테리어 회사 홈페이지 제작 가이드: 시공 사례와 견적 문의 구성',
     excerpt:
-      '건설·인테리어 회사 홈페이지는 시공 사례가 중심입니다. 사례 페이지에 담을 정보, 사진 관리, 견적 문의 폼 구성과 신뢰를 주는 회사 정보를 정리했습니다.',
+      '건설·인테리어 회사 홈페이지(웹사이트)는 시공 사례가 중심입니다. 사례 페이지에 담을 정보, 사진 관리, 견적 문의 폼 구성과 신뢰를 주는 회사 정보를 정리했습니다.',
     category: '업종별 가이드',
     publishedAt,
     modifiedAt: publishedAt,
@@ -464,7 +464,7 @@ export const columnPostsIndustry: ColumnPost[] = [
     primaryKeyword: '스타트업 홈페이지 제작',
     title: '스타트업·IT 기업 홈페이지 제작 가이드: 한 문장 소개부터 도입 문의까지',
     excerpt:
-      '스타트업 홈페이지는 고객, 투자자, 지원자가 함께 봅니다. 무엇을 하는 회사인지 한 문장으로 전하는 첫 화면과 제품 소개, 도입 문의, 채용, 회사 정보 구성을 정리했습니다.',
+      '스타트업 홈페이지(웹사이트)는 고객, 투자자, 지원자가 함께 봅니다. 무엇을 하는 회사인지 한 문장으로 전하는 첫 화면과 제품 소개, 도입 문의, 채용, 회사 정보 구성을 정리했습니다.',
     category: '업종별 가이드',
     publishedAt,
     modifiedAt: publishedAt,
@@ -535,7 +535,7 @@ export const columnPostsIndustry: ColumnPost[] = [
     primaryKeyword: '프랜차이즈 홈페이지 제작',
     title: '프랜차이즈 홈페이지 제작 가이드: 소비자와 예비 가맹점주를 함께 설득하는 구성',
     excerpt:
-      '프랜차이즈 홈페이지는 브랜드를 찾는 소비자와 창업을 알아보는 예비 가맹점주가 함께 봅니다. 매장 찾기, 가맹 안내, 가맹 문의 구성과 가맹 광고에서 확인할 것을 정리했습니다.',
+      '프랜차이즈 홈페이지(웹사이트)는 브랜드를 찾는 소비자와 창업을 알아보는 예비 가맹점주가 함께 봅니다. 매장 찾기, 가맹 안내, 가맹 문의 구성과 가맹 광고에서 확인할 것을 정리했습니다.',
     category: '업종별 가이드',
     publishedAt,
     modifiedAt: publishedAt,
@@ -611,7 +611,7 @@ export const columnPostsIndustry: ColumnPost[] = [
     primaryKeyword: '스터디카페 홈페이지 제작',
     title: '스터디카페·공간 대여업 홈페이지 제작 가이드: 방문 전 궁금증을 먼저 풀어 주는 구성',
     excerpt:
-      '스터디카페와 공간 대여업 홈페이지는 위치, 요금, 좌석과 시설, 이용 방법을 방문 전에 확인하게 해 주는 것이 핵심입니다. 필요한 메뉴와 모바일 구성, 지점 관리 방법을 정리했습니다.',
+      '스터디카페와 공간 대여업 홈페이지(웹사이트)는 위치, 요금, 좌석과 시설, 이용 방법을 방문 전에 확인하게 해 주는 것이 핵심입니다. 필요한 메뉴와 모바일 구성, 지점 관리 방법을 정리했습니다.',
     category: '업종별 가이드',
     publishedAt,
     modifiedAt: publishedAt,
@@ -678,7 +678,7 @@ export const columnPostsIndustry: ColumnPost[] = [
     primaryKeyword: '마케팅 대행사 홈페이지 제작',
     title: '마케팅·광고 대행사 홈페이지 제작 가이드: 실적을 근거로 보여 주는 구성',
     excerpt:
-      '마케팅 대행사의 홈페이지는 그 자체가 실력의 증거로 읽힙니다. 서비스 범위, 사례와 성과 표기, 진행 절차, 상담 신청 구성과 숫자를 쓸 때 지킬 기준을 정리했습니다.',
+      '마케팅 대행사의 홈페이지(웹사이트)는 그 자체가 실력의 증거로 읽힙니다. 서비스 범위, 사례와 성과 표기, 진행 절차, 상담 신청 구성과 숫자를 쓸 때 지킬 기준을 정리했습니다.',
     category: '업종별 가이드',
     publishedAt,
     modifiedAt: publishedAt,
@@ -757,7 +757,7 @@ export const columnPostsIndustry: ColumnPost[] = [
     primaryKeyword: '영상 제작사 홈페이지 제작',
     title: '영상 제작사·프로덕션 홈페이지 제작 가이드: 영상이 많아도 빠른 포트폴리오',
     excerpt:
-      '영상 제작사 홈페이지는 작업 영상을 빠르고 보기 좋게 보여 주는 것이 핵심입니다. 포트폴리오 분류, 영상을 넣는 방법과 속도, 제작 문의 폼 구성을 정리했습니다.',
+      '영상 제작사 홈페이지(웹사이트)는 작업 영상을 빠르고 보기 좋게 보여 주는 것이 핵심입니다. 포트폴리오 분류, 영상을 넣는 방법과 속도, 제작 문의 폼 구성을 정리했습니다.',
     category: '업종별 가이드',
     publishedAt,
     modifiedAt: publishedAt,

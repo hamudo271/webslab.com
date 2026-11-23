@@ -2,6 +2,7 @@ import { columnPostsNov2026 } from './columnPosts-2026-11';
 import { columnPostsNov2026b } from './columnPosts-2026-11-22';
 import { columnPostsIndustry } from './columnPosts-2026-11-industry';
 import { columnPostsGuide } from './columnPosts-2026-11-23';
+import { columnPostsWebsite } from './columnPosts-2026-11-23-website';
 
 export type FaqEntry = { question: string; answer: string };
 export type HowToStep = { name: string; text: string };
@@ -36,6 +37,7 @@ const publishedAt = '2026-06-22';
 
 export const columnPosts: ColumnPost[] = [
   // 2026-11 추가분(최신 글이 앞)
+  ...columnPostsWebsite,
   ...columnPostsGuide,
   ...columnPostsIndustry,
   ...columnPostsNov2026b,
@@ -45,7 +47,7 @@ export const columnPosts: ColumnPost[] = [
     primaryKeyword: '기업 홈페이지 제작 비용',
     title: '2026 기업 홈페이지 제작 비용: 견적을 결정하는 7가지 요소',
     excerpt:
-      '기업 홈페이지 제작 비용은 페이지 수보다 기획 범위, 콘텐츠 준비도, CMS, 데이터 이전과 연동 난이도에 의해 결정됩니다.',
+      '기업 홈페이지(웹사이트) 제작 비용은 페이지 수보다 기획 범위, 콘텐츠 준비도, CMS, 데이터 이전과 연동 난이도에 의해 결정됩니다.',
     category: '비용·견적',
     publishedAt,
     modifiedAt: '2026-11-11',
@@ -145,7 +147,7 @@ export const columnPosts: ColumnPost[] = [
     primaryKeyword: '홈페이지 제작 기간',
     title: '홈페이지 제작 기간은 얼마나 걸릴까: 단계별 일정 가이드',
     excerpt:
-      '홈페이지 제작 일정은 페이지 수보다 의사결정 속도, 콘텐츠 준비, 기능, 데이터 이전과 검수 범위에 크게 좌우됩니다.',
+      '홈페이지(웹사이트) 제작 일정은 페이지 수보다 의사결정 속도, 콘텐츠 준비, 기능, 데이터 이전과 검수 범위에 크게 좌우됩니다.',
     category: '일정·프로세스',
     publishedAt,
     modifiedAt: publishedAt,
@@ -196,7 +198,7 @@ export const columnPosts: ColumnPost[] = [
     primaryKeyword: '홈페이지 제작 견적서',
     title: '홈페이지 제작 견적서 비교 방법: 가격보다 먼저 볼 항목',
     excerpt:
-      '홈페이지 견적서는 총액이 아니라 포함 범위, 제외 조건, 소유권, 데이터 이전, 검수와 유지보수 조건을 맞춰 비교해야 합니다.',
+      '홈페이지(웹사이트) 견적서는 총액이 아니라 포함 범위, 제외 조건, 소유권, 데이터 이전, 검수와 유지보수 조건을 맞춰 비교해야 합니다.',
     category: '비용·견적',
     publishedAt,
     modifiedAt: publishedAt,
@@ -295,7 +297,7 @@ export const columnPosts: ColumnPost[] = [
     primaryKeyword: '홈페이지 리뉴얼 비용',
     title: '홈페이지 리뉴얼 비용과 작업 범위 결정 방법',
     excerpt:
-      '홈페이지 리뉴얼 비용은 새 디자인보다 기존 자산 진단, 데이터·SEO 이전, 기능 교체와 운영 구조에 의해 달라집니다.',
+      '홈페이지(웹사이트) 리뉴얼 비용은 새 디자인보다 기존 자산 진단, 데이터·SEO 이전, 기능 교체와 운영 구조에 의해 달라집니다.',
     category: '리뉴얼',
     publishedAt,
     modifiedAt: '2026-11-11',
@@ -463,7 +465,7 @@ export const columnPosts: ColumnPost[] = [
     primaryKeyword: '제조업 홈페이지 제작',
     title: '제조업 홈페이지 제작 시 필요한 페이지와 제품 구조',
     excerpt:
-      '제조업 홈페이지는 제품 분류, 사양, 인증, 적용 사례, 다운로드와 문의 흐름을 데이터 구조로 설계해야 합니다.',
+      '제조업 홈페이지(웹사이트)는 제품 분류, 사양, 인증, 적용 사례, 다운로드와 문의 흐름을 데이터 구조로 설계해야 합니다.',
     category: '제조업',
     publishedAt,
     modifiedAt: '2026-11-11',
@@ -514,7 +516,7 @@ export const columnPosts: ColumnPost[] = [
     primaryKeyword: '물류 회사 홈페이지 제작',
     title: '물류·무역 기업의 다국어 홈페이지 제작 가이드',
     excerpt:
-      '물류 홈페이지는 서비스, 운송 구간, 글로벌 네트워크, 사례와 국가별 문의를 다국어 운영 구조로 연결해야 합니다.',
+      '물류 홈페이지(웹사이트)는 서비스, 운송 구간, 글로벌 네트워크, 사례와 국가별 문의를 다국어 운영 구조로 연결해야 합니다.',
     category: '물류·무역',
     publishedAt,
     modifiedAt: '2026-11-11',
@@ -772,7 +774,7 @@ export const columnPosts: ColumnPost[] = [
     primaryKeyword: '병원 홈페이지 제작',
     title: '병원·의료 홈페이지 제작 시 반드시 챙겨야 할 것',
     excerpt:
-      '병원 홈페이지는 의료광고 심의, 환자 정보 보호, 예약·진료 안내 동선을 함께 설계해야 합니다. 디자인보다 규정과 신뢰 설계가 먼저입니다.',
+      '병원 홈페이지(웹사이트)는 의료광고 심의, 환자 정보 보호, 예약·진료 안내 동선을 함께 설계해야 합니다. 디자인보다 규정과 신뢰 설계가 먼저입니다.',
     category: '의료·병원',
     publishedAt: '2026-06-23',
     modifiedAt: '2026-06-23',

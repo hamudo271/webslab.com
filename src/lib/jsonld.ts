@@ -14,7 +14,9 @@ const orgRef = { '@type': 'Organization', '@id': ORG_ID, name: SITE_NAME, url: b
 /** 회사가 실제로 제공하는 일(서비스·프로그램·유지보수 페이지에 있는 범위만). */
 const KNOWS_ABOUT = [
   '기업 홈페이지 제작',
+  '기업 웹사이트 제작',
   '홈페이지 리뉴얼',
+  '웹사이트 리뉴얼',
   '반응형 홈페이지',
   'CMS 구축',
   '검색엔진 최적화(SEO)',
@@ -258,6 +260,8 @@ type ServiceInput = {
   description: string;
   serviceType: string;
   areaServed: string;
+  /** 같은 서비스를 가리키는 다른 말(홈페이지 ↔ 웹사이트) */
+  alternateName?: string;
 };
 
 export function serviceJsonLd(s: ServiceInput) {
@@ -265,6 +269,7 @@ export function serviceJsonLd(s: ServiceInput) {
     '@context': 'https://schema.org',
     '@type': 'Service',
     name: s.name,
+    ...(s.alternateName ? { alternateName: s.alternateName } : {}),
     description: s.description,
     serviceType: s.serviceType,
     areaServed: s.areaServed,

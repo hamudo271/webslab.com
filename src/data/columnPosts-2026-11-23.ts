@@ -596,7 +596,7 @@ export const columnPostsGuide: ColumnPost[] = [
     primaryKeyword: '다국어 홈페이지 제작',
     title: '다국어 홈페이지 제작 가이드: 주소 구조, 번역 방식, hreflang',
     excerpt:
-      '다국어 홈페이지는 번역 버튼을 다는 것이 아니라 언어별 페이지를 따로 만드는 일입니다. 주소 구조, 번역 방식, hreflang 설정, 운영 부담을 줄이는 방법을 정리했습니다.',
+      '다국어 홈페이지(웹사이트)는 번역 버튼을 다는 것이 아니라 언어별 페이지를 따로 만드는 일입니다. 주소 구조, 번역 방식, hreflang 설정, 운영 부담을 줄이는 방법을 정리했습니다.',
     category: '기술·플랫폼',
     publishedAt,
     modifiedAt: publishedAt,
@@ -751,7 +751,7 @@ export const columnPostsGuide: ColumnPost[] = [
     primaryKeyword: '홈페이지 제작 과정',
     title: '홈페이지 제작 과정 4단계: 단계마다 준비할 것과 제작사가 하는 일',
     excerpt:
-      '홈페이지 제작은 상담·기획, 디자인 시안, 퍼블리싱·개발, QA·납품 네 단계로 진행됩니다. 단계마다 의뢰하는 쪽이 준비할 것과 제작사가 하는 일을 정리했습니다.',
+      '홈페이지(웹사이트) 제작은 상담·기획, 디자인 시안, 퍼블리싱·개발, QA·납품 네 단계로 진행됩니다. 단계마다 의뢰하는 쪽이 준비할 것과 제작사가 하는 일을 정리했습니다.',
     category: '일정·프로세스',
     publishedAt,
     modifiedAt: publishedAt,

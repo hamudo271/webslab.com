@@ -2,7 +2,7 @@ export const brand = {
   name: 'websLAB',
   nameKo: '웹스랩',
   tagline: '전문성으로 완성하는 비즈니스 웹사이트',
-  description: '기업 홈페이지 신규 제작·리뉴얼 전문 에이전시. 기획부터 운영까지 한 팀에서.',
+  description: '기업 홈페이지·웹사이트 신규 제작·리뉴얼 전문 에이전시. 기획부터 운영까지 한 팀에서.',
   domain: 'webslab.co.kr',
   url: 'https://webslab.co.kr',
   email: 'contact@webslab.co.kr',

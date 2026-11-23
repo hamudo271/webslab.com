@@ -127,6 +127,12 @@ describe('published SEO column registry', () => {
     ['website-first-consultation', '홈페이지 제작 상담'],
     ['website-production-process', '홈페이지 제작 과정'],
     ['do-i-need-a-website', '홈페이지 필요성'],
+    // 2026-11-23 추가 '웹사이트' 검색어 5편 (columnPosts-2026-11-23-website.ts)
+    ['website-creation-guide', '웹사이트 제작'],
+    ['corporate-website-types', '기업 웹사이트 제작'],
+    ['medical-website-agency', '병원 웹사이트 제작'],
+    ['web-agency-guide', '웹에이전시'],
+    ['homepage-vs-website', '홈페이지 웹사이트 차이'],
   ]);
 
   it('publishes exactly the approved keyword articles', () => {

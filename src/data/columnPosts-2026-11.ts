@@ -11,7 +11,7 @@ export const columnPostsNov2026: ColumnPost[] = [
     primaryKeyword: '홈페이지 제작 준비물',
     title: '홈페이지 제작 전 준비물 체크리스트: 업체에 연락하기 전 정리할 것',
     excerpt:
-      '홈페이지 제작을 맡기기 전에 목적, 메뉴, 자료, 도메인, 담당자와 일정을 정리해 두면 견적이 정확해지고 제작 기간이 줄어듭니다.',
+      '홈페이지(웹사이트) 제작을 맡기기 전에 목적, 메뉴, 자료, 도메인, 담당자와 일정을 정리해 두면 견적이 정확해지고 제작 기간이 줄어듭니다.',
     category: '일정·프로세스',
     publishedAt,
     modifiedAt: publishedAt,
@@ -155,7 +155,7 @@ export const columnPostsNov2026: ColumnPost[] = [
     primaryKeyword: '홈페이지 제작 계약서',
     title: '홈페이지 제작 계약서에서 확인할 9가지: 소유권·검수·하자보수',
     excerpt:
-      '홈페이지 제작 계약서는 금액보다 작업 범위, 수정 횟수, 결과물의 소유권, 검수 기준, 하자보수 기간과 대금 지급 조건이 어떻게 적혀 있는지를 먼저 확인해야 합니다.',
+      '홈페이지(웹사이트) 제작 계약서는 금액보다 작업 범위, 수정 횟수, 결과물의 소유권, 검수 기준, 하자보수 기간과 대금 지급 조건이 어떻게 적혀 있는지를 먼저 확인해야 합니다.',
     category: '업체 선정',
     publishedAt,
     modifiedAt: publishedAt,
