@@ -12,6 +12,8 @@
   var ENDPOINT = '/api/contact';
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   var FALLBACK = '잠시 후 다시 시도하거나 contact@webslab.co.kr 로 보내 주세요.';
+  // 페이지를 연 시각 — 제출까지 걸린 시간을 보내 '열자마자 제출'하는 봇을 거른다(서버 lib/spam-guard.ts)
+  var LOADED_AT = Date.now();
 
   function kindOf(form) {
     if (!(form instanceof HTMLFormElement)) return null;
@@ -61,6 +63,7 @@
   }
 
   function post(fd) {
+    fd.append('elapsed', String(Date.now() - LOADED_AT));
     return fetch(ENDPOINT, { method: 'POST', body: fd, credentials: 'same-origin' }).then(function (r) {
       return r
         .json()

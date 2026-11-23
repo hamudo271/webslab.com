@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { timingSafeEqual } from 'crypto';
 import { ADMIN_COOKIE, SESSION_MAX_AGE, signAdminToken } from '@/lib/admin-auth';
+import { clientIp, LIMITS, takeToken } from '@/lib/spam-guard';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -14,6 +15,15 @@ function safeEqual(a: string, b: string): boolean {
 
 export async function POST(req: Request) {
   try {
+    // 비밀번호 대입 공격 차단 — IP당 15분에 10번까지만 시도
+    const ip = clientIp(req.headers);
+    if (!takeToken(`admin-login:${ip}`, LIMITS.adminLogin.limit, LIMITS.adminLogin.windowMs)) {
+      console.warn('[admin:login] rate-limit', ip);
+      return NextResponse.json(
+        { error: '로그인 시도가 너무 많습니다. 15분 뒤에 다시 시도해 주세요.' },
+        { status: 429 },
+      );
+    }
     const body = (await req.json()) as Record<string, unknown>;
     const password = typeof body.password === 'string' ? body.password : '';
 

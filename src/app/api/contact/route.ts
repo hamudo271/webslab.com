@@ -7,6 +7,7 @@ import {
   KINDS_WITH_ATTACHMENTS,
 } from '@/lib/validators/inquiry';
 import { renderInquiryMail } from '@/lib/inquiry-mail';
+import { clientIp, isSameSiteOrigin, LIMITS, spamReason, takeToken } from '@/lib/spam-guard';
 import { brand } from '@/config/brand';
 
 export const runtime = 'nodejs';
@@ -61,12 +62,15 @@ async function send(mail: Outgoing, log: unknown): Promise<NextResponse> {
   return NextResponse.json({ ok: true });
 }
 
-async function handleInquiry(req: Request): Promise<NextResponse> {
+async function handleInquiry(req: Request, ip: string): Promise<NextResponse> {
   const form = await req.formData();
 
   // Honeypot: 사람 눈에 안 보이는 칸이 채워졌으면 봇 — 성공처럼 응답하고 버린다
   const hp = form.get('website');
-  if (typeof hp === 'string' && hp.trim() !== '') return NextResponse.json({ ok: true });
+  if (typeof hp === 'string' && hp.trim() !== '') {
+    console.warn('[contact:spam]', JSON.stringify({ ip, reason: 'honeypot' }));
+    return NextResponse.json({ ok: true });
+  }
 
   const parsed = inquirySchema.safeParse(inquiryFromFormData(form));
   if (!parsed.success) {
@@ -76,6 +80,16 @@ async function handleInquiry(req: Request): Promise<NextResponse> {
     );
   }
   const data = parsed.data;
+
+  // 너무 빠른 제출·링크 도배 — 봇이 재시도하지 않게 성공처럼 응답하고 버린다
+  const elapsedRaw = form.get('elapsed');
+  const elapsedMs = typeof elapsedRaw === 'string' && elapsedRaw !== '' ? Number(elapsedRaw) : null;
+  const texts = 'message' in data ? [data.message] : [];
+  const reason = spamReason({ elapsedMs, texts });
+  if (reason) {
+    console.warn('[contact:spam]', JSON.stringify({ ip, kind: data.kind, reason }));
+    return NextResponse.json({ ok: true });
+  }
 
   const files =
     KINDS_WITH_ATTACHMENTS.has(data.kind)
@@ -98,7 +112,20 @@ export async function POST(req: Request) {
     if (!(req.headers.get('content-type') ?? '').includes('multipart/form-data')) {
       return NextResponse.json({ error: '지원하지 않는 요청 형식입니다.' }, { status: 415 });
     }
-    return await handleInquiry(req);
+    const ip = clientIp(req.headers);
+    // 우리 사이트 페이지에서 보낸 요청만 받는다(스크립트로 직접 쏘는 스팸 차단)
+    if (!isSameSiteOrigin(req.headers.get('origin'), req.headers.get('x-forwarded-host') ?? req.headers.get('host'))) {
+      console.warn('[contact:spam]', JSON.stringify({ ip, reason: 'origin', origin: req.headers.get('origin') }));
+      return NextResponse.json({ error: '허용되지 않은 요청입니다.' }, { status: 403 });
+    }
+    if (!takeToken(`contact:${ip}`, LIMITS.contact.limit, LIMITS.contact.windowMs)) {
+      console.warn('[contact:spam]', JSON.stringify({ ip, reason: 'rate-limit' }));
+      return NextResponse.json(
+        { error: '짧은 시간에 문의가 많이 접수됐어요. 10분 뒤에 다시 보내 주세요.' },
+        { status: 429 },
+      );
+    }
+    return await handleInquiry(req, ip);
   } catch (err) {
     console.error('[contact]', err);
     return NextResponse.json({ error: '서버 오류가 발생했습니다.' }, { status: 500 });

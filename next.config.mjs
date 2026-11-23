@@ -17,9 +17,22 @@ const nextConfig = {
   // CSS·JS는 ?v=로 버전이 바뀌고, 이미지·폰트는 거의 바뀌지 않는다. 30일 + 만료 뒤 1주는 옛 사본을 쓰며 갱신.
   async headers() {
     const value = 'public, max-age=2592000, stale-while-revalidate=604800';
-    return ['/assets/:path*', '/wp-content/:path*', '/wp-includes/:path*', '/images/:path*', '/fonts/:path*', '/og/:path*', '/site/:path*'].map(
+    const cache = ['/assets/:path*', '/wp-content/:path*', '/wp-includes/:path*', '/images/:path*', '/fonts/:path*', '/og/:path*', '/site/:path*'].map(
       (source) => ({ source, headers: [{ key: 'Cache-Control', value }] }),
     );
+    // 기본 보안 헤더(전 경로) — 화면 동작은 그대로. HSTS는 하위 도메인을 묶지 않는다(includeSubDomains 없음).
+    // X-Frame-Options: 다른 사이트가 우리 페이지를 iframe으로 덮어씌우는 클릭재킹 차단(사례 뷰어가 남의 사이트를 띄우는 건 무관).
+    const security = {
+      source: '/:path*',
+      headers: [
+        { key: 'Strict-Transport-Security', value: 'max-age=31536000' },
+        { key: 'X-Content-Type-Options', value: 'nosniff' },
+        { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+        { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+        { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=()' },
+      ],
+    };
+    return [security, ...cache];
   },
   // 예전 사이트 주소 301 (Search Console 404 정리) — 목록은 src/config/legacy-redirects.mjs
   async redirects() {
