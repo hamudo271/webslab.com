@@ -29,7 +29,6 @@ import portfolioSamryoong from './pages/portfolio--samryoong.html';
 import portfolioSuccessInside from './pages/portfolio--success-inside.html';
 import portfolioKordc from './pages/portfolio--kordc.html';
 import portfolioNeoV from './pages/portfolio--neo-v.html';
-import portfolioCharmjoeun from './pages/portfolio--charmjoeun.html';
 import portfolioYssave from './pages/portfolio--yssave-dental.html';
 import column from './pages/column.html';
 import contact from './pages/contact.html';
@@ -82,7 +81,6 @@ const caseHtml: Record<string, string> = {
   'success-inside': portfolioSuccessInside,
   kordc: portfolioKordc,
   'neo-v': portfolioNeoV,
-  charmjoeun: portfolioCharmjoeun,
   'yssave-dental': portfolioYssave,
 };
 
@@ -139,7 +137,7 @@ export const SITE_PAGES: SitePage[] = [
   {
     path: '/portfolio',
     html: portfolio,
-    name: '포트폴리오',
+    name: '제작사례',
     title: `${COMMERCIAL_METADATA['/portfolio'].title} | 웹스랩`,
     description: COMMERCIAL_METADATA['/portfolio'].description,
     pageType: 'CollectionPage',
@@ -158,7 +156,7 @@ export const SITE_PAGES: SitePage[] = [
       path: `/portfolio/${slug}`,
       html: caseHtml[slug],
       name: p?.client ?? slug,
-      parents: [{ name: '포트폴리오', path: '/portfolio' }],
+      parents: [{ name: '제작사례', path: '/portfolio' }],
       ogImage: p?.cover,
       modified: p?.modifiedAt,
       extraJsonLd: () =>

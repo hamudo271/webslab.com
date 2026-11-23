@@ -375,27 +375,7 @@ const allPortfolios: Portfolio[] = [
     ],
   },
   // 2026-11-23 추가 — 목록·홈에서는 맨 뒤에 둔다(사용자 요청). 연도·작업 종류는 사용자 확인, 기간은 미확인이라 비운다.
-  {
-    slug: 'charmjoeun',
-    title: '참조은치과의원 공식 사이트',
-    client: '참조은치과의원',
-    category: '신규 제작',
-    industry: 'HEALTHCARE',
-    services: ['UI/UX', '병원 사이트', '반응형 웹', '다국어'],
-    year: 2025,
-    modifiedAt: '2026-11-23',
-    summary: '구리 인창동 치과 공식 사이트',
-    description:
-      '경기도 구리시 인창동 참조은치과의원(CHARMJOEUN DENTAL CLINIC)의 공식 사이트. 서울대학교 출신 통합치의학과 전문의 진료와 ‘정확한 진단, 최소한의 치료’라는 원칙을 앞세우고, 인터뷰 영상과 4가지 원칙, 의료진 소개, 진료 장비, 임플란트·일반진료 안내, 내부 시설, 오시는 길을 차례로 담았습니다. 임플란트·치아교정·신경치료·사랑니·충치·틀니는 진료별 페이지로 나누고 한국어·영어·일본어·중국어로 볼 수 있게 했으며, 전화 상담·카카오톡·네이버 예약·네이버 톡톡을 화면 옆 빠른 메뉴와 모바일 하단 바에 모았습니다.',
-    cover: cover('charmjoeun'),
-    fullShot: fullShot('charmjoeun'),
-    gallery: [],
-    url: 'https://www.charmjoeun.com',
-    results: [
-      { label: '구성', value: '진료별 페이지 · 인터뷰 영상 · 4개 국어' },
-      { label: '예약 동선', value: '전화 · 카카오톡 · 네이버 예약 · 네이버 톡톡' },
-    ],
-  },
+  // (같은 날 함께 넣은 참조은치과의원은 사용자 지시로 완전히 뺐다 — 원본은 리뉴얼 폴더 _backup/20261123-removed-charmjoeun)
   {
     slug: 'yssave-dental',
     title: '연세세이브치과 공식 사이트',

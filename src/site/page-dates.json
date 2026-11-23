@@ -1,15 +1,15 @@
 {
   "/": {
-    "hash": "a0834280a3bab902",
+    "hash": "06a7b554c4b23cb4",
     "modified": "2026-11-23"
   },
   "/about": {
-    "hash": "f5ad9ccc56a0d245",
+    "hash": "f90f30f7c3cb80cd",
     "modified": "2026-11-23"
   },
   "/careers": {
-    "hash": "58d7f340495e12f5",
-    "modified": "2026-11-05"
+    "hash": "93eb7bb522fdc091",
+    "modified": "2026-11-23"
   },
   "/column": {
     "hash": "bba72031c27a570a",
@@ -20,7 +20,7 @@
     "modified": "2026-11-04"
   },
   "/faq": {
-    "hash": "2bd34f0189f29f70",
+    "hash": "86cc68f4817cdc26",
     "modified": "2026-11-23"
   },
   "/maintenance": {
@@ -36,7 +36,7 @@
     "modified": "2026-11-04"
   },
   "/portfolio": {
-    "hash": "da37d457cccde131",
+    "hash": "1d7f1c36adcb0a54",
     "modified": "2026-11-23"
   },
   "/portfolio/612-academy": {
@@ -54,10 +54,6 @@
   "/portfolio/byeolha-studycafe": {
     "hash": "7515e7c4cdad331a",
     "modified": "2026-11-04"
-  },
-  "/portfolio/charmjoeun": {
-    "hash": "d6f65e0f8b8cc2aa",
-    "modified": "2026-11-23"
   },
   "/portfolio/dcd-company": {
     "hash": "b237dc918ec33576",

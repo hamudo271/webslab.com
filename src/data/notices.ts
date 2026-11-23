@@ -46,7 +46,7 @@ export const notices: Notice[] = [
     date: '2026-11-23',
     title: '제작 사례 7건 추가 안내',
     body: [
-      '<a href="/portfolio">포트폴리오</a>에 제작 사례 7건을 새로 올렸습니다. 지금 실제로 운영 중인 사이트 15곳의 화면을 PC와 모바일로 확인하실 수 있습니다.',
+      '<a href="/portfolio">제작사례</a> 메뉴에 사례 7건을 새로 올렸습니다. 지금 실제로 운영 중인 사이트 15곳의 화면을 PC와 모바일로 확인하실 수 있습니다.',
       '<strong>신규 제작</strong> — 예약 동선을 한곳에 모은 <a href="/portfolio/haeun-nuri">해운누리한의원</a>, 스크롤로 메시지를 여는 <a href="/portfolio/dr-planners">닥터플래너스</a>, 뷰파인더 화면으로 스튜디오를 보여 주는 <a href="/portfolio/neo-v">NEO.V</a>.',
       '<strong>리뉴얼</strong> — 제품과 브랜드 이야기를 함께 담은 <a href="/portfolio/hwangchil-korea">황칠코리아</a>, 제품·임대사업·투자정보를 정리한 <a href="/portfolio/samryoong">삼륭물산</a>, 인터뷰 기록을 한곳에 모은 <a href="/portfolio/success-inside">성공인사이드</a>.',
       '<strong>협업</strong> — 정가표와 상담 동선을 앞세운 <a href="/portfolio/kordc">한국배관협회</a>는 웹스랩이 협업으로 참여한 사이트입니다.',
