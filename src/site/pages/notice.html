@@ -354,7 +354,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 </nav>
 
 <main class="cm-main ws-support" id="main-content" role="main">
-  <!-- 고객지원 · 공지사항 — 목록·검색·본문은 notices.js 데이터로 support-v1.js가 그린다 -->
+  <!-- 고객지원 · 공지사항 — 목록 줄과 본문(/notice/번호)은 서버가 src/data/notices.ts로 채운다. 빈 ul·article은 그 자리 표시 -->
   <div class="ws-sup" id="wsNotice">
     <header class="ws-sup__head">
       <h1 class="ws-sup__title">공지사항</h1>
@@ -369,7 +369,6 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
       <ul class="ws-notice-list"></ul>
       <div class="ws-sup__empty" hidden><span class="ws-sup__empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4M8.5 11h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><strong>검색 결과가 없어요</strong><p>다른 단어로 검색해 보세요.</p><button type="button" class="ws-sup__btn">전체 공지 보기</button></div>
       <nav class="ws-sup__pager" aria-label="공지사항 페이지" hidden></nav>
-      <noscript><p class="ws-sup__lead">공지사항을 보려면 자바스크립트를 켜 주세요. 문의는 <a href="/contact/">문의하기</a>에서 남기실 수 있습니다.</p></noscript>
     </div>
     <article class="ws-post" hidden>
       <a class="ws-post__back" href="/notice/"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m12.5 4.5-5.5 5.5 5.5 5.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>공지사항 목록</a>
@@ -517,6 +516,5 @@ var UW_QI = {"ajax":"/wp-admin/admin-ajax.php","form_id":"507","type_default":"\
   </svg>
 </div>
 <script defer src="/assets/webslab/quick-ai-v8.js?v=20261105-4"></script>
-<script src="/assets/webslab/notices.js?v=20261104-1"></script>
-<script src="/assets/webslab/support-v1.js?v=20261104-1" defer></script>
+<script src="/assets/webslab/support-v1.js?v=20261123-1" defer></script>
 </body></html>

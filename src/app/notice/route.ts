@@ -1,8 +1,9 @@
-// 리뉴얼 정적 페이지 /notice — 원본은 src/site/pages, 운영 변환은 src/site/render.ts
-import { htmlResponse, sitePageHtml } from '@/site/render';
+// 공지사항 목록 — 리뉴얼 원본의 빈 목록 자리에 data/notices.ts 글을 채운다(서버 렌더)
+import { htmlResponse } from '@/site/render';
+import { noticeListHtml } from '@/site/notice-pages';
 
 export const dynamic = 'force-static';
 
 export function GET() {
-  return htmlResponse(sitePageHtml('/notice'));
+  return htmlResponse(noticeListHtml());
 }

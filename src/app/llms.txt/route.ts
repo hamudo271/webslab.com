@@ -5,6 +5,8 @@ import { extractFaqs } from '@/lib/site-html';
 import { getSitePage } from '@/site/registry';
 import { columnPosts } from '@/data/columnPosts';
 import { portfolios } from '@/data/portfolios';
+import { notices } from '@/data/notices';
+import { noticeText, orderNotices } from '@/site/notice';
 
 // AI 검색용 사이트 요약 — 본문은 lib/llms.ts
 export function GET() {
@@ -14,6 +16,7 @@ export function GET() {
     faqs: extractFaqs(getSitePage('/faq').html),
     posts: columnPosts,
     cases: portfolios,
+    notices: orderNotices(notices).map((n) => ({ no: n.no, date: n.date, title: n.title, text: noticeText(n) })),
   });
   return new Response(text, {
     headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=600, s-maxage=600' },

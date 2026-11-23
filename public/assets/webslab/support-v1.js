@@ -1,5 +1,5 @@
-/* WEBSLAB_SUPPORT_V1_20261104 — 고객지원
-   공지사항: window.WS_NOTICES(notices.js)로 목록·검색·페이지 번호·본문(?no=번호)을 그린다.
+/* WEBSLAB_SUPPORT_V1_20261123 — 고객지원
+   공지사항: 서버가 그려 보낸 목록(/notice)에 검색·쪽 나누기·새 글 표시를 붙인다. 본문은 /notice/번호.
    자주묻는질문: 분류 버튼·검색·펼침. 주소 #faq-3 이면 그 질문을 열어 둔다. */
 (function () {
   'use strict';
@@ -27,45 +27,38 @@
     clear.addEventListener('click', function () { input.value = ''; clear.hidden = true; onChange(); input.focus(); });
   }
 
-  /* ── 공지사항 ── */
+  /* ── 공지사항 ── 목록과 본문은 서버가 그려서 보낸다(src/data/notices.ts). 여기서는 검색·쪽 나누기·새 글 표시만 맡는다. */
   var notice = document.getElementById('wsNotice');
-  if (notice) {
-    var all = (window.WS_NOTICES || []).slice();
-    var pinned = all.filter(function (n) { return n.pinned; }).sort(function (a, b) { return b.no - a.no; });
-    var rest = all.filter(function (n) { return !n.pinned; }).sort(function (a, b) { return b.no - a.no; });
-    var ordered = pinned.concat(rest);
+  // 예전 주소(/notice/?no=3)로 들어오면 글 주소(/notice/3)로 옮긴다
+  var oldNo = notice ? parseInt(new URLSearchParams(location.search).get('no'), 10) : NaN;
+  if (oldNo > 0) location.replace('/notice/' + oldNo);
+  var list = notice && notice.querySelector('.ws-notice-list');
+  if (list) {
+    var rows = Array.prototype.slice.call(list.children);
     var PER = 10, page = 1;
-    var list = notice.querySelector('.ws-notice-list');
     var count = notice.querySelector('.ws-sup__count');
     var empty = notice.querySelector('.ws-sup__empty');
     var pager = notice.querySelector('.ws-sup__pager');
     var input = notice.querySelector('.ws-sup__search input');
     var clear = notice.querySelector('.ws-sup__clear');
-    var listView = notice.querySelector('.ws-sup__listview');
-    var post = notice.querySelector('.ws-post');
-    var baseTitle = document.title;
     var today = new Date();
-    function isNew(d) { var t = new Date(d + 'T00:00:00'); return (today - t) / 864e5 <= 14; }
-    function dot(d) { return d.replace(/-/g, '.'); }
-    function href(n) { return '?no=' + n.no; }
+    rows.forEach(function (li) {
+      var title = li.querySelector('.ws-notice-row__title'), span = title.querySelector('span'), time = li.querySelector('time');
+      li._span = span; li._title = span.textContent;
+      li._hay = li.getAttribute('data-search') || li._title.toLowerCase();
+      // 올린 지 14일이 안 된 글에 'N'
+      if (time && (today - new Date(time.dateTime + 'T00:00:00')) / 864e5 <= 14) {
+        var nw = el('i', 'ws-notice-row__new', 'N'); nw.setAttribute('aria-label', '새 글'); title.appendChild(nw);
+      }
+    });
 
     function renderList() {
       var q = norm(input.value);
-      var hits = q ? ordered.filter(function (n) { return norm(n.title + ' ' + n.body.join(' ')).indexOf(q) !== -1; }) : ordered;
+      var hits = q ? rows.filter(function (li) { return li._hay.indexOf(q) !== -1; }) : rows;
       var pages = Math.max(1, Math.ceil(hits.length / PER)); if (page > pages) page = pages;
-      count.innerHTML = q ? '검색 결과 <strong>' + hits.length + '</strong>건' : '전체 <strong>' + hits.length + '</strong>건';
-      list.replaceChildren();
-      hits.slice((page - 1) * PER, page * PER).forEach(function (n) {
-        var li = el('li'), a = el('a', 'ws-notice-row' + (n.pinned ? ' is-pinned' : ''));
-        a.href = href(n);
-        a.appendChild(n.pinned ? el('span', 'ws-notice-row__pin', '공지') : el('span', 'ws-notice-row__no', String(n.no)));
-        var t = el('strong', 'ws-notice-row__title'), s = el('span'); highlight(s, n.title, q); t.appendChild(s);
-        if (isNew(n.date)) { var nw = el('i', 'ws-notice-row__new', 'N'); nw.setAttribute('aria-label', '새 글'); t.appendChild(nw); }
-        a.appendChild(t);
-        var time = el('time', 'ws-notice-row__date', dot(n.date)); time.dateTime = n.date; a.appendChild(time);
-        a.insertAdjacentHTML('beforeend', ICON.chev.replace('aria-hidden="true"', 'class="ws-notice-row__chev" aria-hidden="true"'));
-        li.appendChild(a); list.appendChild(li);
-      });
+      count.innerHTML = (q ? '검색 결과 <strong>' : '전체 <strong>') + hits.length + '</strong>건';
+      rows.forEach(function (li) { li.hidden = true; });
+      hits.slice((page - 1) * PER, page * PER).forEach(function (li) { li.hidden = false; highlight(li._span, li._title, q); });
       empty.hidden = hits.length > 0; list.hidden = hits.length === 0;
       renderPager(pages);
     }
@@ -82,48 +75,9 @@
       for (var i = 1; i <= pages; i++) btn(String(i), i);
       btn(ICON.chev, page + 1, { html: true, aria: '다음 페이지' });
     }
-    function renderPost(no) {
-      var i = ordered.findIndex(function (n) { return n.no === no; });
-      if (i === -1) return false;
-      var n = ordered[i];
-      // 이전·다음은 번호 순서(고정 여부와 상관없이)
-      var byNo = all.slice().sort(function (a, b) { return b.no - a.no; });
-      var j = byNo.findIndex(function (x) { return x.no === no; });
-      var newer = byNo[j - 1], older = byNo[j + 1];
-      post.querySelector('.ws-post__pin').hidden = !n.pinned;
-      post.querySelector('.ws-post__title').textContent = n.title;
-      var t = post.querySelector('.ws-post__date'); t.textContent = dot(n.date); t.dateTime = n.date;
-      post.querySelector('.ws-post__body').innerHTML = n.body.map(function (p) { return '<p>' + p + '</p>'; }).join('');
-      var nav = post.querySelector('.ws-post__nav'); nav.replaceChildren();
-      [['다음 글', newer], ['이전 글', older]].forEach(function (pair) {
-        if (!pair[1]) return; var li = el('li'), a = el('a'); a.href = href(pair[1]);
-        a.appendChild(el('small', '', pair[0])); a.appendChild(el('span', '', pair[1].title));
-        var tm = el('time', '', dot(pair[1].date)); tm.dateTime = pair[1].date; a.appendChild(tm);
-        li.appendChild(a); nav.appendChild(li);
-      });
-      nav.hidden = !nav.children.length;
-      document.title = n.title + ' | 공지사항 | 웹스랩';
-      return true;
-    }
-    function route() {
-      var no = parseInt(new URLSearchParams(location.search).get('no'), 10);
-      var showPost = !isNaN(no) && renderPost(no);
-      post.hidden = !showPost; listView.hidden = showPost;
-      if (!showPost) { document.title = baseTitle; renderList(); }
-    }
-    // 같은 페이지 안에서 목록↔본문을 오갈 때 새로고침 없이
-    notice.addEventListener('click', function (e) {
-      var a = e.target.closest('a[href^="?no="], a.ws-post__back');
-      if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
-      e.preventDefault();
-      history.pushState(null, '', a.getAttribute('href') === '?' ? location.pathname : a.getAttribute('href'));
-      route(); window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
-      var focusTarget = post.hidden ? list : post.querySelector('.ws-post__title'); if (focusTarget) { focusTarget.setAttribute('tabindex', '-1'); focusTarget.focus({ preventScroll: true }); }
-    });
-    window.addEventListener('popstate', route);
     bindSearch(input, clear, function () { page = 1; renderList(); });
     notice.querySelector('.ws-sup__empty .ws-sup__btn').addEventListener('click', function () { input.value = ''; clear.hidden = true; page = 1; renderList(); input.focus(); });
-    route();
+    renderList();
   }
 
   /* ── 자주묻는질문 ── */

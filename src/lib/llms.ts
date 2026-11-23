@@ -1,5 +1,5 @@
 // llms.txt / llms-full.txt 본문 — AI 검색(ChatGPT·Perplexity·Claude 등)이 회사를 한 번에 파악하도록
-// 사이트에 이미 공개된 사실만 모은다(회사 정보 brand.ts, 문답은 /faq 본문, 칼럼·사례는 data/).
+// 사이트에 이미 공개된 사실만 모은다(회사 정보 brand.ts, 문답은 /faq 본문, 칼럼·사례·공지는 data/).
 // 순수 함수 — 라우트가 값을 넣어 부른다.
 
 import type { Brand } from '@/config/brand';
@@ -12,6 +12,8 @@ export type LlmsInput = {
   faqs: { question: string; answer: string }[];
   posts: ColumnPost[];
   cases: Portfolio[];
+  /** 공지사항 글(본문은 태그를 뺀 글자) — 없으면 섹션을 뺀다 */
+  notices?: { no: number; date: string; title: string; text: string }[];
 };
 
 /** HTML 본문 → 읽을 수 있는 글(제목은 ###, 목록은 -, 표는 | 로) */
@@ -76,6 +78,16 @@ function faqSection(faqs: LlmsInput['faqs'], base: string): string[] {
   ];
 }
 
+function noticeSection(notices: LlmsInput['notices'], base: string): string[] {
+  if (!notices?.length) return [];
+  return [
+    '## 공지사항',
+    '',
+    ...notices.map((n) => `- [${n.title}](${base}/notice/${n.no}) (${n.date}): ${n.text}`),
+    '',
+  ];
+}
+
 function caseLines(cases: Portfolio[], base: string): string[] {
   return cases.map(
     (c) => `- [${c.title}](${base}/portfolio/${c.slug}): ${c.client} · ${c.year}년 · ${c.category}. ${c.summary}`,
@@ -88,7 +100,7 @@ const otherPages = (base: string) => [
   `- [회사소개](${base}/about): 하는 일, 진행 방식, 대표, 사업자 정보`,
   `- [포트폴리오](${base}/portfolio): 제작 사례 전체`,
   `- [전문 칼럼](${base}/column): 홈페이지 제작·리뉴얼 실무 가이드`,
-  `- [공지사항](${base}/notice): 운영 안내`,
+  `- [공지사항](${base}/notice): 문의·상담 방법, 무료 시안, 하자보수 등 운영 안내`,
   `- [채용](${base}/careers): 모집 분야와 지원서`,
   `- [칼럼 전문(全文)](${base}/llms-full.txt): 모든 칼럼의 본문을 한 파일로`,
   '',
@@ -108,6 +120,7 @@ export function llmsTxt(input: LlmsInput): string {
     '',
     ...caseLines(cases, base),
     '',
+    ...noticeSection(input.notices, base),
     ...otherPages(base),
   ].join('\n');
 }
@@ -138,6 +151,7 @@ export function llmsFullTxt(input: LlmsInput): string {
     '',
     ...caseLines(cases, base),
     '',
+    ...noticeSection(input.notices, base),
     '---',
     '',
     '# 전문 칼럼 전문',

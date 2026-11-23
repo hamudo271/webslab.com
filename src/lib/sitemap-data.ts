@@ -6,6 +6,7 @@ import { pageImages } from '@/lib/site-html';
 import { SITE_PAGES } from '@/site/registry';
 import { columnPosts } from '@/data/columnPosts';
 import { portfolios } from '@/data/portfolios';
+import { notices } from '@/data/notices';
 
 // 사이트맵 엔트리 단일 소스 — 하위 사이트맵 3종과 인덱스(lastmod 계산)가 함께 쓴다.
 
@@ -55,7 +56,7 @@ export function getCaseEntries(): SitemapEntry[] {
 }
 
 /**
- * 정적 페이지. 목록 페이지(/column, /portfolio)는 하위 글이 갱신되면 목록도 바뀌므로
+ * 정적 페이지 + 공지사항 글. 목록 페이지(/column, /portfolio, /notice)는 하위 글이 갱신되면 목록도 바뀌므로
  * 수동 날짜와 하위 항목 최신일 중 늦은 쪽을 쓴다.
  */
 export async function getPageEntries(articles?: SitemapEntry[]): Promise<SitemapEntry[]> {
@@ -64,8 +65,9 @@ export async function getPageEntries(articles?: SitemapEntry[]): Promise<Sitemap
   const derived: Record<string, string | undefined> = {
     '/column': articleLatest,
     '/portfolio': caseLatest,
+    '/notice': latestDate(notices.map((n) => n.date)),
   };
-  return Object.entries(STATIC_PAGE_DATES).map(([path, date]) => {
+  const pages = Object.entries(STATIC_PAGE_DATES).map(([path, date]) => {
     const images = imagesOf(path);
     return {
       loc: `${base()}${path}`,
@@ -73,6 +75,14 @@ export async function getPageEntries(articles?: SitemapEntry[]): Promise<Sitemap
       ...(images.length ? { images } : {}),
     };
   });
+  return [...pages, ...getNoticeEntries()];
+}
+
+/** 공지사항 글(/notice/<번호>) — 새 글부터 */
+export function getNoticeEntries(): SitemapEntry[] {
+  return [...notices]
+    .sort((a, b) => b.no - a.no)
+    .map((n) => ({ loc: `${base()}/notice/${n.no}`, lastmod: n.date }));
 }
 
 /** 리뉴얼 페이지 본문의 사진(절대 URL). 약관 등 리뉴얼 밖 문서 페이지는 없다. */

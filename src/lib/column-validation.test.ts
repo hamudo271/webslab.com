@@ -114,6 +114,19 @@ describe('published SEO column registry', () => {
     ['marketing-agency-website', '마케팅 대행사 홈페이지 제작'],
     ['video-production-website', '영상 제작사 홈페이지 제작'],
     ['product-brand-website', '브랜드 홈페이지 제작'],
+    // 2026-11-23 추가 제작 준비·운영 가이드 12편 (columnPosts-2026-11-23.ts)
+    ['website-design-draft', '홈페이지 디자인 시안'],
+    ['website-copywriting', '홈페이지 원고 작성'],
+    ['website-image-license', '홈페이지 이미지 저작권'],
+    ['website-warranty-vs-maintenance', '홈페이지 하자보수'],
+    ['website-main-page-structure', '홈페이지 메인 페이지 구성'],
+    ['website-menu-structure', '홈페이지 메뉴 구성'],
+    ['company-about-page', '회사소개 페이지'],
+    ['company-domain-email', '회사 도메인 메일'],
+    ['multilingual-website', '다국어 홈페이지 제작'],
+    ['website-first-consultation', '홈페이지 제작 상담'],
+    ['website-production-process', '홈페이지 제작 과정'],
+    ['do-i-need-a-website', '홈페이지 필요성'],
   ]);
 
   it('publishes exactly the approved keyword articles', () => {

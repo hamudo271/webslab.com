@@ -6,6 +6,7 @@ import { extractFaqs } from '@/lib/site-html';
 import { caseStudyJsonLd, faqPageJsonLd, itemListJsonLd, organizationJsonLd, personJsonLd, serviceJsonLd } from '@/lib/jsonld';
 import { representative } from '@/data/authors';
 import { portfolios } from '@/data/portfolios';
+import { notices } from '@/data/notices';
 
 import home from './pages/home.html';
 import about from './pages/about.html';
@@ -59,6 +60,8 @@ export type SitePage = {
 };
 
 const AREA = '대한민국';
+
+const latestNoticeDate = notices.map((n) => n.date).sort().at(-1);
 
 const caseHtml: Record<string, string> = {
   'roland-korea': portfolioRoland,
@@ -191,6 +194,8 @@ export const SITE_PAGES: SitePage[] = [
     html: faq,
     name: '자주묻는질문',
     title: '홈페이지 제작 비용·기간 자주 묻는 질문 | 웹스랩',
+    description:
+      '홈페이지 제작 비용과 기간, 계약 전 무료 시안, 시안 수정 횟수, 원고·사진 준비, 검색 등록, 유지보수까지 웹스랩에 자주 묻는 질문과 답을 분류별로 모았습니다.',
     extraJsonLd: (raw) => {
       const faqs = extractFaqs(raw);
       return faqs.length ? [faqPageJsonLd(faqs)] : [];
@@ -200,8 +205,11 @@ export const SITE_PAGES: SitePage[] = [
     path: '/notice',
     html: notice,
     name: '공지사항',
-    title: '공지사항 — 웹스랩 운영 안내 | 웹스랩',
-    description: '웹스랩의 새 소식과 운영 안내를 전합니다. 상담·휴무 일정과 서비스 안내 변경 사항을 이곳에서 먼저 확인하세요.',
+    title: '공지사항 — 웹스랩 소식과 운영 안내 | 웹스랩',
+    pageType: 'CollectionPage',
+    description: '웹스랩의 새 소식과 운영 안내를 전합니다. 문의·상담 방법, 계약 전 무료 시안, 무상 하자보수, 새 제작 사례와 가이드 소식을 확인하세요.',
+    // 목록은 data/notices.ts로 채우므로(원본 HTML은 빈 틀) 수정일도 가장 최근 글을 따른다
+    modified: latestNoticeDate,
   },
   {
     path: '/maintenance',
