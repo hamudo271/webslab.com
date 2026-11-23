@@ -108,7 +108,7 @@ export const SITE_PAGES: SitePage[] = [
     path: '/service',
     html: service,
     name: '서비스',
-    title: '기업 홈페이지·웹사이트 제작·리뉴얼 서비스 | 웹스랩',
+    title: '홈페이지·웹사이트 제작 서비스 — 신규 제작·리뉴얼 | 웹스랩',
     extraJsonLd: () => [
       serviceJsonLd({
         name: '기업 홈페이지 제작·리뉴얼',
@@ -179,14 +179,14 @@ export const SITE_PAGES: SitePage[] = [
     path: '/column',
     html: column,
     name: '전문 칼럼',
-    title: '홈페이지 제작·리뉴얼 전문 칼럼 | 웹스랩',
+    title: '가이드센터 — 홈페이지·웹사이트 제작·리뉴얼 칼럼 | 웹스랩',
     pageType: 'CollectionPage',
   },
   {
     path: '/contact',
     html: contact,
     name: '문의하기',
-    title: '홈페이지·웹사이트 제작 견적 문의 | 웹스랩',
+    title: '견적 문의 — 홈페이지·웹사이트 제작·리뉴얼 | 웹스랩',
     pageType: 'ContactPage',
     description:
       '홈페이지·웹사이트 제작·리뉴얼 견적 문의. 현재 상황과 목표를 알려주시면 필요한 범위를 1영업일 안에 정리해 회신드립니다. 계약 전 메인 시안은 무료입니다.',
@@ -195,7 +195,7 @@ export const SITE_PAGES: SitePage[] = [
     path: '/faq',
     html: faq,
     name: '자주묻는질문',
-    title: '홈페이지 제작 비용·기간 자주 묻는 질문 | 웹스랩',
+    title: '자주묻는질문 — 홈페이지 제작 비용·기간·유지보수 | 웹스랩',
     description:
       '홈페이지 제작 비용과 기간, 계약 전 무료 시안, 시안 수정 횟수, 원고·사진 준비, 검색 등록, 유지보수까지 웹스랩에 자주 묻는 질문과 답을 분류별로 모았습니다.',
     extraJsonLd: (raw) => {
@@ -217,7 +217,7 @@ export const SITE_PAGES: SitePage[] = [
     path: '/maintenance',
     html: maintenance,
     name: '유지보수 신청',
-    title: '홈페이지 유지보수 신청 | 웹스랩',
+    title: '유지보수 — 홈페이지·웹사이트 점검·백업·수정 | 웹스랩',
     extraJsonLd: () => [
       serviceJsonLd({
         name: '홈페이지 유지보수',

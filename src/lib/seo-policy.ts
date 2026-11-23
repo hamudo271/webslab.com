@@ -42,6 +42,8 @@ export const crawlerRules: CrawlerRule[] = [
   ...AI_TRAINING_BOTS.map((userAgent) => ({ userAgent, disallow: ['/'] })),
 ];
 
+// 제목은 '페이지 이름 — 설명' 순서로 쓴다. 구글이 '웹스랩'을 검색한 사람에게 보여 주는 하위 링크(사이트링크)의
+// 이름을 제목·h1·메뉴 글자에서 뽑는데, 앞부분이 홈 제목과 겹치면 잘라 내서 '리뉴얼 서비스'처럼 어색해진다(2026-11-23 확인).
 export const COMMERCIAL_METADATA = {
   '/': {
     path: '/',
@@ -60,7 +62,7 @@ export const COMMERCIAL_METADATA = {
   '/portfolio': {
     path: '/portfolio',
     keyword: '홈페이지 제작 사례',
-    title: '홈페이지·웹사이트 제작 사례 포트폴리오',
+    title: '포트폴리오 — 홈페이지·웹사이트 제작 사례',
     // 실제 사례의 업종만 적는다(악기 브랜드·의원·한의원·협회·식품·제조·마케팅·영상·미디어·디자인) — 없는 업종·성과 지표를 쓰지 않는다.
     description:
       '악기 브랜드, 의원·한의원, 식품·제조 기업, 협회, 마케팅·영상·디자인 회사까지 웹스랩이 만든 홈페이지·웹사이트 제작·리뉴얼 사례를 모았습니다. 사례마다 작업 범위와 화면 구성, 지금 운영 중인 실제 사이트를 확인할 수 있습니다.',
@@ -68,7 +70,7 @@ export const COMMERCIAL_METADATA = {
   '/about': {
     path: '/about',
     keyword: '기업 홈페이지 전문 에이전시',
-    title: '기업 홈페이지 전문 에이전시 소개',
+    title: '회사소개 — 기업 홈페이지·웹사이트 전문 에이전시',
     description:
       '기획부터 디자인, 개발, 데이터 이전, CMS 운영까지 직접 수행하는 기업 홈페이지·웹사이트 전문 에이전시 웹스랩(websLAB)을 소개합니다. 신규 제작과 리뉴얼을 한 팀에서 책임지고 마무리합니다.',
   },
