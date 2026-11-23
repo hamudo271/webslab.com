@@ -27,6 +27,11 @@ async function connect() {
 const send = (method, params = {}) => new Promise((res, rej) => { const i = ++id; pending.set(i, { res, rej }); ws.send(JSON.stringify({ id: i, method, params })); });
 // 슬라이드·페이드가 넘어가는 중간(글자가 겹친 화면)이 찍히지 않게 전환 시간을 0으로 만든다
 const NO_TRANSITION = `(()=>{if(document.getElementById('__capnt'))return;const st=document.createElement('style');st.id='__capnt';st.textContent='*,*::before,*::after{transition-duration:0s!important;transition-delay:0s!important}';document.head.appendChild(st);})()`;
+// 첫 화면을 가리는 팝업(주차 안내·이벤트 광고 등)은 숨기고 찍는다 — HIDE_CSS="선택자,선택자" (예: Elementor 팝업 .elementor-popup-modal)
+const HIDE = (process.env.HIDE_CSS || '').replace(/[`\\]/g, '');
+// 사이트마다 필요한 손질(예: 유튜브 iframe은 화면 캡처에 검게 나오므로 그 영상의 대표 이미지로 바꾸기) — CAP_JS="자바스크립트"
+const CAP_JS = process.env.CAP_JS ? `(()=>{try{${process.env.CAP_JS}}catch(e){}})()` : '0';
+const HIDE_POPUPS = `(()=>{if(!${JSON.stringify(HIDE)}||document.getElementById('__caphide'))return;const st=document.createElement('style');st.id='__caphide';st.textContent=${JSON.stringify(HIDE)}+'{display:none!important}html,body{overflow:auto!important}';document.head.appendChild(st);})()`;
 async function shot({ name, width, height, mobile, maxHeight }) {
   await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 2, mobile: !!mobile });
   if (mobile) {
@@ -40,6 +45,8 @@ async function shot({ name, width, height, mobile, maxHeight }) {
   await sleep(6000);
   const ev = (expression) => send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true }).then((r) => r.result.value);
   if (!process.env.KEEP_TRANSITIONS) await ev(NO_TRANSITION); // 전환을 꺼서 어긋나는 사이트는 KEEP_TRANSITIONS=1
+  await ev(HIDE_POPUPS);
+  await ev(CAP_JS);
   await sleep(1500);
   // 화면 높이(vh)는 실제 기기처럼 두고, 그 아래까지 이어서 찍는다(100vh 히어로가 늘어나지 않게)
   await ev(`(async()=>{const s=ms=>new Promise(r=>setTimeout(r,ms));const max=${maxHeight};for(let y=0;y<Math.min(document.documentElement.scrollHeight,max);y+=300){window.scrollTo(0,y);await s(220);}window.scrollTo(0,0);await s(1800);})()`);
@@ -59,6 +66,8 @@ async function tiles({ width, height, maxHeight, positions }) {
   await sleep(7000);
   const ev = (expression) => send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true }).then((r) => r.result.value);
   if (!process.env.KEEP_TRANSITIONS) await ev(NO_TRANSITION); // 전환을 꺼서 어긋나는 사이트는 KEEP_TRANSITIONS=1
+  await ev(HIDE_POPUPS);
+  await ev(CAP_JS);
   await sleep(1500);
   // 영상: 조작 막대는 숨기고, 장면 전환 중간(겹친 화면)이 찍히지 않게 같은 시점(기본 1.5초, VIDEO_T 환경변수로 조정)에 멈춰 둔다
   const freeze = `(()=>{if(!document.getElementById('__cap')){const st=document.createElement('style');st.id='__cap';st.textContent='video::-webkit-media-controls{display:none!important}';document.head.appendChild(st);}document.querySelectorAll('video').forEach(v=>{v.muted=true;v.removeAttribute('controls');v.autoplay=false;try{v.pause();if(Math.abs(v.currentTime-${VIDEO_T})>0.05)v.currentTime=${VIDEO_T};}catch(e){}});})()`;
