@@ -27,11 +27,24 @@ async function connect() {
 const send = (method, params = {}) => new Promise((res, rej) => { const i = ++id; pending.set(i, { res, rej }); ws.send(JSON.stringify({ id: i, method, params })); });
 // 슬라이드·페이드가 넘어가는 중간(글자가 겹친 화면)이 찍히지 않게 전환 시간을 0으로 만든다
 const NO_TRANSITION = `(()=>{if(document.getElementById('__capnt'))return;const st=document.createElement('style');st.id='__capnt';st.textContent='*,*::before,*::after{transition-duration:0s!important;transition-delay:0s!important}';document.head.appendChild(st);})()`;
-// 첫 화면을 가리는 팝업(주차 안내·이벤트 광고 등)은 숨기고 찍는다 — HIDE_CSS="선택자,선택자" (예: Elementor 팝업 .elementor-popup-modal)
-const HIDE = (process.env.HIDE_CSS || '').replace(/[`\\]/g, '');
+// 팝업은 사례 이미지에 절대 넣지 않는다(2026-11-23 사용자 지시). 흔한 팝업 틀은 기본으로 숨기고,
+// 사이트 고유의 팝업은 HIDE_CSS="선택자,선택자"로 더한다. 찍은 뒤 남은 팝업이 의심되면 경고를 낸다(그 장면은 다시 찍을 것).
+const DEFAULT_HIDE = [
+  '.elementor-popup-modal', '.dialog-lightbox-widget', '.pum-overlay', '.pum-container', // Elementor·Popup Maker
+  '.pop-container', '[id^="popup_"]', '.layer_popup', '.layerPopup', '.popup_layer', '.main_popup', '.mainPopup', // 아임웹·카페24·그누보드류
+  '.apv2-pop', '.sticker-popup-container', '.slider-popup-container', // 어피콕·참조은치과
+  '.modal-backdrop', '.modal.show', '.cookie-banner', '#cookie-notice',
+].join(',');
+const HIDE = [DEFAULT_HIDE, process.env.HIDE_CSS || ''].filter(Boolean).join(',').replace(/[`\\]/g, '');
+const HIDE_POPUPS = `(()=>{if(document.getElementById('__caphide'))return;const st=document.createElement('style');st.id='__caphide';st.textContent=${JSON.stringify(HIDE)}+'{display:none!important}html,body{overflow:auto!important}';document.head.appendChild(st);})()`;
+// 숨긴 뒤에도 화면을 덮는 떠 있는 상자(고정 위치, 화면의 8% 이상, 상단 헤더·하단 바 제외)가 있으면 팝업 의심으로 알린다
+const POPUP_CHECK = `(()=>{const vw=innerWidth,vh=innerHeight,out=[];document.querySelectorAll('body *').forEach(e=>{const cs=getComputedStyle(e);if(cs.position!=='fixed'||cs.display==='none'||cs.visibility==='hidden'||+cs.opacity<0.1)return;const r=e.getBoundingClientRect();if(r.width*r.height<vw*vh*0.08||r.bottom<=0||r.top>=vh)return;if(r.height<150&&(r.top<5||r.bottom>vh-5))return;if(r.width>=vw-2&&r.height>=vh-2&&!e.querySelector('img,iframe,video,button,a'))return;out.push((e.id?'#'+e.id:'')+'.'+String(e.className).trim().split(/\\s+/).slice(0,2).join('.')+' '+Math.round(r.width)+'x'+Math.round(r.height));});return out.slice(0,5);})()`;
+async function warnPopups(ev, where) {
+  const left = await ev(POPUP_CHECK);
+  if (left && left.length) console.warn(`[팝업 의심] ${slug} ${where}: ${left.join(' | ')} — 눈으로 확인하고, 팝업이면 HIDE_CSS로 숨겨 다시 찍을 것`);
+}
 // 사이트마다 필요한 손질(예: 유튜브 iframe은 화면 캡처에 검게 나오므로 그 영상의 대표 이미지로 바꾸기) — CAP_JS="자바스크립트"
 const CAP_JS = process.env.CAP_JS ? `(()=>{try{${process.env.CAP_JS}}catch(e){}})()` : '0';
-const HIDE_POPUPS = `(()=>{if(!${JSON.stringify(HIDE)}||document.getElementById('__caphide'))return;const st=document.createElement('style');st.id='__caphide';st.textContent=${JSON.stringify(HIDE)}+'{display:none!important}html,body{overflow:auto!important}';document.head.appendChild(st);})()`;
 async function shot({ name, width, height, mobile, maxHeight }) {
   await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 2, mobile: !!mobile });
   if (mobile) {
@@ -50,6 +63,7 @@ async function shot({ name, width, height, mobile, maxHeight }) {
   await sleep(1500);
   // 화면 높이(vh)는 실제 기기처럼 두고, 그 아래까지 이어서 찍는다(100vh 히어로가 늘어나지 않게)
   await ev(`(async()=>{const s=ms=>new Promise(r=>setTimeout(r,ms));const max=${maxHeight};for(let y=0;y<Math.min(document.documentElement.scrollHeight,max);y+=300){window.scrollTo(0,y);await s(220);}window.scrollTo(0,0);await s(1800);})()`);
+  await warnPopups(ev, name);
   const pageH = await ev('Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)');
   const clipH = Math.min(pageH, maxHeight);
   const { data } = await send('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width, height: clipH, scale: 1 }, captureBeyondViewport: true });
@@ -84,6 +98,7 @@ async function tiles({ width, height, maxHeight, positions }) {
     await ev(freeze);
     await sleep(500);
     const real = await ev('Math.round(window.scrollY)');
+    if (n === 0) await warnPopups(ev, 'tile-00');
     const { data } = await send('Page.captureScreenshot', { format: 'png' });
     fs.writeFileSync(`shots/${slug}-tile-${String(n).padStart(2, '0')}-${real}.png`, Buffer.from(data, 'base64'));
     n++;
