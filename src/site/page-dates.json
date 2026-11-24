@@ -1,6 +1,6 @@
 {
   "/": {
-    "hash": "0288aebf2e553646",
+    "hash": "ac24ed0811c363eb",
     "modified": "2026-11-24"
   },
   "/about": {
@@ -36,7 +36,7 @@
     "modified": "2026-11-04"
   },
   "/portfolio": {
-    "hash": "4cd832cea00cff0e",
+    "hash": "4791a404bcfeaf97",
     "modified": "2026-11-24"
   },
   "/portfolio/612-academy": {
@@ -66,6 +66,10 @@
   "/portfolio/haeun-nuri": {
     "hash": "d98ffe122b91a92e",
     "modified": "2026-11-19"
+  },
+  "/portfolio/happylight": {
+    "hash": "fb8af5049234ff10",
+    "modified": "2026-11-24"
   },
   "/portfolio/hwangchil-korea": {
     "hash": "265aca22507f085e",

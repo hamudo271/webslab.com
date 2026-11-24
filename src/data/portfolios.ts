@@ -420,6 +420,29 @@ const allPortfolios: Portfolio[] = [
       { label: '문의 동선', value: '전화 · 네이버 예약 · 카카오톡 채널' },
     ],
   },
+  // 2026-11-24 추가 — 2025년 신규 제작(사용자 확인), 기간은 미확인이라 비운다.
+  // 원사이트가 프레임을 막아(X-Frame-Options·frame-ancestors) 상세의 뷰어는 새 탭 연결판(blocked)을 쓴다.
+  {
+    slug: 'happylight',
+    title: '해피라이트 엔터테인먼트 공식 사이트',
+    client: '해피라이트 엔터테인먼트',
+    category: '신규 제작',
+    industry: 'BRAND',
+    services: ['UI/UX', '기업 사이트', '반응형 웹'],
+    year: 2025,
+    modifiedAt: '2026-11-24',
+    summary: '행사·이벤트 기획사 공식 사이트',
+    description:
+      '광주에 기반을 둔 행사·이벤트 전문 기획사 해피라이트 엔터테인먼트의 공식 사이트. 밤하늘 배경의 첫 화면에 회사 이름과 무료 상담 신청·포트폴리오·회사소개서 버튼을 두고, 체육대회·팀빌딩·문화축제·레크레이션 네 가지 주요 사업과 MC·행사 기획·영상광고 제작 서비스, 공식 의전부터 학교·축제 행사까지 여섯 갈래의 행사 분야를 차례로 담았습니다. 사업 분야마다 상세 페이지를 두고, 카카오톡 상담과 프로젝트 문의로 바로 이어지게 구성했습니다.',
+    cover: cover('happylight'),
+    fullShot: fullShot('happylight'),
+    gallery: [],
+    url: 'https://happylight.co.kr',
+    results: [
+      { label: '구성', value: '주요 사업 4종 · 서비스 3종 · 행사 분야 6종' },
+      { label: '문의 동선', value: '무료 상담 신청 · 카카오톡 상담 · 프로젝트 문의' },
+    ],
+  },
 ];
 
 /** 공개하는 사례만 — 사이트 전역(등록·사이트맵·llms·RSS)이 이 목록을 쓴다. */
