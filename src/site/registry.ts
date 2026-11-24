@@ -30,6 +30,7 @@ import portfolioSuccessInside from './pages/portfolio--success-inside.html';
 import portfolioKordc from './pages/portfolio--kordc.html';
 import portfolioNeoV from './pages/portfolio--neo-v.html';
 import portfolioYssave from './pages/portfolio--yssave-dental.html';
+import portfolioMalgunmiso from './pages/portfolio--malgunmiso.html';
 import column from './pages/column.html';
 import contact from './pages/contact.html';
 import faq from './pages/faq.html';
@@ -82,6 +83,7 @@ const caseHtml: Record<string, string> = {
   kordc: portfolioKordc,
   'neo-v': portfolioNeoV,
   'yssave-dental': portfolioYssave,
+  malgunmiso: portfolioMalgunmiso,
 };
 
 // 숨긴 사례(portfolios.ts hidden)는 상세 페이지도 열지 않는다(404)
@@ -171,7 +173,7 @@ export const SITE_PAGES: SitePage[] = [
                 client: p.client,
                 siteUrl: p.url,
                 keywords: p.services,
-                collaboration: p.category === '협업',
+                collaboration: p.category === '협업' || p.category === '부분참여',
               }),
             ]
           : [],

@@ -33,6 +33,7 @@ const DEFAULT_HIDE = [
   '.elementor-popup-modal', '.dialog-lightbox-widget', '.pum-overlay', '.pum-container', // Elementor·Popup Maker
   '.pop-container', '[id^="popup_"]', '.layer_popup', '.layerPopup', '.popup_layer', '.main_popup', '.mainPopup', // 아임웹·카페24·그누보드류
   '.apv2-pop', '.sticker-popup-container', '.slider-popup-container', // 어피콕·참조은치과
+  '.cosmosfarm-simple-popup', '[class^="cosmosfarm-simple-popup-background"]', // 코스모스팜 간편 팝업(워드프레스, 맑은미소치과)
   '.modal-backdrop', '.modal.show', '.cookie-banner', '#cookie-notice',
 ].join(',');
 const HIDE = [DEFAULT_HIDE, process.env.HIDE_CSS || ''].filter(Boolean).join(',').replace(/[`\\]/g, '');

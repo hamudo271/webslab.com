@@ -286,7 +286,7 @@ type CaseStudyInput = {
   client: string;
   siteUrl?: string;
   keywords: string[];
-  /** 웹스랩 단독 제작이 아니라 협업으로 참여한 사례 — creator 대신 contributor로 적는다 */
+  /** 웹스랩 단독 제작이 아니라 협업·부분참여로 참여한 사례 — creator 대신 contributor로 적는다 */
   collaboration?: boolean;
 };
 

@@ -397,6 +397,29 @@ const allPortfolios: Portfolio[] = [
       { label: '문의 동선', value: '카카오톡 · 네이버 톡톡 · 네이버 예약' },
     ],
   },
+  // 2026-11-24 추가 — 웹스랩은 디자인 일부만 맡았다(부분참여, 2025년 — 사용자 확인). 기간은 미확인이라 비운다.
+  // 구조화 데이터는 협업처럼 creator 대신 contributor로 나간다(registry.ts).
+  {
+    slug: 'malgunmiso',
+    title: '맑은미소치과 공식 사이트',
+    client: '맑은미소치과',
+    category: '부분참여',
+    industry: 'HEALTHCARE',
+    services: ['디자인 일부', '병원 사이트', '반응형 웹'],
+    year: 2025,
+    modifiedAt: '2026-11-24',
+    summary: '양평 치과 공식 사이트',
+    description:
+      '경기도 양평군에서 한자리를 지켜 온 맑은미소치과의 공식 사이트. 분과별 4인 의료진의 협력 진료와 월·수 오후 8시까지의 야간진료를 첫 화면에 앞세우고, 다섯 가지 진료 약속과 임플란트 진료 과정, 전체 임플란트·네비게이션 임플란트 안내를 차례로 담았습니다. 임플란트·일반·교정·턱관절·보험진료를 메뉴로 나누고, 모바일 화면 아래 빠른 메뉴에 네이버 예약·블로그·인스타그램·카카오톡 채널·진료시간을 모았습니다. 웹스랩이 디자인 일부를 맡았습니다.',
+    cover: cover('malgunmiso'),
+    fullShot: fullShot('malgunmiso'),
+    gallery: [],
+    url: 'https://malgunmiso.kr',
+    results: [
+      { label: '구성', value: '진료 약속 · 임플란트 진료 과정 · 진료별 메뉴' },
+      { label: '문의 동선', value: '전화 · 네이버 예약 · 카카오톡 채널' },
+    ],
+  },
 ];
 
 /** 공개하는 사례만 — 사이트 전역(등록·사이트맵·llms·RSS)이 이 목록을 쓴다. */

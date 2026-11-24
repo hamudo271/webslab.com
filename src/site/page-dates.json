@@ -1,7 +1,7 @@
 {
   "/": {
-    "hash": "06a7b554c4b23cb4",
-    "modified": "2026-11-23"
+    "hash": "0288aebf2e553646",
+    "modified": "2026-11-24"
   },
   "/about": {
     "hash": "f90f30f7c3cb80cd",
@@ -36,8 +36,8 @@
     "modified": "2026-11-04"
   },
   "/portfolio": {
-    "hash": "1d7f1c36adcb0a54",
-    "modified": "2026-11-23"
+    "hash": "4cd832cea00cff0e",
+    "modified": "2026-11-24"
   },
   "/portfolio/612-academy": {
     "hash": "55cc17b3788727c4",
@@ -74,6 +74,10 @@
   "/portfolio/kordc": {
     "hash": "b6ad0d595913dea9",
     "modified": "2026-11-20"
+  },
+  "/portfolio/malgunmiso": {
+    "hash": "5f5e89781b083ae3",
+    "modified": "2026-11-24"
   },
   "/portfolio/neo-v": {
     "hash": "de7ba0ccb985a455",
