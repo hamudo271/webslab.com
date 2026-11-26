@@ -66,7 +66,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 <link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/xpressengine/XEIcon@2.3.3/xeicon.min.css?ver=2.3.3" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xpressengine/XEIcon@2.3.3/xeicon.min.css?ver=2.3.3"></noscript>
 <link rel="stylesheet" href="/assets/bundle/4a93875c1f8f.css">
-<link rel="stylesheet" href="/assets/bundle/f0179d30f7eb.css">
+<link rel="stylesheet" href="/assets/bundle/af7696a3cc3c.css">
 <script id="jquery-core-js" src="/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
 <script id="jquery-migrate-js" src="/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1"></script>
 <link rel="https://api.w.org/" href="https://webslab.co.kr/wp-json/" />
@@ -912,6 +912,87 @@ window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(argumen
   
   <!-- 자주 묻는 질문 — 노출 중단 2026-07-06 -->
   
+  <!-- 제작 일정 — 서비스 안내(/service#process)와 같은 섹션. PC·태블릿 전용(모바일은 위 제작 과정으로 대신) -->
+    <div class="hidden-mobile">
+      
+<!-- 제작 일정 — 4주(28일) 간트. 스크롤하면 하루씩 진행되고, 막대에 올리면 그 기간이 표시된다 (schedule-v1.css · schedule-v1.js) -->
+<section class="ws-sched" id="cmSchedule" aria-labelledby="wsSchedTitle">
+  <div class="ws-sched__inner">
+    <header class="ws-sched__head">
+      <div class="ws-sched__intro">
+        <p class="ws-sched__eyebrow">제작 일정</p>
+        <h2 class="ws-sched__title" id="wsSchedTitle">기획부터 오픈까지,<br>4주 일정</h2>
+        <p class="ws-sched__lead">기업 사이트 기준으로 28일 동안 언제 무엇이 진행되는지 미리 보여드려요. 프로젝트 규모에 따라 일정은 달라질 수 있어요.</p>
+      </div>
+      <div class="ws-sched__live">
+        <div class="ws-sched__live-top"><span class="ws-sched__pulse" aria-hidden="true"></span><span class="ws-sched__live-week" aria-hidden="true">1주차</span><button type="button" class="ws-sched__play"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5 3.5v9l7-4.5-7-4.5Z" fill="currentColor"/></svg>처음부터 재생</button></div>
+        <p class="ws-sched__live-day" aria-hidden="true"><span class="ws-sched__live-label">Day</span><b>1</b><span class="ws-sched__live-total">/ 28</span></p>
+        <p class="ws-sched__live-now" aria-hidden="true">킥오프</p>
+        <span class="ws-sched__live-bar" aria-hidden="true"><i></i></span>
+      </div>
+    </header>
+
+    <p class="ws-sched__hint"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.5 3.5v8.2l-1.6-1.6a1.4 1.4 0 0 0-2 2l3.9 3.9c.7.7 1.6 1 2.5 1h2.2a3.5 3.5 0 0 0 3.5-3.5V9.6a1.3 1.3 0 0 0-2.6 0V9a1.3 1.3 0 0 0-2.6 0v-.4a1.3 1.3 0 0 0-2.6 0V3.5a1.3 1.3 0 0 0-2.7 0Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>막대를 누르면 단계별 상세 일정표가 열려요</p>
+    <div class="ws-sched__scroller"><div class="ws-sched__board" style="--days:28">
+      <div class="ws-sched__grid" aria-hidden="true"><i class="ws-sched__elapsed"></i></div>
+      <div class="ws-sched__axis" aria-hidden="true">
+        <div class="ws-sched__corner"><span>단계</span></div>
+        <div class="ws-sched__axis-track">
+          <ol class="ws-sched__miles"><li style="--x:0"><i></i><span>킥오프</span></li><li style="--x:14"><i></i><span>메인 시안 공유</span></li><li style="--x:28"><i></i><span>오픈</span></li></ol>
+          <ol class="ws-sched__weeks"><li><b>1주차</b><span>1–7일</span></li><li><b>2주차</b><span>8–14일</span></li><li><b>3주차</b><span>15–21일</span></li><li><b>4주차</b><span>22–28일</span></li></ol>
+          <ol class="ws-sched__days"><li style="--d:1">1</li><li style="--d:2">2</li><li style="--d:3">3</li><li style="--d:4">4</li><li style="--d:5">5</li><li style="--d:6">6</li><li style="--d:7">7</li><li style="--d:8">8</li><li style="--d:9">9</li><li style="--d:10">10</li><li style="--d:11">11</li><li style="--d:12">12</li><li style="--d:13">13</li><li style="--d:14">14</li><li style="--d:15">15</li><li style="--d:16">16</li><li style="--d:17">17</li><li style="--d:18">18</li><li style="--d:19">19</li><li style="--d:20">20</li><li style="--d:21">21</li><li style="--d:22">22</li><li style="--d:23">23</li><li style="--d:24">24</li><li style="--d:25">25</li><li style="--d:26">26</li><li style="--d:27">27</li><li style="--d:28">28</li></ol>
+        </div>
+      </div>
+      <ol class="ws-sched__lanes">
+        <li class="ws-sched__lane is-compact" data-lane="pm">
+          <div class="ws-sched__label"><strong>프로젝트 관리</strong><span>28일 내내</span></div>
+          <div class="ws-sched__track">
+            <ol class="ws-sched__subs"><li class="ws-sched__bar ws-sched__bar--sub ws-sched__bar--pm" style="--s:1;--e:2" tabindex="0" role="button" aria-haspopup="dialog" aria-label="일정 수립, 1~2일차 (2일) — 상세 일정 보기" data-name="일정 수립"><span class="ws-sched__base">일정 수립</span><span class="ws-sched__fill" aria-hidden="true">일정 수립</span></li><li class="ws-sched__bar ws-sched__bar--sub ws-sched__bar--pm" style="--s:3;--e:28" tabindex="0" role="button" aria-haspopup="dialog" aria-label="프로젝트 매니징, 3~28일차 (26일) — 상세 일정 보기" data-name="프로젝트 매니징"><span class="ws-sched__base">프로젝트 매니징</span><span class="ws-sched__fill" aria-hidden="true">프로젝트 매니징</span></li></ol>
+          </div>
+        </li>
+        <li class="ws-sched__lane" data-lane="plan">
+          <div class="ws-sched__label"><strong>기획</strong><span>1–8일차 · 8일</span></div>
+          <div class="ws-sched__track">
+            <ol class="ws-sched__mains"><li class="ws-sched__bar" style="--s:1;--e:8" tabindex="0" role="button" aria-haspopup="dialog" aria-label="기획, 1~8일차 (8일) — 상세 일정 보기" data-name="기획"><span class="ws-sched__base">기획</span><span class="ws-sched__fill" aria-hidden="true">기획</span></li></ol>
+            <ol class="ws-sched__subs"><li class="ws-sched__bar ws-sched__bar--sub" style="--s:1;--e:4" tabindex="0" role="button" aria-haspopup="dialog" aria-label="프로젝트 정의·요구사항 수집, 1~4일차 (4일) — 상세 일정 보기" data-name="프로젝트 정의·요구사항 수집"><span class="ws-sched__base">프로젝트 정의·요구사항 수집</span><span class="ws-sched__fill" aria-hidden="true">프로젝트 정의·요구사항 수집</span><i class="ws-sched__chk"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m2.75 6.25 2.1 2.1L9.25 3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></li><li class="ws-sched__bar ws-sched__bar--sub" style="--s:5;--e:8" tabindex="0" role="button" aria-haspopup="dialog" aria-label="사이트맵·와이어프레임 기획, 5~8일차 (4일) — 상세 일정 보기" data-name="사이트맵·와이어프레임 기획"><span class="ws-sched__base">사이트맵·와이어프레임 기획</span><span class="ws-sched__fill" aria-hidden="true">사이트맵·와이어프레임 기획</span><i class="ws-sched__chk"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m2.75 6.25 2.1 2.1L9.25 3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></li></ol>
+          </div>
+        </li>
+        <li class="ws-sched__lane" data-lane="design">
+          <div class="ws-sched__label"><strong>디자인</strong><span>7–17일차 · 11일</span></div>
+          <div class="ws-sched__track">
+            <ol class="ws-sched__mains"><li class="ws-sched__bar" style="--s:7;--e:17" tabindex="0" role="button" aria-haspopup="dialog" aria-label="디자인, 7~17일차 (11일) — 상세 일정 보기" data-name="디자인"><span class="ws-sched__base">디자인</span><span class="ws-sched__fill" aria-hidden="true">디자인</span></li></ol>
+            <ol class="ws-sched__subs"><li class="ws-sched__bar ws-sched__bar--sub" style="--s:7;--e:10" tabindex="0" role="button" aria-haspopup="dialog" aria-label="디자인시스템·콘텐츠 구성, 7~10일차 (4일) — 상세 일정 보기" data-name="디자인시스템·콘텐츠 구성"><span class="ws-sched__base">디자인시스템·콘텐츠 구성</span><span class="ws-sched__fill" aria-hidden="true">디자인시스템·콘텐츠 구성</span><i class="ws-sched__chk"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m2.75 6.25 2.1 2.1L9.25 3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></li><li class="ws-sched__bar ws-sched__bar--sub" style="--s:11;--e:14" tabindex="0" role="button" aria-haspopup="dialog" aria-label="메인/서브 시안 작업, 11~14일차 (4일) — 상세 일정 보기" data-name="메인/서브 시안 작업"><span class="ws-sched__base">메인/서브 시안 작업</span><span class="ws-sched__fill" aria-hidden="true">메인/서브 시안 작업</span><i class="ws-sched__chk"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m2.75 6.25 2.1 2.1L9.25 3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></li><li class="ws-sched__bar ws-sched__bar--sub" style="--s:15;--e:17" tabindex="0" role="button" aria-haspopup="dialog" aria-label="반응형 최적화 디자인, 15~17일차 (3일) — 상세 일정 보기" data-name="반응형 최적화 디자인"><span class="ws-sched__base">반응형 최적화 디자인</span><span class="ws-sched__fill" aria-hidden="true">반응형 최적화 디자인</span><i class="ws-sched__chk"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m2.75 6.25 2.1 2.1L9.25 3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></li></ol>
+          </div>
+        </li>
+        <li class="ws-sched__lane" data-lane="publish">
+          <div class="ws-sched__label"><strong>퍼블리싱</strong><span>14–24일차 · 11일</span></div>
+          <div class="ws-sched__track">
+            <ol class="ws-sched__mains"><li class="ws-sched__bar" style="--s:14;--e:24" tabindex="0" role="button" aria-haspopup="dialog" aria-label="퍼블리싱, 14~24일차 (11일) — 상세 일정 보기" data-name="퍼블리싱"><span class="ws-sched__base">퍼블리싱</span><span class="ws-sched__fill" aria-hidden="true">퍼블리싱</span></li></ol>
+            <ol class="ws-sched__subs"><li class="ws-sched__bar ws-sched__bar--sub" style="--s:14;--e:17" tabindex="0" role="button" aria-haspopup="dialog" aria-label="웹표준 코딩, 14~17일차 (4일) — 상세 일정 보기" data-name="웹표준 코딩"><span class="ws-sched__base">웹표준 코딩</span><span class="ws-sched__fill" aria-hidden="true">웹표준 코딩</span><i class="ws-sched__chk"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m2.75 6.25 2.1 2.1L9.25 3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></li><li class="ws-sched__bar ws-sched__bar--sub" style="--s:18;--e:20" tabindex="0" role="button" aria-haspopup="dialog" aria-label="반응형 구축, 18~20일차 (3일) — 상세 일정 보기" data-name="반응형 구축"><span class="ws-sched__base">반응형 구축</span><span class="ws-sched__fill" aria-hidden="true">반응형 구축</span><i class="ws-sched__chk"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m2.75 6.25 2.1 2.1L9.25 3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></li><li class="ws-sched__bar ws-sched__bar--sub" style="--s:21;--e:24" tabindex="0" role="button" aria-haspopup="dialog" aria-label="관리자 모듈/커스텀 개발, 21~24일차 (4일) — 상세 일정 보기" data-name="관리자 모듈/커스텀 개발"><span class="ws-sched__base">관리자 모듈/커스텀 개발</span><span class="ws-sched__fill" aria-hidden="true">관리자 모듈/커스텀 개발</span><i class="ws-sched__chk"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m2.75 6.25 2.1 2.1L9.25 3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></li></ol>
+          </div>
+        </li>
+        <li class="ws-sched__lane" data-lane="open">
+          <div class="ws-sched__label"><strong>오픈·운영</strong><span>23–28일차 · 6일</span></div>
+          <div class="ws-sched__track">
+            <ol class="ws-sched__mains"><li class="ws-sched__bar" style="--s:23;--e:28" tabindex="0" role="button" aria-haspopup="dialog" aria-label="오픈·운영, 23~28일차 (6일) — 상세 일정 보기" data-name="오픈·운영"><span class="ws-sched__base">오픈·운영</span><span class="ws-sched__fill" aria-hidden="true">오픈·운영</span></li></ol>
+            <ol class="ws-sched__subs"><li class="ws-sched__bar ws-sched__bar--sub" style="--s:23;--e:25" tabindex="0" role="button" aria-haspopup="dialog" aria-label="QA 검수 및 SEO, 23~25일차 (3일) — 상세 일정 보기" data-name="QA 검수 및 SEO"><span class="ws-sched__base">QA 검수 및 SEO</span><span class="ws-sched__fill" aria-hidden="true">QA 검수 및 SEO</span><i class="ws-sched__chk"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m2.75 6.25 2.1 2.1L9.25 3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></li><li class="ws-sched__bar ws-sched__bar--sub" style="--s:26;--e:28" tabindex="0" role="button" aria-haspopup="dialog" aria-label="호스팅·도메인·SSL, 26~28일차 (3일) — 상세 일정 보기" data-name="호스팅·도메인·SSL"><span class="ws-sched__base">호스팅·도메인·SSL</span><span class="ws-sched__fill" aria-hidden="true">호스팅·도메인·SSL</span><i class="ws-sched__chk"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m2.75 6.25 2.1 2.1L9.25 3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></li></ol>
+          </div>
+        </li>
+      </ol>
+      <div class="ws-sched__overlay" aria-hidden="true">
+        <div class="ws-sched__focus"><span></span></div>
+        <div class="ws-sched__head-line"></div>
+        <div class="ws-sched__tip" role="presentation"><b></b><span></span><small>눌러서 상세 일정 보기</small></div>
+      </div>
+      <div class="ws-sched__stages">
+        <div class="ws-sched__corner"></div>
+        <ol class="ws-sched__stage-track"><li style="--s:1;--e:8"><i></i><b>계획·전략</b><span>1~8일차</span></li><li style="--s:9;--e:22"><i></i><b>제작·준비</b><span>9~22일차</span></li><li style="--s:23;--e:28"><i></i><b>운영</b><a href="/maintenance/">유지보수 계약(선택)</a></li></ol>
+      </div>
+    </div></div>
+  </div>
+</section>
+    </div>
+
   <!-- 웹스랩 프로젝트 문의 (sections-v1 — 폼 마크업은 uw-inquiry 그대로) -->
 <section class="main-contact-con ws-contact ws-cx" aria-labelledby="wsContactTitle"><div class="ws-contact__inner">
   <header class="cx-head">
@@ -1266,7 +1347,7 @@ var uwBoard = {"ajaxUrl":"/wp-admin/admin-ajax.php","nonce":"710d6da5cf"};
   document.addEventListener('submit',function(e){e.preventDefault();},true);
   document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;var h=a.getAttribute('href')||'';if(h.indexOf('wp-admin/admin-ajax.php')>-1)e.preventDefault();},true);
   </script><script src="/assets/webslab/webslab.js?v=20261028-1"></script><script src="/assets/webslab/hero-v1.js?v=20261120-1" defer></script><script src="/assets/webslab/services-v1.js?v=20261105-1" defer></script><script src="/assets/webslab/sections-v1.js?v=20261105-1" defer></script>
-<script src="/assets/webslab/philosophy-v1.js?v=20261105-9" defer></script><div class="uw-qi-dock" id="uwQiDock">
+<script src="/assets/webslab/philosophy-v1.js?v=20261105-9" defer></script><script src="/assets/webslab/schedule-v1.js?v=20261126-1" defer></script><div class="uw-qi-dock" id="uwQiDock">
         <div class="uw-qi" id="uwQi" aria-hidden="true">
 
           <button type="button" class="uw-qi__tab" id="uwQiTab" aria-expanded="false" aria-controls="uwQiPanel">

@@ -59,6 +59,7 @@
   }
 
   function loop() {
+    if (!isFinite(current)) current = isFinite(target) ? target : 0; /* 한 번 NaN이 되면 계속 NaN — 되살린다 */
     var d = target - current;
     current = Math.abs(d) < .01 ? target : current + d * .16;
     render(current);
@@ -75,6 +76,7 @@
     if (playing) return;
     if (holdY !== null) { if (Math.abs(window.scrollY - holdY) < 60) return; holdY = null; }
     var vh = window.innerHeight, top = board.getBoundingClientRect().top;
+    if (!(vh > 0)) return; /* 백그라운드 탭·프리렌더에서 창 높이 0 → 0/0 = NaN 방지 */
     var p = (vh * .85 - top) / (vh * .68);
     go(Math.max(0, Math.min(1, p)) * DAYS);
   }
